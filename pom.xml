@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.quaza.solutions</groupId>
+    <artifactId>quaza-maven-parent</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </parent>
+
+  <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>
+  <artifactId>quaza-solutions-elearning-qpalx-web</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <!-- All sub modules -->
+  <modules>
+    <module>qpalx-elearning-web-static</module>
+  </modules>
+
+</project>
