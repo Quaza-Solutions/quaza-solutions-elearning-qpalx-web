@@ -24,6 +24,12 @@
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.quaza.solutions.qpalx.elearning</groupId>
+            <artifactId>qpalx-elearning-service</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- Spring framework dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>

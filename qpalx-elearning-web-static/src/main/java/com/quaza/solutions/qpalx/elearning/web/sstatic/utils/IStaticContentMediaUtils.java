@@ -1,6 +1,7 @@
 package com.quaza.solutions.qpalx.elearning.web.sstatic.utils;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
+import com.quaza.solutions.qpalx.elearning.domain.lms.media.ILMSMediaContentVO;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.MediaContentTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.QPalXTutorialContentTypeE;
 
@@ -13,6 +14,8 @@ import java.util.Optional;
 public interface IStaticContentMediaUtils {
 
     public Optional<MediaContentTypeE> getMediaContentType(String mediaContentFileName);
+
+    public String getELearningMediaUploadLocation(ILMSMediaContentVO ilmsMediaContentVO);
 
     public ELearningMediaContent buildELearningMediaContent(File mediaContentFile, QPalXTutorialContentTypeE qPalXTutorialContentTypeE);
 }
