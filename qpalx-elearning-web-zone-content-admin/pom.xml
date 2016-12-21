@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>quaza-solutions-elearning-qpalx-web</artifactId>
+        <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>
+        <version>1.0.1-SNAPSHOT</version>
+    </parent>
+
+
+    <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>
+    <artifactId>qpalx-elearning-web-zone-content-admin</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+
+    <dependencies>
+
+        <!-- Quaza ELearning dependencies  -->
+        <dependency>
+            <groupId>com.quaza.solutions.qpalx.elearning</groupId>
+            <artifactId>qpalx-elearning-service</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- QPalX web libraries dependency -->
+        <dependency>
+            <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>
+            <artifactId>qpalx-elearning-web-static</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Spring Boot apis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>

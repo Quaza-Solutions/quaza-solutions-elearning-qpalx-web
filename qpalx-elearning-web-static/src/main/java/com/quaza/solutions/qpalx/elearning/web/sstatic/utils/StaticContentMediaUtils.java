@@ -74,6 +74,7 @@ public class StaticContentMediaUtils implements IStaticContentMediaUtils {
                 // replace all space in name to make a safe directory
                 String safeContentDirectoryName = content.getHierarchicalLMSContentName().replace(" ", "-");
 
+                // IF media content can be uploaded under this level create directory structure else break out of loop
                 boolean uploadMediaUnderLevel = isStaticMediaContentCreatedUnderContent(content);
                 if(uploadMediaUnderLevel) {
                     uploadLocation.append(safeContentDirectoryName).append("/");
@@ -81,21 +82,32 @@ public class StaticContentMediaUtils implements IStaticContentMediaUtils {
                     break;
                 }
 
-//                if (counter != totalHierarchies) {
-//                    uploadLocation.append(safeContentDirectoryName).append("/");
-//                    counter++;
-//                } else {
-//                    boolean uploadMediaUnderLevel = isStaticMediaContentCreatedUnderContent(content);
-//                    if(uploadMediaUnderLevel) {
-//                        uploadLocation.append(safeContentDirectoryName).append("/");
-//                    }
-//                }
             }
 
             return uploadLocation.toString();
         }
 
         throw new UnsupportedOperationException("Location for static ELearningContent was not found");
+    }
+
+    @Override
+    public String getELearningMediaPhysicalFileLocation(ELearningMediaContent eLearningMediaContent, StaticContentConfigurationTypeE staticContentConfigurationTypeE) {
+        Assert.notNull(eLearningMediaContent, "eLearningMediaContent cannot be null");
+        Assert.notNull(staticContentConfigurationTypeE, "staticContentConfigurationTypeE cannot be null");
+
+        StaticContentConfiguration defaultELearningStaticContentConfiguration = iStaticContentConfigurationService.findStaticContentConfigurationByContentName(staticContentConfigurationTypeE);
+
+        if(defaultELearningStaticContentConfiguration != null) {
+            StringBuffer uploadLocationFile = new StringBuffer(defaultELearningStaticContentConfiguration.getStaticContentPhysicalLocation());
+
+            // File name from ELearningMediaContent contains the context root path so get only the actual physical file name
+            int fileNameStart = eLearningMediaContent.getELearningMediaFile().lastIndexOf("/") + 1;
+            String fileName = eLearningMediaContent.getELearningMediaFile().substring(fileNameStart);
+            uploadLocationFile.append(fileName);
+            return uploadLocationFile.toString();
+        }
+
+        return null;
     }
 
     @Override

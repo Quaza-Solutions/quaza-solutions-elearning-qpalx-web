@@ -1,0 +1,10 @@
+#  IntelliJ Idea files to ignore
+.idea
+.DS_Store
+*.iml
+
+# Build and target directory ignore
+target
+
+# Log files to ignore
+/logs/*

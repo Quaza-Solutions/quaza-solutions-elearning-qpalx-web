@@ -3,6 +3,7 @@ package com.quaza.solutions.qpalx.elearning.web.sstatic.elearningcontent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.ILMSMediaContentVO;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.MediaContentTypeE;
+import com.quaza.solutions.qpalx.elearning.domain.sstatic.content.StaticContentConfigurationTypeE;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.utils.IStaticContentFileUtils;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.utils.IStaticContentMediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Optional;
 
 /**
@@ -22,7 +26,7 @@ public class ELearningStaticContentService implements IELearningStaticContentSer
 
 
     @Autowired
-    @Qualifier("om.quaza.solutions.qpalx.elearning.web.sstatic.StaticContentFileUtils")
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.sstatic.StaticContentFileUtils")
     private IStaticContentFileUtils iStaticContentFileUtils;
 
     @Autowired
@@ -32,6 +36,17 @@ public class ELearningStaticContentService implements IELearningStaticContentSer
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(ELearningStaticContentService.class);
 
+
+    @Override
+    public void deleteELearningMediaContent(ELearningMediaContent eLearningMediaContent) {
+        Assert.notNull(eLearningMediaContent, "eLearningMediaContent cannot be null");
+        LOGGER.info("Attempting to delete eLearningMediaContent: {}", eLearningMediaContent);
+
+        String pathLocationWithFileName = iStaticContentMediaUtils.getELearningMediaPhysicalFileLocation(eLearningMediaContent, StaticContentConfigurationTypeE.ELearningContent);
+        LOGGER.info("Deleting ELearning content with fileName:> {}", pathLocationWithFileName);
+        File file = new File(pathLocationWithFileName);
+        file.delete();
+    }
 
     @Override
     public ELearningMediaContent uploadELearningMediaContent(MultipartFile multipartFile, ILMSMediaContentVO ilmsMediaContentVO) {
@@ -44,7 +59,42 @@ public class ELearningStaticContentService implements IELearningStaticContentSer
         // Get new safe file name to use for upload
         String safeFileName = iStaticContentFileUtils.getUniqueSafeFileName(multipartFile);
         Optional<MediaContentTypeE> optional = iStaticContentMediaUtils.getMediaContentType(safeFileName);
+        boolean mediaTypeSupported = optional.isPresent() ? ilmsMediaContentVO.getMediaContentTypes().contains(optional.get()) : false;
 
+        if(mediaTypeSupported) {
+            String fileUploadLocation = iStaticContentMediaUtils.getELearningMediaUploadLocation(ilmsMediaContentVO);
+            LOGGER.info("File with name: {} will be uploaded to:> {}", safeFileName, fileUploadLocation);
+
+            File mediaContentFile = writeFileToDisk(multipartFile, safeFileName, fileUploadLocation);
+            if (mediaContentFile != null) {
+                ELearningMediaContent eLearningMediaContent = iStaticContentMediaUtils.buildELearningMediaContent(mediaContentFile, ilmsMediaContentVO.getSelectedQPalXTutorialContentTypeE());
+                return eLearningMediaContent;
+            }
+
+            LOGGER.warn("Failed to upload file");
+            return null;
+        }
+
+        LOGGER.warn("File:> {} is not supported by this media content type on QPalx platform", safeFileName);
         return null;
+    }
+
+
+    private File writeFileToDisk(MultipartFile multipartFile, String uniqueSafefileName, String fileLocation) {
+        String fileName = uniqueSafefileName;
+
+        try {
+            // First we need to upload and output to local directory
+            byte[] bytes = multipartFile.getBytes();
+            String newFileName = fileLocation + fileName;
+            LOGGER.info("Writing new file with name: {} to output stream", fileName);
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(newFileName)));
+            stream.write(bytes);
+            stream.close();
+            return new File(newFileName);
+        } catch (Exception e) {
+            LOGGER.error("Exception occurred while uploading file.  File could not be uploaded", e);
+            return null;
+        }
     }
 }

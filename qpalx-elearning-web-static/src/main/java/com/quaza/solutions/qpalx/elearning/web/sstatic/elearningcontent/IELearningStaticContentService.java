@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IELearningStaticContentService {
 
 
+    public void deleteELearningMediaContent(ELearningMediaContent eLearningMediaContent);
+
     public ELearningMediaContent uploadELearningMediaContent(MultipartFile multipartFile, ILMSMediaContentVO ilmsMediaContentVO);
 
 
