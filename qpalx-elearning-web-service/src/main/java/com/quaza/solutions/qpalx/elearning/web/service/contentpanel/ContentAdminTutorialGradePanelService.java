@@ -35,7 +35,7 @@ public class ContentAdminTutorialGradePanelService implements IContentAdminTutor
     private IWebAttributesUtil iWebAttributesUtil;
 
     @Autowired
-    @Qualifier("quaza.solutions.qpalx.elearning.web.QPalXUserWebService")
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserWebService")
     private IQPalXUserWebService iqPalXUserWebService;
 
     @Autowired
