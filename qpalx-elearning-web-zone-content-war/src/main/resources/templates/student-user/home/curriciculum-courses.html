@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Student details overview panel -->
+<div th:replace="fragments/student/user-overview-panel :: overview"></div>
+
+<div class="container" style="margin: 20px auto 20px auto;">
+
+    <!-- Curriculum navigation panel -->
+    <div th:replace="fragments/student/curriculum-navigation-panel :: curriculum-nav"></div>
+
+    <!-- All selected curriculum courses -->
+    <div class="row" th:each="CurriculumELearningCourse,rowStat : ${CurriculumELearningCourses}">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <span class="number" th:text="${rowStat.count}"></span>
+        </div>
+
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 large-fonts topmargin">
+            <a th:href="@{/view-course-lessons(eLearningCourseID=${CurriculumELearningCourse.id}, tutorialLevelID=${SelectedTutorialCalendar.id})}">
+                <span class="blue courses" th:text="${CurriculumELearningCourse.courseName}"></span>
+            </a>
+            <!--<p th:text="${CurriculumELearningCourse.courseDescription}"></p>-->
+        </div>
+    </div>
+
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/hr.js"></script>
+<script src="js/hover.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/progress-bar.js" type="text/javascript"></script>
+<script src="js/modernizr.js" type="text/javascript"></script>
+</body>
+</html>

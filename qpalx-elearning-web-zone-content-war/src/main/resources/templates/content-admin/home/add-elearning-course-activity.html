@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div th:replace="fragments/header-loggedin :: header-loggedin"/>
+
+<!-- Include Student User general Account information panel -->
+<div th:replace="fragments/qpalx-user-info-panel :: general-account-info"/>
+
+<div class="container">
+
+    <div class="row" th:if="${Invalid_FORM_Submission} != null">
+        <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"/>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" th:action="@{save-elearning-course-activity}" th:object="${ELearningCourseActivityWebVO}">
+
+        <!-- hidden field is a spring-security feature which generates a hidden token checked on submission to make sure submission is from this website directly -->
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+        <div class="row">
+            <div class="col-md-3">Activity name</div>
+            <div class="col-md-3">Activity Description</div>
+            <div class="col-md-6">Type of Course Activity</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3"><input type="text" size="26" id="name" name="name" th:field="*{activityName}"/><span class="name"></span></div>
+            <div class="col-md-3"><input type="text" size="26" id="description" name="description" th:field="*{activityDescription}"/><span class="description"></span></div>
+            <div class="col-md-6">
+                <select id="activity" name="activity" class="ceiling" th:field="*{activityType}">
+                <option value="Video">Video</option>
+                <option value="Interactive_Excersise">Interactive Exercise</option>
+                <option value="Quiz">Quiz</option>
+            </select>
+            </div>
+        </div>
+
+        <div class="clearfix bottom-space"></div>
+        <div class="row">
+            <div class="col-md-6">Activity Length</div>
+            <div class="col-md-6">Activity Duration in Minutes</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"><input type="text" class="length" size="66" name="length"/><span class="course-length"></span></div>
+            <div class="col-md-6"><input type="text" class="length" name="duration" size="66" id="duration"/><span class="minutes"></span></div>
+        </div>
+        <div class="clearfix bottom-space"></div>
+        <div class="row">
+            <div class="col-md-6">Proficiency Rating Floor</div>
+            <div class="col-md-6">Proficiency Rating Ceiling</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <span></span>
+                <select class="ceiling" th:field="*{proficiencyRankingScaleFloor}">
+                    <option th:each="ProficiencyRanking : ${ProficiencyRankings}" th:value="${ProficiencyRanking}" th:text="${ProficiencyRanking}"></option>
+                </select>
+
+            </div>
+            <div class="col-md-6">
+                <span></span>
+                <select class="ceiling" th:field="*{proficiencyRankingScaleCeiling}">
+                    <option th:each="ProficiencyRanking : ${ProficiencyRankings}" th:value="${ProficiencyRanking}" th:text="${ProficiencyRanking}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="clearfix bottom-space"></div>
+        <div class="row">
+            <div class="col-md-6">
+                Upload file:
+            </div>
+            <div class="col-md-6">
+                Tutorial Calendar:
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="file" name="file"/>
+            </div>
+            <div class="col-md-6">
+                <select id="term" class="ceiling" th:field="*{tutorialLevelCalendarID}">
+                    <option value="1">First Term</option>
+                    <option value="2">Second Term</option>
+                    <option value="3">Third Term</option>
+                </select>
+            </div>
+        </div>
+        <div class="clearfix bottom-space"></div>
+        <div class="row">
+            <div class="col-md-6">
+                Newly Added Course Activity
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="radio" name="group2" value="active"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="group2" value="inactive"/> Inactive
+            </div>
+        </div>
+
+        <div class="clearfix bottom-space"></div>
+        <div class="clearfix bottom-space"></div>
+
+        <!-- Hidden field to pass back the value of the current ELearningCourseID-->
+        <input type="hidden" name="eLearningCourseID" th:value="${SelectedELearningCourse.id}"/>
+
+        <div class="col-md-12 continue">
+            <button type="submit" id="submit" class="btn btn-success">Add Course</button>
+        </div>
+    </form>
+</div>
+
+<div class="clearfix bottom-space"></div>
+
+<div th:replace="fragments/footer :: footer"/>
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+<script src="js/validation.js"></script>
+
+</body>
+</html>

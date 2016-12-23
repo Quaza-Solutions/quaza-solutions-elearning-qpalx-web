@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+
+<!-- Main Student details overview panel -->
+<div th:replace="fragments/student/user-overview-panel :: overview"></div>
+
+
+<div class="container">
+
+    <!-- Tutorial Level navigation panel -->
+    <div th:replace="fragments/student/tutorial-level-calendar-nav :: academic-calendar"></div>
+
+    <!-- Display all micro lessons -->
+    <div class="row" th:each="QPalXEMicroLesson,rowStat : ${QPalXEMicroLessons}">
+
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" th:inline="text"><br/>[[${rowStat.count}]]</div>
+
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 large-fonts topmargin">
+            <a class="anchor-1" th:href="@{/view-micro-lessons-with-quiz(eLessonID=${SelectedQPalXELesson.id}, tutorialLevelID=${SelectedTutorialCalendar.id}, microLessonID=${QPalXEMicroLesson.getMicroLessonID()})}">
+                <span th:text="${QPalXEMicroLesson.getMicroLessonName()}"></span>
+            </a>
+        </div>
+
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <a class="anchor-1" th:attr="href='#popup' + ${rowStat.count}">
+                <img src="images/assets/adaptive-learning/audio.png" class="audio" />
+             </a>
+        </div>
+
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <a class="anchor-1" th:attr="href='#popup_static' + ${rowStat.count}">
+                <img src="images/assets/adaptive-learning/hand.png" class="hand" />
+            </a>
+        </div>
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"><div class="topmargin-2">
+            <progress class="progressbar" value="0" max="100" th:attr="data-max=${QPalXEMicroLesson.getQuizzesCompletionRate()}"></progress>
+            <span class="progress-value">0%</span></div>
+        </div>
+
+    </div>
+
+
+    <br /><br />
+
+    <!-- Display Question Bank and Back to Lessons Panel -->
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <a href="#QuestionBank">
+                <img src="images/assets/adaptive-learning/question-bank-button.png" class="question-bank"/>
+            </a>
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <a th:href="@{/view-course-lessons(eLearningCourseID=${SelectedELearningCourse.id}, tutorialLevelID=${SelectedTutorialCalendar.id})}">
+                <img src="images/assets/adaptive-learning/all-lessons.png" class="all-lessons"/>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div class="my-container-2 large-fonts">
+    <a class="pop-up-2" href="#popup2">Lesson Intro Video</a>
+    <br />
+    <a class="pop-up-2" href="#LessonIntroVideo">
+        <img src="images/assets/adaptive-learning/video-icon.png" id="video-icon-2" />
+    </a>
+    <br /><br />
+
+    <!--  Display all Adaptive Quizzes for the currently selected Micro Lesson -->
+    <div class="large-fonts-2">Quizzes</div>
+
+    <div class="large-fonts" th:each="AdaptiveLearningQuiz,rowStat : ${AdaptiveLearningQuizzes}">
+        <a th:href="@{/view-microlesson-quiz(quizID=${AdaptiveLearningQuiz.adaptiveLearningQuizID}, user_name=${LoggedInQPalXUser.successID}, user_email=${LoggedInQPalXUser.getEmail()}, user_id=${LoggedInQPalXUser.id})}" onclick="window.open(this.href,'targetWindow',
+                                   'toolbar=no,
+                                    location=no,
+                                    status=no,
+                                    menubar=no,
+                                    scrollbars=yes,
+                                    resizable=yes,
+                                    width=1280,
+                                    height=980');
+                                    return false;">
+            <span th:text="${AdaptiveLearningQuiz.scorableActivityName}">&nbsp;&nbsp;&nbsp;</span>
+
+            <div th:if="${AdaptiveLearningQuiz.proficiencyScore != null and AdaptiveLearningQuiz.proficiencyScore &gt; 0}">
+                <span style="color: #06bfd3;" th:text="${AdaptiveLearningQuiz.proficiencyScore} + '%'"></span>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+
+<!-- Build modal displays for all Micro lessons displayed above -->
+<div th:each="QPalXEMicroLesson,rowStat : ${QPalXEMicroLessons}">
+
+    <!-- Micro lesson with narration -->
+    <div th:id="'popup' + ${rowStat.count}"  th:with="uniqueID=${rowStat.count}" class="modalBox" th:href="@{/micro-lesson-progress-tracker(microLessonID=${QPalXEMicroLesson.getMicroLessonID()}, uniqueQPalxUserKey=${LoggedInQPalXUser.getEmail()})}">
+        <a href="#" class="modalCloseOuter" th:attr="onclick='javascript:stopVideo(\'' + ${rowStat.count} +'\');'"></a>
+        <div class="mp4">
+            <div class="bar-1"></div>
+            <a href="#" style="float:right; margin: 20px 40px 20px 0;"   th:attr="onclick='javascript:stopVideo(\'' + ${rowStat.count} +'\');'">Close</a>
+            <div class="modalBody">
+                <video width="800" id="modal-box" controls="controls">
+                    <source th:src="${QPalXEMicroLesson.getNarrationMediaFile()}" type="video/mp4"/>
+                    Your browser does not support HTML5 video.
+                </video>
+            </div>
+            <div class="bar-3"></div>
+        </div>
+    </div>
+
+    <!-- Micro lesson static.  No narration -->
+    <div th:id="'popup_static' + ${rowStat.count}"  th:with="uniqueID=${rowStat.count}" class="modalBox" th:href="@{/micro-lesson-progress-tracker(microLessonID=${QPalXEMicroLesson.getMicroLessonID()}, uniqueQPalxUserKey=${LoggedInQPalXUser.getEmail()})}">
+        <a href="#" class="modalCloseOuter" th:attr="onclick='javascript:stopVideo(\'' + ${rowStat.count} +'\');'"></a>
+        <div class="mp4">
+            <div class="bar-1"></div>
+            <a href="#" style="float:right; margin: 20px 40px 20px 0;"   th:attr="onclick='javascript:stopVideo(\'' + ${rowStat.count} +'\');'">Close</a>
+            <div class="modalBody">
+                <embed th:src="${QPalXEMicroLesson.getInteractiveMediaFile()}" width="800" height="560"  />
+            </div>
+            <div class="bar-3"></div>
+        </div>
+    </div>
+
+</div>
+
+<div id="QuestionBank" class="modalBox" th:if="${RandomQuestionBankItem != null}" th:href="@{/question-bank-progress-tracker(questionBankItemID=${RandomQuestionBankItem.id}, uniqueQPalxUserKey=${LoggedInQPalXUser.getEmail()})}">
+    <a href="#" class="modalCloseOuter" onClick="stopQuestionBankItem('QuestionBank');"></a>
+    <div class="qBank">
+        <div class="question-bank-top-bar">
+            <div class="question-bank-top-text" th:text="${RandomQuestionBankItem.questionTitle}"/>
+
+                <a href="#" style="float:right; margin: -30px 40px 20px 0;" onClick="stopQuestionBankItem('QuestionBank');">Close</a>
+
+                <div class="questionBankModalBody">
+                    <div class="whiteBody" th:text="${RandomQuestionBankItem.questionDescription}"></div>
+                </div>
+
+            </div>
+    </div>
+</div>
+
+
+<!-- Popup for Lesson Intro Video -->
+<div class="modalBox" th:if="${SelectedQPalXELesson != null}">
+
+    <div id="LessonIntroVideo" class="modalBox">
+        <a href="#" class="modalCloseOuter" onClick="stopVideo();"></a>
+        <div class="mp4">
+            <div class="bar-1"></div>
+            <a href="#" style="float:right; margin: 20px 40px 20px 0;" onClick="stopVideo();">Close</a>
+            <div class="modalBody">
+                <video width="800" controls="controls">
+                    <source th:src="${SelectedQPalXELesson.geteLearningMediaContent().getELearningMediaFile()}" type="video/mp4"/>
+                    Your browser does not support HTML5 video.
+                </video>
+            </div>
+            <div class="bar-3"></div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+</body>
+</html>

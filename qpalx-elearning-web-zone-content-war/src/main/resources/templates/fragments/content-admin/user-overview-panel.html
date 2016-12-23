@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- User information overview panel -->
+<div th:fragment="overview">
+
+    <div class="container" style="margin: 20px auto 20px auto;">
+
+
+        <!--  Display Student user information overview -->
+        <div class="row" th:if="${DisplayUserInfo == 'true'}">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 circular--landscape">
+                <img src="images/personalization/student/manny.jpg"/>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <br/>
+                <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
+                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        </div>
+
+        <!--  Display Curriculum details Student info details -->
+        <div class="row" th:if="${DisplayCurriculum == 'true'}">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 circular--landscape">
+                <img src="images/personalization/student/manny.jpg"/>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <br/>
+                <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
+                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
+
+                <!-- Display ELearning Curriculum if a course has been selected -->
+                <div class="large-font" th:if="${SelectedELearningCurriculum != null}" th:inline="text">Curriculum : [[${SelectedELearningCurriculum.curriculumName}]]</div>
+
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        </div>
+
+        <!--  Display Course details Student info details -->
+        <div class="row" th:if="${DisplayCourse == 'true'}">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 circular--landscape">
+                <img src="images/personalization/student/manny.jpg"/>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <br/>
+                <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
+                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
+
+                <!-- Display ELearning Course if a course has been selected -->
+                <div class="large-font" th:if="${SelectedELearningCourse != null}" th:inline="text">Course : [[${SelectedELearningCourse.courseName}]]</div>
+
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        </div>
+
+        <!--  Display Course details Student info details -->
+        <div class="row" th:if="${DisplayLesson == 'true'}">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 circular--landscape">
+                <img src="images/personalization/student/manny.jpg"/>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <br/>
+                <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
+                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
+
+                <!-- Display Course Lesson if a course has been selected -->
+                <div class="large-font" th:if="${SelectedQPalXELesson != null}" th:inline="text">Lesson - : [[${SelectedQPalXELesson.lessonName}]]</div>
+
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

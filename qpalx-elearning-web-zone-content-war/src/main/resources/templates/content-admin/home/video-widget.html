@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- Include general header fragment panel for when a Student user is already logged in -->
+<div th:replace="fragments/header-loggedin :: header-loggedin"/>
+
+<!-- Include Student User general Account information panel -->
+<div th:replace="fragments/qpalx-user-info-panel :: general-account-info"/>
+
+<!-- Include Student User general Account information panel -->
+<div th:replace="fragments/admin/admin-tutorialgrade-panel :: tutorialgrade-panel"/>
+
+
+<div class="clearfix"></div>
+
+
+<div class="container" style="margin-top: 10px; margin-bottom: 0px;">
+
+    <!-- Include Admin Curriculum Control Navigation Panel -->
+    <div th:replace="fragments/admin/admin-curriculum-nav-panel :: navigation-panel"/>
+
+    <div class="col-md-2 med-text"><b th:text="${SelectedELearningCourseActivity.activityName}"></b></div>
+    <div class="col-md-9"></div>
+    <div class="col-md-1 med-text">
+        <a th:href="@{/view-admin-course-activities(eLearningCourseID=${SelectedELearningCourse.id})}">Close</a>
+    </div>
+
+    <div class="padded">
+        <div class="row">
+            <div class="col-md-12" th:if="${SelectedMediaContentType} == 'mp4'">
+                <hr/>
+                <p th:text="${SelectedELearningCourseActivity.activityDescription}"></p>
+                <br/>
+
+                <div align="center" class="well well-lg">
+                    <video width="720" height="540" controls="controls">
+                        <source th:src="${SelectedELearningCourseActivityFile}" type="video/mp4"/>
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12" th:if="${SelectedMediaContentType} == 'swf'">
+                <hr/>
+                <p th:text="${SelectedELearningCourseActivity.activityDescription}"></p>
+                <br/>
+
+                <div align="center" class="well well-lg">
+                    <object width="700" height="800" th:data="${SelectedELearningCourseActivityFile}"></object>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix bottom-space"></div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+</body>
+</html>

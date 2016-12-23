@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8"/>
+    <title>QPalX - Registration Tutorial Profile</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="css/flexslider.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/line-icons.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/elegant-icons.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/lightbox.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/theme.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/custom.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700%7CRaleway:700' rel='stylesheet' type='text/css'/>
+    <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+<body>
+<form action="#" th:action="@{/QPalxSubscribptionPayment}" th:object="${QPalXUserSubscriptionForm}" method="post">
+    <div class="container">
+        <h1>QPalX Student Tutorial Profile</h1>
+        <div class="row">
+            <h3>Student Tutorial Level</h3>
+            <hr/>
+            <div class="col-xs-4 col-sm-2 col-md-2">
+                <div class="form-group">
+                    <label for="sel1">Tutorial Level:</label>
+                    <select th:field="*{tutorialLevelID}" class="form-control" id="sel1">
+                        <option value="">Select One</option>
+                        <option
+                                th:each="QPalXTutorialLevel : ${QPalXTutorialLevels}"
+                                th:value="${QPalXTutorialLevel.id}"
+                                th:text="|${QPalXTutorialLevel.tutorialLevel}|"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>Student Matriculated Educational Institution</h3>
+            <hr/>
+            <div class="col-xs-4 col-sm-2 col-md-2">
+                <div class="form-group">
+                    <select th:field="*{educationalInstitutionID}" class="form-control" id="sel2">
+                        <option value="1">Select One</option>
+                        <option value="2">Accra Girls</option>
+                        <option value="3">De Youngsters High School</option>
+                        <option value="4">Assesewa</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>Sciences Subject Matter</h3>
+            <hr/>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Biology</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Chemistry</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Physics</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>Financial Subject Matter</h3>
+            <hr/>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Business Management</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Cost Accounting</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Financial Accounting</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>Math Subject Matter</h3>
+            <hr/>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <label>Student Math Courses Profile</label>
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Algebra</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Pre Calculus</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Calculus 1</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>Student Matriculated Educational Institution</h3>
+            <hr/>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <label>Student English Courses Profile</label>
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>English Grammar</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Literature I</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value=""/>Literature II</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-2">
+                <button type="submit" class="btn btn-primary">Continue</button>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+s<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

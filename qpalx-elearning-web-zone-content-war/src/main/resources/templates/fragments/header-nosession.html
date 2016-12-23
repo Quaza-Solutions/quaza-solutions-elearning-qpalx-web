@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!-- Platform header used across QPalX for pages where no User Session exists.  No valid user logged in. -->
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS latest compiled version -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+
+    <!-- QPalX favicon -->
+    <link rel="shortcut icon" type="image/png" href="images/assets/platform/favicon.png" />
+</head>
+<body>
+<div th:fragment="header-nosession">
+
+    <!-- Main Header section -->
+    <header>
+        <form id="QPalXLoginForm" method="post" th:action="@{/login}">
+
+            <div class="row">
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 logo"></div>
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                    <input class="header-text-box-2" type="text" name="username" id="header-text" placeholder="&nbsp;&nbsp;&nbsp;Enter Email Address" onFocus="this.value='';"/>
+                </div>
+                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                    <input class="header-text-box" type="password" name="password" onFocus="onFocus(this)"/>
+                </div>
+                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                    <a href="#" onclick="document.getElementById('QPalXLoginForm').submit();">
+                    <img style="margin-left: 260px;" id="header-button" class="header-buttons" src="images/assets/platform/log-in-button.png"/>
+                    </a>
+                </div>
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+            </div>
+
+            <!-- Display invalid login information panel -->
+            <div class="row" th:if="${CredentialsAuthentication} == 'Invalid Login Detected'">
+                <div class="alert alert-danger fade in">
+                    Login details could not be verified, please try again.
+                </div>
+            </div>
+
+        </form>
+    </header>
+
+</div>
+</body>
+</html>

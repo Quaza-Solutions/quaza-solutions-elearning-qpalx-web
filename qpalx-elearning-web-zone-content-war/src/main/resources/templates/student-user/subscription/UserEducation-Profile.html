@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="utf-8"/>
+    <title>Quaza Solutions - Qpalx Elearning Platform Sign Up</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="css/flexslider.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/line-icons.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/elegant-icons.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/lightbox.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/theme.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/custom.css" rel="stylesheet" type="text/css" media="all"/>
+
+    <link rel="stylesheet" type="text/css" href="css/ie9.css" />
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700%7CRaleway:700' rel='stylesheet' type='text/css' />
+    <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+<body>
+<div class="loader">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+
+<div class="nav-container">
+    <nav class="top-bar overlay-bar">
+        <div class="container">
+
+            <div class="row utility-menu">
+                <div class="col-sm-12">
+                    <div class="utility-inner clearfix">
+                        <span class="alt-font"><i class="icon icon_mail"></i>Email address</span>
+
+                        <div class="pull-right">
+                            <a th:href="@{/}" class="btn btn-primary login-button btn-xs">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div><!--end of row-->
+
+
+            <div class="row nav-menu">
+                <div class="col-sm-3 col-md-2 columns">
+                    <a href="index.html"></a>
+                </div>
+
+                <div class="mobile-toggle">
+                    <i class="icon icon_menu"></i>
+                </div>
+
+            </div>
+        </div><!--end of container-->
+    </nav>
+</div>
+
+<div class="main-container">
+    <section class="no-pad login-page fullscreen-element">
+
+        <div class="background-image-holder">
+            <img class="background-image" alt="Poster Image For Mobiles" src="img/hero.jpg"/>
+        </div>
+
+        <div class="container align-vertical">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 text-center">
+                    <h1 class="text-white">Sign Up to continue</h1>
+                    <div class="photo-form-wrapper clearfix">
+                        <form action="#" th:action="@{/QPalxSubscribptionMobilePaySetup}" th:object="${QPalXUserSubscriptionForm}" method="post">
+
+                            <img src="img/students/Student-Boggy.jpg" alt="Student Photo"/>
+                            <br/><br/>
+
+                            <select th:field="*{tutorialLevelID}" class="form-control" id="EducationControl1">
+                                <option value="">Customize Your QPalX Tutorial Level</option>
+                                <option
+                                        th:each="QPalXTutorialLevel : ${QPalXTutorialLevels}"
+                                        th:value="${QPalXTutorialLevel.id}"
+                                        th:text="|${QPalXTutorialLevel.tutorialLevel}|"></option>
+                            </select>
+
+                            <br/><br/>
+
+                            <select th:field="*{educationalInstitutionID}" class="form-control" id="EducationControl2">
+                                <option value="1">Select Your Current School</option>
+                                <option value="2">Accra Girls</option>
+                                <option value="3">De Youngsters High School</option>
+                                <option value="4">Assesewa</option>
+                            </select>
+
+                            <br/><br/>
+
+                            <select class="form-control" id="EducationControl3">
+                                <option value="">English Proficiency Level</option>
+                                <option value="2">Advanced</option>
+                                <option value="3">Proficient</option>
+                                <option value="4">Intermediary</option>
+                                <option value="4">Beginner</option>
+                            </select>
+
+                            <br/><br/>
+
+                            <select class="form-control" id="EducationControl4">
+                                <option value="">Math Proficiency Level</option>
+                                <option value="2">Advanced</option>
+                                <option value="3">Proficient</option>
+                                <option value="4">Intermediary</option>
+                                <option value="4">Beginner</option>
+                            </select>
+
+                            <br/><br/>
+
+                            <select class="form-control" id="EducationControl5">
+                                <option value="">Science's Proficiency Level</option>
+                                <option value="2">Advanced</option>
+                                <option value="3">Proficient</option>
+                                <option value="4">Intermediary</option>
+                                <option value="4">Beginner</option>
+                            </select>
+
+                            <br/><br/>
+
+                            <input class="login-btn btn-filled" type="submit" value="Continue Sign up"/>
+                        </form>
+                    </div><!--end of photo form wrapper-->
+                    <a th:href="@{/}" class="text-white">I already have an account ➞</a><br/>
+                    <a href="#" class="text-white">I've forgotten my password</a>
+                </div>
+            </div><!--end of row-->
+        </div><!--end of container-->
+    </section>
+</div>
+<div class="footer-container"></div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.plugin.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.flexslider-min.js"></script>
+<script src="js/smooth-scroll.min.js"></script>
+<script src="js/skrollr.min.js"></script>
+<script src="js/spectragram.min.js"></script>
+<script src="js/scrollReveal.min.js"></script>
+<script src="js/isotope.min.js"></script>
+<script src="js/twitterFetcher_v10_min.js"></script>
+<script src="js/lightbox.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/scripts.js"></script>
+</body>
+</html>

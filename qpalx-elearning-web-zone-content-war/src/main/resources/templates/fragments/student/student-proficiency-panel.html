@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</head>
+<body>
+<div th:fragment="general-account-info">
+
+    <!--
+        ======  Start Main QPalx User information panel data display. =======
+    -->
+
+    <!-- Student User information panel -->
+    <div class="container" style="margin-bottom: 20px;" th:if="${QPalXUserType} == 'STUDENT'">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="images/kwame.png"/>&nbsp;&nbsp;&nbsp;<span class="large-text"><b th:text="${LoggedInQPalXUser.getFullName()}"/></span> &middot; Account &middot; <a th:href="@{/logout}">Sign Out</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                <span class="small-text-2 below-name" data-toggle="tooltip" data-placement="bottom" title="SuccessID is your unique ID on QPalx" th:text="|Success ID:  ${LoggedInQPalXUser.getSuccessID()}|"/>
+            </div>
+            <div class="col-md-8"></div>
+        </div>
+    </div>
+
+    <!-- CONTENT_DEVELOPER User information panel -->
+    <div class="container" style="margin-bottom: 20px;" th:if="${QPalXUserType} == 'CONTENT_DEVELOPER'">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="images/kwame.png"/>&nbsp;&nbsp;&nbsp;
+                <span class="large-text"><b th:text="${LoggedInQPalXUser.getFullName()}"/></span> &middot; Account &middot; <a th:href="@{/logout}">Sign Out</a>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <span class="small-text-2 below-name" data-toggle="tooltip" data-placement="bottom" title="Manage courses and course activities">Content Developer</span>
+                </div>
+                <div class="col-md-8"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT_DEVELOPER User information panel -->
+    <div class="container" style="margin-bottom: 10px;" th:if="${QPalXUserType} == 'ADMINISTRATOR'">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="images/kwame.png"/>&nbsp;&nbsp;&nbsp;
+                <span class="large-text"><b th:text="${LoggedInQPalXUser.getFullName()}"/></span> &middot; Account &middot; <a th:href="@{/logout}">Sign Out</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                <span class="small-text-2 below-name" data-toggle="tooltip" data-placement="bottom" title="Manage courses, course activities and QPalx Students">Administrator</span>
+            </div>
+            <div class="col-md-8"></div>
+        </div>
+    </div>
+
+    <!--
+        ======  Ebd Main QPalx User information panel data display. =======
+    -->
+
+</div>
+</body>
+</html>

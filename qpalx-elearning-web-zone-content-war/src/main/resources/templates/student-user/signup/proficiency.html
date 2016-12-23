@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"
+          integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+
+<h1>Sign Up</h1>
+<div class="container">
+    <div class="col-md-2"><span class="three-circle-gray"><span class="three-gray"><b>1</b></span></span>Account</div>
+
+    <div class="col-md-2"><span class="three-circle-gray"><span class="three-gray">2</span></span> Payment</div>
+
+    <div class="col-md-2"><span class="three-circle-blue"><span class="three-blue">3</span></span><span
+            class="three-text-blue"><b> Proficiency</b></span></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-default skip" data-toggle="tooltip" data-placement="top"
+                title="Skipping this step will start your account at the beginner level."><span class="green"><b>Skip this step &#8594;</b></span>
+        </button>
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-md-2">
+        <hr class="gray-line"/>
+    </div>
+
+    <div class="col-md-2">
+        <hr class="gray-line"/>
+    </div>
+    <div class="col-md-2">
+        <hr id="blue-line"/>
+    </div>
+    <div class="clearfix"></div>
+    <br/><br/>
+    <form th:action="@{/complete-qpalx-signup}" th:object="${QPalXWebUserVO}" method="post">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <div class="profi-box left-box" id="green-box">
+                    <i class="fa fa-lg fa-check" aria-hidden="true" id="check"></i>
+                    <img src="images/english.png" class="skill" id="english"/>
+                    <br/><br/>
+                    <p class="skill-text"><b>English</b></p>
+                    <select class="form-control profi-level" th:field="*{coreEnglishProficiencyLevel}">
+                        <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="profi-box center-box"><img src="images/english.png" class="skill"/>
+                    <br/><br/>
+                    <p class="skill-text"><b>Mathematics</b></p>
+                    <select class="form-control profi-level" th:field="*{coreMathProficiencyLevel}">
+                        <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="profi-box right-box"><img src="images/english.png" class="skill"/>
+                    <br/><br/>
+                    <p class="skill-text"><b>Social Studies</b></p>
+                    <select class="form-control profi-level" th:field="*{coreSocialStudiesProficiencyLevel}">
+                        <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <div class="profi-box left-box"><img src="images/english.png" class="skill"/>
+                    <br/><br/>
+                    <p class="skill-text"><b>Science</b></p>
+                    <select class="form-control profi-level" th:field="*{coreScienceProficiencyLevel}">
+                        <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="profi-box center-box"><img src="images/english.png" class="skill"/>
+                    <br/><br/>
+                    <p class="skill-text"><b>ICT</b></p>
+                    <select class="form-control profi-level" th:field="*{coreICTProficiencyLevel}">
+                        <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
+                    </select>
+                </div>
+            </div>
+            <!--<div class="col-md-3">-->
+                <!--<div class="profi-box right-box"><img src="images/english.png" class="skill"/>-->
+                    <!--<br/><br/>-->
+                    <!--<p class="skill-text"><b>Vocational Studies</b></p>-->
+                    <!--<select class="form-control profi-level" th:field="*{coreVocationalStudiesProficiencyLevel}">-->
+                        <!--<option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="col-md-1"></div>
+        </div>
+        <div class="clearfix bottom-space"></div>
+        <br/>
+        <div class="col-md-12 continue">
+            <button type="button" class="btn btn-default load-more">Load More</button>
+        </div>
+        <div class="clearfix bottom-space"></div>
+        <div class="col-md-12 continue">
+            <button type="submit" class="btn btn-success">Complete Account</button>
+        </div>
+    </form>
+</div>
+<div class="clearfix bottom-space"></div>
+
+
+<div th:replace="fragments/footer :: footer"/>
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- Include general header fragment panel for when a Student user is already logged in -->
+<div th:replace="fragments/header-loggedin :: header-loggedin"/>
+
+<!-- Include Student User general Account information panel -->
+<div th:replace="fragments/qpalx-user-info-panel :: general-account-info"/>
+
+<!-- Include Student User general Account information panel -->
+<div th:replace="fragments/content-admin/admin-tutorialgrade-panel :: tutorialgrade-panel"/>
+
+
+<div class="clearfix"></div>
+
+<!-- Entire Curriculum available to Content Developer list -->
+<div class="container" style="margin-top: 10px; margin-bottom: 0px;">
+
+    <!-- Include Admin Curriculum Control Navigation Panel -->
+    <div th:replace="fragments/content-admin/admin-curriculum-nav-panel :: navigation-panel"/>
+
+    <!-- Display the selected curriculum details -->
+    <!--<div class="col-md-2 large-fonts">-->
+    <!--<b th:text="${SelectedELearningCurriculum.curriculumName}"></b><br/>-->
+    <!--</div>-->
+
+    <div class="row" th:each="ELearningCourseActivity,rowStat : ${ELearningCourseActivities}">
+
+        <div class="col-md-1 num" th:text="${rowStat.count}"></div>
+
+        <!-- Display corresponding video, quiz, interactive exercise based on the learnint activity type -->
+        <div class="col-md-1 num" th:if="${ELearningCourseActivity.learningActivityE.toString()} == 'Video'"><img src="images/learning-activity/video.png"/></div>
+        <div class="col-md-1 num" th:if="${ELearningCourseActivity.learningActivityE.toString()} == 'Quiz'"><img src="images/learning-activity/Quiz.png"/></div>
+
+        <div class="col-md-3 name" align="left">
+             <a th:href="@{/view-course-activity(activityID=${ELearningCourseActivity.id})}"><b th:text="${ELearningCourseActivity.activityName}"></b></a>
+             <br/>
+            <div class="small" th:text="${ELearningCourseActivity.proficiencyRankingScaleFloor.getProficiencyScoreRangeE()}"></div>
+             <!--<div th:inline="text" class="small">[[${ELearningCourseActivity.proficiencyRankingScaleFloor}]] - [[${ELearningCourseActivity.proficiencyRankingScaleCeiling}]]</div>-->
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-1">
+            <div class="default-btn-1"></div>
+            <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm">
+                Remove Course Activity
+            </button>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix bottom-space"></div>
+
+<div th:replace="fragments/footer :: footer"/>
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+</body>
+</html>

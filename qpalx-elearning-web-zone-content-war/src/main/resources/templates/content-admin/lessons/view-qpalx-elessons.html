@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Content Admin user details overview panel -->
+<div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
+
+<!-- Include Student User general Account information panel -->
+<div th:replace="fragments/content-admin/admin-tutorialgrade-control-panel :: tutorialgrade-control-panel"/>
+
+
+<div class="clearfix"></div>
+
+<!-- Entire Curriculum available to Content Developer list -->
+<div class="container" style="margin-top: 10px; margin-bottom: 0px;">
+
+    <!-- Include Admin Curriculum Control Navigation Panel -->
+    <div th:replace="fragments/content-admin/admin-curriculum-nav-panel :: navigation-panel"/>
+
+    <!-- Display the selected curriculum details -->
+    <!--<div class="col-md-2 large-fonts">-->
+    <!--<b th:text="${SelectedELearningCurriculum.curriculumName}"></b><br/>-->
+    <!--</div>-->
+
+    <div class="row" th:if="${Invalid_Delete_Operation} != null">
+        <div class="alert alert-danger fade in" th:text="${Invalid_Delete_Operation}"/>
+    </div>
+
+    <div class="row" th:each="QPalXELesson,rowStat : ${QPalXELessons}">
+
+        <div class="col-md-1 num" th:text="${rowStat.count}"></div>
+
+        <div class="col-md-3 name" align="left">
+            <a th:href="@{/view-admin-qpalx-micro-elessons(qpalxELessonID=${QPalXELesson.id})}"><b th:text="${QPalXELesson.lessonName}"></b></a>
+            <br/>
+            <div class="small" th:text="${QPalXELesson.proficiencyRankingScaleFloor.getProficiencyScoreRangeE()}"></div>
+            <!--<div th:inline="text" class="small">[[${ELearningCourseActivity.proficiencyRankingScaleFloor}]] - [[${ELearningCourseActivity.proficiencyRankingScaleCeiling}]]</div>-->
+        </div>
+
+        <div class="col-md-4"></div>
+
+        <div class="col-md-2">
+            <div class="default-btn-1"></div>
+            <button type="button" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/edit-qpalx-elesson(qpalxELessonID=${QPalXELesson.id})} + '\''">
+                Edit E-Lesson
+            </button>
+        </div>
+
+        <div class="col-md-2">
+            <div class="default-btn-1"></div>
+            <button type="button" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/delete-qpalx-elesson(qpalxELessonID=${QPalXELesson.id})} + '\''">
+                Remove E-Lesson
+            </button>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="clearfix bottom-space"></div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/hr.js"></script>
+<script src="js/hover.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/progress-bar.js" type="text/javascript"></script>
+<script src="js/modernizr.js" type="text/javascript"></script>
+</body>
+</html>

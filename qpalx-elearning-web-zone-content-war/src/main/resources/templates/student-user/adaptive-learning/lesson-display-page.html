@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Student details overview panel -->
+<div th:replace="fragments/student/user-overview-panel :: overview"></div>
+
+<div class="container" style="margin: 20px auto 20px auto;">
+
+    <!-- Tutorial Level navigation panel -->
+    <div th:replace="fragments/student/tutorial-level-calendar-nav :: academic-calendar"></div>
+
+    <!-- Start Lessons display -->
+    <div th:each="QPalXELesson,rowStat : ${QPalXELessons}">
+
+        <div class="row">
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" th:text="${rowStat.count}"></div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <a class="anchor-1" th:attr="href='#popup' + ${rowStat.count}">
+                    <img src="images/assets/adaptive-learning/video-icon.png" id="video-icon"/>
+                </a>
+            </div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 large-fonts topmargin">
+                <a th:href="@{/view-micro-lessons(eLessonID=${QPalXELesson.getLessonID()}, tutorialLevelID=${SelectedTutorialCalendar.id})}">
+                    <span class="blue" th:text="${QPalXELesson.getLessonName()}"></span>
+                </a>
+            </div>
+
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div class="topmargin-3">
+                    <progress class="progressbar" value="0" max="100" th:attr="data-max=${QPalXELesson.getTotalLessonCompletionRate()}"></progress>
+                    <span class="progress-value">0%</span>
+                </div>
+            </div>
+
+        </div>
+
+        <br/> <br/>
+    </div>
+    <!-- End Lessons display -->
+
+</div>
+
+
+<!-- Build modals to popup on clicking QPalx lessons displayed above.  We used the id of modal attributes to link a lesson to its introductory video -->
+<div th:each="QPalXELesson,rowStat : ${QPalXELessons}">
+
+    <div th:id="'popup' + ${rowStat.count}" class="modalBox">
+        <a href="#" class="modalCloseOuter" onClick="stopVideo();"></a>
+        <div class="mp4">
+            <div class="bar-1"></div>
+            <a href="#" style="float:right; margin: 20px 40px 20px 0;" onClick="stopVideo();">Close</a>
+            <div class="modalBody">
+                <video width="800" id="modal-box" controls="controls">
+                    <source th:src="${QPalXELesson.getLessonMediaFile()}" type="video/mp4"/>
+                    Your browser does not support HTML5 video.
+                </video>
+            </div>
+            <div class="bar-3"></div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+</body>
+</html>

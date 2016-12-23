@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="utf-8"/>
+    <title>Quaza Solutions - Qpalx Elearning Platform Subscription Renewal</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="css/flexslider.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/line-icons.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/elegant-icons.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/lightbox.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/theme.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/custom.css" rel="stylesheet" type="text/css" media="all"/>
+
+    <link rel="stylesheet" type="text/css" href="css/ie9.css" />
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700%7CRaleway:700' rel='stylesheet' type='text/css' />
+    <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="container align-vertical">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 text-center">
+                <h1 class="text-white">Sign Up to continue</h1>
+                <div class="photo-form-wrapper clearfix">
+                    <h3>Registration Renewal Setup</h3>
+                    <form action="#" th:action="@{/ConfirmSubscriptionRenewal}" th:object="${QPalXUserSubscriptionForm}" method="post">
+
+                        <p>Note!!  we will bill your MPower account using your MPower Account Alias provided below</p>
+
+                        <br/>
+                        <label>MPower Account Alias: <input type="text" th:field="*{mPowerAccountAlias}" name="last" id="last" placeholder="MPower Account Alias" tabindex="2"/></label>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <select class="form-control" th:field="*{subscriptionID}" id="sel2">
+                                    <option value="">Select One</option>
+                                    <option
+                                            th:each="QPalXUserSubscription : ${QPalXUserSubscriptions}"
+                                            th:value="${QPalXUserSubscription.id}"
+                                            th:text="|${QPalXUserSubscription.subscriptionName} - ${QPalXUserSubscription.subscriptionCost} ${QPalXUserSubscription.subscriptionQPalXCountry.countryCurrency}|"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="radio">
+                                    <label><input th:field="*{mobileMoneySystem}" type="radio" name="optradio" value="Airtel"/>AirTel</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="radio">
+                                    <label><input th:field="*{mobileMoneySystem}" type="radio" name="optradio" value="Tigo Cash"/>Tigo Cash</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="radio">
+                                    <label><input th:field="*{mobileMoneySystem}" type="radio" name="optradio" value="MTN Mobile Money"/>MTN Mobile Money</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="radio">
+                                    <label><input th:field="*{mobileMoneySystem}" type="radio" name="optradio" value="MPower Payment Account"/>MPower Payment Account</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <button type="submit" class="btn btn-primary">Continue</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div><!--end of photo form wrapper-->
+                <a th:href="@{/}" class="text-white">I already have an account ➞</a><br/>
+                <a href="#" class="text-white">I've forgotten my password</a>
+            </div>
+        </div><!--end of row-->
+    </div><!--end of container-->
+</div>
+</body>
+</html>

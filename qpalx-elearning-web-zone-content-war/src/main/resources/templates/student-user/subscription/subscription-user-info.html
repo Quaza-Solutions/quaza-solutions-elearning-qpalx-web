@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8"/>
+    <title>QPalX - Registration</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="css/flexslider.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/line-icons.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/elegant-icons.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/lightbox.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/theme.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/custom.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,600,700%7CRaleway:700' rel='stylesheet' type='text/css'/>
+    <script src="js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+<body>
+<form action="#" th:action="@{/QPalxSubscribptionEducatioProfile}" th:object="${QPalXUserSubscriptionForm}" method="post">
+    <div class="container">
+        <h1>User Information</h1>
+        <!-- Display any validation errors on top of the page -->
+        <div class="qpalx-form-error" th:if="${SubscriptionErrors}">
+            <label th:text="${SubscriptionErrors}"/>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <input type="text" th:field="*{firstName}" name="first" id="first" class="form-control input-sm" placeholder="First Name" tabindex="1"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <input type="text" th:field="*{lastName}" name="last" id="last" class="form-control input-sm" placeholder="Last Name" tabindex="2"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <input type="text" th:field="*{email}" name="email" id="email" class="form-control input-sm" placeholder="Email" tabindex="3"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <input type="text" th:field="*{password}" name="password" id="password" class="form-control input-sm" placeholder="Password" tabindex="5"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <input type="text" th:field="*{password}" name="confirmpass" id="confirmpass" class="form-control input-sm" placeholder="Confirm Password" tabindex="6"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-sm-2 col-md-2">
+                <div class="form-group">
+                    <label for="sel1">Location</label>
+                    <select th:field="*{municipalityID}" class="form-control" id="sel1">
+                        <option value="">Select One</option>
+                        <option th:each="QPalXMunicipality : ${QPalXMunicipalities}"  th:value="${QPalXMunicipality.id}" th:text="${QPalXMunicipality.name}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-sm-2 col-md-2">
+                <div class="form-group">
+                    <label for="sel2">Plan</label>
+                    <select th:field="*{subscriptionID}" class="form-control" id="sel2">
+                        <option value="">Select One</option>
+                        <option
+                                th:each="QPalXUserSubscription : ${QPalXUserSubscriptions}"
+                                th:value="${QPalXUserSubscription.id}"
+                                th:text="|${QPalXUserSubscription.subscriptionName} - ${QPalXUserSubscription.subscriptionCost} ${QPalXUserSubscription.subscriptionQPalXCountry.countryCurrency}|"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2">
+                <button type="submit" class="btn btn-primary">Continue</button>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+s<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
