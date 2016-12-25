@@ -111,23 +111,27 @@ public class StaticContentMediaUtils implements IStaticContentMediaUtils {
     }
 
     @Override
-    public ELearningMediaContent buildELearningMediaContent(File mediaContentFile, QPalXTutorialContentTypeE qPalXTutorialContentTypeE) {
+    public ELearningMediaContent buildELearningMediaContent(File mediaContentFile, QPalXTutorialContentTypeE qPalXTutorialContentTypeE, StaticContentConfigurationTypeE staticContentConfigurationTypeE) {
         Assert.notNull(mediaContentFile, "mediaContentFile cannot be null");
         Assert.notNull(qPalXTutorialContentTypeE, "qPalXTutorialContentTypeE cannot be null");
 
         LOGGER.debug("Creating new ELearningMediaContent from file: {}", mediaContentFile);
 
         // Get the file extension to figure out the media content type
+        String mediaFileName = mediaContentFile.getName();
         Optional<MediaContentTypeE> optionalMediaContentType = getMediaContentType(mediaContentFile.getName());
 
+        StaticContentConfiguration defaultELearningStaticContentConfiguration = iStaticContentConfigurationService.findStaticContentConfigurationByContentName(staticContentConfigurationTypeE);
+
         // We save file name using symbolic link directory as the actual file will get uploaded to a directory outside web app context
-        String symbolicFileDirectory = null;//getMediaContentTypeVirtualDirectory(optionalMediaContentType.get(), qPalXTutorialContentTypeE);
-        String symbolicFileName = symbolicFileDirectory + mediaContentFile.getName();
+        String symbolicFileDirectory = defaultELearningStaticContentConfiguration.getStaticContentApplicationContextLocation();
+        String contextRootRelativeFileName = symbolicFileDirectory + mediaContentFile.getName();
 
         return ELearningMediaContent.builder()
                 .eLearningMediaType(optionalMediaContentType.get().toString())
                 .qPalXTutorialContentTypeE(qPalXTutorialContentTypeE)
-                .eLearningMediaFile(symbolicFileName)
+                .eLearningMediaFile(contextRootRelativeFileName)
+                .eLearningMediaPhysicalFile(mediaContentFile.getPath())
                 .build();
     }
 

@@ -40,9 +40,10 @@ public class ELearningStaticContentService implements IELearningStaticContentSer
     @Override
     public void deleteELearningMediaContent(ELearningMediaContent eLearningMediaContent) {
         Assert.notNull(eLearningMediaContent, "eLearningMediaContent cannot be null");
-        LOGGER.info("Attempting to delete eLearningMediaContent: {}", eLearningMediaContent);
+        Assert.notNull(eLearningMediaContent.getELearningMediaPhysicalFile(), "ELearningMediaPhysicalFile path cannot be null");
 
-        String pathLocationWithFileName = iStaticContentMediaUtils.getELearningMediaPhysicalFileLocation(eLearningMediaContent, StaticContentConfigurationTypeE.ELearningContent);
+        String pathLocationWithFileName = eLearningMediaContent.getELearningMediaPhysicalFile();
+
         LOGGER.info("Deleting ELearning content with fileName:> {}", pathLocationWithFileName);
         File file = new File(pathLocationWithFileName);
         file.delete();
@@ -67,7 +68,7 @@ public class ELearningStaticContentService implements IELearningStaticContentSer
 
             File mediaContentFile = writeFileToDisk(multipartFile, safeFileName, fileUploadLocation);
             if (mediaContentFile != null) {
-                ELearningMediaContent eLearningMediaContent = iStaticContentMediaUtils.buildELearningMediaContent(mediaContentFile, ilmsMediaContentVO.getSelectedQPalXTutorialContentTypeE());
+                ELearningMediaContent eLearningMediaContent = iStaticContentMediaUtils.buildELearningMediaContent(mediaContentFile, ilmsMediaContentVO.getSelectedQPalXTutorialContentTypeE(), StaticContentConfigurationTypeE.ELearningContent);
                 return eLearningMediaContent;
             }
 
@@ -87,6 +88,7 @@ public class ELearningStaticContentService implements IELearningStaticContentSer
             // First we need to upload and output to local directory
             byte[] bytes = multipartFile.getBytes();
             String newFileName = fileLocation + fileName;
+            new File(newFileName).getParentFile().mkdirs();
             LOGGER.info("Writing new file with name: {} to output stream", fileName);
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(newFileName)));
             stream.write(bytes);

@@ -34,6 +34,8 @@ public class QPalXELessonWebVO extends AbstractILMSMediaContentVO implements IQP
 
     private Long qPalxELessonID;
 
+    private IHierarchicalLMSContent iHierarchicalLMSContent;
+
 
     public QPalXELessonWebVO() {
 
@@ -142,7 +144,11 @@ public class QPalXELessonWebVO extends AbstractILMSMediaContentVO implements IQP
 
     @Override
     public IHierarchicalLMSContent getIHierarchicalLMSContent() {
-        return null;
+        return iHierarchicalLMSContent;
+    }
+
+    public void setIHierarchicalLMSContent(IHierarchicalLMSContent iHierarchicalLMSContent) {
+        this.iHierarchicalLMSContent = iHierarchicalLMSContent;
     }
 
     @Override
