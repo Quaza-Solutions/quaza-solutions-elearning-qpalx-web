@@ -22,7 +22,9 @@ public enum ContentRootE {
 
     Content_Admin_Home("content-admin/home/"),
 
-    Content_Admin_Lessons("content-admin/lessons/");
+    Content_Admin_Lessons("content-admin/lessons/"),
+
+    Content_Admin_Quiz("content-admin/adaptive-quiz/")
     ;
 
     private final String rootDirectory;
