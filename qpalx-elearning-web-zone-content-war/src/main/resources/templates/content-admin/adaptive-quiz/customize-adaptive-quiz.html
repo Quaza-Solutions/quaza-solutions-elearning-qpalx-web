@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <script src="js/ckeditor.js"></script>
+    <script src="js/sample.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Content Admin user details overview panel -->
+<div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
+
+<div class="container" style="margin: 20px auto;">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <span class="very-large-text-2" th:text="|${SelectedQPalXMicroLesson.getMicroLessonName()}: Add Quiz Details|"></span>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+    <!-- Quiz control panel details -->
+    <div class="col-md-12">
+        <nav class="blue-tabs">
+            <ul>
+                <li>
+                    <a class="blue-tabs-2" style="cursor: pointer;" onClick="Quizzes()" id="hide" href="#">
+                        <img src="images/assets/adaptive-learning/checkbox.png" style="margin-top: -4px;"/>&nbsp;&nbsp;Types of Quizzes
+                    </a>
+                </li>
+                <li><a class="blue-tabs-3" style="cursor: pointer;" onClick="Settings()" id="show" href="#">Settings</a></li>
+            </ul>
+        </nav><br />
+        <hr style="color: black; background-color: black; height: 2px;"/>
+        <br/>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="small-boxes" id="clock"><i class="fa fa-clock-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Scoring &amp; Time</div>
+        </div>
+        <div class="col-md-2">
+            <div class="small-boxes" id="result"><i class="fa fa-check-circle-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Result</div>
+        </div>
+        <div class="col-md-2">
+            <div class="small-boxes" id="order">
+                <i class="fa fa-bars" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Order
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="small-boxes-2" id="list"><i class="fa fa-list-ul" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Multiple Choice</div>
+        </div>
+        <div class="col-md-2">
+            <div class="small-boxes-2" id="video"><i class="fa fa-video-camera" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Video Quiz</div>
+        </div>
+        <div class="col-md-2">
+            <div class="small-boxes-2" id="image-quiz">
+                <i class="fa fa-picture-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Image Quiz
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container large-fonts-2" style="margin: 20px auto;">
+    <form method="POST" th:action="@{process-quiz-details}" th:object="${AdminAdaptiveLearningQuizWebVO}">
+        <br/>
+        <div class="row">
+            <div class="col-md-1"></div>
+
+            <div class="col-md-10">
+                <span class="large-fonts-3">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}"></textarea>
+                </span><br/>
+            </div>
+
+            <div class="col-md-1"></div>
+        </div>
+
+        <br/>
+        <div class="row">
+            <div class="col-md-1"></div>
+
+            <div class="col-md-10">
+                <textarea rows="5" cols="67" class="text-box-2" th:field="*{quizDescription}"></textarea>
+                <!--<div id="editor">Quiz Description</div>-->
+                <br/>
+            </div>
+
+            <div class="col-md-1"></div>
+        </div>
+
+        <br/>
+
+        <!-- Hidden field to pass back the value of the current MicroLessonID-->
+        <input type="hidden" th:value="${SelectedQPalXMicroLesson.id}" name="microLessonID"/>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div style="margin: auto; text-align: center">
+                    <button type="submit" id="submit" class="btn btn-success">Save Quiz Details</button>
+                </div>
+                <br/>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </form>
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+	initSample();
+	$(document).ready(function(){
+		$(".small-boxes").hide();
+        //$(".small-boxes-2").show();
+    $("#hide").click(function(){
+		$(".small-boxes").hide();
+        $(".small-boxes-2").show();
+    });
+    $("#show").click(function(){
+        $(".small-boxes-2").hide();
+        $(".small-boxes").show();
+    });
+});
+	function Quizzes(){
+			if( $("#hide").hasClass("blue-tabs-2") ) {
+		$("#hide").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+		$("#show").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+			} else {
+		$("#hide").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+		$("#show").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+			}
+	}
+	function Settings(){
+			if( $("#show").hasClass("blue-tabs-3") ) {
+		$("#show").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+		$("#hide").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+			} else {
+		$("#show").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+		$("#hide").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+			}
+	}
+</script>
+</body>
+</html>

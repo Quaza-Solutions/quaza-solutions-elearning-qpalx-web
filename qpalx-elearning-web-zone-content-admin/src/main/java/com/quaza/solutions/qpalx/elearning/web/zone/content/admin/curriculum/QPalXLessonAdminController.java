@@ -8,6 +8,7 @@ import com.quaza.solutions.qpalx.elearning.domain.subjectmatter.proficiency.Prof
 import com.quaza.solutions.qpalx.elearning.service.institutions.IQPalXEducationalInstitutionService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
+import com.quaza.solutions.qpalx.elearning.web.service.admin.curriculum.ICurriculumHierarchyService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.*;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
@@ -60,6 +61,10 @@ public class QPalXLessonAdminController {
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.web.ContentAdminTutorialGradePanelService")
     private IContentAdminTutorialGradePanelService contentAdminTutorialGradePanelService;
+
+    @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.sstatic.CurriculumHierarchyService")
+    private ICurriculumHierarchyService iCurriculumHierarchyService;
 
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
@@ -143,12 +148,8 @@ public class QPalXLessonAdminController {
                                  HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile multipartFile) {
         LOGGER.info("Saving QPalX ELesson with VO attributes: {}", qPalXELessonWebVO);
 
-        ELearningCourse eLearningCourse = ieLearningCourseService.findByCourseID(qPalXELessonWebVO.getELearningCourseID());
-        QPalXELesson qPalXELesson = new QPalXELesson();
-        qPalXELesson.seteLearningCourse(eLearningCourse);
-        qPalXELesson.setLessonName(qPalXELessonWebVO.getLessonName());
-        qPalXELesson.setLessonDescription(qPalXELesson.getLessonDescription());
-        qPalXELessonWebVO.setIHierarchicalLMSContent(qPalXELesson);
+        // Build hierarchy based content structure on the Lesson which will allow for uploading content to the right directory structure
+        iCurriculumHierarchyService.buildHierarchyForQPalXELessonWebVO(qPalXELessonWebVO);
 
         // Upload file and create the ELearningMediaContent
         ELearningMediaContent eLearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(multipartFile, qPalXELessonWebVO);
@@ -177,13 +178,11 @@ public class QPalXLessonAdminController {
                                    HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile multipartFile) {
         LOGGER.info("Saving QPalX ELesson with VO attributes: {}", qPalXELessonWebVO);
 
+        // Build hierarchy based content structure on the Lesson which will allow for uploading content to the right directory structure
+        iCurriculumHierarchyService.buildHierarchyForQPalXELessonWebVO(qPalXELessonWebVO);
+
         // Upload the new file and create the ELearningMediaContent
         ELearningMediaContent eLearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(multipartFile, qPalXELessonWebVO);
-
-        // Delete the current existing Lesson Intro video
-        QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qPalXELessonWebVO.getQPalxELessonID());
-        LOGGER.debug("Deleting current existing intro video media contet: {}", qPalXELesson.geteLearningMediaContent());
-        ieLearningStaticContentService.deleteELearningMediaContent(qPalXELesson.geteLearningMediaContent());
 
         if(eLearningMediaContent == null) {
             LOGGER.warn("Selected ELearning Media content could not be uploaded.  Check selected file content.");
@@ -198,6 +197,12 @@ public class QPalXLessonAdminController {
         } else {
             LOGGER.info("QPalX Lesson media content was succesfully uploaded, saving lesson details...");
             qPalXELessonWebVO.setELearningMediaContent(eLearningMediaContent);
+
+            // Delete the current existing Lesson Intro video
+            QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qPalXELessonWebVO.getQPalxELessonID());
+            LOGGER.debug("Deleting current existing intro video media contet: {}", qPalXELesson.geteLearningMediaContent());
+            ieLearningStaticContentService.deleteELearningMediaContent(qPalXELesson.geteLearningMediaContent());
+
             iqPalXELessonService.updateAndSaveQPalXELesson(qPalXELesson, qPalXELessonWebVO);
             String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + qPalXELessonWebVO.getELearningCourseID();
             iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);

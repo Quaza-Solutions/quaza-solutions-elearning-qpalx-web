@@ -26,6 +26,8 @@ public class QPalXEMicroLessonVO extends AbstractILMSMediaContentVO implements I
 
     protected String staticQPalXTutorialContentType;
 
+    private IHierarchicalLMSContent iHierarchicalLMSContent;
+
     private ELearningMediaContent staticELearningMediaContent;
 
 
@@ -93,7 +95,11 @@ public class QPalXEMicroLessonVO extends AbstractILMSMediaContentVO implements I
 
     @Override
     public IHierarchicalLMSContent getIHierarchicalLMSContent() {
-        return null;
+        return iHierarchicalLMSContent;
+    }
+
+    public void setiHierarchicalLMSContent(IHierarchicalLMSContent iHierarchicalLMSContent) {
+        this.iHierarchicalLMSContent = iHierarchicalLMSContent;
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.quaza.solutions.qpalx.elearning.service.institutions.IQPalXEducationa
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IQuestionBankService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXEMicroLessonService;
+import com.quaza.solutions.qpalx.elearning.web.service.admin.curriculum.ICurriculumHierarchyService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.*;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
@@ -64,6 +65,10 @@ public class QPalXMicroLessonAdminController {
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.sstatic.ELearningStaticContentService")
     private IELearningStaticContentService ieLearningStaticContentService;
+
+    @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.sstatic.CurriculumHierarchyService")
+    private ICurriculumHierarchyService iCurriculumHierarchyService;
 
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
@@ -129,18 +134,19 @@ public class QPalXMicroLessonAdminController {
                                  HttpServletRequest request, HttpServletResponse response, @RequestParam("narration_file") MultipartFile multipartFile, @RequestParam("static_file") MultipartFile staticMultipartFile) {
         LOGGER.info("Saving QPalX micro lesson with VO attributes: {}", qPalXEMicroLessonVO);
 
-        System.out.println("staticMultipartFile = " + staticMultipartFile);
+        // Build hierarchy based content structure on the Lesson which will allow for uploading content to the right directory structure
+        iCurriculumHierarchyService.buildHierarchyForQPalXEMicroLessonVO(qPalXEMicroLessonVO);
 
         // Upload file and create the ELearningMediaContent
         ELearningMediaContent eLearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(multipartFile, qPalXEMicroLessonVO);
         ELearningMediaContent staticELearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(staticMultipartFile, qPalXEMicroLessonVO);
 
-        if(eLearningMediaContent == null) {
+        if(eLearningMediaContent == null || staticELearningMediaContent == null) {
             LOGGER.warn("Selected ELearning Media content could not be uploaded.  Check selected file content.");
             String targetURL = "/add-qpalx-microlesson?qpalxELessonID=" + qPalXEMicroLessonVO.getQPalXELessonID();
             String errorMessage = "Failed to upload file: Check the contents of the file";
             iRedirectStrategyExecutor.sendRedirectWithError(targetURL, errorMessage, WebOperationErrorAttributesE.Invalid_FORM_Submission, request, response);
-        } else if(eLearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT) {
+        } else if(eLearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT || staticELearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT) {
             LOGGER.warn("Uploaded course activity media content file is currently not supported...");
             String targetURL = "/add-qpalx-microlesson?qpalxELessonID=" + qPalXEMicroLessonVO.getQPalXELessonID();
             String errorMessage = "Uploaded file is not supported: Only Files of type(MP4, SWF) supported";
