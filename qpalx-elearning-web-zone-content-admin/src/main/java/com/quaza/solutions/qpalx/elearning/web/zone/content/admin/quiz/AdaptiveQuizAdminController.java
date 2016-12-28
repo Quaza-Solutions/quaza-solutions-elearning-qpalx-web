@@ -14,6 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * @author manyce400
  */
@@ -46,8 +50,18 @@ public class AdaptiveQuizAdminController {
     }
 
     @RequestMapping(value = "/process-quiz-details", method = RequestMethod.POST)
-    public String saveAdaptiveQuizDetails(Model model, ModelMap modelMap, @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson, @ModelAttribute("AdminAdaptiveLearningQuizWebVO") AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO) {
+    public String saveAdaptiveQuizDetails(Model model, ModelMap modelMap, @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson,
+                                          @ModelAttribute("AdminAdaptiveLearningQuizWebVO") AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO, HttpServletRequest request) {
         LOGGER.info("Attempting to save Adaptive Quiz details for adaptiveLearningQuizWebVO: {}", adaptiveLearningQuizWebVO);
+
+        Map params = request.getParameterMap();
+        Iterator i = params.keySet().iterator();
+        while ( i.hasNext() )
+        {
+            String key = (String) i.next();
+            String value = ((String[]) params.get( key ))[ 0 ];
+            System.out.println("key = " + key + " value: " + value);
+        }
 
         return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("customize-adaptive-quiz");
     }

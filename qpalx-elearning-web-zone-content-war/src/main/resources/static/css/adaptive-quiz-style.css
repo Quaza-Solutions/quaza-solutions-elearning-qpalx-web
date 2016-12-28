@@ -172,7 +172,13 @@ nav a.blue-tabs-3 {
 #image-quiz {
 		width: 190px;
 		margin-top: -20px;
-		margin-left: 12px;
+		margin-left: 20px;
+}
+
+#checkbox {
+		width: 100px;
+		margin-top: -20px;
+		margin-left: 14px;
 }
 
 .small-boxes-2 {

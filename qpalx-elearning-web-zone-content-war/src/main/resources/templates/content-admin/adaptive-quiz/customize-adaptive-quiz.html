@@ -88,7 +88,10 @@
 
             <div class="col-md-10">
                 <span class="large-fonts-3">
-                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}"></textarea>
+                    <!--<textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}"></textarea>-->
+                    <div class="col-md-10">
+                        <textarea id="editor" name="editor" th:field="*{quizDescription}">Enter Feedback Here</textarea><br/>
+                    </div>
                 </span><br/>
             </div>
 

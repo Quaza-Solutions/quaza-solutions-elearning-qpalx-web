@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <script src="js/ckeditor.js"></script>
+    <script src="js/sample.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+
+</head>
+<body>
+<div th:fragment="quiz-settings-panel">
+
+    <div class="container" style="margin: 20px auto;">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <span class="very-large-text-2"
+                      th:text="|${SelectedQPalXMicroLesson.getMicroLessonName()}: Add Quiz Details|"></span>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <!-- Main Quiz tabs -->
+        <div class="col-md-12">
+            <nav class="blue-tabs">
+                <ul>
+                    <li><a class="blue-tabs-2" style="cursor: pointer;" onClick="Quizzes()" id="hide" href="#">Types of Quizzes</a></li>
+                    <li><a class="blue-tabs-3" style="cursor: pointer;" onClick="Settings()" id="show" href="#">Settings</a></li>
+                </ul>
+            </nav>
+            <br/>
+            <hr style="color: black; background-color: black; height: 2px;"/>
+            <br/>
+        </div>
+
+        <!-- Quiz Settings Selections -->
+        <div class="row">
+            <div class="col-md-2">
+                <div class="small-boxes" id="clock">
+                    <i class="fa fa-clock-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Scoring &amp; Time
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="small-boxes" id="result">
+                    <i class="fa fa-check-circle-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Result
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="small-boxes" id="order">
+                    <i class="fa fa-bars" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Order
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Types of Quizzes Selections -->
+        <div class="row">
+            <div class="col-md-2">
+                <div class="small-boxes-2" id="list" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/add-question-type(quizQuestionType=Multiple_Choice)} + '\''">
+                    <i class="fa fa-list-ul" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Multiple Choice
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="small-boxes-2" id="video" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/add-question-type(quizQuestionType=Video)} + '\''">
+                    <i class="fa fa-video-camera" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Video Quiz
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="small-boxes-2" id="image-quiz" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/add-question-type(quizQuestionType=Image)} + '\''">
+                    <i class="fa fa-picture-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Image Quiz
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

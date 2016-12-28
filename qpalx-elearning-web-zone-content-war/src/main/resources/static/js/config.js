@@ -33,6 +33,8 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'link:advanced';
 	
 	config.extraPlugins = 'wordcount';
+config.extraPlugins = 'save';
+	
 config.wordcount = {
 
     // Whether or not you want to show the Word Count
@@ -47,4 +49,5 @@ config.wordcount = {
     // Maximum allowed Char Count
     maxCharCount: 600
 };
+
 };

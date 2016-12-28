@@ -24,61 +24,10 @@
 <!-- Main Content Admin user details overview panel -->
 <div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
 
-<div class="container" style="margin: 20px auto;">
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">
-            <span class="very-large-text-2" th:text="|${SelectedQPalXMicroLesson.getMicroLessonName()}: Add Quiz Details|"></span>
-        </div>
-        <div class="col-md-1"></div>
-    </div>
-
-    <!--&lt;!&ndash; Quiz control panel details &ndash;&gt;-->
-    <!--<div class="col-md-12">-->
-        <!--<nav class="blue-tabs">-->
-            <!--<ul>-->
-                <!--<li>-->
-                    <!--<a class="blue-tabs-2" style="cursor: pointer;" onClick="Quizzes()" id="hide" href="#">-->
-                        <!--<img src="images/assets/adaptive-learning/checkbox.png" style="margin-top: -4px;"/>&nbsp;&nbsp;Types of Quizzes-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li><a class="blue-tabs-3" style="cursor: pointer;" onClick="Settings()" id="show" href="#">Settings</a></li>-->
-            <!--</ul>-->
-        <!--</nav><br />-->
-        <!--<hr style="color: black; background-color: black; height: 2px;"/>-->
-        <!--<br/>-->
-    <!--</div>-->
+<!-- Quiz settings panel -->
+<div th:replace="fragments/content-admin/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
 
 
-    <!--<div class="row">-->
-        <!--<div class="col-md-2">-->
-            <!--<div class="small-boxes" id="clock"><i class="fa fa-clock-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Scoring &amp; Time</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-2">-->
-            <!--<div class="small-boxes" id="result"><i class="fa fa-check-circle-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Result</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-2">-->
-            <!--<div class="small-boxes" id="order">-->
-                <!--<i class="fa fa-bars" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Order-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="row">-->
-        <!--<div class="col-md-2">-->
-            <!--<div class="small-boxes-2" id="list"><i class="fa fa-list-ul" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Multiple Choice</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-2">-->
-            <!--<div class="small-boxes-2" id="video"><i class="fa fa-video-camera" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Video Quiz</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-2">-->
-            <!--<div class="small-boxes-2" id="image-quiz">-->
-                <!--<i class="fa fa-picture-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Image Quiz-->
-            <!--</div>-->
-        <!--</div>-->
-
-    <!--</div>-->
-</div>
 
 <div class="container large-fonts-2" style="margin: 20px auto;">
     <form method="POST" th:action="@{process-quiz-details}" th:object="${AdminAdaptiveLearningQuizWebVO}">
@@ -101,8 +50,6 @@
 
             <div class="col-md-10">
                 <textarea rows="5" cols="67" class="text-box-2" th:field="*{quizDescription}"></textarea>
-                <!--<div id="editor">Quiz Description</div>-->
-                <br/>
             </div>
 
             <div class="col-md-1"></div>
@@ -132,7 +79,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-	initSample();
+
 	$(document).ready(function(){
 		$(".small-boxes").hide();
         //$(".small-boxes-2").show();
