@@ -45,12 +45,12 @@
         <!-- Quiz Settings Selections -->
         <div class="row">
             <div class="col-md-2">
-                <div class="small-boxes" id="clock">
+                <div class="small-boxes" id="clock" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/customize-quiz-settings(quizSettingType=Scoring_Time)} + '\''">
                     <i class="fa fa-clock-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Scoring &amp; Time
                 </div>
             </div>
             <div class="col-md-2">
-                <div class="small-boxes" id="result">
+                <div class="small-boxes" id="result" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/customize-quiz-settings(quizSettingType=Result)} + '\''">
                     <i class="fa fa-check-circle-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Result
                 </div>
             </div>

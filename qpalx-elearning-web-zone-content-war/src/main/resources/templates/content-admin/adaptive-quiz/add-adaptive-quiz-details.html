@@ -24,12 +24,14 @@
 <!-- Main Content Admin user details overview panel -->
 <div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
 
-<!-- Quiz settings panel -->
-<div th:replace="fragments/content-admin/adaptive-quiz/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
-
-
 
 <div class="container large-fonts-2" style="margin: 20px auto;">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">Enter Quiz Details Below.</div>
+        <div class="col-md-1"></div>
+    </div>
+
     <form method="POST" th:action="@{process-quiz-details}" th:object="${AdminAdaptiveLearningQuizWebVO}">
         <br/>
         <div class="row">

@@ -5,7 +5,15 @@ package com.quaza.solutions.qpalx.elearning.web.service.enums;
  */
 public enum  AdaptiveLearningQuizAttributeE {
 
-    AdminAdaptiveLearningQuizWebVO
+    AdminAdaptiveLearningQuizWebVO,
+
+    AdaptiveLearningQuizQuestionVO,
+
+    CurrentAdaptiveLearningQuizQuestionVOs,
+
+    AdaptiveLearningQuizQuestionTypeE,
+
+    AdaptiveLearningQuizSettingsE
 
     ;
 }
