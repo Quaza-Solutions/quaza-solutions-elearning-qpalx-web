@@ -7,13 +7,15 @@ public enum  AdaptiveLearningQuizAttributeE {
 
     AdminAdaptiveLearningQuizWebVO,
 
+    AdminMicroLessonAdaptiveQuizzes,
+
     AdaptiveLearningQuizQuestionVO,
 
     CurrentAdaptiveLearningQuizQuestionVOs,
 
     AdaptiveLearningQuizQuestionTypeE,
 
-    AdaptiveLearningQuizSettingsE
+    AdaptiveLearningQuizSettingsE,
 
     ;
 }

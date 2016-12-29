@@ -30,56 +30,29 @@
     <!-- Include Admin Curriculum Control Navigation Panel -->
     <div th:replace="fragments/content-admin/admin-curriculum-nav-panel :: navigation-panel"/>
 
-    <!-- Display warning on trying to delete a resource with active items. -->
-    <div class="row" th:if="${Invalid_Delete_Operation} != null">
-        <div class="alert alert-danger fade in" th:text="${Invalid_Delete_Operation}"/>
-    </div>
+    <!-- Display the selected curriculum details -->
+    <!--<div class="col-md-2 large-fonts">-->
+    <!--<b th:text="${SelectedELearningCurriculum.curriculumName}"></b><br/>-->
+    <!--</div>-->
 
-    <div class="row">
-        <div class="large-font">Micro Lessons</div>
-    </div>
-
-    <div class="row" th:each="QPalXEMicroLesson,rowStat : ${QPalXEMicroLessons}">
+    <div class="row" th:each="AdminMicroLessonAdaptiveQuiz,rowStat : ${AdminMicroLessonAdaptiveQuizzes}">
 
         <div class="col-md-1 num" th:text="${rowStat.count}"></div>
 
         <div class="col-md-3 name" align="left">
-            <a th:href="@{/view-adaptive-quizzes(microlessonID=${QPalXEMicroLesson.id})}"><b th:text="${QPalXEMicroLesson.microLessonName}"></b></a>
+            <a th:href="@{/view-course-activity(activityID=${AdminMicroLessonAdaptiveQuiz.id})}"><b th:text="${AdminMicroLessonAdaptiveQuiz.getQuizTitle()}"></b></a>
         </div>
         <div class="col-md-6"></div>
         <div class="col-md-2">
             <div class="default-btn-1"></div>
-            <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/delete-qpalx-micro-lesson(microLessonID=${QPalXEMicroLesson.id})} + '\''">
-                Remove Micro-Lesson
-            </button>
-        </div>
-    </div>
-
-    <br/>
-
-    <div class="row">
-        <div class="large-font">Question Bank Items</div>
-    </div>
-
-    <div class="row" th:each="QuestionBankItem,rowStat : ${QuestionBankItems}">
-
-        <div class="col-md-1 num" th:text="${rowStat.count}"></div>
-
-        <div class="col-md-3 name" align="left">
-            <a th:href="@{/view-admin-quizzes(microlessonID=${QuestionBankItem.id})}"><b th:text="${QuestionBankItem.questionTitle}"></b></a>
-        </div>
-        <div class="col-md-6"></div>
-        <div class="col-md-2">
-            <div class="default-btn-1"></div>
-            <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/delete-question-bank(questionBankItemID=${QuestionBankItem.id}, qpalxELessonID=${SelectedQPalXELesson.id})} + '\''">
-                Remove QuestionBank Item
+            <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/delete-adaptive-quiz(adaptiveQuizID=${AdminMicroLessonAdaptiveQuiz.id})} + '\''">
+                Remove Adaptive-Quiz
             </button>
         </div>
     </div>
 
 
 </div>
-
 <div class="clearfix bottom-space"></div>
 
 <!-- Include Footer for when user is logged in -->

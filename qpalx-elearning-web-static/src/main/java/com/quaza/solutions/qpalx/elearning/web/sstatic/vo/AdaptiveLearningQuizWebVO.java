@@ -23,9 +23,11 @@ public class AdaptiveLearningQuizWebVO implements IAdaptiveLearningQuizVO {
 
     private String quizDescription;
 
+    // Default max possible score on all quizzes to 100%
     private Double maxPossibleActivityScore = 100d;
 
-    private Double minimumPassingActivityScore;
+    // Default min passing score to 70%
+    private Double minimumPassingActivityScore = 70d;
 
     private Long timeToCompleteActivity;
 
