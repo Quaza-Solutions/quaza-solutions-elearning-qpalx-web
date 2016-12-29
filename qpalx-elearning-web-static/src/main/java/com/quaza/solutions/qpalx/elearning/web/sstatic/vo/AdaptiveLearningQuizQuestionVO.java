@@ -24,7 +24,9 @@ public class AdaptiveLearningQuizQuestionVO extends AdaptiveQuizQuestionAnswerMo
 
     private String questionFeedBack;
 
-    private AdaptiveLearningQuizQuestionTypeE adaptiveLearningQuizQuestionTypeE;
+    private String quizQuestionTypeString;
+
+    private AdaptiveLearningQuizQuestionTypeE adaptiveLearningQuizQuestionTypeE = AdaptiveLearningQuizQuestionTypeE.Multiple_Choice;
 
     private ELearningMediaContent quizQuestionAnswerMultiMedia;
 
@@ -48,6 +50,14 @@ public class AdaptiveLearningQuizQuestionVO extends AdaptiveQuizQuestionAnswerMo
 
     public void setQuestionFeedBack(String questionFeedBack) {
         this.questionFeedBack = questionFeedBack;
+    }
+
+    public String getQuizQuestionTypeString() {
+        return quizQuestionTypeString;
+    }
+
+    public void setQuizQuestionTypeString(String quizQuestionTypeString) {
+        this.quizQuestionTypeString = quizQuestionTypeString;
     }
 
     @Override

@@ -59,7 +59,8 @@
             </div>
 
             <div class="col-md-2" style="cursor: pointer;" th:if="${AddMicroLessonActivitiesEnabled} == 'true'">
-                <span class="course-2"><i style="color: #43484d;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i><a th:href="@{/add-adaptive-quiz(microlessonID=${SelectedQPalXMicroLesson.id})}">Add Adaptive Quiz</a></span>
+                <a th:href="@{/create-qpalx-quiz(microLessonID=${SelectedQPalXMicroLesson.id})}">Add Adaptive Quiz</a>
+                <span class="glyphicon glyphicon-plus"/>
             </div>
         </div>
 

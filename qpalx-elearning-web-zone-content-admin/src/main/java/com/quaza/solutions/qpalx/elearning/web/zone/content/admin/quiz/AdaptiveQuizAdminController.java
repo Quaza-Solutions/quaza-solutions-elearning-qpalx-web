@@ -1,13 +1,18 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.admin.quiz;
 
+import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IAdaptiveLearningQuizQuestionVO;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXEMicroLessonService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.AdaptiveLearningQuizQuestionVO;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.AdaptiveLearningQuizWebVO;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -17,7 +22,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,11 +44,46 @@ public class AdaptiveQuizAdminController {
     private IQPalXEMicroLessonService iqPalXEMicroLessonService;
 
     @Autowired
+    @Qualifier("quaza.solutions.qpalx.elearning.service.AdaptiveLearningQuizService2")
+    private IAdaptiveLearningQuizService iAdaptiveLearningQuizService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserInfoPanelService")
     private IQPalXUserInfoPanelService qPalXUserInfoPanelService;
 
+    @Autowired
+    @Qualifier("quaza.solutions.qpalx.elearning.web.ContentAdminTutorialGradePanelService")
+    private IContentAdminTutorialGradePanelService iContentAdminTutorialGradePanelService;
+
+    @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
+    private IRedirectStrategyExecutor iRedirectStrategyExecutor;
+
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(AdaptiveQuizAdminController.class);
+
+
+
+    @RequestMapping(value = "/view-adaptive-quizzes", method = RequestMethod.GET)
+    public String viewAdminAdaptiveQuizzes(final Model model, @RequestParam("microlessonID") String microlessonID) {
+        LOGGER.info("Finding all Adaptive Quizzes for microlessonID: {}", microlessonID);
+
+        // Enable displaying of User overview panel
+        qPalXUserInfoPanelService.addUserInfoAttributes(model);
+        model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
+
+        Long id = NumberUtils.toLong(microlessonID);
+        QPalXEMicroLesson qPalXEMicroLesson = iqPalXEMicroLessonService.findByID(id);
+        QPalXELesson qPalXELesson = qPalXEMicroLesson.getQPalXELesson();
+        model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXMicroLesson.toString(), qPalXEMicroLesson);
+
+        List<AdaptiveLearningQuiz> adaptiveLearningQuizList = iAdaptiveLearningQuizService.findQuizzesForMicroLesson(qPalXEMicroLesson);
+        model.addAttribute(AdaptiveLearningQuizAttributeE.AdminMicroLessonAdaptiveQuizzes.toString(), adaptiveLearningQuizList);
+
+        iContentAdminTutorialGradePanelService.addDisplayPanelAttributes(model, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, qPalXELesson);
+
+        return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("view-microlesson-quizzes");
+    }
 
 
     @RequestMapping(value = "/create-qpalx-quiz", method = RequestMethod.GET)
@@ -103,6 +147,18 @@ public class AdaptiveQuizAdminController {
 
 
         return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("customize-adaptive-quiz");
+    }
+
+    @RequestMapping(value = "/persist-adaptive-quiz", method = RequestMethod.POST)
+    public void saveEntireAdaptiveLearningQuiz(SessionStatus status, @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson,
+                                               @ModelAttribute("AdminAdaptiveLearningQuizWebVO") AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO, HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Saving and persisting entire adaptive learning quiz: {}", adaptiveLearningQuizWebVO);
+
+        iAdaptiveLearningQuizService.createAndSaveAdaptiveLearningQuiz(qPalXEMicroLesson, adaptiveLearningQuizWebVO);
+        status.setComplete();
+
+        String targetURL = "/view-adaptive-quizzes?microlessonID=" + qPalXEMicroLesson.getId();
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
 
 }
