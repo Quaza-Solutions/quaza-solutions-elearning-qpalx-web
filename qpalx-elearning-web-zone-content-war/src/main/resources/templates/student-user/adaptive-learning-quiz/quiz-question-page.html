@@ -40,6 +40,7 @@
 </div>
 <div class="container large-fonts-2" style="margin: 20px auto;">
 
+    <!-- Display Quiz Question -->
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-11">
@@ -49,37 +50,17 @@
     </div>
     <br/>
 
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-1"><input type="radio" class="radio-blue" name="chemistry-1"/></div>
-        <div class="col-md-10">
-            Chemistry is studied everywhere in the world
+    <!-- Display all Quiz Question Answers -->
+    <div th:each="LaunchedAdaptiveLearningQuizQuestionAnswer,rowStat : ${LaunchedAdaptiveLearningQuizQuestionAnswers}">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-1"><input type="radio" class="radio-blue" name="chemistry-1"/></div>
+            <div class="col-md-10" th:text="${LaunchedAdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"></div>
         </div>
+        <br/>
     </div>
-    <br/>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-1"><input type="radio" class="radio-blue" name="chemistry-1"/></div>
-        <div class="col-md-10">
-            Most science disciplines require a knowledge in chemistry
-        </div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-1"><input type="radio" class="radio-blue" name="chemistry-1"/></div>
-        <div class="col-md-10">
-            Chemistry has its basis in matter
-        </div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-1"><input type="radio" class="radio-blue" name="chemistry-1"/></div>
-        <div class="col-md-10">
-            Chemistry is the most improved of all the sciences
-        </div>
-    </div>
+
+
     <br/>
     <div class="row">
         <div class="col-md-12" style="margin: auto; text-align: center;"><img src="assets/next-question.png"/></div>
