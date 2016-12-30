@@ -19,5 +19,11 @@ public enum  AdaptiveLearningQuizAttributeE {
 
     LaunchedAdaptiveLearningQuiz,
 
+    LaunchedAdaptiveLearningQuizQuestion,
+
+    LaunchedAdaptiveLearningQuizQuestions,
+
+    LaunchedAdaptiveLearningQuizQuestionAnswers,
+
     ;
 }

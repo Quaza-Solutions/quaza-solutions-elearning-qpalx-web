@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<div class="container" style="margin: 20px auto;">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-2"><img id="" src="images/Science.png"/></div>
+        <div class="col-md-9"><span class="very-large-text-2" th:text="|Quiz-  ${LaunchedAdaptiveLearningQuiz.getQuizTitle()}|"></span></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 very-large-text-4">Question 1 of 5
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="margin: auto; text-align: center;">
+            <i class="fa fa-circle spacing" style="color: #0abfd2;" aria-hidden="true"></i>
+            <i class="fa fa-circle-o spacing" aria-hidden="true"></i>
+            <i class="fa fa-circle-o spacing" aria-hidden="true"></i>
+            <i class="fa fa-circle-o spacing" aria-hidden="true"></i>
+            <i class="fa fa-circle-o spacing" aria-hidden="true"></i>
+        </div>
+    </div>
+</div>
+<div class="container large-fonts-2" style="margin: 20px auto;">
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+
+            <p class="very-large-text-3" th:text="${LaunchedAdaptiveLearningQuizQuestion.getQuestionTitle()}"></p>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-1"><input type="radio" class="radio-blue" name="chemistry-1"/></div>
+        <div class="col-md-10">
+            Chemistry is studied everywhere in the world
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-1"><input type="radio" class="radio-blue" name="chemistry-1"/></div>
+        <div class="col-md-10">
+            Most science disciplines require a knowledge in chemistry
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-1"><input type="radio" class="radio-blue" name="chemistry-1"/></div>
+        <div class="col-md-10">
+            Chemistry has its basis in matter
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-1"><input type="radio" class="radio-blue" name="chemistry-1"/></div>
+        <div class="col-md-10">
+            Chemistry is the most improved of all the sciences
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-12" style="margin: auto; text-align: center;"><img src="assets/next-question.png"/></div>
+    </div>
+
+    <br/>
+</div>
+
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
