@@ -16,6 +16,8 @@ public enum ContentRootE {
 
     Student_Adaptive_Learning("student-user/adaptive-learning/"),
 
+    Student_Adaptive_Learning_Quiz("student-user/adaptive-learning-quiz/"),
+
     Guardian_Home("guardian-user/home/"),
 
     Guardian_Signup("guardian-user/signup/"),
