@@ -9,9 +9,14 @@
 
 
     <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>
-    <artifactId>qpalx-elearning-web-zone-content-war</artifactId>
+    <artifactId>qpalx-elearning-web-zone-content-student</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
+    
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
 
@@ -35,35 +40,7 @@
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>
-            <artifactId>qpalx-elearning-web-security</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>
-            <artifactId>qpalx-elearning-web-zone-content-admin</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>
-            <artifactId>qpalx-elearning-web-zone-content-student</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <!-- Spring Boot dependencies -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
+        <!-- Spring Boot apis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -71,16 +48,9 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
-
-
-        <!-- Starter Tomcat dependency prevents embedded Servlet libraries in war from interfering with Tomcal -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
     </dependencies>
+
 </project>

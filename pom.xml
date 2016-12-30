@@ -18,6 +18,7 @@
     <module>qpalx-elearning-web-static</module>
     <module>qpalx-elearning-web-security</module>
     <module>qpalx-elearning-web-zone-content-admin</module>
+    <module>qpalx-elearning-web-zone-content-student</module>
     <module>qpalx-elearning-web-service</module>
     <module>qpalx-elearning-web-zone-content-war</module>
   </modules>
