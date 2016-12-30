@@ -133,12 +133,6 @@ nav a.blue-tabs-3 {
     background: #1ebed4;
 }
 
-.small-boxes {
-	height: 40px;
-	border: 2px solid #1ebed4;
-	padding: 8px 20px;
-}
-
 #clock {
 	width: 200px;
 	margin-top: -20px;
@@ -176,9 +170,20 @@ nav a.blue-tabs-3 {
 }
 
 #checkbox {
-		width: 100px;
+		width: 180px;
 		margin-top: -20px;
 		margin-left: 14px;
+}
+
+.small-boxes {
+	height: 40px;
+	border: 2px solid #1ebed4;
+	padding: 8px 20px;
+}
+
+.small-boxes:hover {
+    background-color: #74be43;
+    border: none;
 }
 
 .small-boxes-2 {
@@ -191,4 +196,17 @@ nav a.blue-tabs-3 {
 .small-boxes-2:hover {
     background-color: #74be43;
     border: none;
+}
+
+.next-question {
+    color: #fff;
+    background-color: #07bed3;
+    padding-top: 6px;
+    width: 200px;
+    height: 44px;
+}
+
+.next-question:hover {
+    color: #fff;
+    background-color: #74be43;
 }

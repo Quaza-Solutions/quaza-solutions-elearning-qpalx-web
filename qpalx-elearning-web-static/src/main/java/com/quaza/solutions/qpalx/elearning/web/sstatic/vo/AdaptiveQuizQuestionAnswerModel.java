@@ -1,6 +1,8 @@
 package com.quaza.solutions.qpalx.elearning.web.sstatic.vo;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IAdaptiveLearningQuizQuestionAnswerVO;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.LinkedHashSet;
@@ -92,6 +94,34 @@ public abstract class AdaptiveQuizQuestionAnswerModel {
         iAdaptiveLearningQuizQuestionAnswerVOS.add(adaptiveLearningQuizQuestionAnswerVO4);
 
         return iAdaptiveLearningQuizQuestionAnswerVOS;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AdaptiveQuizQuestionAnswerModel that = (AdaptiveQuizQuestionAnswerModel) o;
+
+        return new EqualsBuilder()
+                .append(option1, that.option1)
+                .append(option2, that.option2)
+                .append(option3, that.option3)
+                .append(option4, that.option4)
+                .append(correctAnswer1, that.correctAnswer1)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(option1)
+                .append(option2)
+                .append(option3)
+                .append(option4)
+                .append(correctAnswer1)
+                .toHashCode();
     }
 
     @Override

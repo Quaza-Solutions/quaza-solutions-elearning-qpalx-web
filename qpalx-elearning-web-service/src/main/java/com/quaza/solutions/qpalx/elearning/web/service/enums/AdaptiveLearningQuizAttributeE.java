@@ -25,5 +25,7 @@ public enum  AdaptiveLearningQuizAttributeE {
 
     LaunchedAdaptiveLearningQuizQuestionAnswers,
 
+    AdaptiveQuizQuestionScoreVO,
+
     ;
 }

@@ -50,23 +50,31 @@
     </div>
     <br/>
 
-    <!-- Display all Quiz Question Answers -->
-    <div th:each="LaunchedAdaptiveLearningQuizQuestionAnswer,rowStat : ${LaunchedAdaptiveLearningQuizQuestionAnswers}">
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-1"><input type="radio" class="radio-blue" name="chemistry-1"/></div>
-            <div class="col-md-10" th:text="${LaunchedAdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"></div>
+    <form method="POST" th:action="@{submit-quiz-question-answer}" th:object="${AdaptiveQuizQuestionScoreVO}">
+        <!-- Display all Quiz Question Answers -->
+        <div th:each="LaunchedAdaptiveLearningQuizQuestionAnswer,rowStat : ${LaunchedAdaptiveLearningQuizQuestionAnswers}">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-1">
+                    <input type="radio" class="radio-blue" th:value="${LaunchedAdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}" th:field="*{userSelectedAnswerText}"/>
+                </div>
+                <div class="col-md-10" th:text="${LaunchedAdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"></div>
+            </div>
+            <br/>
+        </div>
+
+        <!-- Hidden field to track the current Question Model ID that we are on -->
+        <input type="hidden" name="quizQuestionModelID" th:value="${AdaptiveQuizQuestionScoreVO.getQuizQuestionModelID()}"/>
+
+        <br/>
+            <div class="row">
+            <div class="col-md-12" style="margin: auto; text-align: center;">
+                <button type="submit" class="next-question">Next Question</button>
+            </div>
         </div>
         <br/>
-    </div>
+    </form>
 
-
-    <br/>
-    <div class="row">
-        <div class="col-md-12" style="margin: auto; text-align: center;"><img src="assets/next-question.png"/></div>
-    </div>
-
-    <br/>
 </div>
 
 
