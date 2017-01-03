@@ -25,7 +25,13 @@ public enum  AdaptiveLearningQuizAttributeE {
 
     LaunchedAdaptiveLearningQuizQuestionAnswers,
 
+    LaunchedAdaptiveLearningQuizQuestionScores,
+
+    LaunchedAdaptiveLearningQuizResultVO,
+
     AdaptiveQuizQuestionScoreVO,
+
+    ShowQuizCalculationTrigger
 
     ;
 }

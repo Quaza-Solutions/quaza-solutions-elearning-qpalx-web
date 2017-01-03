@@ -67,9 +67,15 @@
         <input type="hidden" name="quizQuestionModelID" th:value="${AdaptiveQuizQuestionScoreVO.getQuizQuestionModelID()}"/>
 
         <br/>
-            <div class="row">
-            <div class="col-md-12" style="margin: auto; text-align: center;">
+        <div class="row">
+            <!-- Show Next Question -->
+            <div class="col-md-12" style="margin: auto; text-align: center;" th:if="${ShowQuizCalculationTrigger == false}">
                 <button type="submit" class="next-question">Next Question</button>
+            </div>
+
+            <!-- Show Submit Quiz button -->
+            <div class="col-md-12" style="margin: auto; text-align: center;" th:if="${ShowQuizCalculationTrigger == true}">
+                <button type="submit" class="next-question">Get Quiz Results</button>
             </div>
         </div>
         <br/>

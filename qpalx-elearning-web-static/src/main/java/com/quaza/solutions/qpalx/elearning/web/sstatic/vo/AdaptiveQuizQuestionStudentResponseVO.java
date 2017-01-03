@@ -7,14 +7,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * @author manyce400
  */
-public class AdaptiveQuizQuestionScoreVO {
+public class AdaptiveQuizQuestionStudentResponseVO {
 
 
     private Integer quizQuestionModelID;
 
     private String userSelectedAnswerText;
 
-    public AdaptiveQuizQuestionScoreVO() {
+    public AdaptiveQuizQuestionStudentResponseVO() {
 
     }
 
@@ -40,7 +40,7 @@ public class AdaptiveQuizQuestionScoreVO {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        AdaptiveQuizQuestionScoreVO that = (AdaptiveQuizQuestionScoreVO) o;
+        AdaptiveQuizQuestionStudentResponseVO that = (AdaptiveQuizQuestionStudentResponseVO) o;
 
         return new EqualsBuilder()
                 .append(quizQuestionModelID, that.quizQuestionModelID)

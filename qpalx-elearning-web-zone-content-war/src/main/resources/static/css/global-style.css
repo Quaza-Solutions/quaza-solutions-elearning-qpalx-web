@@ -1692,14 +1692,14 @@ progress[value]::-moz-progress-bar
 	position: absolute;
 	top: 65px;
 	left: 160px;
-		height: 38px;
+		height: 40px;
 		width: 200px;
 		background-color: #e6e7e9;
 }
 
 .header-text-box-2 {
 		margin: 65px 0 0 40px;
-		height: 38px;
+		height: 40px;
 		width: 200px;
 		background-color: #e6e7e9;
 }
@@ -1923,4 +1923,22 @@ line-height: 2.0;
 	color: #06bfd3;
 	margin-top: 20px;
 
+}
+
+.log-in {
+    color: #fff;
+    background-color: #07bed3;
+    padding-top: 6px;
+    width: 120px;
+    height: 40px;
+    font-size: 18px;
+}
+
+.log-in:hover {
+    color: #fff;
+    background-color: #74be43;
+}
+
+#header-button-1 {
+    margin-left: 250px;
 }
