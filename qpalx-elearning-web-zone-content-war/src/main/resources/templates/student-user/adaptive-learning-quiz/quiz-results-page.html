@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<div class="container" style="margin: 20px auto;">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-2"><img id="" src="images/Science.png"/></div>
+        <div class="col-md-9"><span class="very-large-text-2">Quiz Results - Chemistry as a Discipline</span></div>
+    </div>
+</div>
+<div class="container" style="margin: 20px auto; font-size: 26px;">
+
+    <div class="row">
+        <div class="col-md-4">
+
+            <div class="third circle-bar">
+                <strong></strong>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <table border="0" width="50%" style="margin: 40px auto auto 0;">
+                <tr>
+                    <td>Result:</td>
+                    <td>Pass</td>
+                </tr>
+                <tr>
+                    <td>Total Questions:</td>
+                    <td th:text="${LaunchedAdaptiveLearningQuizResultVO.getTotalQuizQuestions()}"></td>
+                </tr>
+                <tr>
+                    <td>Correct Answers:</td>
+                    <td th:text="${LaunchedAdaptiveLearningQuizResultVO.getTotalQuestionsCorrect()}"></td>
+                </tr>
+                <tr>
+                    <td>Incorrect Answers:</td>
+                    <td th:text="${LaunchedAdaptiveLearningQuizResultVO.getTotalQuestionsIncorrect()}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br/>
+
+    <br/>
+
+</div>
+
+
+<div class="container" style="margin: 20px auto;">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10" style="font-size: 24px;">
+            <h1 style="color: #07bed3">Feedback</h1>
+
+            <br/>
+
+            <div th:utext="${LaunchedAdaptiveLearningQuizResultVO.getAllQuizQuestionAnswerFeedBack()}"></div>
+
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-12" style="margin: auto; text-align: center;"><img src="assets/retake-quiz.png"/></div>
+    </div>
+
+    <br/>
+</div>
+
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+</body>
+</html>
