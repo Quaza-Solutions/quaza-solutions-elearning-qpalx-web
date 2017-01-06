@@ -3,11 +3,16 @@ package com.quaza.solutions.qpalx.elearning.web.zone.content.student.quiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestion;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionAnswer;
+import com.quaza.solutions.qpalx.elearning.domain.lms.media.QPalXTutorialContentTypeE;
+import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizStatisticsService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IAdaptiveLearningExperienceService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.TutorialCalendarPanelE;
+import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.quiz.IStudentQuizQuestionService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.AdaptiveLearningQuizResultVO;
@@ -24,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -41,6 +47,18 @@ public class StudentAdaptiveLearningQuizController {
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.StudentQuizQuestionService")
     private IStudentQuizQuestionService iStudentQuizQuestionService;
+
+    @Autowired
+    @Qualifier("quaza.solutions.qpalx.elearning.service.AdaptiveLearningExperienceService")
+    private IAdaptiveLearningExperienceService iAdaptiveLearningExperienceService;
+
+    @Autowired
+    @Qualifier("quaza.solutions.qpalx.elearning.service.AdaptiveLearningQuizStatisticsService")
+    private IAdaptiveLearningQuizStatisticsService iAdaptiveLearningQuizStatisticsService;
+
+    @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserWebService")
+    private IQPalXUserWebService iqPalXUserWebService;
 
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
@@ -61,7 +79,7 @@ public class StudentAdaptiveLearningQuizController {
         Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap = iStudentQuizQuestionService.getAdaptiveQuizQuestionsModel(adaptiveLearningQuiz);
         modelMap.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestions.toString(), questionModelMap);
 
-        // Track the ELesson ID as part of this Quiz Session so we could go back to view all micro lessons
+        // Track the ELessonID and TutorialLevel Calendar as part of this Quiz Session so we could go back to viewing all micro lessons for the lesson we are currently dealing with.
         modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), eLessonID);
         modelMap.addAttribute(TutorialCalendarPanelE.SelectedTutorialCalendar.toString(), tutorialLevelID);
 
@@ -87,10 +105,8 @@ public class StudentAdaptiveLearningQuizController {
         // will next question be end of entire quiz
         int nextQuestionIndex = id;
         if(nextQuestionIndex == questionModelMap.size()) {
-            System.out.println("We are now at the end of quiz, displaying calculate button.");
             model.addAttribute(AdaptiveLearningQuizAttributeE.ShowQuizCalculationTrigger.toString(), Boolean.TRUE);
         } else {
-            System.out.println("We are not at the end of quiz yet");
             model.addAttribute(AdaptiveLearningQuizAttributeE.ShowQuizCalculationTrigger.toString(), Boolean.FALSE);
         }
 
@@ -132,13 +148,16 @@ public class StudentAdaptiveLearningQuizController {
                                                    HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Calculating entire quiz results...");
 
-        // Find the Lesson that this quiz belongs to
-        //adaptiveLearningQuiz.getQPalXEMicroLesson()
+        Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
 
         // capture and caluclate the entire quiz results for student
         AdaptiveLearningQuizResultVO adaptiveLearningQuizResultVO = iStudentQuizQuestionService.calculateAdaptiveQuizResults(adaptiveQuizQuestionStudentResponseVO, questionModelMap);
         model.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizResultVO.toString(), adaptiveLearningQuizResultVO);
         LOGGER.info("Results of Quiz Calculation: {}", adaptiveLearningQuizResultVO);
+
+        // Save this as an AdaptiveLearningExperience and record Adaptive Quiz progress statistics.
+        iAdaptiveLearningExperienceService.buildAndSaveAdaptiveLearningExperience(optionalUser.get(), QPalXTutorialContentTypeE.Quiz, adaptiveLearningQuizResultVO.getQuizScorePercent(), adaptiveLearningQuiz.getId());
+        iAdaptiveLearningQuizStatisticsService.recordAdaptiveLearningQuizProgress(adaptiveLearningQuiz.getId(), optionalUser.get());
         return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("quiz-results-page");
     }
 

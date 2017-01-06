@@ -30,7 +30,6 @@ public class AdaptiveLearningQuizResultVO {
         return totalQuestionsCorrect;
     }
 
-
     public int getTotalQuestionsIncorrect() {
         return totalQuizQuestions - totalQuestionsCorrect;
     }
@@ -53,7 +52,7 @@ public class AdaptiveLearningQuizResultVO {
 
     public double getQuizScorePercent() {
         if (totalQuestionsCorrect > 0 && totalQuizQuestions > 0) {
-            double score = (totalQuestionsCorrect / totalQuizQuestions) * 100;
+            double score = ((double) totalQuestionsCorrect / totalQuizQuestions) * 100;
             return Precision.round(score, 0);
         }
 
@@ -90,6 +89,13 @@ public class AdaptiveLearningQuizResultVO {
                 .append("totalQuestionsIncorrect", getTotalQuestionsIncorrect())
                 .append("allQuizQuestionAnswerFeedBack", allQuizQuestionAnswerFeedBack)
                 .toString();
+    }
+
+    public static void main(String[] args) {
+        AdaptiveLearningQuizResultVO adaptiveLearningQuizResultVO = new AdaptiveLearningQuizResultVO(3);
+        adaptiveLearningQuizResultVO.incrementTotalQuestionsCorrect();
+        double percentCorrect = adaptiveLearningQuizResultVO.getQuizScorePercent();
+        System.out.println("percentCorrect = " + percentCorrect);
     }
 
 }

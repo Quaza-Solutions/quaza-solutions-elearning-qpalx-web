@@ -15,7 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -67,6 +70,15 @@ public class StudentAdaptiveLearningQuizReviewController {
 
 
         return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("quiz-question-review-page");
+    }
+
+
+    @RequestMapping(value = "/exit-adaptive-quiz", method = RequestMethod.GET)
+    public void reviewAdaptiveLearningQuizQuestion(final SessionStatus status, HttpServletRequest request, HttpServletResponse response,
+                                                   @RequestParam("eLessonID") String eLessonID, @RequestParam("tutorialLevelID") String tutorialLevelID) {
+        LOGGER.info("Exiting Adaptive Quiz for Student, flushing Quiz session...");
+        String targetURL = "view-micro-lessons?eLessonID=" + eLessonID + "&tutorialLevelID=" + tutorialLevelID;
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
 
 
