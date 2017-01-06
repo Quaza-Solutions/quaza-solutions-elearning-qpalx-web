@@ -128,7 +128,6 @@ public class StudentAdaptiveLearningQuizController {
 
         // Check to see if this Quiz has more questions
         int totalQuestionsAvailable = questionModelMap.size();
-        System.out.println("totalQuestionsAvailable = " + totalQuestionsAvailable);
 
         if (adaptiveQuizQuestionStudentResponseVO.getQuizQuestionModelID() < totalQuestionsAvailable) {
             Integer nextQuestionModelID = adaptiveQuizQuestionStudentResponseVO.getQuizQuestionModelID().intValue() +1;
