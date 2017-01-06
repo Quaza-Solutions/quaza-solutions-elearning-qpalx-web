@@ -66,20 +66,41 @@
         <div class="col-md-1"></div>
         <div class="col-md-10" style="font-size: 24px;">
             <h1 style="color: #07bed3">Feedback</h1>
-
             <br/>
-
-            <div th:utext="${LaunchedAdaptiveLearningQuizResultVO.getAllQuizQuestionAnswerFeedBack()}"></div>
-
         </div>
         <div class="col-md-1"></div>
     </div>
+
     <br/>
+
+
     <div class="row">
-        <div class="col-md-12" style="margin: auto; text-align: center;"><img src="assets/retake-quiz.png"/></div>
+        <form method="POST" th:action="@{review-quiz-question-answers}">
+            <!-- Hidden field to track the next Question Model ID that will be reviewed -->
+            <input type="hidden" name="quizQuestionModelID" th:value="1"/>
+
+            <div class="col-md-4" style="margin: auto; text-align: center;">
+                <button type="submit" class="next-question">Review Quiz Results</button>
+            </div>
+
+        </form>
+
+        <div class="col-md-1"></div>
+
+        <form method="GET" th:action="@{view-micro-lessons}">
+
+            <!-- Hidden field to track the selected lesson id and tutorial level id-->
+            <input type="hidden" name="eLessonID" th:value="${SelectedQPalXELesson}"/>
+            <input type="hidden" name="tutorialLevelID" th:value="${SelectedTutorialCalendar}"/>
+
+            <div class="col-md-4" style="margin: auto; text-align: center;">
+                <button type="submit" class="next-question">Back To Micro Lessons...</button>
+            </div>
+        </form>
     </div>
 
     <br/>
+
 </div>
 
 

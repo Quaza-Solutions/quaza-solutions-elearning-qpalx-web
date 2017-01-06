@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<div class="container" style="margin: 20px auto;">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-2"><img id="" src="images/Science.png"/></div>
+        <div class="col-md-9"><span class="very-large-text-2"
+                                    th:text="|Quiz-  ${LaunchedAdaptiveLearningQuiz.getQuizTitle()}|"></span></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 very-large-text-4">Question 1 of 5
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="margin: auto; text-align: center;">
+            <i class="fa fa-circle spacing" style="color: #0abfd2;" aria-hidden="true"></i>
+            <i class="fa fa-circle-o spacing" aria-hidden="true"></i>
+            <i class="fa fa-circle-o spacing" aria-hidden="true"></i>
+            <i class="fa fa-circle-o spacing" aria-hidden="true"></i>
+            <i class="fa fa-circle-o spacing" aria-hidden="true"></i>
+        </div>
+    </div>
+</div>
+
+
+<!-- Display this section if there are more questions to review in the Quiz.  Form will post to next question page -->
+<div th:if="${ContinueQuizQuestionsReview == true}">
+    <form method="POST" th:action="@{review-quiz-question-answers}" th:object="${AdaptiveQuizQuestionScoreVO}">
+
+        <div class="container large-fonts2" style="margin: 20px auto;">
+
+            <!-- Display Quiz Question -->
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-11">
+
+                    <p class="large-fonts" th:text="${LaunchedAdaptiveLearningQuizQuestion.getQuestionTitle()}"></p>
+                </div>
+            </div>
+
+            <br/>
+
+            <!-- Display all Quiz Question Answers and mark the correct answer -->
+            <div th:each="AdaptiveLearningQuizQuestionAnswer : ${LaunchedAdaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionAnswers()}">
+
+                <!-- Display circle with filled color to indicate a correct answer -->
+                <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswer.isCorrectAnswer() == true}">
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-10 medium-text">
+                        <i class="fa fa-circle spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
+                    </div>
+                </div>
+
+                <!-- Display empty circle to indicate wrong answer -->
+                <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswer.isCorrectAnswer() == false}">
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-10 medium-text">
+                        <i class="fa fa-circle-o spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hidden field to track the next Question Model ID that will be reviewed -->
+            <input type="hidden" name="quizQuestionModelID" th:value="${NextQuestionToReviewModelID}"/>
+
+            <br/>
+
+        </div>
+
+        <!-- Display Quiz Question Feedback Panel -->
+        <div class="container" style="margin: 20px auto;">
+
+            <div class="row">
+
+                <div class="col-md-1"></div>
+
+                <div class="col-md-10" style="font-size: 24px;">
+                    <h1 style="color: #07bed3">Feedback</h1>
+                    <br/>
+                    <div th:utext="${LaunchedAdaptiveLearningQuizQuestion.getQuestionFeedBack()}"></div>
+                </div>
+
+                <div class="col-md-1"></div>
+
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <!-- Show Next Question -->
+                <div class="col-md-12" style="margin: auto; text-align: center;" th:if="${ContinueQuizQuestionsReview == true}">
+                    <button type="submit" class="next-question">Review Next Question</button>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+<!-- Display this section when there are no more questions to review.  Form will post to Score calculation page -->
+<div th:if="${ContinueQuizQuestionsReview == false}">
+    <form method="GET" th:action="@{show-quiz-scores}" th:object="${AdaptiveQuizQuestionScoreVO}">
+
+        <div class="container large-fonts2" style="margin: 20px auto;">
+
+            <!-- Display Quiz Question -->
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-11">
+
+                    <p class="large-fonts" th:text="${LaunchedAdaptiveLearningQuizQuestion.getQuestionTitle()}"></p>
+                </div>
+            </div>
+
+            <br/>
+
+            <!-- Display all Quiz Question Answers and mark the correct answer -->
+            <div th:each="AdaptiveLearningQuizQuestionAnswer : ${LaunchedAdaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionAnswers()}">
+
+                <!-- Display circle with filled color to indicate a correct answer -->
+                <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswer.isCorrectAnswer() == true}">
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-10 medium-text">
+                        <i class="fa fa-circle spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
+                    </div>
+                </div>
+
+                <!-- Display empty circle to indicate wrong answer -->
+                <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswer.isCorrectAnswer() == false}">
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-10 medium-text">
+                        <i class="fa fa-circle-o spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+
+        </div>
+
+        <!-- Display Quiz Question Feedback Panel -->
+        <div class="container" style="margin: 20px auto;">
+
+            <div class="row">
+
+                <div class="col-md-1"></div>
+
+                <div class="col-md-10" style="font-size: 24px;">
+                    <h1 style="color: #07bed3">Feedback</h1>
+                    <br/>
+                    <div th:utext="${LaunchedAdaptiveLearningQuizQuestion.getQuestionFeedBack()}"></div>
+                </div>
+
+                <div class="col-md-1"></div>
+
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <!-- Show Complet quiz review button -->
+                <div class="col-md-12" style="margin: auto; text-align: center;" th:if="${ContinueQuizQuestionsReview == false}">
+                    <button type="submit" class="next-question">Complete Quiz Review</button>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+
+
+
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

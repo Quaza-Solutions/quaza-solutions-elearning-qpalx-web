@@ -85,7 +85,7 @@
     <div class="large-fonts-2">Quizzes</div>
 
     <div class="large-fonts" th:each="AdaptiveLearningQuiz,rowStat : ${AdaptiveLearningQuizzes}">
-        <a th:href="@{/launch-adaptive-quiz(quizID=${AdaptiveLearningQuiz.adaptiveLearningQuizID})}">
+        <a th:href="@{/launch-adaptive-quiz(quizID=${AdaptiveLearningQuiz.adaptiveLearningQuizID}, eLessonID=${SelectedQPalXELesson.id}, tutorialLevelID=${SelectedTutorialCalendar.id})}">
             <span th:text="${AdaptiveLearningQuiz.adaptiveLearningQuizTitle}">&nbsp;&nbsp;&nbsp;</span>
 
             <div th:if="${AdaptiveLearningQuiz.proficiencyScore != null and AdaptiveLearningQuiz.proficiencyScore &gt; 0}">

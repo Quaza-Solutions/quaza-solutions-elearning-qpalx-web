@@ -6,6 +6,8 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.Adap
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.TutorialCalendarPanelE;
 import com.quaza.solutions.qpalx.elearning.web.service.user.quiz.IStudentQuizQuestionService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.AdaptiveLearningQuizResultVO;
@@ -28,7 +30,7 @@ import java.util.Set;
  * @author manyce400
  */
 @Controller
-@SessionAttributes(value = {"LaunchedAdaptiveLearningQuiz", "LaunchedAdaptiveLearningQuizQuestions", "LaunchedAdaptiveLearningQuizQuestionScores"})
+@SessionAttributes(value = {"SelectedQPalXELesson", "SelectedTutorialCalendar", "LaunchedAdaptiveLearningQuiz", "LaunchedAdaptiveLearningQuizQuestions", "LaunchedAdaptiveLearningQuizQuestionScores"})
 public class StudentAdaptiveLearningQuizController {
 
 
@@ -48,7 +50,7 @@ public class StudentAdaptiveLearningQuizController {
 
 
     @RequestMapping(value = "/launch-adaptive-quiz", method = RequestMethod.GET)
-    public String launchAdaptiveLearningQuiz(final Model model, ModelMap modelMap, @RequestParam("quizID") String quizID) {
+    public String launchAdaptiveLearningQuiz(final Model model, ModelMap modelMap, @RequestParam("quizID") String quizID, @RequestParam("eLessonID") String eLessonID, @RequestParam("tutorialLevelID") String tutorialLevelID) {
         LOGGER.info("Launching AdaptiveLearningQuiz with ID: {}", quizID);
 
         Long id = NumberUtils.toLong(quizID);
@@ -59,8 +61,11 @@ public class StudentAdaptiveLearningQuizController {
         Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap = iStudentQuizQuestionService.getAdaptiveQuizQuestionsModel(adaptiveLearningQuiz);
         modelMap.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestions.toString(), questionModelMap);
 
+        // Track the ELesson ID as part of this Quiz Session so we could go back to view all micro lessons
+        modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), eLessonID);
+        modelMap.addAttribute(TutorialCalendarPanelE.SelectedTutorialCalendar.toString(), tutorialLevelID);
+
         // Get the Introductory video for the Lesson that this Quiz is in.
-        //adaptiveLearningQuiz.getQPalXEMicroLesson()
         return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("launch-quiz");
     }
 
@@ -126,6 +131,9 @@ public class StudentAdaptiveLearningQuizController {
                                                    @ModelAttribute("LaunchedAdaptiveLearningQuizQuestions") Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap,
                                                    HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Calculating entire quiz results...");
+
+        // Find the Lesson that this quiz belongs to
+        //adaptiveLearningQuiz.getQPalXEMicroLesson()
 
         // capture and caluclate the entire quiz results for student
         AdaptiveLearningQuizResultVO adaptiveLearningQuizResultVO = iStudentQuizQuestionService.calculateAdaptiveQuizResults(adaptiveQuizQuestionStudentResponseVO, questionModelMap);

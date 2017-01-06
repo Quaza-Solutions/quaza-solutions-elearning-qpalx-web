@@ -36,7 +36,7 @@ public class AdaptiveLearningQuizResultVO {
     }
 
     public String getAllQuizQuestionAnswerFeedBack() {
-        return allQuizQuestionAnswerFeedBack;//HtmlUtils.htmlEscape(allQuizQuestionAnswerFeedBack);
+        return allQuizQuestionAnswerFeedBack;
     }
 
     public void appendQuestionFeedBack(String questionFeedBack) {
