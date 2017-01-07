@@ -31,7 +31,9 @@ public enum  AdaptiveLearningQuizAttributeE {
 
     AdaptiveQuizQuestionScoreVO,
 
-    ShowQuizCalculationTrigger
+    ShowQuizCalculationTrigger,
+
+    QuizQuestionStudentAnswerResponse,
 
     ;
 }

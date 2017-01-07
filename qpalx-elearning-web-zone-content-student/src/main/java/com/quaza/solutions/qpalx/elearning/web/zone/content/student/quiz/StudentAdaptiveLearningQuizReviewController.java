@@ -8,6 +8,7 @@ import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQui
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.user.quiz.IStudentQuizQuestionService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
+import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.AdaptiveQuizQuestionStudentResponseVO;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,6 +62,10 @@ public class StudentAdaptiveLearningQuizReviewController {
         AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion = questionModelMap.get(currentQuizQuestionModelID);
         model.addAttribute(AdaptiveLearningQuizReviewAttributeE.NextQuestionToReviewModelID.toString(), nextQuestionToReviewID);
         model.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestion.toString(), adaptiveLearningQuizQuestion);
+
+        // Find Students response to this question
+        AdaptiveQuizQuestionStudentResponseVO studentResponseVO = iStudentQuizQuestionService.findAdaptiveQuizQuestionStudentResponse(modelMap, currentQuizQuestionModelID);
+        model.addAttribute(AdaptiveLearningQuizAttributeE.QuizQuestionStudentAnswerResponse.toString(), studentResponseVO);
 
         if(currentQuizQuestionModelID == questionModelMap.size()) {
             model.addAttribute(AdaptiveLearningQuizReviewAttributeE.ContinueQuizQuestionsReview.toString(), Boolean.FALSE);

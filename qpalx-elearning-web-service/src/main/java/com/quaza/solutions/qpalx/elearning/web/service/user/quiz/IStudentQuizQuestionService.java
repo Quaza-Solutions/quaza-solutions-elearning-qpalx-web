@@ -16,6 +16,8 @@ public interface IStudentQuizQuestionService {
 
     public void addAdaptiveQuizQuestionScoreVO(ModelMap modelMap, AdaptiveQuizQuestionStudentResponseVO adaptiveQuizQuestionStudentResponseVO);
 
+    public AdaptiveQuizQuestionStudentResponseVO findAdaptiveQuizQuestionStudentResponse(ModelMap modelMap, Integer quizQuestionModelID);
+
     public Map<Integer, AdaptiveLearningQuizQuestion> getAdaptiveQuizQuestionsModel(AdaptiveLearningQuiz adaptiveLearningQuiz);
 
     public AdaptiveLearningQuizResultVO calculateAdaptiveQuizResults(List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOS, Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap);

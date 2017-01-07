@@ -41,6 +41,20 @@ public class StudentQuizQuestionService implements IStudentQuizQuestionService {
     }
 
     @Override
+    public AdaptiveQuizQuestionStudentResponseVO findAdaptiveQuizQuestionStudentResponse(ModelMap modelMap, Integer quizQuestionModelID) {
+        Assert.notNull(modelMap, "modelMap cannot be null");
+        Assert.notNull(quizQuestionModelID, "quizQuestionModelID cannot be null");
+
+        List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOS = (List<AdaptiveQuizQuestionStudentResponseVO>)modelMap.get(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString());
+        for (AdaptiveQuizQuestionStudentResponseVO adaptiveQuizQuestionStudentResponseVO : adaptiveQuizQuestionStudentResponseVOS) {
+            if(quizQuestionModelID.equals(adaptiveQuizQuestionStudentResponseVO.getQuizQuestionModelID())) {
+                return adaptiveQuizQuestionStudentResponseVO;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Map<Integer, AdaptiveLearningQuizQuestion> getAdaptiveQuizQuestionsModel(AdaptiveLearningQuiz adaptiveLearningQuiz) {
         Assert.notNull(adaptiveLearningQuiz, "adaptiveLearningQuiz cannot be null");
         LOGGER.debug("Building quiz questions model for AdaptiveLearningQuiz: {}", adaptiveLearningQuiz.getQuizTitle());
