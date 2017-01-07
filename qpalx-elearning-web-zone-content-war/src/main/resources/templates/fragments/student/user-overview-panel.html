@@ -20,11 +20,18 @@
                 <!-- Display ELearning Curriculum if a course has been selected -->
                 <div class="large-font" th:if="${CurriculumType != null}" th:inline="text">[[${CurriculumType}]] - Curriculum</div>
             </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+            <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
                 <div class="third circle-bar">
                     <strong></strong>
                 </div>
             </div>
+
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore == 0  OR AdaptiveLearningChartScore == null}">
+
+            </div>
+
         </div>
 
         <!--  Display Curriculum details Student info details -->
@@ -41,11 +48,18 @@
                 <div class="large-font" th:if="${SelectedELearningCurriculum != null}" th:inline="text">[[${SelectedELearningCurriculum.curriculumName}]]</div>
 
             </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+            <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
                 <div class="third circle-bar">
                     <strong></strong>
                 </div>
             </div>
+
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore == 0  OR AdaptiveLearningChartScore == null}">
+
+            </div>
+
         </div>
 
         <!--  Display Course details Student info details -->
@@ -62,11 +76,18 @@
                 <div class="large-font" th:if="${SelectedELearningCourse != null}" th:inline="text">[[${SelectedELearningCourse.courseName}]]</div>
 
             </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+            <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
                 <div class="third circle-bar">
                     <strong></strong>
                 </div>
             </div>
+
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore == 0  OR AdaptiveLearningChartScore == null}">
+
+            </div>
+
         </div>
 
         <!--  Display Course details Student info details -->
@@ -83,11 +104,18 @@
                 <div class="large-font" th:if="${SelectedQPalXELesson != null}" th:inline="text">Lesson - [[${SelectedQPalXELesson.lessonName}]]</div>
 
             </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+            <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
                 <div class="third circle-bar">
                     <strong></strong>
                 </div>
             </div>
+
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore == 0  OR AdaptiveLearningChartScore == null}">
+
+            </div>
+
         </div>
 
     </div>
