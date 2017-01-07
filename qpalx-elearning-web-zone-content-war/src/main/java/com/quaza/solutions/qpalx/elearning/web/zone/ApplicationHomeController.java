@@ -8,6 +8,7 @@ import com.quaza.solutions.qpalx.elearning.service.geographical.IGeographicalDat
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IStudentCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.IContentAdminWebService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLearningScoreChartDisplayPanel;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
@@ -64,6 +65,10 @@ public class ApplicationHomeController {
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserInfoPanelService")
     private IQPalXUserInfoPanelService qPalXUserInfoPanelService;
 
+    @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.AdaptiveLearningScoreChartDisplayPanel")
+    private IAdaptiveLearningScoreChartDisplayPanel iAdaptiveLearningScoreChartDisplayPanel;
+
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 
@@ -83,6 +88,7 @@ public class ApplicationHomeController {
                 qPalXUserInfoPanelService.addUserInfoAttributes(model);
                 model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
                 addQPalXUserDetailsToResponse(model, CurriculumType.CORE, optionalUser.get());
+                iAdaptiveLearningScoreChartDisplayPanel.addEmptyLearningScoreChartDisplayPanel(model);
                 return ContentRootE.Student_Home.getContentRootPagePath("homepage");
             } else if(QPalxUserTypeE.CONTENT_DEVELOPER == optionalUser.get().getUserType()) {
                 String redirectUrl = "/curriculum-by-tutorialgrade?tutorialGradeID=1&curriculumType=CORE";
@@ -113,6 +119,7 @@ public class ApplicationHomeController {
                 model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
 
                 addQPalXUserDetailsToResponse(model, curriculumType, optionalUser.get());
+                iAdaptiveLearningScoreChartDisplayPanel.addEmptyLearningScoreChartDisplayPanel(model);
                 return ContentRootE.Student_Home.getContentRootPagePath("homepage");
             }
 
@@ -132,6 +139,7 @@ public class ApplicationHomeController {
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
         model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
         model.addAttribute("CurriculumType", "EBooks-Promo");
+        iAdaptiveLearningScoreChartDisplayPanel.addEmptyLearningScoreChartDisplayPanel(model);
         return ContentRootE.Student_Home.getContentRootPagePath("ebooks-promo");
     }
 

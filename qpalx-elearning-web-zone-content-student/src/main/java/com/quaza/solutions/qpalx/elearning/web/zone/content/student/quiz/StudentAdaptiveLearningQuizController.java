@@ -8,6 +8,7 @@ import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizStatisticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IAdaptiveLearningExperienceService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLearningScoreChartDisplayPanel;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
@@ -55,6 +56,10 @@ public class StudentAdaptiveLearningQuizController {
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.AdaptiveLearningQuizStatisticsService")
     private IAdaptiveLearningQuizStatisticsService iAdaptiveLearningQuizStatisticsService;
+
+    @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.AdaptiveLearningScoreChartDisplayPanel")
+    private IAdaptiveLearningScoreChartDisplayPanel iAdaptiveLearningScoreChartDisplayPanel;
 
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserWebService")
@@ -153,6 +158,9 @@ public class StudentAdaptiveLearningQuizController {
         AdaptiveLearningQuizResultVO adaptiveLearningQuizResultVO = iStudentQuizQuestionService.calculateAdaptiveQuizResults(adaptiveQuizQuestionStudentResponseVO, questionModelMap);
         model.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizResultVO.toString(), adaptiveLearningQuizResultVO);
         LOGGER.info("Results of Quiz Calculation: {}", adaptiveLearningQuizResultVO);
+
+        // Add score display attributes in order to display Score in Adaptive Learning Chart panel
+        iAdaptiveLearningScoreChartDisplayPanel.addLearningScoreChartDisplayPanel(model, adaptiveLearningQuizResultVO.getQuizScorePercent());
 
         // Save this as an AdaptiveLearningExperience and record Adaptive Quiz progress statistics.
         iAdaptiveLearningExperienceService.buildAndSaveAdaptiveLearningExperience(optionalUser.get(), QPalXTutorialContentTypeE.Quiz, adaptiveLearningQuizResultVO.getQuizScorePercent(), adaptiveLearningQuiz.getId());
