@@ -28,16 +28,30 @@ public class StudentQuizQuestionService implements IStudentQuizQuestionService {
     public void addAdaptiveQuizQuestionScoreVO(ModelMap modelMap, AdaptiveQuizQuestionStudentResponseVO adaptiveQuizQuestionStudentResponseVO) {
         Assert.notNull(modelMap, "modelMap cannot be null");
         Assert.notNull(adaptiveQuizQuestionStudentResponseVO, "adaptiveQuizQuestionStudentResponseVO cannot be null");
+        Assert.notNull(adaptiveQuizQuestionStudentResponseVO.getQuizQuestionModelID(), "Question Model ID cannot be null on student response");
 
-        LOGGER.debug("Adding Quiz scoring model to model map");
-        List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOS = (List<AdaptiveQuizQuestionStudentResponseVO>) modelMap.get(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString());
-        if(adaptiveQuizQuestionStudentResponseVOS == null) {
-            adaptiveQuizQuestionStudentResponseVOS = new LinkedList<>();
-            modelMap.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString(), adaptiveQuizQuestionStudentResponseVOS);
+        Integer questionModelID = adaptiveQuizQuestionStudentResponseVO.getQuizQuestionModelID();
+
+        // Mapping of Quiz Question Model ID to Student question responses
+        Map<Integer, AdaptiveQuizQuestionStudentResponseVO> questionResponseMap = (Map<Integer, AdaptiveQuizQuestionStudentResponseVO>) modelMap.get(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString());
+
+        LOGGER.debug("Adding Quiz question model ID: {} to mapping of scores", questionModelID);
+        if(questionResponseMap == null) {
+            questionResponseMap = new HashMap<>();
+            modelMap.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString(), questionResponseMap);
         }
 
-        // record this new AdaptiveQuizQuestionStudentResponseVO
-        adaptiveQuizQuestionStudentResponseVOS.add(adaptiveQuizQuestionStudentResponseVO);
+        questionResponseMap.put(questionModelID, adaptiveQuizQuestionStudentResponseVO);
+
+
+//        List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOS = (List<AdaptiveQuizQuestionStudentResponseVO>) modelMap.get(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString());
+//        if(adaptiveQuizQuestionStudentResponseVOS == null) {
+//            adaptiveQuizQuestionStudentResponseVOS = new LinkedList<>();
+//            modelMap.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString(), adaptiveQuizQuestionStudentResponseVOS);
+//        }
+//
+//        // record this new AdaptiveQuizQuestionStudentResponseVO
+//        adaptiveQuizQuestionStudentResponseVOS.add(adaptiveQuizQuestionStudentResponseVO);
     }
 
     @Override
@@ -45,13 +59,22 @@ public class StudentQuizQuestionService implements IStudentQuizQuestionService {
         Assert.notNull(modelMap, "modelMap cannot be null");
         Assert.notNull(quizQuestionModelID, "quizQuestionModelID cannot be null");
 
-        List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOS = (List<AdaptiveQuizQuestionStudentResponseVO>)modelMap.get(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString());
-        for (AdaptiveQuizQuestionStudentResponseVO adaptiveQuizQuestionStudentResponseVO : adaptiveQuizQuestionStudentResponseVOS) {
-            if(quizQuestionModelID.equals(adaptiveQuizQuestionStudentResponseVO.getQuizQuestionModelID())) {
-                return adaptiveQuizQuestionStudentResponseVO;
-            }
+        // Mapping of Quiz Question Model ID to Student question responses
+        Map<Integer, AdaptiveQuizQuestionStudentResponseVO> questionResponseMap = (Map<Integer, AdaptiveQuizQuestionStudentResponseVO>) modelMap.get(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString());
+
+        if(questionResponseMap == null) {
+            System.out.println("questionResponseMap is null this does not make sense");
         }
-        return null;
+
+        return questionResponseMap.get(quizQuestionModelID);
+
+//        List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOS = (List<AdaptiveQuizQuestionStudentResponseVO>)modelMap.get(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString());
+//        for (AdaptiveQuizQuestionStudentResponseVO adaptiveQuizQuestionStudentResponseVO : adaptiveQuizQuestionStudentResponseVOS) {
+//            if(quizQuestionModelID.equals(adaptiveQuizQuestionStudentResponseVO.getQuizQuestionModelID())) {
+//                return adaptiveQuizQuestionStudentResponseVO;
+//            }
+//        }
+//        return null;
     }
 
     @Override
@@ -73,20 +96,22 @@ public class StudentQuizQuestionService implements IStudentQuizQuestionService {
     }
 
     @Override
-    public AdaptiveLearningQuizResultVO calculateAdaptiveQuizResults(List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOS, Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap) {
-        Assert.notNull(adaptiveQuizQuestionStudentResponseVOS, "adaptiveQuizQuestionStudentResponseVOS cannot be null");
+    public AdaptiveLearningQuizResultVO calculateAdaptiveQuizResults(Map<Integer, AdaptiveQuizQuestionStudentResponseVO> questionResponseMap, Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap) {
+        Assert.notNull(questionResponseMap, "questionResponseMap cannot be null");
         Assert.notNull(questionModelMap, "questionModelMap cannot be null");
 
         AdaptiveLearningQuizResultVO adaptiveLearningQuizResultVO = new AdaptiveLearningQuizResultVO(questionModelMap.size());
 
-        for(AdaptiveQuizQuestionStudentResponseVO adaptiveQuizQuestionStudentResponseVO : adaptiveQuizQuestionStudentResponseVOS) {
+        Collection<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOCollection = questionResponseMap.values();
+
+        for(AdaptiveQuizQuestionStudentResponseVO adaptiveQuizQuestionStudentResponseVO : adaptiveQuizQuestionStudentResponseVOCollection) {
             // Look up the question for Student user's quiz answer and generate a score
             AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion = questionModelMap.get(adaptiveQuizQuestionStudentResponseVO.getQuizQuestionModelID());
 
             // append question feedback
             adaptiveLearningQuizResultVO.appendQuestionFeedBack(adaptiveLearningQuizQuestion.getQuestionFeedBack());
 
-            // calculate qustion score details
+            // calculate question score details
             calculateQuizQuestionScore(adaptiveLearningQuizQuestion, adaptiveQuizQuestionStudentResponseVO, adaptiveLearningQuizResultVO);
         }
 

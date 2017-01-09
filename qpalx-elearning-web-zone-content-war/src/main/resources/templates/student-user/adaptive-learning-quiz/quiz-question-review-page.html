@@ -19,10 +19,13 @@
 
 <div class="container" style="margin: 20px auto;">
     <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-2"><img id="" src="images/Science.png"/></div>
-        <div class="col-md-9"><span class="very-large-text-2"
-                                    th:text="|Quiz-  ${LaunchedAdaptiveLearningQuiz.getQuizTitle()}|"></span></div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="circle"></div>
+        </div>
+
+        <div class="col-md-9">
+            <span class="very-large-text-2" th:text="|Quiz -  ${LaunchedAdaptiveLearningQuiz.getQuizTitle()}|"></span>
+        </div>
     </div>
 
     <div class="row">
@@ -74,9 +77,16 @@
                 <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswer.isCorrectAnswer() == false}">
                     <div class="col-md-1"></div>
 
-                    <div class="col-md-10 medium-text">
+                    <!-- Display the incorrect Student question response in a red x circle -->
+                    <div class="col-md-10 medium-text" th:if="${QuizQuestionStudentAnswerResponse.getUserSelectedAnswerText() == AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}">
+                        <i style="color: red;" class="fa fa-times-circle-o" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
+                    </div>
+
+                    <!-- Display the incorrect response as an empty circle only.  This is not the response that Student selected -->
+                    <div class="col-md-10 medium-text" th:if="${QuizQuestionStudentAnswerResponse.getUserSelectedAnswerText() != AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}">
                         <i class="fa fa-circle-o spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
                     </div>
+
                 </div>
             </div>
 

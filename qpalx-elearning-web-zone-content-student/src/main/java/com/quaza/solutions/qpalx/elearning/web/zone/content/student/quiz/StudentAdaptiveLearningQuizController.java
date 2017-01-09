@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -37,7 +36,11 @@ import java.util.Set;
  * @author manyce400
  */
 @Controller
-@SessionAttributes(value = {"SelectedQPalXELesson", "SelectedTutorialCalendar", "LaunchedAdaptiveLearningQuiz", "LaunchedAdaptiveLearningQuizQuestions", "LaunchedAdaptiveLearningQuizQuestionScores"})
+@SessionAttributes(
+        value = {
+                "SelectedQPalXELesson", "SelectedTutorialCalendar", "LaunchedAdaptiveLearningQuiz", "LaunchedAdaptiveLearningQuizQuestions", "LaunchedAdaptiveLearningQuizQuestionScores"
+        }
+)
 public class StudentAdaptiveLearningQuizController {
 
 
@@ -147,7 +150,7 @@ public class StudentAdaptiveLearningQuizController {
     @RequestMapping(value = "/show-quiz-scores", method = RequestMethod.GET)
     public String calculateAndShowQuizQuestionScores(final Model model, ModelMap modelMap,
                                                    @ModelAttribute("LaunchedAdaptiveLearningQuiz") AdaptiveLearningQuiz adaptiveLearningQuiz,
-                                                   @ModelAttribute("LaunchedAdaptiveLearningQuizQuestionScores") List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVO,
+                                                   @ModelAttribute("LaunchedAdaptiveLearningQuizQuestionScores") Map<Integer, AdaptiveQuizQuestionStudentResponseVO> questionResponseMap,
                                                    @ModelAttribute("LaunchedAdaptiveLearningQuizQuestions") Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap,
                                                    HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Calculating entire quiz results...");
@@ -155,7 +158,7 @@ public class StudentAdaptiveLearningQuizController {
         Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
 
         // capture and caluclate the entire quiz results for student
-        AdaptiveLearningQuizResultVO adaptiveLearningQuizResultVO = iStudentQuizQuestionService.calculateAdaptiveQuizResults(adaptiveQuizQuestionStudentResponseVO, questionModelMap);
+        AdaptiveLearningQuizResultVO adaptiveLearningQuizResultVO = iStudentQuizQuestionService.calculateAdaptiveQuizResults(questionResponseMap, questionModelMap);
         model.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizResultVO.toString(), adaptiveLearningQuizResultVO);
         LOGGER.info("Results of Quiz Calculation: {}", adaptiveLearningQuizResultVO);
 

@@ -65,6 +65,8 @@ public class StudentAdaptiveLearningQuizReviewController {
 
         // Find Students response to this question
         AdaptiveQuizQuestionStudentResponseVO studentResponseVO = iStudentQuizQuestionService.findAdaptiveQuizQuestionStudentResponse(modelMap, currentQuizQuestionModelID);
+        System.out.println("studentResponseVO = " + studentResponseVO);
+
         model.addAttribute(AdaptiveLearningQuizAttributeE.QuizQuestionStudentAnswerResponse.toString(), studentResponseVO);
 
         if(currentQuizQuestionModelID == questionModelMap.size()) {
@@ -72,7 +74,6 @@ public class StudentAdaptiveLearningQuizReviewController {
         } else {
             model.addAttribute(AdaptiveLearningQuizReviewAttributeE.ContinueQuizQuestionsReview.toString(), Boolean.TRUE);
         }
-
 
         return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("quiz-question-review-page");
     }
@@ -85,7 +86,5 @@ public class StudentAdaptiveLearningQuizReviewController {
         String targetURL = "view-micro-lessons?eLessonID=" + eLessonID + "&tutorialLevelID=" + tutorialLevelID;
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
-
-
 
 }

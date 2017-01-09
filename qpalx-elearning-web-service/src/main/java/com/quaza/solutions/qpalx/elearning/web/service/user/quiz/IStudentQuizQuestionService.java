@@ -6,7 +6,6 @@ import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.AdaptiveLearningQuizRe
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.AdaptiveQuizQuestionStudentResponseVO;
 import org.springframework.ui.ModelMap;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +19,6 @@ public interface IStudentQuizQuestionService {
 
     public Map<Integer, AdaptiveLearningQuizQuestion> getAdaptiveQuizQuestionsModel(AdaptiveLearningQuiz adaptiveLearningQuiz);
 
-    public AdaptiveLearningQuizResultVO calculateAdaptiveQuizResults(List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOS, Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap);
+    public AdaptiveLearningQuizResultVO calculateAdaptiveQuizResults(Map<Integer, AdaptiveQuizQuestionStudentResponseVO> questionResponseMap, Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap);
 
 }
