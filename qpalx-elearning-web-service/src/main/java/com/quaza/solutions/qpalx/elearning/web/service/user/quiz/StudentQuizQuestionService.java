@@ -42,16 +42,6 @@ public class StudentQuizQuestionService implements IStudentQuizQuestionService {
         }
 
         questionResponseMap.put(questionModelID, adaptiveQuizQuestionStudentResponseVO);
-
-
-//        List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOS = (List<AdaptiveQuizQuestionStudentResponseVO>) modelMap.get(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString());
-//        if(adaptiveQuizQuestionStudentResponseVOS == null) {
-//            adaptiveQuizQuestionStudentResponseVOS = new LinkedList<>();
-//            modelMap.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString(), adaptiveQuizQuestionStudentResponseVOS);
-//        }
-//
-//        // record this new AdaptiveQuizQuestionStudentResponseVO
-//        adaptiveQuizQuestionStudentResponseVOS.add(adaptiveQuizQuestionStudentResponseVO);
     }
 
     @Override
@@ -67,14 +57,6 @@ public class StudentQuizQuestionService implements IStudentQuizQuestionService {
         }
 
         return questionResponseMap.get(quizQuestionModelID);
-
-//        List<AdaptiveQuizQuestionStudentResponseVO> adaptiveQuizQuestionStudentResponseVOS = (List<AdaptiveQuizQuestionStudentResponseVO>)modelMap.get(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestionScores.toString());
-//        for (AdaptiveQuizQuestionStudentResponseVO adaptiveQuizQuestionStudentResponseVO : adaptiveQuizQuestionStudentResponseVOS) {
-//            if(quizQuestionModelID.equals(adaptiveQuizQuestionStudentResponseVO.getQuizQuestionModelID())) {
-//                return adaptiveQuizQuestionStudentResponseVO;
-//            }
-//        }
-//        return null;
     }
 
     @Override

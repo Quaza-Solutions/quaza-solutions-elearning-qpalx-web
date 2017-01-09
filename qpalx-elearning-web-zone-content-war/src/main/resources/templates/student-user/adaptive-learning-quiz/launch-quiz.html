@@ -18,21 +18,24 @@
 <div th:replace="fragments/header-usersession :: header-usersession"></div>
 
 
-<div class="container large-fonts-2" style="background-image: url('images/subjects/electives/Science-banner-background-Blue.png');  background-repeat: no-repeat; background-size: cover; margin: 20px auto;">
+<div class="large-fonts-2" style="background-image: url('images/subjects/electives/Science-banner-background-Blue.png');  background-repeat: no-repeat; background-size: cover;">
 
     <div class="row">
         <div class="col-md-12" style="text-align: center; margin: auto;">
             <h2 style="color: #ffffff;" th:text="|Quiz:  ${LaunchedAdaptiveLearningQuiz.getQuizTitle()}|"></h2>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-1"></div>
+
         <div class="col-md-10">
             <br/>
             <div id="shadowed" style="background-color: #ffffff;">
                 <div class="black-bar"></div>
-                <div id="quiz-image1">
-                    <video width="800" id="quiz-image2" controls="controls">
+                <div class="quiz-image">
+
+                    <video width="800" id="quiz-image" controls="controls">
                         <source src="/elearning-content/Science/Chemistry/Chemistry-as-a-Discipline/intro_1483076570688.mp4" type="video/mp4"/>
                         Your browser does not support HTML5 video.
                     </video>
@@ -45,6 +48,7 @@
     <br/><br/>
 
 </div>
+
 
 <div class="row bottom-6">
     <div class="col-md-2"></div>
