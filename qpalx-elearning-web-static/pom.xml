@@ -57,6 +57,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
+        <!--  Hibernate validations API -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
 
         <!-- Google Guava API -->
         <dependency>

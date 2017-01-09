@@ -4,6 +4,9 @@ import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.IQPalXUserVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Web implementation of IQPalXUserVO.  This uses Java EE validation annotations to make sure all bindings to this
  * Value Object will be acceptable by the actual underlying QPalXUser business object.
@@ -23,32 +26,36 @@ public class QPalXWebUserVO implements IQPalXUserVO {
 
     private int countryID;
 
-    //    @NotNull
-//    @Size(min=2, max=50)
+    @NotNull
+    @Size(min=2, max=50)
     private String firstName;
 
-    //    @NotNull
-//    @Size(min=2, max=50)
+    @NotNull
+    @Size(min=2, max=50)
     private String lastName;
 
-    //    @NotNull
-//    @Size(min=2, max=50)
+    @NotNull
+    @Size(min=2, max=50)
 //    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\\\.\"\n" +
 //            "        +\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@\"\n" +
 //            "        +\"(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Invalid email account.")
     private String email;
 
+    @NotNull
+    @Size(min=2, max=50)
     private String mobilePhoneNumber;
 
-    //    @NotNull
-//    @Size(min=2, max=10)
+    @NotNull
+    @Size(min=2, max=10)
     private String password;
 
+    @NotNull
+    @Size(min=2, max=10)
     private String passwordConfirm;
 
     private Long registeredByUserID;
 
-    //    @NotNull
+    @NotNull
     private Long municipalityID;
 
     //    @NotNull

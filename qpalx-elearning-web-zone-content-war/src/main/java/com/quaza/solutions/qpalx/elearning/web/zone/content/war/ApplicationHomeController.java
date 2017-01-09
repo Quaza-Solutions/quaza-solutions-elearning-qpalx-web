@@ -1,4 +1,4 @@
-package com.quaza.solutions.qpalx.elearning.web.zone;
+package com.quaza.solutions.qpalx.elearning.web.zone.content.war;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;

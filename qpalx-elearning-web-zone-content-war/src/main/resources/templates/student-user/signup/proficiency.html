@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"
-          integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
 </head>
 <body>
-<div th:replace="fragments/header :: header"/>
+
+<!-- Include general header for no logged in user session found -->
+<div th:replace="fragments/header-nosession :: header-nosession"></div>
 
 <h1>Sign Up</h1>
 <div class="container">
@@ -48,7 +50,7 @@
             <div class="col-md-3">
                 <div class="profi-box left-box" id="green-box">
                     <i class="fa fa-lg fa-check" aria-hidden="true" id="check"></i>
-                    <img src="images/english.png" class="skill" id="english"/>
+                    <img src="images/subjects/core/English.png" class="skill" id="english"/>
                     <br/><br/>
                     <p class="skill-text"><b>English</b></p>
                     <select class="form-control profi-level" th:field="*{coreEnglishProficiencyLevel}">
@@ -57,7 +59,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="profi-box center-box"><img src="images/english.png" class="skill"/>
+                <div class="profi-box center-box"><img src="images/subjects/core/Math.png" class="skill"/>
                     <br/><br/>
                     <p class="skill-text"><b>Mathematics</b></p>
                     <select class="form-control profi-level" th:field="*{coreMathProficiencyLevel}">
@@ -66,7 +68,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="profi-box right-box"><img src="images/english.png" class="skill"/>
+                <div class="profi-box right-box"><img src="images/subjects/core/SocialStudies.png" class="skill"/>
                     <br/><br/>
                     <p class="skill-text"><b>Social Studies</b></p>
                     <select class="form-control profi-level" th:field="*{coreSocialStudiesProficiencyLevel}">
@@ -80,7 +82,7 @@
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-3">
-                <div class="profi-box left-box"><img src="images/english.png" class="skill"/>
+                <div class="profi-box left-box"><img src="images/subjects/core/Science.png" class="skill"/>
                     <br/><br/>
                     <p class="skill-text"><b>Science</b></p>
                     <select class="form-control profi-level" th:field="*{coreScienceProficiencyLevel}">
@@ -89,7 +91,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="profi-box center-box"><img src="images/english.png" class="skill"/>
+                <div class="profi-box center-box"><img src="images/subjects/core/Technology.png" class="skill"/>
                     <br/><br/>
                     <p class="skill-text"><b>ICT</b></p>
                     <select class="form-control profi-level" th:field="*{coreICTProficiencyLevel}">
@@ -119,10 +121,12 @@
         </div>
     </form>
 </div>
+
 <div class="clearfix bottom-space"></div>
 
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
 
-<div th:replace="fragments/footer :: footer"/>
 <!-- jQuery first, then Bootstrap JS. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
