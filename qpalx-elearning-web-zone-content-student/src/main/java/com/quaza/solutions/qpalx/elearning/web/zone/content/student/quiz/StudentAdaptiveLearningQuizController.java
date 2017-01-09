@@ -3,11 +3,14 @@ package com.quaza.solutions.qpalx.elearning.web.zone.content.student.quiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestion;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionAnswer;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.QPalXTutorialContentTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizStatisticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IAdaptiveLearningExperienceService;
+import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLearningScoreChartDisplayPanel;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
@@ -61,6 +64,10 @@ public class StudentAdaptiveLearningQuizController {
     private IAdaptiveLearningQuizStatisticsService iAdaptiveLearningQuizStatisticsService;
 
     @Autowired
+    @Qualifier("quaza.solutions.qpalx.elearning.service.QPalXELessonService")
+    private IQPalXELessonService iqPalXELessonService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.AdaptiveLearningScoreChartDisplayPanel")
     private IAdaptiveLearningScoreChartDisplayPanel iAdaptiveLearningScoreChartDisplayPanel;
 
@@ -90,6 +97,14 @@ public class StudentAdaptiveLearningQuizController {
         // Track the ELessonID and TutorialLevel Calendar as part of this Quiz Session so we could go back to viewing all micro lessons for the lesson we are currently dealing with.
         modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), eLessonID);
         modelMap.addAttribute(TutorialCalendarPanelE.SelectedTutorialCalendar.toString(), tutorialLevelID);
+
+        // Retrieve the ELesson Intro Video
+        QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(NumberUtils.toLong(eLessonID));
+        model.addAttribute("LessonIntroVideo", qPalXELesson.geteLearningMediaContent().getELearningMediaFile());
+
+        // Retrieve Banner to be used for Quiz Display background
+        ELearningCurriculum eLearningCurriculum = qPalXELesson.geteLearningCourse().geteLearningCurriculum();
+        model.addAttribute("CurriculumFocusBanner", eLearningCurriculum.getCurriculumBannerIcon());
 
         // Get the Introductory video for the Lesson that this Quiz is in.
         return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("launch-quiz");
