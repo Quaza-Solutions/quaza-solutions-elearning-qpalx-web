@@ -4,21 +4,26 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalxUserTypeE;
+import com.quaza.solutions.qpalx.elearning.domain.subscription.QPalXSubscription;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IGeographicalDateTimeFormatter;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IStudentCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
+import com.quaza.solutions.qpalx.elearning.service.subscription.IQPalxSubscriptionService;
+import com.quaza.solutions.qpalx.elearning.web.security.login.WebQPalXUser;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.IContentAdminWebService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLearningScoreChartDisplayPanel;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
+import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXWebUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,6 +69,10 @@ public class ApplicationHomeController {
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserInfoPanelService")
     private IQPalXUserInfoPanelService qPalXUserInfoPanelService;
+
+    @Autowired
+    @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultQPalxSubscriptionService")
+    private IQPalxSubscriptionService iqPalxSubscriptionService;
 
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.AdaptiveLearningScoreChartDisplayPanel")
@@ -141,6 +150,34 @@ public class ApplicationHomeController {
         model.addAttribute("CurriculumType", "EBooks-Promo");
         iAdaptiveLearningScoreChartDisplayPanel.addEmptyLearningScoreChartDisplayPanel(model);
         return ContentRootE.Student_Home.getContentRootPagePath("ebooks-promo");
+    }
+
+
+    @RequestMapping(value = "/qpalx-access-failure", method = {RequestMethod.GET, RequestMethod.POST})
+    public String indexMain(ModelMap modelMap, Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        WebQPalXUser validationFailureUser = (WebQPalXUser) httpServletRequest.getAttribute("AuthenticationFailedUser");
+
+        if (validationFailureUser != null && validationFailureUser.hasValidQPalXUser()) {
+            QPalXUser qPalXUser = validationFailureUser.getQPalXUser();
+
+            //build from the validation failure user
+            QPalXWebUserVO qPalXWebUserVO = QPalXWebUserVO.builder()
+                    .firstName(qPalXUser.getFirstName())
+                    .lastName(qPalXUser.getLastName())
+                    .email(qPalXUser.getEmail())
+                    .municipalityID(qPalXUser.getQPalXMunicipality().getId())
+                    .build();
+
+            List<QPalXSubscription> subscriptions = iqPalxSubscriptionService.findAllQPalXSubscriptionsByCountryCode("GH");
+            model.addAttribute("QPalXUserSubscriptions", subscriptions);
+
+            modelMap.addAttribute("QPalXUserSubscriptionForm", qPalXWebUserVO);
+            return ContentRootE.Home.getContentRootPagePath("Subscription_Renewal");
+        } else {
+            LOGGER.info("Invalid Qpalx User login detected, redirecting to home page...");
+            model.addAttribute("CredentialsAuthentication", "Invalid Login Detected");
+            return ContentRootE.Home.getContentRootPagePath("homepage");
+        }
     }
 
     private void addQPalXUserDetailsToResponse(final Model model, CurriculumType curriculumType, QPalXUser qPalXUser) {
