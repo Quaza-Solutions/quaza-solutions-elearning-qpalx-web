@@ -125,13 +125,17 @@ public class StaticContentMediaUtils implements IStaticContentMediaUtils {
 
         // We save file name using symbolic link directory as the actual file will get uploaded to a directory outside web app context
         String symbolicFileDirectory = defaultELearningStaticContentConfiguration.getStaticContentApplicationContextLocation();
-        String contextRootRelativeFileName = symbolicFileDirectory + mediaContentFile.getName();
+
+        // Use the physical file path to build the context relative file path
+        String physicalFilePath = mediaContentFile.getPath();
+        int endIndexOfContextRoot = physicalFilePath.indexOf(symbolicFileDirectory);
+        String contextRootRelativeFileName = physicalFilePath.substring(endIndexOfContextRoot);
 
         return ELearningMediaContent.builder()
                 .eLearningMediaType(optionalMediaContentType.get().toString())
                 .qPalXTutorialContentTypeE(qPalXTutorialContentTypeE)
                 .eLearningMediaFile(contextRootRelativeFileName)
-                .eLearningMediaPhysicalFile(mediaContentFile.getPath())
+                .eLearningMediaPhysicalFile(physicalFilePath)
                 .build();
     }
 
