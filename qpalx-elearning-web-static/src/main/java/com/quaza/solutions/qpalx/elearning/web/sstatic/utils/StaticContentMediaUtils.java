@@ -128,7 +128,7 @@ public class StaticContentMediaUtils implements IStaticContentMediaUtils {
 
         // Use the physical file path to build the context relative file path
         String physicalFilePath = mediaContentFile.getPath();
-        int endIndexOfContextRoot = physicalFilePath.indexOf(symbolicFileDirectory);
+        int endIndexOfContextRoot = physicalFilePath.indexOf(symbolicFileDirectory) + 1;
         String contextRootRelativeFileName = physicalFilePath.substring(endIndexOfContextRoot);
 
         return ELearningMediaContent.builder()

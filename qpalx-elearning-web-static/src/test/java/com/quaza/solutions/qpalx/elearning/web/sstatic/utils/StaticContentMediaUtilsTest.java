@@ -129,7 +129,7 @@ public class StaticContentMediaUtilsTest {
         File mediaContentFile = new File("/Users/manyce400/QuazaSolutions/elearning-content/Science/Chemistry/Chemistry-as-a-Discipline/intro_1483995941079.mp4");
         ELearningMediaContent eLearningMediaContent = staticContentMediaUtils.buildELearningMediaContent(mediaContentFile, QPalXTutorialContentTypeE.Video, StaticContentConfigurationTypeE.ELearningContent);
 
-        Assert.assertEquals("/elearning-content/Science/Chemistry/Chemistry-as-a-Discipline/intro_1483995941079.mp4", eLearningMediaContent.getELearningMediaFile());
+        Assert.assertEquals("elearning-content/Science/Chemistry/Chemistry-as-a-Discipline/intro_1483995941079.mp4", eLearningMediaContent.getELearningMediaFile());
         Assert.assertEquals("/Users/manyce400/QuazaSolutions/elearning-content/Science/Chemistry/Chemistry-as-a-Discipline/intro_1483995941079.mp4", eLearningMediaContent.getELearningMediaPhysicalFile());
     }
 
