@@ -46,7 +46,15 @@
         <div class="col-md-3 name" align="left">
             <a th:href="@{/view-adaptive-quizzes(microlessonID=${QPalXEMicroLesson.id})}"><b th:text="${QPalXEMicroLesson.microLessonName}"></b></a>
         </div>
-        <div class="col-md-6"></div>
+        <div class="col-md-4"></div>
+
+        <div class="col-md-2">
+            <div class="default-btn-1"></div>
+            <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/edit-qpalx-micro-lesson(microLessonID=${QPalXEMicroLesson.id})} + '\''">
+                Edit Micro-Lesson
+            </button>
+        </div>
+
         <div class="col-md-2">
             <div class="default-btn-1"></div>
             <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/delete-qpalx-micro-lesson(microLessonID=${QPalXEMicroLesson.id})} + '\''">

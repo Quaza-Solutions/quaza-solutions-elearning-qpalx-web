@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.quaza.solutions.qpalx.elearning.domain.lms.content.hierarchy.IHierarchicalLMSContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.IQPalXEMicroLessonVO;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.AbstractILMSMediaContentVO;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.MediaContentTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.QPalXTutorialContentTypeE;
@@ -30,6 +31,14 @@ public class QPalXEMicroLessonVO extends AbstractILMSMediaContentVO implements I
 
     private ELearningMediaContent staticELearningMediaContent;
 
+    public QPalXEMicroLessonVO() {
+
+    }
+
+    public QPalXEMicroLessonVO(QPalXEMicroLesson qPalXEMicroLesson) {
+        this.microLessonName = qPalXEMicroLesson.getMicroLessonName();
+        this.microLessonDescription = qPalXEMicroLesson.getMicroLessonDescription();
+    }
 
     @Override
     public String getMicroLessonName() {

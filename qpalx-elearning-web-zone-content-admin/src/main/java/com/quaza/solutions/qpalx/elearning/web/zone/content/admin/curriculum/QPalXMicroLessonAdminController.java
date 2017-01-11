@@ -103,7 +103,6 @@ public class QPalXMicroLessonAdminController {
         return ContentRootE.Content_Admin_Lessons.getContentRootPagePath("view-qpalx-microlessons");
     }
 
-
     @RequestMapping(value = "/add-qpalx-microlesson", method = RequestMethod.GET)
     public String addMicroLessonsView(final Model model, @RequestParam("qpalxELessonID") String qpalxELessonID, HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Building add QPalxELesson page options for qpalxELessonID: {}", qpalxELessonID);
@@ -128,6 +127,22 @@ public class QPalXMicroLessonAdminController {
         return ContentRootE.Content_Admin_Lessons.getContentRootPagePath("add-qpalx-microlesson");
     }
 
+    @RequestMapping(value = "/edit-qpalx-micro-lesson", method = RequestMethod.GET)
+    public String editAdminQPalXLessons(final Model model, @RequestParam("microLessonID") String microLessonID, HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Loading and displaying Edit view for microLessonID: {}", microLessonID);
+
+        // Add all attributes required for content admin tutorial panel
+        Long id = NumberUtils.toLong(microLessonID);
+        QPalXEMicroLesson qPalXEMicroLesson = iqPalXEMicroLessonService.findByID(id);
+        QPalXEMicroLessonVO qPalXEMicroLessonVO = new QPalXEMicroLessonVO(qPalXEMicroLesson);
+
+        model.addAttribute(ValueObjectDataDisplayAttributeE.QPalXEMicroLessonVO.toString(), qPalXEMicroLessonVO);
+        model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXMicroLesson.toString(), qPalXEMicroLesson);
+        model.addAttribute(ValueObjectDataDisplayAttributeE.SupportedQPalXTutorialContentTypes.toString(), qPalXEMicroLessonVO.getQPalXTutorialContentTypes());
+        model.addAttribute(ValueObjectDataDisplayAttributeE.SupportedStaticQPalXTutorialContentTypes.toString(), qPalXEMicroLessonVO.getStaticQPalXTutorialContentTypes());
+
+        return ContentRootE.Content_Admin_Lessons.getContentRootPagePath("modify-qpalx-microlesson");
+    }
 
     @RequestMapping(value = "/save-qpalx-microlesson", method = RequestMethod.POST)
     public void saveMicroLesson(Model model, @ModelAttribute("QPalXEMicroLessonVO") QPalXEMicroLessonVO qPalXEMicroLessonVO,
