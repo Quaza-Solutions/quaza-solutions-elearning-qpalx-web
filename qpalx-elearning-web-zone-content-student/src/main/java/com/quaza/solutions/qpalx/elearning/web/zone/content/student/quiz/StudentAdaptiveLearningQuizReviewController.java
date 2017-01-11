@@ -83,7 +83,7 @@ public class StudentAdaptiveLearningQuizReviewController {
     public void reviewAdaptiveLearningQuizQuestion(final SessionStatus status, HttpServletRequest request, HttpServletResponse response,
                                                    @RequestParam("eLessonID") String eLessonID, @RequestParam("tutorialLevelID") String tutorialLevelID) {
         LOGGER.info("Exiting Adaptive Quiz for Student, flushing Quiz session...");
-        String targetURL = "view-micro-lessons?eLessonID=" + eLessonID + "&tutorialLevelID=" + tutorialLevelID;
+        String targetURL = "/view-micro-lessons?eLessonID=" + eLessonID + "&tutorialLevelID=" + tutorialLevelID;
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
 
