@@ -7,6 +7,8 @@ public enum AdaptiveLearningQuizReviewAttributeE {
 
     NextQuestionToReviewModelID,
 
+    ReviewAdaptiveLearningQuizQuestion,
+
     ContinueQuizQuestionsReview
     ;
 

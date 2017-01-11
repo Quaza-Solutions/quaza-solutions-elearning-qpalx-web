@@ -1,5 +1,6 @@
 package com.quaza.solutions.qpalx.elearning.web.sstatic.vo;
 
+import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionAnswer;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -32,6 +33,12 @@ public class AdaptiveQuizQuestionStudentResponseVO {
 
     public void setUserSelectedAnswerText(String userSelectedAnswerText) {
         this.userSelectedAnswerText = userSelectedAnswerText;
+    }
+
+    public boolean matchesQuestionAnswer(AdaptiveLearningQuizQuestionAnswer quizQuestionAnswer) {
+        String questionAnswerText = quizQuestionAnswer.getQuizQuestionAnswerText();
+        boolean matches = userSelectedAnswerText.equals(questionAnswerText);
+        return matches;
     }
 
     @Override

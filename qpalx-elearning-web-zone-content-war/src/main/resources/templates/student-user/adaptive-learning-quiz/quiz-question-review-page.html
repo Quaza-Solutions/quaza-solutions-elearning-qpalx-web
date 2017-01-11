@@ -55,14 +55,14 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-11">
 
-                    <p class="large-fonts" th:text="${LaunchedAdaptiveLearningQuizQuestion.getQuestionTitle()}"></p>
+                    <p class="large-fonts" th:text="${ReviewAdaptiveLearningQuizQuestion.getQuestionTitle()}"></p>
                 </div>
             </div>
 
             <br/>
 
             <!-- Display all Quiz Question Answers and mark the correct answer -->
-            <div th:each="AdaptiveLearningQuizQuestionAnswer : ${LaunchedAdaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionAnswers()}">
+            <div th:each="AdaptiveLearningQuizQuestionAnswer : ${ReviewAdaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionAnswers()}">
 
                 <!-- Display circle with filled color to indicate a correct answer -->
                 <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswer.isCorrectAnswer() == true}">
@@ -78,13 +78,13 @@
                     <div class="col-md-1"></div>
 
                     <!-- Display the incorrect Student question response in a red x circle -->
-                    <div class="col-md-10 medium-text" th:if="${QuizQuestionStudentAnswerResponse.getUserSelectedAnswerText() == AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}">
-                        <i style="color: red;" class="fa fa-times-circle-o" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
+                    <div class="col-md-10 medium-text" th:if="${QuizQuestionStudentAnswerResponse.matchesQuestionAnswer(AdaptiveLearningQuizQuestionAnswer) == false}">
+                        <i class="fa fa-circle-o spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
                     </div>
 
                     <!-- Display the incorrect response as an empty circle only.  This is not the response that Student selected -->
-                    <div class="col-md-10 medium-text" th:if="${QuizQuestionStudentAnswerResponse.getUserSelectedAnswerText() != AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}">
-                        <i class="fa fa-circle-o spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
+                    <div class="col-md-10 medium-text" th:if="${QuizQuestionStudentAnswerResponse.matchesQuestionAnswer(AdaptiveLearningQuizQuestionAnswer) == true}">
+                        <i style="color: red;" class="fa fa-times-circle-o" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
                     </div>
 
                 </div>
@@ -107,7 +107,7 @@
                 <div class="col-md-10" style="font-size: 24px;">
                     <h1 style="color: #07bed3">Feedback</h1>
                     <br/>
-                    <div th:utext="${LaunchedAdaptiveLearningQuizQuestion.getQuestionFeedBack()}"></div>
+                    <div th:utext="${ReviewAdaptiveLearningQuizQuestion.getQuestionFeedBack()}"></div>
                 </div>
 
                 <div class="col-md-1"></div>
@@ -139,14 +139,14 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-11">
 
-                    <p class="large-fonts" th:text="${LaunchedAdaptiveLearningQuizQuestion.getQuestionTitle()}"></p>
+                    <p class="large-fonts" th:text="${ReviewAdaptiveLearningQuizQuestion.getQuestionTitle()}"></p>
                 </div>
             </div>
 
             <br/>
 
             <!-- Display all Quiz Question Answers and mark the correct answer -->
-            <div th:each="AdaptiveLearningQuizQuestionAnswer : ${LaunchedAdaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionAnswers()}">
+            <div th:each="AdaptiveLearningQuizQuestionAnswer : ${ReviewAdaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionAnswers()}">
 
                 <!-- Display circle with filled color to indicate a correct answer -->
                 <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswer.isCorrectAnswer() == true}">
@@ -161,9 +161,16 @@
                 <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswer.isCorrectAnswer() == false}">
                     <div class="col-md-1"></div>
 
-                    <div class="col-md-10 medium-text">
+                    <!-- Display the incorrect Student question response in a red x circle -->
+                    <div class="col-md-10 medium-text" th:if="${QuizQuestionStudentAnswerResponse.matchesQuestionAnswer(AdaptiveLearningQuizQuestionAnswer) == false}">
                         <i class="fa fa-circle-o spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
                     </div>
+
+                    <!-- Display the incorrect response as an empty circle only.  This is not the response that Student selected -->
+                    <div class="col-md-10 medium-text" th:if="${QuizQuestionStudentAnswerResponse.matchesQuestionAnswer(AdaptiveLearningQuizQuestionAnswer) == true}">
+                        <i style="color: red;" class="fa fa-times-circle-o" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText()}"/>
+                    </div>
+
                 </div>
             </div>
 
@@ -181,7 +188,7 @@
                 <div class="col-md-10" style="font-size: 24px;">
                     <h1 style="color: #07bed3">Feedback</h1>
                     <br/>
-                    <div th:utext="${LaunchedAdaptiveLearningQuizQuestion.getQuestionFeedBack()}"></div>
+                    <div th:utext="${ReviewAdaptiveLearningQuizQuestion.getQuestionFeedBack()}"></div>
                 </div>
 
                 <div class="col-md-1"></div>

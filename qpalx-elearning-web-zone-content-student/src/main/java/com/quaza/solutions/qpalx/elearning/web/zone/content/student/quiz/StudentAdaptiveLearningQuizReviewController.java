@@ -2,6 +2,7 @@ package com.quaza.solutions.qpalx.elearning.web.zone.content.student.quiz;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestion;
+import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionAnswer;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizReviewAttributeE;
@@ -61,11 +62,16 @@ public class StudentAdaptiveLearningQuizReviewController {
         int nextQuestionToReviewID = currentQuizQuestionModelID +  1;
         AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion = questionModelMap.get(currentQuizQuestionModelID);
         model.addAttribute(AdaptiveLearningQuizReviewAttributeE.NextQuestionToReviewModelID.toString(), nextQuestionToReviewID);
-        model.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuizQuestion.toString(), adaptiveLearningQuizQuestion);
+        model.addAttribute(AdaptiveLearningQuizReviewAttributeE.ReviewAdaptiveLearningQuizQuestion.toString(), adaptiveLearningQuizQuestion);
+
+        // display all Quiz Answers
+        for(AdaptiveLearningQuizQuestionAnswer adaptiveLearningQuizQuestionAnswer : adaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionAnswers()) {
+            System.out.println("adaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText() = " + adaptiveLearningQuizQuestionAnswer.getQuizQuestionAnswerText() + " IsCorrect: " + adaptiveLearningQuizQuestionAnswer.isCorrectAnswer());
+        }
 
         // Find Students response to this question
         AdaptiveQuizQuestionStudentResponseVO studentResponseVO = iStudentQuizQuestionService.findAdaptiveQuizQuestionStudentResponse(modelMap, currentQuizQuestionModelID);
-        System.out.println("studentResponseVO = " + studentResponseVO);
+        System.out.println("\nstudentResponseVO = " + studentResponseVO);
 
         model.addAttribute(AdaptiveLearningQuizAttributeE.QuizQuestionStudentAnswerResponse.toString(), studentResponseVO);
 
