@@ -16,6 +16,13 @@
 
     <dependencies>
 
+        <!-- Quaza ELearning dependencies  -->
+        <dependency>
+            <groupId>com.quaza.solutions.qpalx.elearning</groupId>
+            <artifactId>qpalx-elearning-service</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- QPalX web libraries dependency -->
         <dependency>
             <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>

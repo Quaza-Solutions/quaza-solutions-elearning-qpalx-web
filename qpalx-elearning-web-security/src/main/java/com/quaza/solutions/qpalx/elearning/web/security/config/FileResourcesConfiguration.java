@@ -1,7 +1,10 @@
 package com.quaza.solutions.qpalx.elearning.web.security.config;
 
-import com.quaza.solutions.qpalx.elearning.config.file.management.FileUploadLocationConfiguration;
+import com.quaza.solutions.qpalx.elearning.domain.sstatic.content.StaticContentConfiguration;
+import com.quaza.solutions.qpalx.elearning.domain.sstatic.content.StaticContentConfigurationTypeE;
+import com.quaza.solutions.qpalx.elearning.service.sstatic.content.IStaticContentConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
@@ -21,14 +24,17 @@ public class FileResourcesConfiguration extends WebMvcAutoConfiguration.WebMvcAu
 
 
     @Autowired
-    private FileUploadLocationConfiguration fileUploadLocationConfiguration;
+    @Qualifier("quaza.solutions.qpalx.elearning.service.StaticContentConfigurationService")
+    private IStaticContentConfigurationService iStaticContentConfigurationService;
+
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(FileResourcesConfiguration.class);
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String eLearningResourceHandler = fileUploadLocationConfiguration.geteLearningContentResourceHandler() + "**";
-        String eLearningResourcePhysicalDir = "file://" +  fileUploadLocationConfiguration.getELearningContentPhysicalFileResourcesDir();
+        StaticContentConfiguration eLearninStaticContentConfiguration = iStaticContentConfigurationService.findStaticContentConfigurationByContentName(StaticContentConfigurationTypeE.ELearningContent);
+        String eLearningResourceHandler = eLearninStaticContentConfiguration.getStaticContentApplicationContextLocation() + "**";
+        String eLearningResourcePhysicalDir = "file://" +  eLearninStaticContentConfiguration.getStaticContentPhysicalLocation();
         LOGGER.info("Mapping Elearning resourceHandler: {} to directory:> {}", eLearningResourceHandler, eLearningResourcePhysicalDir);
         registry.addResourceHandler(eLearningResourceHandler)
                 .addResourceLocations(eLearningResourcePhysicalDir);
