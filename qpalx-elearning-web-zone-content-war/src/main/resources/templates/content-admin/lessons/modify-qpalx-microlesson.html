@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Content Admin user details overview panel -->
+<div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
+
+<div class="container">
+
+    <div class="row" th:if="${Invalid_FORM_Submission} != null">
+        <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"/>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" th:action="@{save-qpalx-microlesson}" th:object="${QPalXEMicroLessonVO}">
+
+        <!-- hidden field is a spring-security feature which generates a hidden token checked on submission to make sure submission is from this website directly -->
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+        <div class="row">
+            <div class="col-md-4">Micro Lesson name</div>
+            <div class="col-md-4">Micro Lesson Description</div>
+            <div class="col-md-4"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4"><input type="text" size="30" id="name" name="name" th:field="*{microLessonName}"/><span class="name"></span></div>
+            <div class="col-md-4"><input type="text" size="50" id="description" name="description" th:field="*{microLessonDescription}"/><span class="description"></span></div>
+            <div class="col-md-4"></div>
+        </div>
+
+        <div class="clearfix bottom-space"></div>
+
+        <!-- Header and content row for uploading narration file MP4 -->
+        <div class="row">
+            <div class="col-md-6">
+                <a href="#MicroLessonVideo">Currently Uploaded Micro-Lesson(MP4):</a>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <input type="file" name="narration_file"/>
+            </div>
+
+            <div class="col-md-6">
+                <select class="activity" th:field="*{qPalXTutorialContentType}">
+                    <option th:each="SupportedQPalXTutorialContentType : ${SupportedQPalXTutorialContentTypes}" th:value="${SupportedQPalXTutorialContentType}" th:text="${SupportedQPalXTutorialContentType}"></option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="clearfix bottom-space"></div>
+
+            <!-- Header and content row for uploading static file SWF -->
+        <div class="row">
+            <div class="col-md-6">
+                <a href="#MicroLessonStatic">Currently Uploaded Micro-Lesson Static(SWF):</a>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <input type="file" name="static_file"/>
+            </div>
+
+            <div class="col-md-6">
+                <select class="activity" th:field="*{staticQPalXTutorialContentType}">
+                    <option th:each="SupportedStaticQPalXTutorialContentType : ${SupportedStaticQPalXTutorialContentTypes}" th:value="${SupportedStaticQPalXTutorialContentType}" th:text="${SupportedStaticQPalXTutorialContentType}"></option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="clearfix bottom-space"></div>
+
+        <div class="row">
+            <div class="col-md-6">
+                Newly Added Course Activity
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="radio" value="TRUE" th:field="*{activeFlag}"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" value="FALSE" th:field="*{activeFlag}"/> Inactive
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+
+        <div class="clearfix bottom-space"></div>
+        <div class="clearfix bottom-space"></div>
+
+        <!-- Hidden field to pass back the value of the current ELearningCourseID-->
+        <!--<input type="hidden" th:value="${SelectedQPalXELesson.id}" name="qPalXELessonID"/>-->
+
+        <div class="col-md-12 continue">
+            <button type="submit" id="submit" class="btn btn-success">Add Micro Lesson</button>
+        </div>
+    </form>
+</div>
+
+<div class="clearfix bottom-space"></div>
+
+
+<!-- Popup for Micro Lesson MP4 video -->
+<div class="modalBox" th:if="${SelectedQPalXMicroLesson != null}">
+
+    <div id="MicroLessonVideo" class="modalBox">
+        <a href="#" class="modalCloseOuter" onClick="stopVideo();"></a>
+        <div class="mp4">
+            <div class="bar-1"></div>
+            <a href="#" style="float:right; margin: 20px 40px 20px 0;" onClick="stopVideo();">Close</a>
+            <div class="modalBody">
+                <video width="800" id="modal-box" controls="controls">
+                    <source th:src="${SelectedQPalXMicroLesson.geteLearningMediaContent().getELearningMediaFile()}" type="video/mp4"/>
+                    Your browser does not support HTML5 video.
+                </video>
+            </div>
+            <div class="bar-3"></div>
+        </div>
+    </div>
+
+    <!-- Popup for Micro lesson static.  No narration SWF file -->
+    <div th:id="MicroLessonStatic" class="modalBox">
+        <a href="#" class="modalCloseOuter"></a>
+        <div class="mp4">
+            <div class="bar-1"></div>
+            <a href="#" style="float:right; margin: 20px 40px 20px 0;">Close</a>
+            <div class="modalBody">
+                <embed th:src="${SelectedQPalXMicroLesson.getStaticELearningMediaContent().getELearningMediaFile()}" width="800" height="560"  />
+            </div>
+            <div class="bar-3"></div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/hr.js"></script>
+<script src="js/hover.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/progress-bar.js" type="text/javascript"></script>
+<script src="js/modernizr.js" type="text/javascript"></script>
+
+</body>
+</html>

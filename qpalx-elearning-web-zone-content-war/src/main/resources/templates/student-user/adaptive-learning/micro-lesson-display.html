@@ -85,12 +85,14 @@
     <div class="large-fonts-2">Quizzes</div>
 
     <div class="large-fonts" th:each="AdaptiveLearningQuiz,rowStat : ${AdaptiveLearningQuizzes}">
-        <a th:href="@{/launch-adaptive-quiz(quizID=${AdaptiveLearningQuiz.adaptiveLearningQuizID}, eLessonID=${SelectedQPalXELesson.id}, tutorialLevelID=${SelectedTutorialCalendar.id})}">
+        <a th:href="@{/launch-adaptive-quiz(quizID=${AdaptiveLearningQuiz.adaptiveLearningQuizID}, eLessonID=${SelectedQPalXELesson.id}, tutorialLevelID=${SelectedTutorialCalendar.id})}" style="color: #06bfd3;">
 
             <span th:text="${AdaptiveLearningQuiz.adaptiveLearningQuizTitle}">&nbsp;&nbsp;&nbsp;</span>
 
+            <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+
             <!-- Display actual User Quiz Score -->
-            <span style="color: #06bfd3;" th:text="${AdaptiveLearningQuiz.proficiencyScore} + '%'"></span>
+            <span  th:text="${AdaptiveLearningQuiz.proficiencyScore} + '%'"></span>
 
         </a>
     </div>
