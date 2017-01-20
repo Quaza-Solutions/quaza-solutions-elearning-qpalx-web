@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Content Admin user details overview panel -->
+<div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
+
+<div class="container" style="margin-top: 10px; margin-bottom: 0px;">
+    <div><h1>Generate Prepaid Codes</h1></div>
+    <div class="row">
+
+        <div class="clearfix bottom-space"></div>
+        <form th:action="@{/generateIds}" th:object="${QPalXWebUserVO}" method="post">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6"><p><b>Country Selection</b></p><p>Select which country to generate for</p></div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6">
+                    <select class="dropdown" th:field="*{countryID}">
+                        <option th:each="QPalXCountry : ${QPalXCountries}" th:value="${QPalXCountry.id}" th:text="${QPalXCountry.countryName}"></option>
+                    </select></div>
+                <div class="col-md-2"></div>
+            </div>
+            <br /><br />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6"><p><b>Region Selection</b></p><p>Select which region you want to generate codes for</p></div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6">
+                    <select class="dropdown" th:field="*{municipalityID}">
+                    <option th:each="QPalXMunicipality : ${QPalXMunicipalities}" th:value="${QPalXMunicipality.id}" th:text="${QPalXMunicipality.name}"></option>
+                    </select></div>
+                <div class="col-md-2"></div>
+            </div>
+            <br /><br />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6"><p><b>Subscription Selection</b></p><p>Select which susbcription type to generate for</p></div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6">
+                    <select class="dropdown" th:field="*{subscriptionID}">
+                        <option th:each="QPalXSubscription : ${QPalXSubscriptions}" th:value="${QPalXSubscription.id}" th:text="${QPalXSubscription.subscriptionType}"></option>
+                    </select></div>
+                <div class="col-md-2"></div>
+            </div>
+            <br /><br />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6"><p><b>Number To Generate</b></p><p>Select number of codes to generate</p></div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6">
+                    <div aligh="left">
+                        <input type="text" th:field="*{numToGenerate}" th:value="numToGenerate"/>
+                    </div>
+                    <br /><br />
+                <div class="col-md-2">
+                    <input type="submit" />
+                </div>
+            </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<div class="clearfix bottom-space"></div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+</body>
+</html>

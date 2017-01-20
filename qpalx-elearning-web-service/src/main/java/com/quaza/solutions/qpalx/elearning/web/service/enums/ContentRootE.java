@@ -8,6 +8,8 @@ package com.quaza.solutions.qpalx.elearning.web.service.enums;
 public enum ContentRootE {
 
 
+    Access_Denied_403("404"),
+
     Home(""),
 
     Student_Home("student-user/home/"),
@@ -26,7 +28,11 @@ public enum ContentRootE {
 
     Content_Admin_Lessons("content-admin/lessons/"),
 
-    Content_Admin_Quiz("content-admin/adaptive-quiz/")
+    Content_Admin_Quiz("content-admin/adaptive-quiz/"),
+
+    Platform_Admin_Home("platform-admin/home/"),
+
+    Platform_Admin_Prepaid_Codes("platform-admin/prepaid-codes/")
     ;
 
     private final String rootDirectory;
