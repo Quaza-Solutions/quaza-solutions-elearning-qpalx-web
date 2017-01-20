@@ -20,6 +20,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -56,7 +57,7 @@ public class PrePaidCodesGenerationController {
 
     @PreAuthorize("hasAuthority('PLATFORM_ADMIN')")
     @RequestMapping(value = "/generate-prepaid-codes", method = RequestMethod.GET)
-    public String startGenrateIds(Model model) {
+    public String accessGeneratePrepaidCodesPage(Model model) {
         List<QPalXMunicipality> municipalities = iQPalXMunicipalityService.findAllQPalXMunicipalities();
         List<QPalXSubscription> subscriptions = iQPalxSubscriptionService.findAllSubscriptions();
         List<QPalXCountry> countries = new ArrayList<QPalXCountry>();
@@ -81,6 +82,7 @@ public class PrePaidCodesGenerationController {
         return ContentRootE.Platform_Admin_Prepaid_Codes.getContentRootPagePath("prepaid-codes-gen");
     }
 
+    @PreAuthorize("hasAuthority('PLATFORM_ADMIN')")
     @RequestMapping(value = "/generateIds", method=RequestMethod.POST)//value/generate should be something else and the form should be generateIds
     public void generateExcel(@ModelAttribute(value="QPalXWebUserVO") QPalXWebUserVO qPalXWebUserVO, HttpServletResponse response) throws Exception{
         QPalXSubscription qPalXSubscription = iQPalxSubscriptionService.findQPalXSubscriptionByID(qPalXWebUserVO.getSubscriptionID());
@@ -99,6 +101,14 @@ public class PrePaidCodesGenerationController {
         IOUtil.closeQuietly(in);
         response.flushBuffer();
         file.delete();
+    }
+
+    @PreAuthorize("hasAuthority('PLATFORM_ADMIN')")
+    @RequestMapping(value = "/generate-test-excel", method=RequestMethod.POST)//value/generate should be something else and the form should be generateIds
+    public ModelAndView generateTestExcel(Model model, HttpServletResponse response) {
+        response.setContentType( "application/ms-excel" );
+        response.setHeader( "Content-disposition", "attachment; filename=myfile.xls" );
+        return new ModelAndView(new PrePaidCodesAbstractExcelView());
     }
 
 
