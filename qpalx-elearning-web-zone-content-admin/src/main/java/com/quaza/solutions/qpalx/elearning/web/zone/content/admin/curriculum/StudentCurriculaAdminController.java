@@ -142,7 +142,7 @@ public class StudentCurriculaAdminController {
         LOGGER.info("Add new ELearningCurriculum with curriculumID: {} requested", curriculumID);
 
         Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
-        if(optionalUser.get().getUserType() == QPalxUserTypeE.CONTENT_DEVELOPER || optionalUser.get().getUserType() == QPalxUserTypeE.ADMINISTRATOR) {
+        if(optionalUser.get().getUserType() == QPalxUserTypeE.CONTENT_DEVELOPER) {
             Long id = NumberUtils.toLong(curriculumID);
             ELearningCurriculum eLearningCurriculum = ieLearningCurriculumService.findByELearningCurriculumID(id);
             List<QPalXEducationalInstitution> qPalXEducationalInstitutions = iqPalXEducationalInstitutionService.findAll();

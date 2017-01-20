@@ -103,6 +103,9 @@ public class ApplicationHomeController {
                 String redirectUrl = "/curriculum-by-tutorialgrade?tutorialGradeID=1&curriculumType=CORE";
                 LOGGER.info("Logged in user is a Content Developer, redirecting to:> {}", redirectUrl);
                 redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, redirectUrl);
+            } else if(QPalxUserTypeE.PLATFORM_ADMIN == optionalUser.get().getUserType()) {
+                LOGGER.info("Logged in User is a PLATFORM_ADMIN forwarding to PLATFORM_ADMIN home");
+                return ContentRootE.Platform_Admin_Home.getContentRootPagePath("platform_admin_home");
             }
 
             LOGGER.info("Only Student QPalX users currently supported");

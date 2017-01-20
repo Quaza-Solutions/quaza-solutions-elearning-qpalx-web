@@ -54,7 +54,7 @@ public class PrePaidCodesGenerationController {
     private IQPalXUserInfoPanelService qPalXUserInfoPanelService;
 
 
-    @PreAuthorize("hasAuthority('ADMINISTRATOR')")
+    @PreAuthorize("hasAuthority('PLATFORM_ADMIN')")
     @RequestMapping(value = "/generate-prepaid-codes", method = RequestMethod.GET)
     public String startGenrateIds(Model model) {
         List<QPalXMunicipality> municipalities = iQPalXMunicipalityService.findAllQPalXMunicipalities();

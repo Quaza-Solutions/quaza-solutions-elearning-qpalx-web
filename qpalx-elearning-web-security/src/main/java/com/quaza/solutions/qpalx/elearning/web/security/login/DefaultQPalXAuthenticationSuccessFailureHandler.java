@@ -42,7 +42,7 @@ public class DefaultQPalXAuthenticationSuccessFailureHandler implements Authenti
             case STUDENT:
                 targetURL = "/";
                 break;
-            case ADMINISTRATOR:
+            case PLATFORM_ADMIN:
                 targetURL = "/";
                 break;
             default:
@@ -66,7 +66,7 @@ public class DefaultQPalXAuthenticationSuccessFailureHandler implements Authenti
         Optional<? extends GrantedAuthority> userAuthority = authorities.stream()
                 .filter((authority) -> authority.getAuthority().equals(QPalxUserTypeE.STUDENT.toString())
                         || authority.getAuthority().equals(QPalxUserTypeE.CONTENT_DEVELOPER.toString())
-                        || authority.getAuthority().equals(QPalxUserTypeE.ADMINISTRATOR.toString()))
+                        || authority.getAuthority().equals(QPalxUserTypeE.PLATFORM_ADMIN.toString()))
                 .findFirst();
 
         if(userAuthority.isPresent()) {
