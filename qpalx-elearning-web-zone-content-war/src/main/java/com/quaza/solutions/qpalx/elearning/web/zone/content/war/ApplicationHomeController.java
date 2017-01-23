@@ -14,6 +14,7 @@ import com.quaza.solutions.qpalx.elearning.web.service.admin.IContentAdminWebSer
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLearningScoreChartDisplayPanel;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.platformadmin.PlatformAdminManagementModeE;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXWebUserVO;
@@ -105,6 +106,9 @@ public class ApplicationHomeController {
                 redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, redirectUrl);
             } else if(QPalxUserTypeE.PLATFORM_ADMIN == optionalUser.get().getUserType()) {
                 LOGGER.info("Logged in User is a PLATFORM_ADMIN forwarding to PLATFORM_ADMIN home");
+
+                // Enable the Platform administration mode
+                model.addAttribute("PlatformAdminManagementModeE", PlatformAdminManagementModeE.SubscriptionManagementMode.toString());
                 return ContentRootE.Platform_Admin_Home.getContentRootPagePath("platform_admin_home");
             }
 

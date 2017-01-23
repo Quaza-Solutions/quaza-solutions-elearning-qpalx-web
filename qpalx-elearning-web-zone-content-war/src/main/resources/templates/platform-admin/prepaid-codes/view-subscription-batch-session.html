@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Content Admin user details overview panel -->
+<div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
+
+<div class="container" style="margin-top: 10px; margin-bottom: 0px;">
+    <div th:replace="fragments/platform-admin/platform-admin-navigation :: platform-admin-nav"></div>
+
+    <div class="row" th:each="OpenSubscriptionCodeBatchSession,rowStat : ${OpenSubscriptionCodeBatchSessions}">
+
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <span class="number" th:text="${rowStat.count}"></span>
+        </div>
+
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <span class="small" th:text="${OpenSubscriptionCodeBatchSession.subscriptionCodeBatchSessionUID}" />
+        </div>
+
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <span class="small" th:text="${OpenSubscriptionCodeBatchSession.strategicPlatformPartner.getPlatformPartnerName()}" />
+        </div>
+
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <span class="small" th:text="${OpenSubscriptionCodeBatchSession.batchGenerationDate}" />
+        </div>
+
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <span class="small" th:text="${OpenSubscriptionCodeBatchSession.batchRedemptionCompletionDate}" />
+        </div>
+
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        </div>
+
+    </div>
+
+</div>
+<div class="clearfix bottom-space"></div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+</body>
+</html>

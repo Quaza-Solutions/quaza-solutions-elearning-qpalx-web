@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+
+</head>
+<body>
+<div th:fragment="platform-admin-nav">
+
+    <!-- Subscriptions Management menu option has been selected -->
+    <div class="row" th:if="${PlatformAdminManagementModeE} == 'SubscriptionManagementMode'">
+        <div class="col-md-3">
+            <b class="green">Platform Subscription Management</b>
+            <hr class="green-hr-1a"/>
+        </div>
+
+        <div class="col-md-3" style="margin-left: -80px; cursor: pointer;">
+            <a th:href="@{/curriculum-by-tutorialgrade}"><b id="title-2">Platform User Management</b></a>
+            <hr class="black-hr-1a"/>
+        </div>
+
+        <div class="col-md-3" onClick="hrFunction3a()" style="margin-left: -80px; cursor: pointer;">
+            <b id="title-3">E-Books</b>
+            <hr class="black-hr-1a"/>
+        </div>
+    </div>
+
+    <!-- Platform User Management menu option has been selected -->
+    <div class="row" th:if="${PlatformAdminManagementModeE} == 'UserManagementMode'">
+        <div class="col-md-3" style="cursor: pointer;">
+            <a th:href="@{/curriculum-by-tutorialgrade}"><b>Platform Subscription Management</b></a>
+            <hr class="black-hr-1a"/>
+        </div>
+
+        <div class="col-md-3" style="margin-left: -80px;">
+            <b class="green">Platform User Management</b>
+            <hr class="green-hr-1a"/>
+        </div>
+
+        <div class="col-md-3" style="margin-left: -80px; cursor: pointer;">
+            <b>E-Books</b>
+            <hr class="black-hr-1a"/>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

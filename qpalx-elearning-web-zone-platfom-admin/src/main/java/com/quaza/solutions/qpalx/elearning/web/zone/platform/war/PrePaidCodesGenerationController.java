@@ -8,6 +8,7 @@ import com.quaza.solutions.qpalx.elearning.service.prepaidsubscription.IQPalxPre
 import com.quaza.solutions.qpalx.elearning.service.subscription.IQPalxSubscriptionService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.platformadmin.PlatformAdminManagementModeE;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXWebUserVO;
 import org.mockito.internal.util.io.IOUtil;
@@ -79,6 +80,12 @@ public class PrePaidCodesGenerationController {
         model.addAttribute("QPalXWebUserVO", qPalXWebUserVO);
         model.addAttribute("QPalXMunicipalities", municipalities);
         model.addAttribute("QPalXSubscriptions", subscriptions);
+
+
+        // Enable the Platform administration mode
+        model.addAttribute("PlatformAdminManagementModeE", PlatformAdminManagementModeE.SubscriptionManagementMode.toString());
+
+
         return ContentRootE.Platform_Admin_Prepaid_Codes.getContentRootPagePath("prepaid-codes-gen");
     }
 
