@@ -7,5 +7,7 @@ public enum  SubscriptionManagementAttributeE {
 
     OpenSubscriptionCodeBatchSessions,
 
+    AllSubscriptionCodeBatchSessionStatistics,
+
     ;
 }
