@@ -23,13 +23,50 @@
 <div class="container" style="margin-top: 10px; margin-bottom: 0px;">
     <div th:replace="fragments/platform-admin/platform-admin-navigation :: platform-admin-nav"></div>
 
-    <div class="row" th:each="SubscriptionCodeBatchSessionStatistic,rowStat : ${AllSubscriptionCodeBatchSessionStatistics}">
+    <!-- Header Row -->
+    <div class="row">
 
-        <div class="col-md-1">
-            <span class="small" th:text="${rowStat.count}"></span>
+        <!--<div class="col-md-1"></div>-->
+
+        <div class="col-md-2 pull-left topmargin">
+            <span class="small"><b>Subscription Code Batch UID</b></span>
+        </div>
+
+        <div class="col-md-2 pull-left topmargin">
+            <span class="small"><b>Platform Partner</b></span>
+        </div>
+
+        <div class="col-md-2 pull-left topmargin">
+            <span class="small"><b>Generation Date</b></span>
+        </div>
+
+        <div class="col-md-2 pull-left topmargin">
+            <span class="small"><b>Redemption Completion Date</b></span>
         </div>
 
         <div class="col-md-1 pull-left topmargin">
+            <span class="small"><b>Redeemed Codes Count</b></span>
+        </div>
+
+        <div class="col-md-1 pull-left topmargin">
+            <span class="small"><b>Open Codes Count</b></span>
+        </div>
+
+        <div class="col-md-1 pull-left topmargin">
+            <span class="small"><b>Total Codes Count</b></span>
+        </div>
+
+        <div class="col-md-1 pull-left topmargin"></div>
+
+    </div>
+
+    <div class="row" th:each="SubscriptionCodeBatchSessionStatistic,rowStat : ${AllSubscriptionCodeBatchSessionStatistics}">
+
+        <!--<div class="col-md-1">-->
+            <!--<span class="small" th:text="${rowStat.count}"></span>-->
+        <!--</div>-->
+
+        <div class="col-md-2 pull-left topmargin">
             <span class="small" th:text="${SubscriptionCodeBatchSessionStatistic.getSubscriptionCodeBatchSessionUID()}" />
         </div>
 
@@ -57,10 +94,11 @@
             <span class="small" th:text="${SubscriptionCodeBatchSessionStatistic.getTotalNumberOfPrePaidCodes()}" />
         </div>
 
-        <div class="col-md-1 pull-left topmargin">
-            <button type="button" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/view-all-prepaid-subscription-codes-excel(subscriptionCodeBatchSessionID=${SubscriptionCodeBatchSessionStatistic.getSubscriptionCodeBatchSessionID()})} + '\''">
-                Dowload PrepaidCodes Report
-            </button>
+        <div class="col-md-1 pull-left vtop">
+            <a th:href="@{/view-all-prepaid-subscription-codes-excel(subscriptionCodeBatchSessionID=${SubscriptionCodeBatchSessionStatistic.getSubscriptionCodeBatchSessionID()})}"><img src="images/assets/platform/downloads-icon.png"  /></a>
+            <!--<button type="button" value="0" th:onclick="'document.location.href=\'' + @{/view-all-prepaid-subscription-codes-excel(subscriptionCodeBatchSessionID=${SubscriptionCodeBatchSessionStatistic.getSubscriptionCodeBatchSessionID()})} + '\''">-->
+                <!--<img src="images/assets/platform/downloads-icon.png"  />-->
+            <!--</button>-->
         </div>
 
     </div>
