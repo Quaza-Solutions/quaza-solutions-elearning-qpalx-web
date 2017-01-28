@@ -23,29 +23,45 @@
 <div class="container" style="margin-top: 10px; margin-bottom: 0px;">
     <div th:replace="fragments/platform-admin/platform-admin-navigation :: platform-admin-nav"></div>
 
-    <div class="row" th:each="OpenSubscriptionCodeBatchSession,rowStat : ${OpenSubscriptionCodeBatchSessions}">
+    <div class="row" th:each="SubscriptionCodeBatchSessionStatistic,rowStat : ${AllSubscriptionCodeBatchSessionStatistics}">
 
-        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+        <div class="col-md-1">
             <span class="small" th:text="${rowStat.count}"></span>
         </div>
 
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <span class="small" th:text="${OpenSubscriptionCodeBatchSession.subscriptionCodeBatchSessionUID}" />
+        <div class="col-md-1 pull-left topmargin">
+            <span class="small" th:text="${SubscriptionCodeBatchSessionStatistic.getSubscriptionCodeBatchSessionUID()}" />
         </div>
 
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <span class="small" th:text="${OpenSubscriptionCodeBatchSession.strategicPlatformPartner.getPlatformPartnerName()}" />
+        <div class="col-md-2 pull-left topmargin">
+            <span class="small" th:text="${SubscriptionCodeBatchSessionStatistic.getPlatformPartnerName()}" />
         </div>
 
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <span class="small" th:text="${OpenSubscriptionCodeBatchSession.batchGenerationDate}" />
+        <div class="col-md-2 pull-left topmargin">
+            <span class="small" th:text="${SubscriptionCodeBatchSessionStatistic.getBatchGenerationDateAsString()}" />
         </div>
 
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <span class="small" th:text="${OpenSubscriptionCodeBatchSession.batchRedemptionCompletionDate}" />
+        <div class="col-md-2 pull-left topmargin">
+            <span class="small" th:text="${SubscriptionCodeBatchSessionStatistic.getBatchRedemptionCompletionDate()}" />
         </div>
 
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        <div class="col-md-1 pull-left topmargin">
+            <span class="small" th:text="${SubscriptionCodeBatchSessionStatistic.getTotalNumberOfRedeemedPrepaidCodes()}" />
+        </div>
+
+        <div class="col-md-1 pull-left topmargin">
+            <span class="small" th:text="${SubscriptionCodeBatchSessionStatistic.getTotalNumberOfOpenPrePaidCodes()}" />
+        </div>
+
+        <div class="col-md-1 pull-left topmargin">
+            <span class="small" th:text="${SubscriptionCodeBatchSessionStatistic.getTotalNumberOfPrePaidCodes()}" />
+        </div>
+
+        <div class="col-md-1 pull-left topmargin">
+            <button type="button" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/view-all-prepaid-subscription-codes-excel(subscriptionCodeBatchSessionID=${SubscriptionCodeBatchSessionStatistic.getSubscriptionCodeBatchSessionID()})} + '\''">
+                Dowload PrepaidCodes Report
+            </button>
+        </div>
 
     </div>
 

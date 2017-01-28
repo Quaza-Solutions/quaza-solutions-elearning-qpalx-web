@@ -135,6 +135,10 @@ public class StudentRegistrationController {
 
         // save all subscription details
         Optional<QPalXUser> optionalQPalXUser = iqPalXUserSubscriptionService.createNewQPalXUserWithTutorialSubscription(qPalXWebUserVO);
+
+        // Update the redemption code with newly created user that redeemed it
+        iQpalxPrepaidIDService.updateRedemptionDetails(qPalXWebUserVO.getPrepaidValue(), optionalQPalXUser.get());
+
         status.isComplete();
 
         if(optionalQPalXUser.isPresent()) {

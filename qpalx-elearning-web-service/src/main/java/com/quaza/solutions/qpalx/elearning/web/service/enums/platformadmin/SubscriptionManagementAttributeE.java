@@ -5,9 +5,13 @@ package com.quaza.solutions.qpalx.elearning.web.service.enums.platformadmin;
  */
 public enum  SubscriptionManagementAttributeE {
 
+
+    SubscriptionCodeBatchSession,
+
     OpenSubscriptionCodeBatchSessions,
 
     AllSubscriptionCodeBatchSessionStatistics,
 
+    PrepaidSubscriptionStatisticList,
     ;
 }
