@@ -26,32 +26,57 @@
     <div class="row">
 
         <div class="clearfix bottom-space"></div>
-        <form th:action="@{/generate-test-excel}" th:object="${QPalXWebUserVO}" method="post">
+        <form th:action="@{/generate-save-prepaid-ids}" th:object="${PrepaidSubscriptionGenVO}" method="post">
+
+            <!-- Strategic platform partner selection -->
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6"><p><b>Strategic Platform Partner</b></p><p>Select which Partner to generate for</p></div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-6">
+                    <select class="dropdown" th:field="*{strategicPlatformPartnerID}">
+                        <option th:each="StrategicPlatformPartner : ${StrategicPlatformPartnerList}" th:value="${StrategicPlatformPartner.id}" th:text="${StrategicPlatformPartner.platformPartnerName}"></option>
+                    </select></div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <br /><br />
+
+            <!-- Country selection -->
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-6"><p><b>Country Selection</b></p><p>Select which country to generate for</p></div>
                 <div class="col-md-2"></div>
             </div>
+
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-6">
-                    <select class="dropdown" th:field="*{countryID}">
+                    <select class="dropdown">
                         <option th:each="QPalXCountry : ${QPalXCountries}" th:value="${QPalXCountry.id}" th:text="${QPalXCountry.countryName}"></option>
                     </select></div>
                 <div class="col-md-2"></div>
             </div>
+
             <br /><br />
+
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-6"><p><b>Region Selection</b></p><p>Select which region you want to generate codes for</p></div>
                 <div class="col-md-2"></div>
             </div>
+
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-6">
                     <select class="dropdown" th:field="*{municipalityID}">
-                    <option th:each="QPalXMunicipality : ${QPalXMunicipalities}" th:value="${QPalXMunicipality.id}" th:text="${QPalXMunicipality.name}"></option>
-                    </select></div>
+                        <option th:each="QPalXMunicipality : ${QPalXMunicipalities}" th:value="${QPalXMunicipality.id}" th:text="${QPalXMunicipality.name}"></option>
+                    </select>
+                </div>
                 <div class="col-md-2"></div>
             </div>
             <br /><br />
@@ -78,7 +103,14 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-6">
                     <div aligh="left">
-                        <input type="text" th:field="*{numToGenerate}" th:value="numToGenerate"/>
+                        <select class="dropdown" th:field="*{numToGenerate}">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
                     </div>
                     <br /><br />
                 <div class="col-md-2">

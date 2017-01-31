@@ -13,5 +13,9 @@ public enum  SubscriptionManagementAttributeE {
     AllSubscriptionCodeBatchSessionStatistics,
 
     PrepaidSubscriptionStatisticList,
+
+    PrepaidSubscriptionGenVO,
+
+    StrategicPlatformPartnerList,
     ;
 }
