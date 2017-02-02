@@ -13,6 +13,7 @@ import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAt
 import com.quaza.solutions.qpalx.elearning.web.service.enums.platformadmin.PlatformAdminManagementModeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.platformadmin.SubscriptionManagementAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.PrepaidSubscriptionGenVO;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXWebUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,10 @@ public class PrePaidCodesGenerationController {
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserInfoPanelService")
     private IQPalXUserInfoPanelService qPalXUserInfoPanelService;
+
+    @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
+    private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(PrePaidCodesGenerationController.class);
 
@@ -98,10 +104,12 @@ public class PrePaidCodesGenerationController {
 
     @PreAuthorize("hasAuthority('PLATFORM_ADMIN')")
     @RequestMapping(value = "/generate-save-prepaid-ids", method=RequestMethod.POST)
-    public void generateAndSavePrepaidIDs(@ModelAttribute(value="PrepaidSubscriptionGenVO") PrepaidSubscriptionGenVO prepaidSubscriptionGenVO, HttpServletResponse response) throws Exception{
+    public void generateAndSavePrepaidIDs(@ModelAttribute(value="PrepaidSubscriptionGenVO") PrepaidSubscriptionGenVO prepaidSubscriptionGenVO,
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOGGER.info("Generating prepaid subscription ID for prepaidSubscriptionGenVO: {}", prepaidSubscriptionGenVO);
         iSubscriptionCodeBatchSessionService.buildNewSubscriptionBatch(prepaidSubscriptionGenVO);
-
+        String targetURL = "/view-open-subcription-code-batches";
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
 
 
