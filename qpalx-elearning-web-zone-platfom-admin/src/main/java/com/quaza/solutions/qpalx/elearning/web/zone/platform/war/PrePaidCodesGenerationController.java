@@ -101,6 +101,7 @@ public class PrePaidCodesGenerationController {
     public void generateAndSavePrepaidIDs(@ModelAttribute(value="PrepaidSubscriptionGenVO") PrepaidSubscriptionGenVO prepaidSubscriptionGenVO, HttpServletResponse response) throws Exception{
         LOGGER.info("Generating prepaid subscription ID for prepaidSubscriptionGenVO: {}", prepaidSubscriptionGenVO);
         iSubscriptionCodeBatchSessionService.buildNewSubscriptionBatch(prepaidSubscriptionGenVO);
+
     }
 
 
