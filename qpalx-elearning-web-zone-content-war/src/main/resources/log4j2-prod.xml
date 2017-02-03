@@ -5,7 +5,7 @@
             <PatternLayout pattern="%d{MMM-dd-yyyy HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
 
-        <File name="MAIN-APP-LOG-FILE" fileName="/home/qpalxcom/tomcat/logs/application.log">
+        <File name="MAIN-APP-LOG-FILE" fileName="/home/qpalxcom/tomcat/logs/qpalx.com/application.log">
             <PatternLayout>
                 <Pattern>%d{MMM-dd-yyyy HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
             </PatternLayout>
