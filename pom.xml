@@ -21,7 +21,7 @@
     <module>qpalx-elearning-web-zone-content-student</module>
     <module>qpalx-elearning-web-service</module>
     <module>qpalx-elearning-web-zone-content-war</module>
-      <module>qpalx-elearning-web-zone-platfom-admin</module>
+      <module>qpalx-elearning-web-zone-content-platfom-admin</module>
   </modules>
 
 </project>
