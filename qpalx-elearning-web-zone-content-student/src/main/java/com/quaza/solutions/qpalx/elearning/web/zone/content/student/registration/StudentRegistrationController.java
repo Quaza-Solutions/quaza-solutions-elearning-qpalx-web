@@ -3,6 +3,7 @@ package com.quaza.solutions.qpalx.elearning.web.zone.content.student.registratio
 import com.quaza.solutions.qpalx.elearning.domain.geographical.QPalXMunicipality;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.subjectmatter.proficiency.SimplifiedProficiencyRankE;
+import com.quaza.solutions.qpalx.elearning.domain.subscription.QPalXSubscription;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IGeographicalDateTimeFormatter;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IQPalXMunicipalityService;
 import com.quaza.solutions.qpalx.elearning.service.prepaidsubscription.IQPalxPrepaidIDService;
@@ -11,6 +12,7 @@ import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.subscription.IQPalxSubscriptionService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.student.StudentSignUpModelAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXWebUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -93,6 +96,10 @@ public class StudentRegistrationController {
             return ContentRootE.Student_Signup.getContentRootPagePath("sign-up-student");
         }
 
+        // Find all currently available prepaid subscriptions for Ghana.  Default for now.
+        // TODO replace with student's home country
+        List<QPalXSubscription> qPalXSubscriptionList = iqPalxSubscriptionService.findAllQPalXSubscriptionsByCountryCode("GH");
+        model.addAttribute(StudentSignUpModelAttributeE.AvailableSubscriptions.toString(), qPalXSubscriptionList);
         return ContentRootE.Student_Signup.getContentRootPagePath("payment-selection");
     }
 
