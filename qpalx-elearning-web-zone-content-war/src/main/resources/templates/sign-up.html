@@ -21,7 +21,7 @@
 <div class="container">
     <div class="clearfix bottom-space"></div>
     <div class="row">
-       <div class="col-md-12"><h3 class="centered">Select the Title that Applies</h3></div>
+       <div class="col-md-12"><h3 class="centered">Select Signup Type.  Only Student Currently Supported.</h3></div>
     </div>
 
     <br /><br />
@@ -31,7 +31,7 @@
         <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
         <div class="row" th:if="${#fields.hasErrors('signUpType')}">
-            <div class="alert alert-danger fade in col-sm-12">Signup Type Must be selected!!</div>
+            <div class="alert alert-danger fade in col-sm-12">Signup Type Must be selected!!  Only Student Signup Currently Supported</div>
         </div>
 
         <div class="row">
@@ -43,16 +43,16 @@
             </div>
 
             <div class="col-sm-4">
-                <input type="radio" id="check-box-2" value="Parent" name="options" th:field="*{signUpType}" />
+                <input type="radio" id="check-box-2" value="Parent" name="options" th:field="*{signUpType}" disabled='disabled' />
                 <label for="check-box-2" class="box" id="center-box"><img src="images/assets/sign-up/parent.png" class="user" /><h4 class="centered">Parent</h4>
-                    <p class="centered gray small-text">Manage and track your son or daughter's performance using Qpalx.</p>
+                    <p class="centered gray small-text">Manage and track your son or daughter's performance using Qpalx. <br/> Coming Soon!!.</p>
                 </label>
             </div>
 
             <div class="col-sm-4">
-                <input type="radio" id="check-box-3" value="Teacher" name="options" th:field="*{signUpType}" />
+                <input type="radio" id="check-box-3" value="Teacher" name="options" th:field="*{signUpType}" disabled='disabled' />
                 <label for="check-box-3" class="box" id="right-box"><img src="images/assets/sign-up/teacher.png" class="user" /><h4 class="centered">Teacher</h4>
-                    <p class="centered gray small-text">Manage your class performance and gain an understanding of how well your students are doing. </p>
+                    <p class="centered gray small-text">Manage your class performance and gain an understanding of how well your students are doing. <br/> Coming Soon!!.</p>
                 </label>
             </div>
 

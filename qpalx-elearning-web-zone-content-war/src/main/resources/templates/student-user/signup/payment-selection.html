@@ -34,7 +34,7 @@
                 <!-- Note that value of radio is set to ID for monthly on QPalXSubscription.  This needs to be changed if table changes -->
                 <input type="radio" id="check-box-one" value="1" name="subscriptions" onClick="displayCheckmark1();" th:field="*{subscriptionID}"/>
                 <label for="check-box-one" class="cents-box cents-box-2">
-                    <img class="cents" src="images/assets/sign-up/subscription-weekly-green.png" /><span></span><p class="centered large-text"><b>Monthly</b></p><p class="centered">You will be billed on a weekly basis</p>
+                    <img class="cents" src="images/assets/sign-up/subscription-weekly-green.png" /><span></span><p class="centered large-text"><b>Weekly</b></p><p class="centered">You will be billed on a weekly basis</p>
                 </label>
             </div>
 
@@ -128,7 +128,7 @@
 
         <div th:if="${QPalXWebUserVO.redemptionFailure == true}" class="row">
             <div class="col-md-3"></div>
-            <div class="col-md-6"> <label for="redemptionFail" style="color:#FF0000;">Non-Existent/Already-Used Value Please Try Again</label><input type="text" th:field="*{prepaidValue}" class="form-control" style="border:1px solid #ff0000" id="redemptionFail"/>
+            <div class="col-md-6"> <label for="redemptionFail" style="color:#FF0000;">Non-Existent/Already-Used Code. Verify subscription purchased duration matches selected subscription</label><input type="text" th:field="*{prepaidValue}" class="form-control" style="border:1px solid #ff0000" id="redemptionFail"/>
                 <div class="col-md-3"></div></div>
         </div>
 

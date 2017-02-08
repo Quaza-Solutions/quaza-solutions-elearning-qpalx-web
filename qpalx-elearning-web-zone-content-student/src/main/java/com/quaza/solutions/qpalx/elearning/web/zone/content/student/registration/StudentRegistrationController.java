@@ -117,7 +117,7 @@ public class StudentRegistrationController {
             return "/launch.html";//penalty
         }
         else {
-            if (iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXMunicipality)) {
+            if (iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXWebUserVO.getSubscriptionID(), qPalXMunicipality)) {
                 qPalXWebUserVO.setRedemptionFailure(false);
                 model.addAttribute("QPalXWebUserVO", qPalXWebUserVO);
                 LOGGER.info("Processing student signup payment page with qPalXWebUserVO: {}", qPalXWebUserVO);
@@ -128,7 +128,6 @@ public class StudentRegistrationController {
                 int holder = qPalXWebUserVO.getIncorrectValueCounter();
                 holder++;
                 qPalXWebUserVO.setIncorrectValueCounter(holder);
-                System.out.println("Failed Attempts: " + qPalXWebUserVO.getIncorrectValueCounter());
                 model.addAttribute("QPalXWebUserVO", qPalXWebUserVO);
                 return ContentRootE.Student_Signup.getContentRootPagePath("payment-selection");
             }
