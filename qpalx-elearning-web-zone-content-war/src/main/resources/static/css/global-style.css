@@ -1707,9 +1707,9 @@ progress[value]::-moz-progress-bar
 
 .header-text-box {
 	/*	margin: 65px 0 0 160px;*/
-	position: absolute;
+	/*position: absolute;
 	top: 65px;
-	left: 160px;
+	left: 160px;*/
 		height: 40px;
 		width: 200px;
 		background-color: #e6e7e9;
