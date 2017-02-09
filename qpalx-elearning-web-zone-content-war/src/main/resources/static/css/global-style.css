@@ -429,6 +429,14 @@ width: 248px;
     display: none;
 }
 
+#check-box-three {
+    display: none;
+}
+
+#check-box-three:checked + label{
+    border: 2px solid #7dc855;
+}
+
 #check-box-one:checked + label{
     border: 2px solid #7dc855;
 }
@@ -437,6 +445,14 @@ width: 248px;
 }
 #check-box-two {
     display: none;
+}
+
+#check-box-four {
+    display: none;
+}
+
+#check-box-four:checked + label{
+    border: 2px solid #7dc855;
 }
 
 #check-box-two:checked + label{
@@ -510,6 +526,7 @@ width: 248px;
 }
 .side-margin {
 	padding: 0 10px 0 10px;
+	margin-top: -20px;
 }
 .gray {
 	   color: #999;
@@ -908,7 +925,8 @@ left: 12%;
 .cents {
 	margin: 60px 80px;
 	text-align: center;
-	}
+	width: 60%;
+}
 
 .radio-btn {
 	width: 30px;
@@ -1396,8 +1414,8 @@ margin: auto 0 auto -60px;
 
 .checkmark2 {
 	position: relative;
-	top: -60px;
-	right: -50px;
+	top: -280px;
+	right: -230px;
 }
 
 .checkmark3 {
