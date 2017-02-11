@@ -96,6 +96,6 @@
             1) ROOT.war is for main application
             2) staging.war is for the staging application
         -->
-        <finalName>ROOT</finalName>
+        <finalName>staging</finalName>
     </build>
 </project>
