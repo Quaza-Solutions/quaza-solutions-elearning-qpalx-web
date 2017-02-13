@@ -8,6 +8,7 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXEMicroLessonService;
+import com.quaza.solutions.qpalx.elearning.web.service.admin.quiz.IAdaptiveLearningQuizAdminService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
@@ -62,6 +63,10 @@ public class AdaptiveQuizAdminController {
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.sstatic.ELearningStaticContentService")
     private IELearningStaticContentService ieLearningStaticContentService;
+
+    @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.admin.AdaptiveLearningQuizAdminService")
+    private IAdaptiveLearningQuizAdminService iAdaptiveLearningQuizAdminService;
 
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
@@ -218,6 +223,22 @@ public class AdaptiveQuizAdminController {
         iAdaptiveLearningQuizService.createAndSaveAdaptiveLearningQuiz(qPalXEMicroLesson, adaptiveLearningQuizWebVO);
         status.setComplete();
 
+        String targetURL = "/view-adaptive-quizzes?microlessonID=" + qPalXEMicroLesson.getId();
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
+    }
+
+    @RequestMapping(value = "/delete-adaptive-learning-quiz", method = RequestMethod.GET)
+    public void deleteAdaptiveLearningQuiz(@RequestParam("adaptiveQuizID") String adaptiveQuizID, Model model,
+                                           HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Deleting AdaptiveLearning Quiz with ID: {}", adaptiveQuizID);
+        Long id = NumberUtils.toLong(adaptiveQuizID);
+        AdaptiveLearningQuiz adaptiveLearningQuiz = iAdaptiveLearningQuizService.findByID(id);
+        QPalXEMicroLesson qPalXEMicroLesson = adaptiveLearningQuiz.getQPalXEMicroLesson();
+
+        // First delete actual quiz and if that is succesful then delete all Media content for quiz questions
+        iAdaptiveLearningQuizAdminService.deleteAdaptiveLearningQuiz(adaptiveLearningQuiz);
+
+        // Redirect to view all quizzes for micro lesson
         String targetURL = "/view-adaptive-quizzes?microlessonID=" + qPalXEMicroLesson.getId();
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
