@@ -66,7 +66,6 @@ public class StudentAdaptiveLearningQuizReviewController {
 
         // Find Students response to this question
         AdaptiveQuizQuestionStudentResponseVO studentResponseVO = iStudentQuizQuestionService.findAdaptiveQuizQuestionStudentResponse(modelMap, currentQuizQuestionModelID);
-        System.out.println("\nstudentResponseVO = " + studentResponseVO);
 
         model.addAttribute(AdaptiveLearningQuizAttributeE.QuizQuestionStudentAnswerResponse.toString(), studentResponseVO);
 

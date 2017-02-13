@@ -4,7 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IAdaptiveLearningQuizQuestionAnswerVO;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IAdaptiveLearningQuizQuestionVO;
+import com.quaza.solutions.qpalx.elearning.domain.lms.content.hierarchy.IHierarchicalLMSContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
+import com.quaza.solutions.qpalx.elearning.domain.lms.media.MediaContentTypeE;
+import com.quaza.solutions.qpalx.elearning.domain.lms.media.QPalXTutorialContentTypeE;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -26,13 +29,17 @@ public class AdaptiveLearningQuizQuestionVO extends AdaptiveQuizQuestionAnswerMo
 
     private String quizQuestionTypeString;
 
-    private AdaptiveLearningQuizQuestionTypeE adaptiveLearningQuizQuestionTypeE = AdaptiveLearningQuizQuestionTypeE.Multiple_Choice;
+    private AdaptiveLearningQuizQuestionTypeE adaptiveLearningQuizQuestionTypeE;
 
-    private ELearningMediaContent quizQuestionAnswerMultiMedia;
+    private ELearningMediaContent quizQuestionMultiMedia;
+
+    private IHierarchicalLMSContent iHierarchicalLMSContent;
 
 
     private Set<IAdaptiveLearningQuizQuestionAnswerVO> iAdaptiveLearningQuizQuestionAnswerVOS = new LinkedHashSet<>();
 
+    public AdaptiveLearningQuizQuestionVO() {
+    }
 
     @Override
     public String getQuestionTitle() {
@@ -70,12 +77,12 @@ public class AdaptiveLearningQuizQuestionVO extends AdaptiveQuizQuestionAnswerMo
     }
 
     @Override
-    public ELearningMediaContent getQuizQuestionAnswerMultiMedia() {
-        return quizQuestionAnswerMultiMedia;
+    public ELearningMediaContent getQuizQuestionMultiMedia() {
+        return quizQuestionMultiMedia;
     }
 
-    public void setQuizQuestionAnswerMultiMedia(ELearningMediaContent quizQuestionAnswerMultiMedia) {
-        this.quizQuestionAnswerMultiMedia = quizQuestionAnswerMultiMedia;
+    public void setQuizQuestionAnswerMultiMedia(ELearningMediaContent quizQuestionMultiMedia) {
+        this.quizQuestionMultiMedia = quizQuestionMultiMedia;
     }
 
     @Override
@@ -86,6 +93,30 @@ public class AdaptiveLearningQuizQuestionVO extends AdaptiveQuizQuestionAnswerMo
     public void buildAndAddQuestionAnswerModel() {
         Set<IAdaptiveLearningQuizQuestionAnswerVO> quizQuestionAnswers = getQuizQuestionAnswers();
         iAdaptiveLearningQuizQuestionAnswerVOS.addAll(quizQuestionAnswers);
+    }
+
+    @Override
+    public Set<MediaContentTypeE> getMediaContentTypes() {
+        return ImmutableSet.of(MediaContentTypeE.jpeg, MediaContentTypeE.png);
+    }
+
+    @Override
+    public Set<QPalXTutorialContentTypeE> getQPalXTutorialContentTypes() {
+        return ImmutableSet.of(QPalXTutorialContentTypeE.Quiz_Question);
+    }
+
+    @Override
+    public QPalXTutorialContentTypeE getSelectedQPalXTutorialContentTypeE() {
+        return QPalXTutorialContentTypeE.Quiz_Question;
+    }
+
+    @Override
+    public IHierarchicalLMSContent getIHierarchicalLMSContent() {
+        return iHierarchicalLMSContent;
+    }
+
+    public void setIHierarchicalLMSContent(IHierarchicalLMSContent iHierarchicalLMSContent) {
+        this.iHierarchicalLMSContent = iHierarchicalLMSContent;
     }
 
     @Override
@@ -100,7 +131,7 @@ public class AdaptiveLearningQuizQuestionVO extends AdaptiveQuizQuestionAnswerMo
                 .append(questionTitle, that.questionTitle)
                 .append(questionFeedBack, that.questionFeedBack)
                 .append(adaptiveLearningQuizQuestionTypeE, that.adaptiveLearningQuizQuestionTypeE)
-                .append(quizQuestionAnswerMultiMedia, that.quizQuestionAnswerMultiMedia)
+                .append(quizQuestionMultiMedia, that.quizQuestionMultiMedia)
                 .isEquals();
     }
 
@@ -110,19 +141,20 @@ public class AdaptiveLearningQuizQuestionVO extends AdaptiveQuizQuestionAnswerMo
                 .append(questionTitle)
                 .append(questionFeedBack)
                 .append(adaptiveLearningQuizQuestionTypeE)
-                .append(quizQuestionAnswerMultiMedia)
+                .append(quizQuestionMultiMedia)
                 .toHashCode();
     }
 
     @Override
     public String toString() {
-        String questionModel = super.toString();
+        String qizQuestionAnswerModel = super.toString();
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("questionTitle", questionTitle)
                 .append("questionFeedBack", questionFeedBack)
                 .append("adaptiveLearningQuizQuestionTypeE", adaptiveLearningQuizQuestionTypeE)
-                .append("quizQuestionAnswerMultiMedia", quizQuestionAnswerMultiMedia)
-                .append("AdaptiveQuizQuestionAnswerModel", questionModel)
+                .append("quizQuestionMultiMedia", quizQuestionMultiMedia)
+                .append("iHierarchicalLMSContent", iHierarchicalLMSContent)
+                .append("qizQuestionAnswerModel", qizQuestionAnswerModel)
                 .toString();
     }
 }

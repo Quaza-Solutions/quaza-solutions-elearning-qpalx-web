@@ -1,9 +1,11 @@
 package com.quaza.solutions.qpalx.elearning.web.sstatic.vo;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IAdaptiveLearningQuizQuestionAnswerVO;
+import com.quaza.solutions.qpalx.elearning.domain.lms.media.AbstractILMSMediaContentVO;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -11,7 +13,7 @@ import java.util.Set;
 /**
  * @author manyce400
  */
-public abstract class AdaptiveQuizQuestionAnswerModel {
+public abstract class AdaptiveQuizQuestionAnswerModel extends AbstractILMSMediaContentVO {
 
 
 
@@ -126,7 +128,7 @@ public abstract class AdaptiveQuizQuestionAnswerModel {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
                 .append("option1", option1)
                 .append("option2", option2)
                 .append("option3", option3)

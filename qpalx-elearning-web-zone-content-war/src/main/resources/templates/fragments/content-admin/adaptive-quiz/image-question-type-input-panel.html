@@ -17,19 +17,26 @@
 
 </head>
 <body>
-<div th:fragment="question-types-panel">
+<div th:fragment="image-question-type-panel">
 
     <!-- Question types displayed based on the selected Adaptive Quiz Question Type -->
     <div class="container large-fonts-2" style="margin: 20px auto;">
-        <form method="POST" th:action="@{add-quiz-question-details}" th:object="${AdaptiveLearningQuizQuestionVO}">
+        <form method="POST" th:action="@{add-quiz-question-image}" th:object="${AdaptiveLearningQuizQuestionVO}" enctype="multipart/form-data">
             <br/>
 
-            <!--<div class="row">-->
-                <!--<div class="col-md-5"></div>-->
-                <!--<div class="col-md-1" style="text-align: center; margin: auto;">-->
-                    <!--<input type="file" name="datafile" size="40"/>-->
-                <!--</div>-->
-            <!--</div>-->
+            <!-- Choose an image file that can be displayed with the Quiz.  Only JPG, PNG files allowed-->
+            <div class="row">
+                <div class="col-md-6">
+                    <b>Only Files of format(JPG, PNG) Supported:</b>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="text-align: center; margin: auto;">
+                    <input type="file" name="file" size="40"/>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
 
             <br/>
 

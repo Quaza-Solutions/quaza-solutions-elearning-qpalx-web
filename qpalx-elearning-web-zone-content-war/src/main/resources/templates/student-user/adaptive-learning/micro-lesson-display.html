@@ -110,7 +110,7 @@
             <div class="bar-1"></div>
             <a href="#" style="float:right; margin: 20px 40px 20px 0;"   th:attr="onclick='javascript:stopVideo(\'' + ${rowStat.count} +'\');'">Close</a>
             <div class="modalBody">
-                <video width="800" id="modal-box" controls="controls">
+                <video width="800"  th:id="'modal-box-' + ${rowStat.count}"  controls="controls">
                     <source th:src="${QPalXEMicroLesson.getNarrationMediaFile()}" type="video/mp4"/>
                     Your browser does not support HTML5 video.
                 </video>
@@ -171,9 +171,8 @@
 
 </div>
 
-
 <!-- Include Footer for when user is logged in -->
-<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+<div th:replace="fragments/footer-usersession-modal-video-page :: footer-usersession-modal"/>
 
 </body>
 </html>
