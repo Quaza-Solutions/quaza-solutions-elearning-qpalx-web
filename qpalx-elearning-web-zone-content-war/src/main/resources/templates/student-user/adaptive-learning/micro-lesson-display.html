@@ -126,7 +126,7 @@
             <div class="bar-1"></div>
             <a href="#" style="float:right; margin: 20px 40px 20px 0;"   th:attr="onclick='javascript:stopVideo(\'' + ${rowStat.count} +'\');'">Close</a>
             <div class="modalBody">
-                <embed th:src="${QPalXEMicroLesson.getInteractiveMediaFile()}" width="800" height="560"  />
+                <embed th:src="${QPalXEMicroLesson.getInteractiveMediaFile()}" FlashVars="autoplay=false" width="800" height="560"  />
             </div>
             <div class="bar-3"></div>
         </div>
