@@ -65,7 +65,7 @@
             <div class="bar-1"></div>
             <a href="#" style="float:right; margin: 20px 40px 20px 0;" onClick="stopVideo();">Close</a>
             <div class="modalBody">
-                <video width="800" id="modal-box" controls="controls">
+                <video oncontextmenu="return false;" width="800" id="modal-box" controls="controls">
                     <source th:src="${QPalXELesson.getLessonMediaFile()}" type="video/mp4"/>
                     Your browser does not support HTML5 video.
                 </video>
