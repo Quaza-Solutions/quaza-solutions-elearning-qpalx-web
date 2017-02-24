@@ -19,24 +19,26 @@
 
     <!-- Main Header section -->
     <header>
-        <form id="QPalXLoginForm" method="post" th:action="@{/login}" name="myform">
+        <form id="QPalXLoginForm" method="post" th:action="@{/login}" class="form-inline">
 
             <div class="row">
+
                 <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 logo"></div>
-                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
-                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                    <input class="header-text-box-2" type="text" name="username" id="header-text" value="&nbsp;&nbsp;&nbsp;Enter Email Address" onFocus="this.value=''" OnBlur="document.myform.pass.focus();"/>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
+
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 form-group">
+                    <input class="header-text-box-2" type="text" name="username" id="header-text" placeholder="Email"/>
                 </div>
-                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                    <input class="header-text-box" type="password" name="password" style="margin: 65px 0 0 144px;" value="" onFocus="this.value='';" />
+
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 form-group">
+                    <input class="header-text-box" type="password" name="password" style="margin: 65px 0 0 0;" placeholder="Password" />
                 </div>
-                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                    <a href="#" onclick="document.getElementById('QPalXLoginForm').submit();">
-                        <img style="margin-left: 260px;" id="header-button" class="header-buttons" src="images/assets/platform/log-in-button.png"/>
-                    </a>
+
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                    <button type="submit" id="header-button-1" class="log-in header-buttons" style="margin: 65px 0 0 0;">Log In</button>
                 </div>
-                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+
             </div>
 
             <!-- Display invalid login information panel -->

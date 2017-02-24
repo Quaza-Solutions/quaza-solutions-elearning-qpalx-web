@@ -19,6 +19,7 @@
 
         <!-- SHS1 is selected -->
         <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'SHS1'">
+
             <div class="col-md-2">
                 <b class="green">SHS1</b>
                 <hr class="green-hr-I" id="hr-I" />
@@ -33,19 +34,28 @@
                 <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='3',curriculumType=${CurriculumType})}"><b>SHS3</b></a>
                 <hr class="black-hr-I"/>
             </div>
+
             <div class="col-md-4"></div>
 
             <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
-                <span class="course-2"><i style="color: #43484d;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i><a th:href="@{/add-curriculum-course(curriculumID=${SelectedELearningCurriculum.id})}">&nbsp;&nbsp;Add&nbsp;Course</a></span>
+                <span class="course-2">
+                    <a th:href="@{/add-curriculum-course(curriculumID=${SelectedELearningCurriculum.id})}">Add Course</a>
+                    <span class="glyphicon glyphicon-plus"/>
+                </span>
             </div>
 
             <div class="col-md-2" style="cursor: pointer;" th:if="${AddCourseActivitiesEnabled} == 'true'">
-                <span class="course-2"><i style="color: #43484d;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i><a th:href="@{/add-curriculum-course-activity(eLearningCourseID=${SelectedELearningCourse.id})}">Add Course Activity</a></span>
+                <span class="course-2">
+                    <a th:href="@{/add-curriculum-course-activity(eLearningCourseID=${SelectedELearningCourse.id})}">Add Course Activity</a>
+                    <span class="glyphicon glyphicon-plus"/>
+                </span>
             </div>
+
         </div>
 
         <!-- SHS2 is selected -->
         <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'SHS2'">
+
             <div class="col-md-2" style="cursor: pointer;">
                 <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='1',curriculumType=${CurriculumType})}"><b>SHS1</b></a>
                 <hr class="black-hr-I" />
@@ -60,19 +70,28 @@
                 <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='3',curriculumType=${CurriculumType})}"><b>SHS3</b></a>
                 <hr class="black-hr-I"/>
             </div>
+
             <div class="col-md-4"></div>
 
             <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
-                <span class="course-2"><i style="color: #43484d;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i><a th:href="@{/add-curriculum-course(curriculumID=${SelectedELearningCurriculum.id})}">&nbsp;&nbsp;Add&nbsp;Course</a></span>
+                <span class="course-2">
+                    <a th:href="@{/add-curriculum-course(curriculumID=${SelectedELearningCurriculum.id})}">Add Course</a>
+                    <span class="glyphicon glyphicon-plus"/>
+                </span>
             </div>
 
             <div class="col-md-2" style="cursor: pointer;" th:if="${AddCourseActivitiesEnabled} == 'true'">
-                <span class="course-2"><i style="color: #43484d;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i><a th:href="@{/add-curriculum-course-activity(eLearningCourseID=${SelectedELearningCourse.id})}">Add Course Activity</a></span>
+                <span class="course-2">
+                    <a th:href="@{/add-curriculum-course-activity(eLearningCourseID=${SelectedELearningCourse.id})}">Add Course Activity</a>
+                    <span class="glyphicon glyphicon-plus"/>
+                </span>
             </div>
+
         </div>
 
         <!-- SHS3 is selected -->
         <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'SHS3'">
+
             <div class="col-md-2" style="cursor: pointer;">
                 <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='1',curriculumType=${CurriculumType})}"><b>SHS1</b></a>
                 <hr class="black-hr-I" />
@@ -87,15 +106,20 @@
                 <b class="green">SHS3</b>
                 <hr class="green-hr-I"/>
             </div>
+
             <div class="col-md-4"></div>
 
             <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
-                <span class="course-2"><i style="color: #43484d;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i><a th:href="@{/add-curriculum-course(curriculumID=${SelectedELearningCurriculum.id})}">&nbsp;&nbsp;Add&nbsp;Course</a></span>
+                <span class="course-2">
+                    <a th:href="@{/add-curriculum-course(curriculumID=${SelectedELearningCurriculum.id})}">Add Course</a>
+                    <span class="glyphicon glyphicon-plus"/>
+                </span>
             </div>
 
             <div class="col-md-2" style="cursor: pointer;" th:if="${AddCourseActivitiesEnabled} == 'true'">
                 <span class="course-2"><i style="color: #43484d;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i><a th:href="@{/add-curriculum-course-activity(eLearningCourseID=${SelectedELearningCourse.id})}">Add Course Activity</a></span>
             </div>
+
         </div>
 
     </div>
