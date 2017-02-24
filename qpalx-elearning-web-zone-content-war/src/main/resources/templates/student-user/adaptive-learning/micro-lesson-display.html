@@ -89,10 +89,11 @@
 
             <span th:text="${AdaptiveLearningQuiz.adaptiveLearningQuizTitle}">&nbsp;&nbsp;&nbsp;</span>
 
-            <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
-
             <!-- Display actual User Quiz Score -->
-            <span  th:text="${AdaptiveLearningQuiz.proficiencyScore} + '%'"></span>
+            <span th:if="${AdaptiveLearningQuiz.proficiencyScore != null and AdaptiveLearningQuiz.proficiencyScore &gt; 0.0}">
+                <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+                <span  th:text="${AdaptiveLearningQuiz.proficiencyScore} + '%'"></span>
+            </span>
 
         </a>
     </div>

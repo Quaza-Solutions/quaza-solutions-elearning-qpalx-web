@@ -144,7 +144,15 @@ public class StudentLessonController {
         model.addAttribute(LessonsAdminAttributesE.QPalXEMicroLessons.toString(), adaptiveMicroLessonStatisticsList);
 
         List<AdaptiveLessonQuizStatistics> adaptiveLessonQuizStatisticsList = iAdaptiveLearningQuizStatisticsService.findMicroLessonStudentQuizStatistics(optionalUser.get(), adaptiveMicroLessonStatisticsList.get(0).getMicroLessonID());
-        model.addAttribute(LessonsAdminAttributesE.AdaptiveLearningQuizzes.toString(), adaptiveLessonQuizStatisticsList);
+
+        if(adaptiveLessonQuizStatisticsList.size() == 1) {
+            AdaptiveLessonQuizStatistics adaptiveLessonQuizStatistics = adaptiveLessonQuizStatisticsList.get(0);
+            if(adaptiveLessonQuizStatistics.getAdaptiveLearningQuizID().longValue() > 0) {
+                model.addAttribute(LessonsAdminAttributesE.AdaptiveLearningQuizzes.toString(), adaptiveLessonQuizStatisticsList);
+            }
+        } else {
+            model.addAttribute(LessonsAdminAttributesE.AdaptiveLearningQuizzes.toString(), adaptiveLessonQuizStatisticsList);
+        }
 
         // Find the current default TutorialLevelCalendar based on the selected value
         Long tId = NumberUtils.toLong(tutorialLevelID);
