@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/global-style.css"/>
 
     <!-- QPalX favicon -->
-    <link rel="shortcut icon" type="image/png" href="images/assets/platform/favicon.png" />
+    <!--<link rel="icon" type="image/png" href="images/assets/platform/favicon.png" />-->
 </head>
 <body>
 <div th:fragment="header-usersession">
@@ -25,21 +25,23 @@
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 logo"></div>
                 </span>
             </a>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
 
-            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 <a th:href="@{/account-info}">
                     <img  id="header-button1" class="header-buttons" src="images/assets/platform/account.png"/>
                 </a>
             </div>
 
-            <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 <a th:href="@{/logout}">
                     <img id="header-button2" class="header-buttons" src="images/assets/platform/sign-out.png"/>
                 </a>
             </div>
 
             <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+
         </div>
     </header>
 </div>
