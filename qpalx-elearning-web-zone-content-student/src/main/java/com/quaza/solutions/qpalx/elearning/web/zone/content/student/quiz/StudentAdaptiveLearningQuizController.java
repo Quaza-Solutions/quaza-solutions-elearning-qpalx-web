@@ -157,13 +157,14 @@ public class StudentAdaptiveLearningQuizController {
             String targetURL = "/access-quiz-question?questionID="+nextQuestionModelID;
             iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
         } else {
-            String targetURL = "/show-quiz-scores";
+            String targetURL = "/show-quiz-scores?reviewMode=false";
             iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
         }
     }
 
     @RequestMapping(value = "/show-quiz-scores", method = RequestMethod.GET)
     public String calculateAndShowQuizQuestionScores(final Model model, ModelMap modelMap,
+                                                   @RequestParam("reviewMode") String reviewMode,
                                                    @ModelAttribute("LaunchedAdaptiveLearningQuiz") AdaptiveLearningQuiz adaptiveLearningQuiz,
                                                    @ModelAttribute("LaunchedAdaptiveLearningQuizQuestionScores") Map<Integer, AdaptiveQuizQuestionStudentResponseVO> questionResponseMap,
                                                    @ModelAttribute("LaunchedAdaptiveLearningQuizQuestions") Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap,
@@ -171,6 +172,9 @@ public class StudentAdaptiveLearningQuizController {
         LOGGER.info("Calculating entire quiz results...");
 
         Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
+
+        Boolean isReviewMode = Boolean.valueOf(reviewMode);
+        LOGGER.info("Displaying Student user quiz scores, isReviewMode: {}", isReviewMode);
 
         // capture and caluclate the entire quiz results for student
         AdaptiveLearningQuizResultVO adaptiveLearningQuizResultVO = iStudentQuizQuestionService.calculateAdaptiveQuizResults(questionResponseMap, questionModelMap);
@@ -180,9 +184,11 @@ public class StudentAdaptiveLearningQuizController {
         // Add score display attributes in order to display Score in Adaptive Learning Chart panel
         iAdaptiveLearningScoreChartDisplayPanel.addLearningScoreChartDisplayPanel(model, adaptiveLearningQuizResultVO.getQuizScorePercent());
 
-        // Save this as an AdaptiveLearningExperience and record Adaptive Quiz progress statistics.
-        iAdaptiveLearningExperienceService.buildAndSaveAdaptiveLearningExperience(optionalUser.get(), QPalXTutorialContentTypeE.Quiz, adaptiveLearningQuizResultVO.getQuizScorePercent(), adaptiveLearningQuiz.getId());
-        iAdaptiveLearningQuizStatisticsService.recordAdaptiveLearningQuizProgress(adaptiveLearningQuiz.getId(), optionalUser.get());
+        if (!isReviewMode.booleanValue()) {
+            // Save this as an AdaptiveLearningExperience and record Adaptive Quiz progress statistics.
+            iAdaptiveLearningExperienceService.buildAndSaveAdaptiveLearningExperience(optionalUser.get(), QPalXTutorialContentTypeE.Quiz, adaptiveLearningQuizResultVO.getQuizScorePercent(), adaptiveLearningQuiz.getId());
+            iAdaptiveLearningQuizStatisticsService.recordAdaptiveLearningQuizProgress(adaptiveLearningQuiz.getId(), optionalUser.get());
+        }
         return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("quiz-results-page");
     }
 
