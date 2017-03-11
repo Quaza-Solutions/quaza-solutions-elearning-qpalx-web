@@ -13,6 +13,7 @@ import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurr
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -22,6 +23,7 @@ import java.util.List;
 /**
  * @author manyce400
  */
+@Service(CummulativeProficiencyRankingService.DEFAULT_SPRING_BEAN)
 public class CummulativeProficiencyRankingService implements ICummulativeProficiencyRankingService {
 
 
@@ -42,6 +44,8 @@ public class CummulativeProficiencyRankingService implements ICummulativeProfici
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.CumulativeAdaptiveProficiencyRankingAnalyticsService")
     private IAdaptiveProficiencyRankingAnalyticsService iAdaptiveProficiencyRankingAnalyticsService;
+
+    public static final String DEFAULT_SPRING_BEAN = "com.quaza.solutions.qpalx.elearning.web.service.proficiency.CummulativeProficiencyRankingService";
 
 
 
@@ -67,16 +71,13 @@ public class CummulativeProficiencyRankingService implements ICummulativeProfici
 
             if (completionPercentGreaterThan50) {
                 AdaptiveProficiencyRanking currentAdaptiveProficiencyRanking = iAdaptiveProficiencyRankingService.findCurrentStudentAdaptiveProficiencyRankingForCurriculum(qPalXUser, eLearningCurriculum);
-                AdaptiveProficiencyRanking newAdaptiveProficiencyRanking = iAdaptiveProficiencyRankingAnalyticsService.calculateStudentProficiencyWithProgress(qPalXUser, studentOverallProgressStatistics);
-
-                ProficiencyRankingCompuationResult proficiencyRankingCompuationResult = ProficiencyRankingCompuationResult.newResultAdaptiveProficiencyRanking(newAdaptiveProficiencyRanking);
+                ProficiencyRankingCompuationResult proficiencyRankingCompuationResult = iAdaptiveProficiencyRankingAnalyticsService.calculateStudentProficiencyWithProgress(qPalXUser, studentOverallProgressStatistics);
                 proficiencyRankingCompuationResults.add(proficiencyRankingCompuationResult);
 
-                // Close out the current existing AdaptiveProficiencyRanking for this curriculum
-                closeOutCurrentAdaptiveProficiencyRanking(currentAdaptiveProficiencyRanking);
-
-                // Save and record this new AdaptiveProficiencyRanking for this curriculum
-                iAdaptiveProficiencyRankingService.save(newAdaptiveProficiencyRanking);
+                if (proficiencyRankingCompuationResult.hasAdaptiveProficiencyRanking()) {
+                    closeOutCurrentAdaptiveProficiencyRanking(currentAdaptiveProficiencyRanking);
+                    iAdaptiveProficiencyRankingService.save(proficiencyRankingCompuationResult.getAdaptiveProficiencyRanking().get());
+                }
             } else {
                 LOGGER.info("Progress completion percent in ELearningCurriculum: {} is less than 30% cannot calculate adequate proficiency", studentOverallProgressStatistics.getCurriculumName());
                 ProficiencyRankingCompuationResult proficiencyRankingCompuationResult = buildProficiencyRankingCompuationResult(studentOverallProgressStatistics);
@@ -96,7 +97,7 @@ public class CummulativeProficiencyRankingService implements ICummulativeProfici
         String reason = new StringBuffer()
                 .append("Your Completion % in CurriculumType: ")
                 .append(studentOverallProgressStatistics.getCurriculumType())
-                .append(" Curriculum: ")
+                .append(", Curriculum: ")
                 .append(studentOverallProgressStatistics.getCurriculumName())
                 .append(" is lower than 50%")
                 .toString();
