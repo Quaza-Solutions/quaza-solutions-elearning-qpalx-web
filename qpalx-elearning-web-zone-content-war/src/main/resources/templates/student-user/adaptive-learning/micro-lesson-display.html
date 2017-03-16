@@ -5,9 +5,15 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/global-style.css"/>
+
+    <!-- Add Javascript libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="js/adaptive-learning/student-quiz-history.js"></script>
 </head>
 <body>
 
@@ -25,37 +31,79 @@
     <div th:replace="fragments/student/tutorial-level-calendar-nav :: academic-calendar"></div>
 
     <!-- Display all micro lessons -->
-    <div class="row" th:each="QPalXEMicroLesson,rowStat : ${QPalXEMicroLessons}">
+    <div class="row">
 
-        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" th:inline="text"><br/>[[${rowStat.count}]]</div>
+        <!-- Start a div from left to right that contains all the micro lessons which will take up 9 bootstrap col spaces -->
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
 
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 medium-text topmargin">
-            <a class="anchor-1" th:href="@{/view-micro-lessons-with-quiz(eLessonID=${SelectedQPalXELesson.id}, tutorialLevelID=${SelectedTutorialCalendar.id}, microLessonID=${QPalXEMicroLesson.getMicroLessonID()})}">
-                <span th:text="${QPalXEMicroLesson.getMicroLessonName()}"></span>
-            </a>
+            <div class="row" th:each="QPalXEMicroLesson,rowStat : ${QPalXEMicroLessons}">
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" th:inline="text">[[${rowStat.count}]]</div>
+
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 large-fonts">
+                    <a th:href="@{/view-micro-lessons-with-quiz(eLessonID=${SelectedQPalXELesson.id}, tutorialLevelID=${SelectedTutorialCalendar.id}, microLessonID=${QPalXEMicroLesson.getMicroLessonID()})}">
+                        <span th:text="${QPalXEMicroLesson.getMicroLessonName()}"></span>
+                    </a>
+                </div>
+
+                <!-- Display narration content icon -->
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 align-top">
+                    <a th:attr="href='#popup' + ${rowStat.count}">
+                        <img src="images/assets/adaptive-learning/audio.png" />
+                    </a>
+                </div>
+
+                <!-- Display interactive content icon -->
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 align-top">
+                    <a th:attr="href='#popup_static' + ${rowStat.count}">
+                        <img src="images/assets/adaptive-learning/hand.png" />
+                    </a>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 align-top">
+                    <div>
+                        <progress class="progressbar" value="0" max="100" th:attr="data-max=${QPalXEMicroLesson.getQuizzesCompletionRate()}"></progress>
+                        <span th:inline="text">[[${QPalXEMicroLesson.getQuizzesCompletionRate()}]]%</span></div>
+                    </div>
+                </div>
+
         </div>
 
-        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-            <a class="anchor-1" th:attr="href='#popup' + ${rowStat.count}">
-                <img src="images/assets/adaptive-learning/audio.png" class="audio" />
-             </a>
-        </div>
+        <!-- Remaining 3 bootstrap col spaces will be occupied by Quiz display -->
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 
-        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-            <a class="anchor-1" th:attr="href='#popup_static' + ${rowStat.count}">
-                <img src="images/assets/adaptive-learning/hand.png" class="hand" />
-            </a>
-        </div>
+            <div class="row">
+                <div class="col-xs12 col-sm-12 col-md-12 col-lg-12 large-fonts-2">Quizzes</div>
+            </div>
 
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"><div class="topmargin-2">
-            <progress class="progressbar" value="0" max="100" th:attr="data-max=${QPalXEMicroLesson.getQuizzesCompletionRate()}"></progress>
-            <span class="progress-value">0%</span></div>
+            <div class="row" th:each="AdaptiveLearningQuiz,rowStat : ${AdaptiveLearningQuizzes}">
+
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                    <a th:href="@{/launch-adaptive-quiz(quizID=${AdaptiveLearningQuiz.adaptiveLearningQuizID}, eLessonID=${SelectedQPalXELesson.id}, tutorialLevelID=${SelectedTutorialCalendar.id})}" style="color: #06bfd3;">
+                        <span th:text="${AdaptiveLearningQuiz.adaptiveLearningQuizTitle}">&nbsp;</span>
+
+                        <!-- Display actual User Quiz Score -->
+                        <span th:if="${AdaptiveLearningQuiz.proficiencyScore != null and AdaptiveLearningQuiz.proficiencyScore &gt; 0.0}">
+                            <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+                            <span  th:text="${AdaptiveLearningQuiz.proficiencyScore} + '%'"></span>
+                        </span>
+                    </a>
+                </div>
+
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <a href="#popup4">
+                        <img src="images/assets/adaptive-learning/quiz-histories.png"/>
+                    </a>
+                </div>
+
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
+
+            </div>
+
         </div>
 
     </div>
 
-
-    <br /><br />
+    <br/><br/>
 
     <!-- Display Question Bank and Back to Lessons Panel -->
     <div class="row">
@@ -69,33 +117,6 @@
                 <img src="images/assets/adaptive-learning/Back-To-All-Lessons.png" class="all-lessons"/>
             </a>
         </div>
-    </div>
-
-</div>
-
-<div class="my-container-2 large-fonts">
-    <a class="pop-up-2" href="#popup2">Lesson Intro Video</a>
-    <br />
-    <a class="pop-up-2" href="#LessonIntroVideo">
-        <img src="images/assets/adaptive-learning/video-icon.png" id="video-icon-2" />
-    </a>
-    <br /><br />
-
-    <!--  Display all Adaptive Quizzes for the currently selected Micro Lesson -->
-    <div class="large-fonts-2">Quizzes</div>
-
-    <div class="large-fonts" th:each="AdaptiveLearningQuiz,rowStat : ${AdaptiveLearningQuizzes}">
-        <a th:href="@{/launch-adaptive-quiz(quizID=${AdaptiveLearningQuiz.adaptiveLearningQuizID}, eLessonID=${SelectedQPalXELesson.id}, tutorialLevelID=${SelectedTutorialCalendar.id})}" style="color: #06bfd3;">
-
-            <span th:text="${AdaptiveLearningQuiz.adaptiveLearningQuizTitle}">&nbsp;&nbsp;&nbsp;</span>
-
-            <!-- Display actual User Quiz Score -->
-            <span th:if="${AdaptiveLearningQuiz.proficiencyScore != null and AdaptiveLearningQuiz.proficiencyScore &gt; 0.0}">
-                <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
-                <span  th:text="${AdaptiveLearningQuiz.proficiencyScore} + '%'"></span>
-            </span>
-
-        </a>
     </div>
 
 </div>
@@ -170,6 +191,40 @@
         </div>
     </div>
 
+</div>
+
+<!-- Modal popup for Student Quiz performance historic overview -->
+<div id="popup4" class="q-modalBox">
+
+    <a href="#" class="modalCloseOuter" onClick="apiCall();"></a>
+    <div class="qBank2">
+        <div class="question-bank-top-bar">
+            <div class="question-bank-top-text">Quiz Results</div>
+            <a href="#" style="color: #000; float:right; margin: -30px 40px 20px 0;" onClick="apiCall();">Close</a>
+        </div>
+
+        <div class="questionBankModalBody">
+
+            <div class="whiteBody2">
+                <div class="row">
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <button id="chart" class="chart" type="button">Chart</button><br /><br />
+                        <button id="table" class="chart" type="button">Table</button>
+                    </div>
+                    <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+
+                        <!-- Display Student Quiz performance using Google line chart -->
+                        <div id="chart_div"></div>
+
+                        <!-- Display Student Quiz performance using table -->
+                        <div id="table_div"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
 
 <!-- Include Footer for when user is logged in -->
