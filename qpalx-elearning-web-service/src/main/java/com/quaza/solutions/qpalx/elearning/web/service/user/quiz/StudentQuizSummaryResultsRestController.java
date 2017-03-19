@@ -57,18 +57,19 @@ public class StudentQuizSummaryResultsRestController {
 
             for (AdaptiveLearningExperience adaptiveLearningExperience : quizLearningExperiences) {
                 String javascriptSafeDateTime = iGeographicalDateTimeFormatter.getJavaScriptSafeDisplayDateTimeWithTimeZone(adaptiveLearningExperience.getLearningExperienceStartDate(), optionalUser.get().getQPalXMunicipality());
-                StudentQuizPerformance studentQuizPerformance = new StudentQuizPerformance(adaptiveLearningExperience.getProficiencyScore(), javascriptSafeDateTime);
+                String userFriendlyDateTimeDisplay = iGeographicalDateTimeFormatter.getUserFriendlyDateTime(adaptiveLearningExperience.getLearningExperienceStartDate(), optionalUser.get().getQPalXMunicipality());
+                StudentQuizPerformance studentQuizPerformance = new StudentQuizPerformance(adaptiveLearningExperience.getProficiencyScore(), javascriptSafeDateTime, userFriendlyDateTimeDisplay);
                 results.add(studentQuizPerformance);
             }
 
             return results;
         } else {
-            StudentQuizPerformance studentQuizPerformance1 = new StudentQuizPerformance(50, "2017,0,1,09,00");
-            StudentQuizPerformance studentQuizPerformance2 = new StudentQuizPerformance(70, "2017,0,1,12,30");
-            StudentQuizPerformance studentQuizPerformance3 = new StudentQuizPerformance(30, "2017,0,3,9,30");
-            StudentQuizPerformance studentQuizPerformance4 = new StudentQuizPerformance(90, "2017,0,4,13,03");
-            StudentQuizPerformance studentQuizPerformance5 = new StudentQuizPerformance(80, "2017,0,5,14,04");
-            StudentQuizPerformance studentQuizPerformance6 = new StudentQuizPerformance(40, "2017,0,6,17,30");
+            StudentQuizPerformance studentQuizPerformance1 = new StudentQuizPerformance(50, "2017,0,1,09,00", "1st Jan, 2017 9:00");
+            StudentQuizPerformance studentQuizPerformance2 = new StudentQuizPerformance(70, "2017,0,1,12,30", "1st Jan, 2017 12:30");
+            StudentQuizPerformance studentQuizPerformance3 = new StudentQuizPerformance(30, "2017,0,3,9,30", "3rd Jan, 2017 9:30");
+            StudentQuizPerformance studentQuizPerformance4 = new StudentQuizPerformance(90, "2017,0,4,13,03", "4th Jan, 2017 13:03");
+            StudentQuizPerformance studentQuizPerformance5 = new StudentQuizPerformance(80, "2017,0,5,14,04", "5th Jan, 2017 14:04");
+            StudentQuizPerformance studentQuizPerformance6 = new StudentQuizPerformance(40, "2017,0,6,17,30", "6th Jan, 2017 17:30");
             List<StudentQuizPerformance> results = new ArrayList<>();
             results.add(studentQuizPerformance1);
             results.add(studentQuizPerformance2);

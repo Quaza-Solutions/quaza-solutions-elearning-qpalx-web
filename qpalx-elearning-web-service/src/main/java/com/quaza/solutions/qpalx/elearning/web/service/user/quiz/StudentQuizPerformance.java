@@ -14,9 +14,12 @@ public class StudentQuizPerformance {
 
     private String javaScriptSafeDateTime;
 
-    public StudentQuizPerformance(double quizScore, String javaScriptSafeDateTime) {
+    private String userFriendlyDateTimeDisplay;
+
+    public StudentQuizPerformance(double quizScore, String javaScriptSafeDateTime, String userFriendlyDateTimeDisplay) {
         this.quizScore = quizScore;
         this.javaScriptSafeDateTime = javaScriptSafeDateTime;
+        this.userFriendlyDateTimeDisplay = userFriendlyDateTimeDisplay;
     }
 
     public double getQuizScore() {
@@ -35,6 +38,10 @@ public class StudentQuizPerformance {
         this.javaScriptSafeDateTime = javaScriptSafeDateTime;
     }
 
+    public String getUserFriendlyDateTimeDisplay() {
+        return userFriendlyDateTimeDisplay;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,6 +53,7 @@ public class StudentQuizPerformance {
         return new EqualsBuilder()
                 .append(quizScore, that.quizScore)
                 .append(javaScriptSafeDateTime, that.javaScriptSafeDateTime)
+                .append(userFriendlyDateTimeDisplay, that.userFriendlyDateTimeDisplay)
                 .isEquals();
     }
 
@@ -54,6 +62,7 @@ public class StudentQuizPerformance {
         return new HashCodeBuilder(17, 37)
                 .append(quizScore)
                 .append(javaScriptSafeDateTime)
+                .append(userFriendlyDateTimeDisplay)
                 .toHashCode();
     }
 
@@ -62,6 +71,7 @@ public class StudentQuizPerformance {
         return new ToStringBuilder(this)
                 .append("quizScore", quizScore)
                 .append("javaScriptSafeDateTime", javaScriptSafeDateTime)
+                .append("userFriendlyDateTimeDisplay", userFriendlyDateTimeDisplay)
                 .toString();
     }
 }
