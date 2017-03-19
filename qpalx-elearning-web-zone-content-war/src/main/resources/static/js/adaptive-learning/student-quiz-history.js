@@ -27,7 +27,7 @@ $(document).ready(function() {
                     data.addColumn('number', 'Quiz Score');
 
                     var resultsHTMLTable = "<table width='100%' border='0' class='table-striped'>";
-                    resultsHTMLTable += "<tr><td><b>Date</b></td><td><b>Score</b></td></tr>";
+                    resultsHTMLTable += "<tr><td><b>Date</b></td><td align='left'><b>Score(%)</b></td></tr>";
 
                     $.each(studentQuizResults, function( index, studentQuizResult) {
                         var quizScorePercent = studentQuizResult.quizScore;
@@ -37,7 +37,7 @@ $(document).ready(function() {
                         var dateArray = quizScoreDtTime.split(',');
                         var date = new Date(dateArray[0], dateArray[1], dateArray[2], dateArray[3], dateArray[4]);
 
-                        resultsHTMLTable += "<tr><td>" + date + "</td><td>" + quizScorePercent + "</td></tr>";
+                        resultsHTMLTable += "<tr><td>" + studentQuizResult.userFriendlyDateTimeDisplay + "</td><td align='left'>" + quizScorePercent + "</td></tr>";
 
                         // Add date with score to Google chart data
                         data.addRow([date, quizScorePercent]);
