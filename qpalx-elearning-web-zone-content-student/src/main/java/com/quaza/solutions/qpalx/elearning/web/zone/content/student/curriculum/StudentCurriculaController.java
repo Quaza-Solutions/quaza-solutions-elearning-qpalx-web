@@ -98,7 +98,6 @@ public class StudentCurriculaController {
         Long id = NumberUtils.toLong(curriculumID);
         ELearningCurriculum eLearningCurriculum = ieLearningCurriculumService.findByELearningCurriculumID(id);
         AdaptiveProficiencyRanking adaptiveProficiencyRanking = iAdaptiveProficiencyRankingService.findCurrentStudentAdaptiveProficiencyRankingForCurriculum(optionalUser.get(), eLearningCurriculum);
-        System.out.println("\n\nadaptiveProficiencyRanking = " + adaptiveProficiencyRanking);
         iAdaptiveLearningScoreChartDisplayPanel.addCurriculumProficiency(model, adaptiveProficiencyRanking);
 
         // Add all attributes required for User information panel
