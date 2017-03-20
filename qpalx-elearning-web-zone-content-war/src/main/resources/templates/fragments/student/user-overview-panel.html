@@ -23,7 +23,7 @@
 
             <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
-                <div class="third circle-bar">
+                <div class="curriculum-proficiency circle-bar">
                     <strong></strong>
                 </div>
             </div>
@@ -36,10 +36,12 @@
 
         <!--  Display Curriculum details Student info details -->
         <div class="row" th:if="${DisplayCurriculum == 'true'}">
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 <div class="circle"></div>
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <br/>
                 <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
                 Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
@@ -51,13 +53,29 @@
 
             <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
-                <div class="third circle-bar">
+                <div class="curriculum-proficiency circle-bar">
                     <strong></strong>
                 </div>
+
+                <p style="color: #06bfd3;" th:inline="text">Proficiency Rating:&nbsp;[[${ProficiencyScoreRangeE}]]</p>
+
             </div>
 
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore == 0  OR AdaptiveLearningChartScore == null}">
-
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div id="rounded">
+                    <table class="green-table">
+                        <tr><td>10</td><td>&nbsp;Exceptional Performer</td></tr>
+                        <tr><td>9</td><td>High Flyer Performer</td></tr>
+                        <tr><td>8</td><td>Strong Performer</td></tr>
+                        <tr><td>7</td><td>Average Performer</td></tr>
+                        <tr><td>6</td><td>Below Average Performer</td></tr>
+                        <tr><td>5</td><td>Poor Performer</td></tr>
+                        <tr><td>4</td><td>Failing Performer</td></tr>
+                        <tr><td>3</td><td>Fundamentals Lacking</td></tr>
+                        <tr><td>2</td><td>Deficient</td></tr>
+                        <tr><td>1</td><td>Extremely Deficient</td></tr>
+                    </table>
+                </div>
             </div>
 
         </div>
@@ -79,7 +97,7 @@
 
             <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
-                <div class="third circle-bar">
+                <div class="curriculum-proficiency circle-bar">
                     <strong></strong>
                 </div>
             </div>
@@ -107,7 +125,7 @@
 
             <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
-                <div class="third circle-bar">
+                <div class="curriculum-proficiency circle-bar">
                     <strong></strong>
                 </div>
             </div>

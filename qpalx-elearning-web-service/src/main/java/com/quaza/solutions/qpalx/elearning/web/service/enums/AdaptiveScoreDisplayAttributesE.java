@@ -7,7 +7,11 @@ public enum AdaptiveScoreDisplayAttributesE {
 
     AdaptiveLearningChartScore,
 
-    AdaptiveLearningChartInverseScore
+    AdaptiveLearningChartInverseScore,
+
+    ProficiencyRankingScaleE,
+
+    ProficiencyScoreRangeE
     ;
 
 }
