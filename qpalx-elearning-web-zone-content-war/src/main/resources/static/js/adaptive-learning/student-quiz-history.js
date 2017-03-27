@@ -1,24 +1,33 @@
-$(document).ready(function() {
+function initializeChart() {
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+}
 
-    // For JQuery all functions have to be in the ready function.
-    $("#table").click(function() {
-        console.log("table clicked");
-        $("#table_div").show();
-        $("#chart_div").hide();
-    });
+function showTable() {
+    console.log("showtable clicked");
+    $("#table_div").show();
+    $("#chart_div").hide();
+}
 
-    $("#chart").click(function() {
-        $("#table_div").hide();
-        $("#chart_div").show();
-    });
+function showChart() {
+    console.log("show chart clicked");
+    $("#table_div").hide();
+    $("#chart_div").show();
+}
 
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
+$(window).on('shown.bs.modal', function() {
+    //$('#code').modal('show');
+    console.log("Modal is now visible invoking drawchart();");
+    initializeChart();
+});
 
-    function drawChart() {
+
+function drawChart() {
+
+     var quizID = $("#QuizID").val();
 
      $.ajax({ type: 'GET',
-                 url: 'http://localhost:8080/StudentQuizPerformance?QuizID=1',
+                 url: 'http://localhost:8080/StudentQuizPerformance?QuizID=' + quizID,
                  datatype: 'json',
                  success : function(studentQuizResults)
                  {
@@ -27,7 +36,7 @@ $(document).ready(function() {
                     data.addColumn('number', 'Quiz Score');
 
                     var resultsHTMLTable = "<table width='100%' border='0' class='table-striped'>";
-                    resultsHTMLTable += "<tr><td><b>Date</b></td><td align='left'><b>Score(%)</b></td></tr>";
+                    resultsHTMLTable += "<tr><td><b>Date</b></td><td><b>Score</b></td></tr>";
 
                     $.each(studentQuizResults, function( index, studentQuizResult) {
                         var quizScorePercent = studentQuizResult.quizScore;
@@ -37,7 +46,7 @@ $(document).ready(function() {
                         var dateArray = quizScoreDtTime.split(',');
                         var date = new Date(dateArray[0], dateArray[1], dateArray[2], dateArray[3], dateArray[4]);
 
-                        resultsHTMLTable += "<tr><td>" + studentQuizResult.userFriendlyDateTimeDisplay + "</td><td align='left'>" + quizScorePercent + "</td></tr>";
+                        resultsHTMLTable += "<tr><td>" + studentQuizResult.userFriendlyDateTimeDisplay + "</td><td>" + quizScorePercent + "</td></tr>";
 
                         // Add date with score to Google chart data
                         data.addRow([date, quizScorePercent]);
@@ -63,19 +72,16 @@ $(document).ready(function() {
                       },
                       series: {
                        0: { color: '#06bfd3' }
-                      },
-                      chartArea: {
-                        backgroundColor: '#dee6f2',
-                        }
+                      }
                     };
 
-                    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                     console.log(resultsHTMLTable);
                     document.getElementById('table_div').innerHTML = resultsHTMLTable;
 
                     chart.draw(data, options);
                  }
-        });
+     });
 
      // In Javascript months start with index 0
      // new Date(Year, Month, Day, Hours, Minutes, Seconds, Milliseconds)
@@ -83,6 +89,4 @@ $(document).ready(function() {
           <!--[new Date(2017, 0, 1, 09, 00), 50],  [new Date(2017, 0, 1, 12, 30), 70],  [new Date(2017, 0, 3, 9, 30), 30],-->
           <!--[new Date(2017, 0, 4, 13, 03), 90],  [new Date(2017, 0, 5, 14, 04), 80],  [new Date(2017, 0, 6, 17, 30), 40]-->
         <!--]);-->
-      }
-
-});
+}

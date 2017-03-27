@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="css/global-style.css"/>
 
     <!-- Add Javascript libraries -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="js/adaptive-learning/student-quiz-history.js"></script>
 </head>
@@ -90,7 +91,7 @@
                 </div>
 
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <a href="#popup4">
+                    <a data-toggle="modal"  th:attr="data-target='#QuizHistoryModal' + ${rowStat.count}">
                         <img src="images/assets/adaptive-learning/quiz-histories.png"/>
                     </a>
                 </div>
@@ -194,37 +195,48 @@
 </div>
 
 <!-- Modal popup for Student Quiz performance historic overview -->
-<div id="popup4" class="q-modalBox">
+<div th:if="${AdaptiveLearningQuizzes != null}">
 
-    <a href="#" class="modalCloseOuter" onClick="apiCall();"></a>
-    <div class="qBank2">
-        <div class="question-bank-top-bar">
-            <div class="question-bank-top-text">Quiz Results</div>
-            <a href="#" style="color: #000; float:right; margin: -30px 40px 20px 0;" onClick="apiCall();">Close</a>
-        </div>
+    <div th:each="AdaptiveLearningQuiz,rowStat : ${AdaptiveLearningQuizzes}">
 
-        <div class="questionBankModalBody">
-
-            <div class="whiteBody2">
-                <div class="row">
-                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                        <button id="chart" class="chart" type="button">Chart</button><br /><br />
-                        <button id="table" class="chart" type="button">Table</button>
+        <div class="modal fade" th:id="'QuizHistoryModal' + ${rowStat.count}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 1200px;">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #777; color: #fff;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Quiz Results Popup</h4>
                     </div>
-                    <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+                    <div class="modal-body">
 
-                        <!-- Display Student Quiz performance using Google line chart -->
-                        <div id="chart_div"></div>
+                        <!-- Hidden field to set pass the value of the Quiz ID to Javascript console -->
+                        <input type="hidden" th:value="${AdaptiveLearningQuiz.adaptiveLearningQuizID}" value="1" name="QuizID" id="QuizID"/>
 
-                        <!-- Display Student Quiz performance using table -->
-                        <div id="table_div"></div>
+                        <div class="whiteBody2">
+                            <div class="row">
+                                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                    <button id="chart" class="chart" type="button" onclick="showChart();">Chart</button><br /><br />
+                                    <button id="table" class="chart" type="button" onclick="showTable();">Table</button>
+                                </div>
+                                <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+
+                                    <!-- Display Student Quiz performance using Google line chart -->
+                                    <div id="chart_div"></div>
+
+                                    <!-- Display Student Quiz performance using table -->
+                                    <div id="table_div"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="background-color: #777;">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
+
 </div>
 
 <!-- Include Footer for when user is logged in -->
