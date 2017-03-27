@@ -15,9 +15,10 @@ function showChart() {
     $("#chart_div").show();
 }
 
+// this function will get called immediately when a bootstrap modal is shown.
+// piggy backing off this behavior to immediately initialize and load google charts.
 $(window).on('shown.bs.modal', function() {
-    //$('#code').modal('show');
-    console.log("Modal is now visible invoking drawchart();");
+    console.log("Modal is now visible invoking initializeChart();");
     initializeChart();
 });
 
