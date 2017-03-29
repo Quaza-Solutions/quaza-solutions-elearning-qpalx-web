@@ -2,6 +2,7 @@ package com.quaza.solutions.qpalx.elearning.web.service.proficiency;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.ProficiencyRankingCompuationResult;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 
 import java.util.List;
@@ -12,6 +13,9 @@ import java.util.List;
 public interface ICummulativeProficiencyRankingService {
 
 
+    public ProficiencyRankingCompuationResult computeAndRecordStudentProficienciesByELearningCurriculum(QPalXUser qPalXUser, ELearningCurriculum eLearningCurriculum);
+
     public List<ProficiencyRankingCompuationResult> computeAndRecordStudentProficienciesByCurriculumType(QPalXUser qPalXUser, CurriculumType curriculumType);
+
 
 }

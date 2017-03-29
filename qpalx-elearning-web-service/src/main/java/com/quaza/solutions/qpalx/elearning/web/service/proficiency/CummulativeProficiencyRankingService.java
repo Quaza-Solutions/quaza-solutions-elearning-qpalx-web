@@ -8,7 +8,9 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurric
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.IAdaptiveProficiencyRankingAnalyticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.IAdaptiveProficiencyRankingService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.statistics.IStudentCurriculumProgressService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.statistics.IStudentOverallProgressStatisticsService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.statistics.StudentCurriculumProgressService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,10 @@ public class CummulativeProficiencyRankingService implements ICummulativeProfici
     private IStudentOverallProgressStatisticsService iStudentOverallProgressStatisticsService;
 
     @Autowired
+    @Qualifier(StudentCurriculumProgressService.SPRING_BEAN_NAME)
+    private IStudentCurriculumProgressService iStudentCurriculumProgressService;
+
+    @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultAdaptiveProficiencyRankingService")
     private IAdaptiveProficiencyRankingService iAdaptiveProficiencyRankingService;
 
@@ -52,6 +58,39 @@ public class CummulativeProficiencyRankingService implements ICummulativeProfici
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(CummulativeProficiencyRankingService.class);
 
+
+    @Override
+    public ProficiencyRankingCompuationResult computeAndRecordStudentProficienciesByELearningCurriculum(QPalXUser qPalXUser, ELearningCurriculum eLearningCurriculum) {
+        Assert.notNull(qPalXUser, "qpalxUser cannot be null");
+        Assert.notNull(eLearningCurriculum, "eLearningCurriculum cannot be null");
+
+        LOGGER.info("Computing new Student ELearning proficiency ranking in Curriculum with ID: {} Name: {}", eLearningCurriculum.getId(), eLearningCurriculum.getCurriculumName());
+
+        StudentOverallProgressStatistics curriculumOverallProgress = iStudentCurriculumProgressService.getStudentOverallProgressStatisticsInCurriculum(qPalXUser, eLearningCurriculum);
+        if(curriculumOverallProgress != null) {
+            LOGGER.debug("Found current curriculumOverallProgress: {}", curriculumOverallProgress);
+            boolean completionPercentGreaterThan50 = isCompletionPercentGreaterThan50(curriculumOverallProgress);
+
+            if (completionPercentGreaterThan50) {
+                AdaptiveProficiencyRanking currentAdaptiveProficiencyRanking = iAdaptiveProficiencyRankingService.findCurrentStudentAdaptiveProficiencyRankingForCurriculum(qPalXUser, eLearningCurriculum);
+                ProficiencyRankingCompuationResult proficiencyRankingCompuationResult = iAdaptiveProficiencyRankingAnalyticsService.calculateStudentProficiencyWithProgress(qPalXUser, curriculumOverallProgress);
+
+                if (proficiencyRankingCompuationResult.hasAdaptiveProficiencyRanking()) {
+                    closeOutCurrentAdaptiveProficiencyRanking(currentAdaptiveProficiencyRanking);
+                    iAdaptiveProficiencyRankingService.save(proficiencyRankingCompuationResult.getAdaptiveProficiencyRanking().get());
+                }
+
+                return proficiencyRankingCompuationResult;
+            } else  {
+                LOGGER.info("Progress completion percent in ELearningCurriculum: {} is less than 50% cannot calculate adequate proficiency", curriculumOverallProgress.getCurriculumName());
+                ProficiencyRankingCompuationResult proficiencyRankingCompuationResult = buildProficiencyRankingCompuationResult(curriculumOverallProgress);
+                return proficiencyRankingCompuationResult;
+            }
+        }
+
+        LOGGER.info("No valid StudentOverallProgressStatistics found in  ELearningCurriculum");
+        return null;
+    }
 
     @Transactional
     @Override
@@ -79,7 +118,7 @@ public class CummulativeProficiencyRankingService implements ICummulativeProfici
                     iAdaptiveProficiencyRankingService.save(proficiencyRankingCompuationResult.getAdaptiveProficiencyRanking().get());
                 }
             } else {
-                LOGGER.info("Progress completion percent in ELearningCurriculum: {} is less than 30% cannot calculate adequate proficiency", studentOverallProgressStatistics.getCurriculumName());
+                LOGGER.info("Progress completion percent in ELearningCurriculum: {} is less than 50% cannot calculate adequate proficiency", studentOverallProgressStatistics.getCurriculumName());
                 ProficiencyRankingCompuationResult proficiencyRankingCompuationResult = buildProficiencyRankingCompuationResult(studentOverallProgressStatistics);
                 proficiencyRankingCompuationResults.add(proficiencyRankingCompuationResult);
             }
