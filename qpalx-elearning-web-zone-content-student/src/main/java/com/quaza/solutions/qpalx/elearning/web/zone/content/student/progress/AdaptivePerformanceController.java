@@ -1,11 +1,11 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.student.progress;
 
-import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.ProficiencyRankingCompuationResult;
+import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.FactorAffectingProficiencyRanking;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.CummulativeProficiencyRankingService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.ICummulativeProficiencyRankingService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
-import com.quaza.solutions.qpalx.elearning.web.service.proficiency.CummulativeProficiencyRankingService;
-import com.quaza.solutions.qpalx.elearning.web.service.proficiency.ICummulativeProficiencyRankingService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -55,7 +56,7 @@ public class AdaptivePerformanceController {
         Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
 
         ELearningCurriculum eLearningCurriculum = ieLearningCurriculumService.findByELearningCurriculumID(1L);
-        ProficiencyRankingCompuationResult compuationResult = iCummulativeProficiencyRankingService.computeAndRecordStudentProficienciesByELearningCurriculum(optionalUser.get(), eLearningCurriculum);
+        List<FactorAffectingProficiencyRanking> factorsAffectingProficiencyRankingList = iCummulativeProficiencyRankingService.computeAndSaveStudentAdaptiveProficiencyRankingInCurriculum(optionalUser.get(), eLearningCurriculum);
         String targetURL = "/curriculum-courses?curriculumID=" + id;
         redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, targetURL);
     }

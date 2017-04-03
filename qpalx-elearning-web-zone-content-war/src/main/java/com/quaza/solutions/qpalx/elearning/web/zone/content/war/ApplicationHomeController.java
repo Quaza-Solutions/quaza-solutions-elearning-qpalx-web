@@ -1,6 +1,5 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.war;
 
-import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.ProficiencyRankingCompuationResult;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
@@ -17,8 +16,6 @@ import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLea
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.platformadmin.PlatformAdminManagementModeE;
-import com.quaza.solutions.qpalx.elearning.web.service.proficiency.CummulativeProficiencyRankingService;
-import com.quaza.solutions.qpalx.elearning.web.service.proficiency.ICummulativeProficiencyRankingService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXWebUserVO;
@@ -82,10 +79,6 @@ public class ApplicationHomeController {
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.AdaptiveLearningScoreChartDisplayPanel")
     private IAdaptiveLearningScoreChartDisplayPanel iAdaptiveLearningScoreChartDisplayPanel;
-
-    @Autowired
-    @Qualifier(CummulativeProficiencyRankingService.DEFAULT_SPRING_BEAN)
-    private ICummulativeProficiencyRankingService iCummulativeProficiencyRankingService;
 
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.CacheEnabledELearningCurriculumService")
@@ -164,12 +157,6 @@ public class ApplicationHomeController {
         LOGGER.debug("Returning Ebooks promo page....");
 
         Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
-
-        // calculate proficiency and save
-        System.out.println("Calculating and saving new AdaptiveProficiencyRanking for user...");
-        ELearningCurriculum eLearningCurriculum = ieLearningCurriculumService.findByELearningCurriculumID(1L);
-        List<ProficiencyRankingCompuationResult> results = iCummulativeProficiencyRankingService.computeAndRecordStudentProficienciesByCurriculumType(optionalUser.get(), CurriculumType.CORE);
-        System.out.println("results = " + results);
 
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
         model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
