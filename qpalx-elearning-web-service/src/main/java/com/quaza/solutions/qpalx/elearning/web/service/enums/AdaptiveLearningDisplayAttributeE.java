@@ -7,7 +7,9 @@ public enum AdaptiveLearningDisplayAttributeE {
 
     LessonsDisplayEnabled,
 
-    MicroLessonsDisplayEnabled
+    MicroLessonsDisplayEnabled,
+
+    FactorsAffectingProficiencyRanking
 
     ;
 }

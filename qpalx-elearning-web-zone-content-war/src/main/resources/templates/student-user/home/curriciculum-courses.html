@@ -9,6 +9,13 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/global-style.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#myModal").modal('show');
+        });
+    </script>
+
 </head>
 <body>
 
@@ -41,6 +48,43 @@
 
 <!-- Include Footer for when user is logged in -->
 <div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Factors that Impact Your Proficiency Ranking in Mathematics</h4>
+            </div>
+            <div class="modal-body">
+
+                <table border="1">
+                    <tr><th>Factor</th><th>Score</th><th>Comment</th><th> Recommendations</th></tr>
+
+                    <!-- display all factors affecting proficiency -->
+                    <tr th:each="FactorAffectingProficiencyRanking,rowStat : ${FactorsAffectingProficiencyRanking}">
+                        <td th:text="${FactorAffectingProficiencyRanking.proficiencyRankingScoreModelE.getModelDescription()}"></td>
+                        <td style="vertical-align: top" th:text="${FactorAffectingProficiencyRanking.scoreModelPercent}">80%</td>
+                        <td th:text="${FactorAffectingProficiencyRanking.scoreModelAnalysis}"></td>
+                        <td>
+                            <!-- Display all recomendations -->
+                            <div th:each="ProficiencyRankingScoreModelRecommendation,rowStat : ${FactorAffectingProficiencyRanking.proficiencyRankingScoreModelRecommendations}">
+                                <ol>
+                                    <li th:text="${ProficiencyRankingScoreModelRecommendation.recommendation}"></li>
+                                </ol>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--<tr>-->
+                        <!--<td>Average Quizzes Score </td><td style="vertical-align: top">60%</td>-->
+                        <!--<td>On average you are scoring below expected levels across Quizzes in Mathematics</td>-->
+                        <!--<td>3/5 MicroLessons Attempted.  Complete remaining</td>-->
+                    <!--</tr>-->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- jQuery first, then Bootstrap JS. -->
 

@@ -1,6 +1,7 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.student.curriculum;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.AdaptiveProficiencyRanking;
+import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.FactorAffectingProficiencyRanking;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourseActivity;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
@@ -16,6 +17,7 @@ import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AdaptiveLear
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLearningScoreChartDisplayPanel;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IStudentInfoOverviewPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.ITutorialLevelCalendarPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.TutorialCalendarPanelE;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author manyce400
@@ -97,7 +100,14 @@ public class StudentCurriculaController {
         // Find students current Adaptive Proficiency ranking in this curriculum
         Long id = NumberUtils.toLong(curriculumID);
         ELearningCurriculum eLearningCurriculum = ieLearningCurriculumService.findByELearningCurriculumID(id);
+
         AdaptiveProficiencyRanking adaptiveProficiencyRanking = iAdaptiveProficiencyRankingService.findCurrentStudentAdaptiveProficiencyRankingForCurriculum(optionalUser.get(), eLearningCurriculum);
+        Set<FactorAffectingProficiencyRanking> factorsAffectingProficiencyRankings = adaptiveProficiencyRanking.getFactorsAffectingProficiencyRankings();
+
+        if(factorsAffectingProficiencyRankings.size() > 0) {
+            model.addAttribute(AdaptiveLearningDisplayAttributeE.FactorsAffectingProficiencyRanking.toString(), factorsAffectingProficiencyRankings);
+        }
+
         iAdaptiveLearningScoreChartDisplayPanel.addCurriculumProficiency(model, adaptiveProficiencyRanking);
 
         // Add all attributes required for User information panel
