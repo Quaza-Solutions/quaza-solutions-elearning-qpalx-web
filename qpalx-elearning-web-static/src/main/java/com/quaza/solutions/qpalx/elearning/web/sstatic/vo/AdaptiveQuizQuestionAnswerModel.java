@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.util.Assert;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -68,34 +69,88 @@ public abstract class AdaptiveQuizQuestionAnswerModel extends AbstractILMSMediaC
         this.correctAnswer1 = correctAnswer1;
     }
 
+    public void buildQuestionAnswerModel(Set<IAdaptiveLearningQuizQuestionAnswerVO> iAdaptiveLearningQuizQuestionAnswerVOS) {
+        Assert.notNull(iAdaptiveLearningQuizQuestionAnswerVOS, "iAdaptiveLearningQuizQuestionAnswerVOS cannot be null");
+        Assert.isTrue(iAdaptiveLearningQuizQuestionAnswerVOS.size() == 4);
+        IAdaptiveLearningQuizQuestionAnswerVO[] quizQuestionAnswersArray = iAdaptiveLearningQuizQuestionAnswerVOS.toArray(new IAdaptiveLearningQuizQuestionAnswerVO[iAdaptiveLearningQuizQuestionAnswerVOS.size()]);
+
+        IAdaptiveLearningQuizQuestionAnswerVO option1AnswerModel = quizQuestionAnswersArray[0];
+        option1 = option1AnswerModel.getQuizQuestionAnswerText();
+        if(option1AnswerModel.isCorrectAnswer()) {
+            correctAnswer1 = option1AnswerModel.getQuizQuestionAnswerText();
+        }
+
+        IAdaptiveLearningQuizQuestionAnswerVO option2AnswerModel = quizQuestionAnswersArray[1];
+        option2 = option2AnswerModel.getQuizQuestionAnswerText();
+        if(option2AnswerModel.isCorrectAnswer()) {
+            correctAnswer1 = option2AnswerModel.getQuizQuestionAnswerText();
+        }
+
+        IAdaptiveLearningQuizQuestionAnswerVO option3AnswerModel = quizQuestionAnswersArray[2];
+        option3 = option3AnswerModel.getQuizQuestionAnswerText();
+        if(option3AnswerModel.isCorrectAnswer()) {
+            correctAnswer1 = option3AnswerModel.getQuizQuestionAnswerText();
+        }
+
+        IAdaptiveLearningQuizQuestionAnswerVO option4AnswerModel = quizQuestionAnswersArray[3];
+        option4 = option4AnswerModel.getQuizQuestionAnswerText();
+        if(option4AnswerModel.isCorrectAnswer()) {
+            correctAnswer1 = option4AnswerModel.getQuizQuestionAnswerText();
+        }
+    }
+
     public Set<IAdaptiveLearningQuizQuestionAnswerVO> getQuizQuestionAnswers() {
         Set<IAdaptiveLearningQuizQuestionAnswerVO> iAdaptiveLearningQuizQuestionAnswerVOS = new LinkedHashSet<>();
 
         // Build and add option1 answer
-        AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO1 = new AdaptiveLearningQuizQuestionAnswerVO();
-        adaptiveLearningQuizQuestionAnswerVO1.setQuizQuestionAnswerText(option1);
-        adaptiveLearningQuizQuestionAnswerVO1.setCorrectAnswer("option1".equals(correctAnswer1));
-        iAdaptiveLearningQuizQuestionAnswerVOS.add(adaptiveLearningQuizQuestionAnswerVO1);
+        addOption1Answer(iAdaptiveLearningQuizQuestionAnswerVOS);
 
         // Build and add option2 answer
-        AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO2 = new AdaptiveLearningQuizQuestionAnswerVO();
-        adaptiveLearningQuizQuestionAnswerVO2.setQuizQuestionAnswerText(option2);
-        adaptiveLearningQuizQuestionAnswerVO2.setCorrectAnswer("option2".equals(correctAnswer1));
-        iAdaptiveLearningQuizQuestionAnswerVOS.add(adaptiveLearningQuizQuestionAnswerVO2);
+        addOption2Answer(iAdaptiveLearningQuizQuestionAnswerVOS);
 
         // Build and add option3 answer
-        AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO3 = new AdaptiveLearningQuizQuestionAnswerVO();
-        adaptiveLearningQuizQuestionAnswerVO3.setQuizQuestionAnswerText(option3);
-        adaptiveLearningQuizQuestionAnswerVO3.setCorrectAnswer("option3".equals(correctAnswer1));
-        iAdaptiveLearningQuizQuestionAnswerVOS.add(adaptiveLearningQuizQuestionAnswerVO3);
+        addOption3Answer(iAdaptiveLearningQuizQuestionAnswerVOS);
 
         // Build and add option4 answer
-        AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO4 = new AdaptiveLearningQuizQuestionAnswerVO();
-        adaptiveLearningQuizQuestionAnswerVO4.setQuizQuestionAnswerText(option4);
-        adaptiveLearningQuizQuestionAnswerVO4.setCorrectAnswer("option4".equals(correctAnswer1));
-        iAdaptiveLearningQuizQuestionAnswerVOS.add(adaptiveLearningQuizQuestionAnswerVO4);
+       addOption4Answer(iAdaptiveLearningQuizQuestionAnswerVOS);
 
         return iAdaptiveLearningQuizQuestionAnswerVOS;
+    }
+
+    private void addOption1Answer(Set<IAdaptiveLearningQuizQuestionAnswerVO> iAdaptiveLearningQuizQuestionAnswerVOS) {
+        if(option1 != null && option1.length() > 0) {
+            AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO1 = new AdaptiveLearningQuizQuestionAnswerVO();
+            adaptiveLearningQuizQuestionAnswerVO1.setQuizQuestionAnswerText(option1);
+            adaptiveLearningQuizQuestionAnswerVO1.setCorrectAnswer("option1".equals(correctAnswer1));
+            iAdaptiveLearningQuizQuestionAnswerVOS.add(adaptiveLearningQuizQuestionAnswerVO1);
+        }
+    }
+
+    private void addOption2Answer(Set<IAdaptiveLearningQuizQuestionAnswerVO> iAdaptiveLearningQuizQuestionAnswerVOS) {
+        if(option2 != null && option2.length() > 0) {
+            AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO2 = new AdaptiveLearningQuizQuestionAnswerVO();
+            adaptiveLearningQuizQuestionAnswerVO2.setQuizQuestionAnswerText(option2);
+            adaptiveLearningQuizQuestionAnswerVO2.setCorrectAnswer("option2".equals(correctAnswer1));
+            iAdaptiveLearningQuizQuestionAnswerVOS.add(adaptiveLearningQuizQuestionAnswerVO2);
+        }
+    }
+
+    private void addOption3Answer(Set<IAdaptiveLearningQuizQuestionAnswerVO> iAdaptiveLearningQuizQuestionAnswerVOS) {
+        if(option3 != null && option3.length() > 0) {
+            AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO3 = new AdaptiveLearningQuizQuestionAnswerVO();
+            adaptiveLearningQuizQuestionAnswerVO3.setQuizQuestionAnswerText(option3);
+            adaptiveLearningQuizQuestionAnswerVO3.setCorrectAnswer("option3".equals(correctAnswer1));
+            iAdaptiveLearningQuizQuestionAnswerVOS.add(adaptiveLearningQuizQuestionAnswerVO3);
+        }
+    }
+
+    private void addOption4Answer(Set<IAdaptiveLearningQuizQuestionAnswerVO> iAdaptiveLearningQuizQuestionAnswerVOS) {
+        if(option4 != null && option4.length() > 0) {
+            AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO4 = new AdaptiveLearningQuizQuestionAnswerVO();
+            adaptiveLearningQuizQuestionAnswerVO4.setQuizQuestionAnswerText(option4);
+            adaptiveLearningQuizQuestionAnswerVO4.setCorrectAnswer("option4".equals(correctAnswer1));
+            iAdaptiveLearningQuizQuestionAnswerVOS.add(adaptiveLearningQuizQuestionAnswerVO4);
+        }
     }
 
     @Override

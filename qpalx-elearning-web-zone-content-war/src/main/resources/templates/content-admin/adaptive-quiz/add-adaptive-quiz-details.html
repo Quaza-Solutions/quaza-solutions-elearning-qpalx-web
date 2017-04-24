@@ -26,20 +26,22 @@
 
 
 <div class="container large-fonts-2" style="margin: 20px auto;">
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10">Enter Quiz Details Below.</div>
-        <div class="col-md-1"></div>
-    </div>
 
     <form method="POST" th:action="@{process-quiz-details}" th:object="${AdminAdaptiveLearningQuizWebVO}">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">Enter Quiz Title</div>
+            <div class="col-md-1"></div>
+        </div>
+
         <br/>
+
         <div class="row">
             <div class="col-md-1"></div>
 
             <div class="col-md-10">
                 <span class="large-fonts-3">
-                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}"></textarea>
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}" maxlength="100"></textarea>
                 </span><br/>
             </div>
 
@@ -47,11 +49,20 @@
         </div>
 
         <br/>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">Enter Quiz Title</div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <br/>
+
         <div class="row">
             <div class="col-md-1"></div>
 
             <div class="col-md-10">
-                <textarea rows="5" cols="67" class="text-box-2" th:field="*{quizDescription}"></textarea>
+                <textarea rows="5" cols="67" class="text-box-2" th:field="*{quizDescription}" maxlength="455"></textarea>
             </div>
 
             <div class="col-md-1"></div>

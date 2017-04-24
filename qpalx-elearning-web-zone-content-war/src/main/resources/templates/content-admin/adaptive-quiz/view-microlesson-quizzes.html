@@ -42,13 +42,21 @@
         <div class="col-md-3 name" align="left">
             <a th:href="@{/view-course-activity(activityID=${AdminMicroLessonAdaptiveQuiz.id})}"><b th:text="${AdminMicroLessonAdaptiveQuiz.getQuizTitle()}"></b></a>
         </div>
-        <div class="col-md-6"></div>
+
+        <div class="col-md-4"></div>
+
         <div class="col-md-2">
-            <div class="default-btn-1"></div>
+            <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/edit-adaptive-learning-quiz(adaptiveQuizID=${AdminMicroLessonAdaptiveQuiz.id})} + '\''">
+                Edit Adaptive-Quiz
+            </button>
+        </div>
+
+        <div class="col-md-2">
             <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/delete-adaptive-learning-quiz(adaptiveQuizID=${AdminMicroLessonAdaptiveQuiz.id})} + '\''">
                 Remove Adaptive-Quiz
             </button>
         </div>
+
     </div>
 
 

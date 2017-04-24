@@ -48,7 +48,7 @@
     <div class="row">
         <div class="col-md-1"></div>
 
-        <div class="col-md-10">
+        <div class="col-md-12">
             <span class="large-fonts-3">Adaptive Quiz Questions</span><br/>
             <hr style="color: black; background-color: black; height: 1px;"/>
         </div>
@@ -57,6 +57,17 @@
 
     <div th:each="AdaptiveLearningQuizQuestionVO,rowStat : ${CurrentAdaptiveLearningQuizQuestionVOs}">
 
+        <!-- Display Edit Button -->
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <button type="button" class="btn" th:onclick="'document.location.href=\'' + @{/quiz-question-edit(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">Edit Quiz Question</button>
+            </div>
+            <div class="col-md-8"></div>
+        </div>
+
+        <br/>
+
         <!-- Display Quiz Question -->
         <div class="row">
             <div class="col-md-1"></div>
@@ -64,8 +75,6 @@
                 <p class="small-text" th:text="${AdaptiveLearningQuizQuestionVO.getQuestionTitle()}"></p>
             </div>
         </div>
-
-        <br/>
 
         <!-- Display all Quiz Question Answers -->
         <div th:each="AdaptiveLearningQuizQuestionAnswerVO : ${AdaptiveLearningQuizQuestionVO.getIAdaptiveLearningQuizQuestionAnswerVOs()}">
@@ -89,15 +98,13 @@
             </div>
         </div>
 
-        <br/>
-
     </div>
 
     <div class="row">
         <form method="POST" th:action="@{persist-adaptive-quiz}">
         <div class="col-md-12">
             <div style="margin: auto; text-align: center">
-                <button type="submit" id="submit" class="btn btn-success">Save Full Quiz Details</button>
+                <button type="submit" id="submit" class="btn btn-success">Complete And Exit Quiz</button>
             </div>
             <br/>
         </div>

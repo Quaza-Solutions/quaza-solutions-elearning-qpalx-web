@@ -27,6 +27,13 @@
 <!-- Quiz settings panel -->
 <div th:replace="fragments/content-admin/adaptive-quiz/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
 
+<!--  Display any error messages -->
+<div class="container large-fonts-2" style="margin: 20px auto;">
+    <div class="row" th:if="${Invalid_FORM_Submission} != null">
+        <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"/>
+    </div>
+</div>
+
 <!-- Add the Quiz Question types panel to display dynamicaly based on selected question type -->
 <div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Multiple_Choice'}">
     <div th:replace="fragments/content-admin/adaptive-quiz/quiz-question-types-panel :: question-types-panel"></div>
