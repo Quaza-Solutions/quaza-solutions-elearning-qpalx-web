@@ -34,13 +34,14 @@
     </div>
 </div>
 
-<!-- Add the Quiz Question types panel to display dynamicaly based on selected question type -->
+<!-- Add the Multi-Choice Question types panel -->
 <div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Multiple_Choice'}">
-    <div th:replace="fragments/content-admin/adaptive-quiz/quiz-question-types-panel :: question-types-panel"></div>
+    <div th:replace="fragments/content-admin/adaptive-quiz/multi-choice-question :: multi-choice-question-panel"></div>
 </div>
 
+<!-- Add the Image Multi-Choice Question types panel -->
 <div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Image'}">
-    <div th:replace="fragments/content-admin/adaptive-quiz/image-question-type-input-panel :: image-question-type-panel"></div>
+    <div th:replace="fragments/content-admin/adaptive-quiz/image-multi-choice-question :: image-multi-choice-question-panel"></div>
 </div>
 
 <!-- Include Footer for when user is logged in -->

@@ -222,6 +222,18 @@ public class AdaptiveQuizAdminController {
                                          HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Adding Image Quiz question details to model for adaptiveLearningQuizQuestionVO: {}", adaptiveLearningQuizQuestionVO);
 
+        // Build and add all question and provided answers to Quiz
+        adaptiveLearningQuizQuestionVO.buildAndAddQuestionAnswerModel();
+
+        // Validate the question details, IF anything is missing redirect back to Quiz Question page
+        Optional<String> optionalValidationMessage = adaptiveLearningQuizQuestionVO.getValidationMessage();
+        if(optionalValidationMessage.isPresent()) {
+            LOGGER.warn("Found Validation Issue: {}, redirecting back to Question entry...", optionalValidationMessage.get());
+            model.addAttribute(AdaptiveLearningQuizAttributeE.AdaptiveLearningQuizQuestionVO.toString(), adaptiveLearningQuizQuestionVO);
+            model.addAttribute(WebOperationErrorAttributesE.Invalid_FORM_Submission.toString(), optionalValidationMessage.get());
+            return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("customize-adaptive-quiz-question-type");
+        }
+
         adaptiveLearningQuizQuestionVO.setIHierarchicalLMSContent(qPalXEMicroLesson);
 
         // Upload the image file associated with quiz question
@@ -240,10 +252,17 @@ public class AdaptiveQuizAdminController {
             String errorMessage = "Uploaded file is not supported: Only Files of type(JPEG, PNG) supported";
             iRedirectStrategyExecutor.sendRedirectWithError(targetURL, errorMessage, WebOperationErrorAttributesE.Invalid_FORM_Submission, request, response);
         } else {
-            // Build and add all question and provided answers to Quiz
-            adaptiveLearningQuizQuestionVO.buildAndAddQuestionAnswerModel();
-            adaptiveLearningQuizWebVO.addAdaptiveLearningQuizQuestionVO(adaptiveLearningQuizQuestionVO);
-            LOGGER.info("Quiz Question Answers: {}", adaptiveLearningQuizQuestionVO.getIAdaptiveLearningQuizQuestionAnswerVOs());
+            if (adaptiveLearningQuizQuestionVO.getID() == null) {
+                LOGGER.info("Saving new QuizQuestion: {}", adaptiveLearningQuizQuestionVO);
+                int questionOrder = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs().size() + 1;
+                adaptiveLearningQuizQuestionVO.setIHierarchicalLMSContent(qPalXEMicroLesson);
+                adaptiveLearningQuizWebVO.addAdaptiveLearningQuizQuestionVO(adaptiveLearningQuizQuestionVO);
+                iAdaptiveLearningQuizService.saveAdaptiveLearningQuizDetails(qPalXEMicroLesson, adaptiveLearningQuizWebVO, adaptiveLearningQuizQuestionVO, questionOrder);
+            } else {
+                LOGGER.info("Updating previously saved QuizQuestion: {}", adaptiveLearningQuizQuestionVO);
+                iAdaptiveLearningQuizService.saveAdaptiveLearningQuizDetails(qPalXEMicroLesson, adaptiveLearningQuizWebVO, adaptiveLearningQuizQuestionVO, 0);
+                adaptiveLearningQuizWebVO.replaceAdaptiveLearningQuizQuestionVO(adaptiveLearningQuizQuestionVO);
+            }
 
             // Get the list of all questions and answers as a map to return for display.
             Set<IAdaptiveLearningQuizQuestionVO> adaptiveLearningQuizQuestionVOSet = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs();
