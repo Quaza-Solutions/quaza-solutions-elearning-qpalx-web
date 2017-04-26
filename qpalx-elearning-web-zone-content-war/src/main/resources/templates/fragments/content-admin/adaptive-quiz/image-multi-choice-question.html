@@ -17,7 +17,7 @@
 
 </head>
 <body>
-<div th:fragment="image-question-type-panel">
+<div th:fragment="image-multi-choice-question-panel">
 
     <!-- Question types displayed based on the selected Adaptive Quiz Question Type -->
     <div class="container large-fonts-2" style="margin: 20px auto;">
@@ -44,7 +44,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-10">
                     <span class="large-fonts-3">
-                        <textarea rows="1" cols="67" class="text-box-2"  th:field="*{questionTitle}">Enter Question Here:</textarea>
+                        <textarea rows="1" cols="67" class="text-box-2"  th:field="*{questionTitle}" th:value="${AdaptiveLearningQuizQuestionVO.questionTitle}">Enter Question Here:</textarea>
                     </span><br/>
                 </div>
                 <div class="col-md-1"></div>
@@ -58,7 +58,7 @@
                     <input type="radio" class="radio-blue" value="option1" th:field="*{correctAnswer1}"/>
                 </div>
                 <div class="col-md-9">
-                    <textarea rows="1" cols="67" class="text-box-2" name="option1">Option 1</textarea>
+                    <textarea rows="1" cols="67" class="text-box-2" name="option1" th:value="${AdaptiveLearningQuizQuestionVO.option1}"></textarea>
                 </div>
             </div>
 
@@ -70,7 +70,7 @@
                     <input type="radio" class="radio-blue" value="option2" th:field="*{correctAnswer1}"/>
                 </div>
                 <div class="col-md-9">
-                    <textarea rows="1" cols="67" class="text-box-2" name="option2">Option 2</textarea>
+                    <textarea rows="1" cols="67" class="text-box-2" name="option2" th:value="${AdaptiveLearningQuizQuestionVO.option2}"></textarea>
                 </div>
             </div>
 
@@ -82,7 +82,7 @@
                     <input type="radio" class="radio-blue" value="option3" th:field="*{correctAnswer1}"/>
                 </div>
                 <div class="col-md-9">
-                    <textarea rows="1" cols="67" class="text-box-2" name="option3">Option 3</textarea>
+                    <textarea rows="1" cols="67" class="text-box-2" name="option3" th:value="${AdaptiveLearningQuizQuestionVO.option3}"></textarea>
                 </div>
             </div>
 
@@ -94,7 +94,7 @@
                     <input type="radio" class="radio-blue" value="option4" th:field="*{correctAnswer1}"/>
                 </div>
                 <div class="col-md-9">
-                    <textarea rows="1" cols="67" class="text-box-2" name="option4">Option 4</textarea>
+                    <textarea rows="1" cols="67" class="text-box-2" name="option4" th:value="${AdaptiveLearningQuizQuestionVO.option4}"></textarea>
                 </div>
             </div>
 
@@ -103,13 +103,18 @@
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-10">
-                    <textarea id="editor" name="editor" th:field="*{questionFeedBack}"></textarea><br/>
+                    <textarea id="editor" name="editor" th:field="*{questionFeedBack}" th:value="${AdaptiveLearningQuizQuestionVO.questionFeedBack}"></textarea><br/>
                 </div>
                 <div class="col-md-1"></div>
             </div>
 
             <!-- Hidden field to set back the value of the Quiz QuestionType-->
             <input type="hidden" th:value="${AdaptiveLearningQuizQuestionVO.adaptiveLearningQuizQuestionTypeE}" name="adaptiveLearningQuizQuestionTypeE"/>
+
+            <div th:if="${AdaptiveLearningQuizQuestionVO.getID()} != null">
+                <!-- Hidden field to pass back the Question ID if it has already been saved -->
+                <input type="hidden" th:value="${AdaptiveLearningQuizQuestionVO.getID()}" name="adaptiveLearningQuizQuestionId"/>
+            </div>
 
             <br/>
 
