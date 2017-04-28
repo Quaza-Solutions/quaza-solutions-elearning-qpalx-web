@@ -166,6 +166,10 @@ public class AdaptiveQuizAdminController {
         IAdaptiveLearningQuizQuestionVO iAdaptiveLearningQuizQuestionVO = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOByID(quizQuestionID);
         LOGGER.info("Found Quiz Question for: {}", iAdaptiveLearningQuizQuestionVO);
         model.addAttribute(AdaptiveLearningQuizAttributeE.AdaptiveLearningQuizQuestionVO.toString(), iAdaptiveLearningQuizQuestionVO);
+        
+        // IF this is an image or video question then load the multimedia file for viewing.
+        ELearningMediaContent eLearningMediaContent = iAdaptiveLearningQuizQuestionVO.getQuizQuestionMultiMedia();
+        model.addAttribute(AdaptiveLearningQuizAttributeE.QuizQuestionMedia.toString(), eLearningMediaContent);
 
         // IF this is a result of a redirect add any web operations errrors to model
         iRedirectStrategyExecutor.addWebOperationRedirectErrorsToModel(model, request);

@@ -35,5 +35,7 @@ public enum  AdaptiveLearningQuizAttributeE {
 
     QuizQuestionStudentAnswerResponse,
 
+    QuizQuestionMedia,
+
     ;
 }
