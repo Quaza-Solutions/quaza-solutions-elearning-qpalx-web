@@ -12,10 +12,7 @@ import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAd
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IAdaptiveLearningExperienceService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLearningScoreChartDisplayPanel;
-import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizAttributeE;
-import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
-import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
-import com.quaza.solutions.qpalx.elearning.web.service.enums.TutorialCalendarPanelE;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.*;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.quiz.IStudentQuizQuestionService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
@@ -113,8 +110,11 @@ public class StudentAdaptiveLearningQuizController {
     @RequestMapping(value = "/access-quiz-question", method = RequestMethod.GET)
     public String accessAdaptiveLearningQuizQuestion(final Model model, ModelMap modelMap,  @RequestParam("questionID") String questionID,
                                                      @ModelAttribute("LaunchedAdaptiveLearningQuiz") AdaptiveLearningQuiz adaptiveLearningQuiz,
-                                                     @ModelAttribute("LaunchedAdaptiveLearningQuizQuestions") Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap) {
+                                                     @ModelAttribute("LaunchedAdaptiveLearningQuizQuestions") Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap, HttpServletRequest request) {
         LOGGER.info("Accessing QPalX Adaptive Quiz Question with Quiz Model ID: {}", questionID);
+
+        // IF this is a result of a redirect add any web operations errrors to model
+        iRedirectStrategyExecutor.addWebOperationRedirectErrorsToModel(model, request);
 
         Integer id = NumberUtils.toInt(questionID);
         AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion = questionModelMap.get(id);
@@ -145,6 +145,16 @@ public class StudentAdaptiveLearningQuizController {
                                                 @ModelAttribute("LaunchedAdaptiveLearningQuizQuestions") Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap,
                                                 HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Processing Student user's response answer to Quiz: adaptiveQuizQuestionStudentResponseVO: {}", adaptiveQuizQuestionStudentResponseVO);
+
+
+        // Validate that Student actually selected an answer.  IF not send back to same page.
+        if(adaptiveQuizQuestionStudentResponseVO.getUserSelectedAnswerText() == null || adaptiveQuizQuestionStudentResponseVO.getUserSelectedAnswerText().length() == 0) {
+            LOGGER.warn("Student did not select a valid answer, returning back to current question");
+            String error = "Select an answer to proceed";
+            String targetURL = "/access-quiz-question?questionID=" + adaptiveQuizQuestionStudentResponseVO.getQuizQuestionModelID().intValue();
+            iRedirectStrategyExecutor.sendRedirectWithError(targetURL, error, WebOperationErrorAttributesE.Invalid_FORM_Submission, request, response);
+            return;
+        }
 
         // record and track Student Question answer score and send to next question
         iStudentQuizQuestionService.addAdaptiveQuizQuestionScoreVO(modelMap, adaptiveQuizQuestionStudentResponseVO);

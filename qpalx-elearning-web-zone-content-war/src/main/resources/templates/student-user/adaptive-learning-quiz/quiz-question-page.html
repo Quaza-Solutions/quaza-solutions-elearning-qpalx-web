@@ -55,6 +55,13 @@
 </div>
 <div class="container large-fonts-2" style="margin: 20px auto;">
 
+    <!--  Display any error messages -->
+    <div class="container large-fonts-2" style="margin: 20px auto;">
+        <div class="row" th:if="${Invalid_FORM_Submission} != null">
+            <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"/>
+        </div>
+    </div>
+
     <!-- Display image or video associated with Quiz if this quiz has an image or video -->
     <div th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia()} != null">
 
