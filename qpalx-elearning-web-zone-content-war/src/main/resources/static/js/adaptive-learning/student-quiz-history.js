@@ -47,7 +47,7 @@ function drawChart() {
                         var dateArray = quizScoreDtTime.split(',');
                         var date = new Date(dateArray[0], dateArray[1], dateArray[2], dateArray[3], dateArray[4]);
 
-                        resultsHTMLTable += "<tr><td>" + studentQuizResult.userFriendlyDateTimeDisplay + "</td><td>" + quizScorePercent + "</td></tr>";
+                        resultsHTMLTable += "<tr><td>" + studentQuizResult.userFriendlyDateTimeDisplay + "</td><td>" + quizScorePercent + "%</td></tr>";
 
                         // Add date with score to Google chart data
                         data.addRow([date, quizScorePercent]);

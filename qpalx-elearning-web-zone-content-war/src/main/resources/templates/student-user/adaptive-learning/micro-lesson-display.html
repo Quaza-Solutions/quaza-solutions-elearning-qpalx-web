@@ -91,9 +91,12 @@
                 </div>
 
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <a data-toggle="modal"  th:attr="data-target='#QuizHistoryModal' + ${rowStat.count}">
-                        <img src="images/assets/adaptive-learning/quiz-histories.png"/>
-                    </a>
+                    <!-- Display quiz history modal popup only if Student has a recent proficiency score -->
+                    <div th:if="${AdaptiveLearningQuiz.proficiencyScore != null and AdaptiveLearningQuiz.proficiencyScore &gt; 0.0}">
+                        <a data-toggle="modal"  th:attr="data-target='#QuizHistoryModal' + ${rowStat.count}">
+                            <img src="images/assets/adaptive-learning/quiz-histories.png" data-toggle="tooltip" data-placement="left" title="Click to view historical performance!" style="cursor: pointer;"/>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
