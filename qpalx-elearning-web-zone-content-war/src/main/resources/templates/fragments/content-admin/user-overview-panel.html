@@ -15,7 +15,6 @@
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <br/>
                 <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
-                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
         </div>
@@ -28,7 +27,6 @@
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <br/>
                 <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
-                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
 
                 <!-- Display ELearning Curriculum if a course has been selected -->
                 <div class="large-font" th:if="${SelectedELearningCurriculum != null}" th:inline="text">Curriculum : [[${SelectedELearningCurriculum.curriculumName}]]</div>
@@ -45,7 +43,6 @@
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <br/>
                 <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
-                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
 
                 <!-- Display ELearning Course if a course has been selected -->
                 <div class="large-font" th:if="${SelectedELearningCourse != null}" th:inline="text">Course : [[${SelectedELearningCourse.courseName}]]</div>
@@ -54,7 +51,7 @@
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
         </div>
 
-        <!--  Display Course details Student info details -->
+        <!--  Display Student info details and Selected QPalXELesson details -->
         <div class="row" th:if="${DisplayLesson == 'true'}">
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 circular--landscape">
                 <img src="images/personalization/student/manny.jpg"/>
@@ -62,10 +59,25 @@
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <br/>
                 <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
-                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
 
                 <!-- Display Course Lesson if a course has been selected -->
                 <div class="large-font" th:if="${SelectedQPalXELesson != null}" th:inline="text">Lesson - : [[${SelectedQPalXELesson.lessonName}]]</div>
+
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        </div>
+
+        <!--  Display Student info details and Selected QPalX Micro Lesson details -->
+        <div class="row" th:if="${DisplayMicroLesson == 'true'}">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 circular--landscape">
+                <img src="images/personalization/student/manny.jpg"/>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <br/>
+                <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
+
+                <!-- Display Course Lesson if a course has been selected -->
+                <div class="large-font" th:if="${SelectedQPalXELesson != null}" th:inline="text">Micro Lesson - : [[${SelectedQPalXMicroLesson.microLessonName}]]</div>
 
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>

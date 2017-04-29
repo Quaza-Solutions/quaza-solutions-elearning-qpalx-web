@@ -13,6 +13,8 @@ public enum CurriculumDisplayAttributeE {
 
     DisplayLesson,
 
+    DisplayMicroLesson,
+
     CurriculumType,
 
     SelectedELearningCurriculum,

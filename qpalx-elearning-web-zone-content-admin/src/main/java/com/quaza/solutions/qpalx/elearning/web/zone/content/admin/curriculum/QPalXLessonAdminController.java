@@ -81,11 +81,12 @@ public class QPalXLessonAdminController {
 
         // Add information required for Users account info display panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
-        model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
+        model.addAttribute(CurriculumDisplayAttributeE.DisplayCourse.toString(), Boolean.TRUE.toString());
 
         // Add all attributes required for content admin tutorial panel
         Long courseID = NumberUtils.toLong(eLearningCourseID);
         ELearningCourse eLearningCourse = ieLearningCourseService.findByCourseID(courseID);
+        model.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCourse.toString(), eLearningCourse);
         contentAdminTutorialGradePanelService.addDisplayPanelAttributes(model, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, eLearningCourse);
 
         // Find all the QPalXELesson's currently available

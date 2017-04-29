@@ -86,11 +86,12 @@ public class QPalXMicroLessonAdminController {
 
         // Add information required for Users account info display panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
-        model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
+        model.addAttribute(CurriculumDisplayAttributeE.DisplayLesson.toString(), Boolean.TRUE.toString());
 
         // Add all attributes required for content admin tutorial panel
         Long lessonID = NumberUtils.toLong(qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(lessonID);
+        model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), qPalXELesson);
         contentAdminTutorialGradePanelService.addDisplayPanelAttributes(model, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, qPalXELesson);
 
         // Find all the QPalXELesson's currently available

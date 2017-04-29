@@ -84,10 +84,12 @@ public class AdaptiveQuizAdminController {
 
         // Enable displaying of User overview panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
-        model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
 
         Long id = NumberUtils.toLong(microlessonID);
         QPalXEMicroLesson qPalXEMicroLesson = iqPalXEMicroLessonService.findByID(id);
+        model.addAttribute(CurriculumDisplayAttributeE.DisplayMicroLesson.toString(), Boolean.TRUE.toString());
+        model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXMicroLesson.toString(), qPalXEMicroLesson);
+
         QPalXELesson qPalXELesson = qPalXEMicroLesson.getQPalXELesson();
         model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXMicroLesson.toString(), qPalXEMicroLesson);
 

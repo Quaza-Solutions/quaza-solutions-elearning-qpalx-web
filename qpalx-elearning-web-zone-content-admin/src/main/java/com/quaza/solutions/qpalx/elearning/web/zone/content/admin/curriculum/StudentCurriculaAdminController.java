@@ -122,7 +122,7 @@ public class StudentCurriculaAdminController {
 
         // Add all attributes required for User information panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
-        model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
+        model.addAttribute(CurriculumDisplayAttributeE.DisplayCurriculum.toString(), Boolean.TRUE.toString());
 
         // Add all attributes required for content admin tutorial panel
         contentAdminTutorialGradePanelService.addDisplayPanelAttributes(model, Boolean.TRUE, Boolean.FALSE, studentTutorialGradeID, curriculumType);
