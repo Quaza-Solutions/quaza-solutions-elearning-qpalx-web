@@ -38,7 +38,7 @@ import java.util.Set;
 @Controller
 @SessionAttributes(
         value = {
-                "SelectedQPalXELesson", "SelectedTutorialCalendar", "LaunchedAdaptiveLearningQuiz", "LaunchedAdaptiveLearningQuizQuestions", "LaunchedAdaptiveLearningQuizQuestionScores"
+                "SelectedQPalXELesson", "SelectedELearningCurriculum", "SelectedTutorialCalendar", "LaunchedAdaptiveLearningQuiz", "LaunchedAdaptiveLearningQuizQuestions", "LaunchedAdaptiveLearningQuizQuestionScores"
         }
 )
 public class StudentAdaptiveLearningQuizController {
@@ -102,6 +102,7 @@ public class StudentAdaptiveLearningQuizController {
         // Retrieve Banner to be used for Quiz Display background
         ELearningCurriculum eLearningCurriculum = qPalXELesson.geteLearningCourse().geteLearningCurriculum();
         model.addAttribute("CurriculumFocusBanner", eLearningCurriculum.getCurriculumBannerIcon());
+        modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCurriculum.toString(), eLearningCurriculum);
 
         // Get the Introductory video for the Lesson that this Quiz is in.
         return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("launch-quiz");
@@ -175,6 +176,7 @@ public class StudentAdaptiveLearningQuizController {
     @RequestMapping(value = "/show-quiz-scores", method = RequestMethod.GET)
     public String calculateAndShowQuizQuestionScores(final Model model, ModelMap modelMap,
                                                    @RequestParam("reviewMode") String reviewMode,
+                                                   @ModelAttribute("SelectedELearningCurriculum") ELearningCurriculum selectedELearningCurriculum,
                                                    @ModelAttribute("LaunchedAdaptiveLearningQuiz") AdaptiveLearningQuiz adaptiveLearningQuiz,
                                                    @ModelAttribute("LaunchedAdaptiveLearningQuizQuestionScores") Map<Integer, AdaptiveQuizQuestionStudentResponseVO> questionResponseMap,
                                                    @ModelAttribute("LaunchedAdaptiveLearningQuizQuestions") Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap,
@@ -199,6 +201,9 @@ public class StudentAdaptiveLearningQuizController {
             iAdaptiveLearningExperienceService.buildAndSaveAdaptiveLearningExperience(optionalUser.get(), QPalXTutorialContentTypeE.Quiz, adaptiveLearningQuizResultVO.getQuizScorePercent(), adaptiveLearningQuiz.getId());
             iAdaptiveLearningQuizStatisticsService.recordAdaptiveLearningQuizProgress(adaptiveLearningQuiz.getId(), optionalUser.get());
         }
+
+        model.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCurriculum.toString(), selectedELearningCurriculum);
+
         return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("quiz-results-page");
     }
 
