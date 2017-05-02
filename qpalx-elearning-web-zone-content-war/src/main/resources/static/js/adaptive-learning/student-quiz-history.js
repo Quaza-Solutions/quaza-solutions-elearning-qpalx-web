@@ -1,34 +1,43 @@
+var currentAdaptiveQuizID;
+
 function initializeChart() {
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 }
 
-function showTable() {
-    console.log("showtable clicked");
-    $("#table_div").show();
-    $("#chart_div").hide();
+function showTable(id) {
+    console.log("show table clicked for quiz id: " + id);
+    var tableDiv = "#table_div" + id;
+    var chartDiv = "#chart_div" + id;
+    $(tableDiv).show();
+    $(chartDiv).hide();
 }
 
-function showChart() {
-    console.log("show chart clicked");
-    $("#table_div").hide();
-    $("#chart_div").show();
+function showChart(id) {
+    console.log("show chart clicked for quiz id: " + id);
+    var tableDiv = "#table_div" + id;
+    var chartDiv = "#chart_div" + id;
+    $(tableDiv).hide();
+    $(chartDiv).show();
 }
 
-// this function will get called immediately when a bootstrap modal is shown.
-// piggy backing off this behavior to immediately initialize and load google charts.
+function initJSQuizSession(id) {
+    console.log("Initializing Adaptive Quiz session with ID:> " + id)
+    currentAdaptiveQuizID = id;
+}
+
 $(window).on('shown.bs.modal', function() {
-    console.log("Modal is now visible invoking initializeChart();");
+    //$('#code').modal('show');
+    console.log("Modal is now visible invoking drawchart();");
     initializeChart();
 });
 
-
 function drawChart() {
 
-     var quizID = $("#QuizID").val();
+     console.log("Generating and displaying Quiz histories graph for quiz with ID: " + currentAdaptiveQuizID)
 
      $.ajax({ type: 'GET',
-                 url: 'http://localhost:8080/StudentQuizPerformance?QuizID=' + quizID,
+                 url: 'http://localhost:8080/StudentQuizPerformance?QuizID=' + currentAdaptiveQuizID,
                  datatype: 'json',
                  success : function(studentQuizResults)
                  {
@@ -76,11 +85,14 @@ function drawChart() {
                       }
                     };
 
-                    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-                    console.log(resultsHTMLTable);
-                    document.getElementById('table_div').innerHTML = resultsHTMLTable;
+                   var chartDiv = "chart_div" + currentAdaptiveQuizID;
+                   var tableDiv = "table_div" + currentAdaptiveQuizID;
 
-                    chart.draw(data, options);
+                   var chart = new google.visualization.AreaChart(document.getElementById(chartDiv));
+                   console.log(resultsHTMLTable);
+                   document.getElementById(tableDiv).innerHTML = resultsHTMLTable;
+
+                   chart.draw(data, options);
                  }
      });
 
