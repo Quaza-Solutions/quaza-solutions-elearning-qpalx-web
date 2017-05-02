@@ -44,6 +44,11 @@
     <div th:replace="fragments/content-admin/adaptive-quiz/image-multi-choice-question :: image-multi-choice-question-panel"></div>
 </div>
 
+<!-- Add the Video Multi-Choice Question types panel -->
+<div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Video'}">
+    <div th:replace="fragments/content-admin/adaptive-quiz/video-multi-choice-question :: video-multi-choice-question-panel"></div>
+</div>
+
 <!-- Include Footer for when user is logged in -->
 <div th:replace="fragments/footer-usersession :: footer-usersession"/>
 
