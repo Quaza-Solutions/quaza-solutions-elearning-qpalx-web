@@ -1,4 +1,5 @@
 var currentAdaptiveQuizID;
+var currentAdaptiveQuizTitle;
 
 function initializeChart() {
         google.charts.load('current', {'packages':['corechart']});
@@ -21,9 +22,10 @@ function showChart(id) {
     $(chartDiv).show();
 }
 
-function initJSQuizSession(id) {
-    console.log("Initializing Adaptive Quiz session with ID:> " + id)
+function initJSQuizSession(id, quizTitle) {
+    console.log("Initializing Adaptive Quiz session with ID:> " + id + " and title:> "+ quizTitle);
     currentAdaptiveQuizID = id;
+    currentAdaptiveQuizTitle = quizTitle;
 }
 
 $(window).on('shown.bs.modal', function() {
@@ -66,7 +68,7 @@ function drawChart() {
 
                     // Set all options and draw the actual chart
                     var options = {
-                      title: 'Your Performance:  Relations Quiz I',
+                      title: 'Your Performance: ' + currentAdaptiveQuizTitle,
                       width: 900,
                       height: 500,
                       lineWidth: 5,

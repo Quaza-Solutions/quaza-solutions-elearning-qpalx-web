@@ -83,7 +83,7 @@
                         <span th:text="${AdaptiveLearningQuiz.adaptiveLearningQuizTitle}">&nbsp;</span>
 
                         <!-- Display actual User Quiz Score -->
-                        <span th:if="${AdaptiveLearningQuiz.proficiencyScore != null and AdaptiveLearningQuiz.proficiencyScore &gt; 0.0}">
+                        <span th:if="${AdaptiveLearningQuiz.microLessonID != null and AdaptiveLearningQuiz.learningExperienceStartDate != null}">
                             <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
                             <span  th:text="${AdaptiveLearningQuiz.proficiencyScore} + '%'"></span>
                         </span>
@@ -92,8 +92,8 @@
 
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                     <!-- Display quiz history modal popup only if Student has a recent proficiency score -->
-                    <div th:if="${AdaptiveLearningQuiz.proficiencyScore != null and AdaptiveLearningQuiz.proficiencyScore &gt; 0.0}">
-                        <a data-toggle="modal"  th:attr="data-target='#QuizHistoryModal' + ${rowStat.count}" th:onclick="'javascript:initJSQuizSession(\'' + ${AdaptiveLearningQuiz.adaptiveLearningQuizID} +'\');'">
+                    <div th:if="${AdaptiveLearningQuiz.microLessonID != null and AdaptiveLearningQuiz.learningExperienceStartDate != null}">
+                        <a data-toggle="modal"  th:attr="data-target='#QuizHistoryModal' + ${rowStat.count}" th:onclick="'javascript:initJSQuizSession(\'' + ${AdaptiveLearningQuiz.adaptiveLearningQuizID} +'\', \'' + ${AdaptiveLearningQuiz.adaptiveLearningQuizTitle} +'\');'">
                             <img src="images/assets/adaptive-learning/quiz-histories.png" data-toggle="tooltip" data-placement="left" title="Click to view historical performance!" style="cursor: pointer;"/>
                         </a>
                     </div>
