@@ -65,6 +65,7 @@
     <!-- Display image or video associated with Quiz if this quiz has an image or video -->
     <div th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia()} != null">
 
+        <!-- Display Quiz Question Multi Media Image -->
         <div th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getELearningMediaType()} == 'png'">
             <!-- Display image with this question -->
             <div class="row">
@@ -81,6 +82,24 @@
                 </div>
                 <div class="col-md-1"></div>
             </div>
+        </div>
+
+        <!-- Display Quiz Question Multi Media Video -->
+        <div th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getELearningMediaType()} == 'mp4'">
+
+            <!-- Display image with this question -->
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10 centered-2">
+                    <a class="pop-up-2" href="#quiz-question-video">
+                        <img src="images/assets/platform/video-hint-popup.png" />
+                    </a>
+                    <br /><br />
+                    Click To View Video Hint
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
         </div>
 
         <br/><br/>
@@ -135,6 +154,29 @@
 
 <!-- Include Footer for when user is logged in -->
 <div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- Display Modal for showing Quiz Question video if one exists -->
+<div th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia()} != null">
+
+    <div class="modalBox" th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getELearningMediaType()} == 'mp4'">
+
+        <div id="quiz-question-video" class="modalBox">
+            <a href="#" class="modalCloseOuter" onClick="stopVideo();"></a>
+            <div class="mp4">
+                <div class="bar-1"></div>
+                <a href="#" style="float:right; margin: 20px 40px 20px 0;" onClick="stopVideo();">Close</a>
+                <div class="modalBody">
+                    <video oncontextmenu="return false;" width="800" controls="controls">
+                        <source th:src="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getELearningMediaFile()}" type="video/mp4"/>
+                        Your browser does not support HTML5 video.
+                    </video>
+                </div>
+                <div class="bar-3"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <!-- jQuery first, then Bootstrap JS. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
