@@ -32,7 +32,13 @@ public enum ContentRootE {
 
     Platform_Admin_Home("platform-admin/home/"),
 
-    Platform_Admin_Prepaid_Codes("platform-admin/prepaid-codes/")
+    Platform_Admin_Prepaid_Codes("platform-admin/prepaid-codes/"),
+
+    School_Teacher_Home("school-teacher/"),
+
+    School_Principal_Home("school-principal-user/"),
+
+    Executive_User_Home("executive-user/")
     ;
 
     private final String rootDirectory;
