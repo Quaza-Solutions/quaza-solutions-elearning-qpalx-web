@@ -40,8 +40,7 @@ public class DefaultQPalXAuthenticationSuccessFailureHandler implements Authenti
 
         switch (qPalxUserTypeE) {
             case STUDENT:
-                targetURL = "/";
-                break;
+            case Executive:
             case PLATFORM_ADMIN:
                 targetURL = "/";
                 break;
@@ -65,6 +64,8 @@ public class DefaultQPalXAuthenticationSuccessFailureHandler implements Authenti
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Optional<? extends GrantedAuthority> userAuthority = authorities.stream()
                 .filter((authority) -> authority.getAuthority().equals(QPalxUserTypeE.STUDENT.toString())
+                        || authority.getAuthority().equals(QPalxUserTypeE.Executive.toString())
+                        || authority.getAuthority().equals(QPalxUserTypeE.Teacher.toString())
                         || authority.getAuthority().equals(QPalxUserTypeE.CONTENT_DEVELOPER.toString())
                         || authority.getAuthority().equals(QPalxUserTypeE.PLATFORM_ADMIN.toString()))
                 .findFirst();
