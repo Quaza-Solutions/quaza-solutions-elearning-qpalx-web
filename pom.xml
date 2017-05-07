@@ -23,6 +23,7 @@
     <module>qpalx-elearning-web-zone-content-platfom-admin</module>
     <module>qpalx-elearning-web-zone-content-war</module>
     <module>qpalx-elearning-web-zone-content-executive</module>
+      <module>qpalx-elearning-web-zone-content-teacher</module>
   </modules>
 
 </project>

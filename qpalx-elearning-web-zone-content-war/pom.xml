@@ -59,6 +59,12 @@
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>com.quaza.solutions.qpalx.elearning.web</groupId>-->
+            <!--<artifactId>qpalx-elearning-web-zone-content-teacher</artifactId>-->
+            <!--<version>1.0.1-SNAPSHOT</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>
             <artifactId>qpalx-elearning-web-zone-content-student</artifactId>

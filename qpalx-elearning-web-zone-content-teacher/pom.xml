@@ -8,10 +8,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.quaza.solutions.qpalx.elearning.web</groupId>
-    <artifactId>qpalx-elearning-web-zone-content-executive</artifactId>
+    <artifactId>qpalx-elearning-web-zone-content-teacher</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-
 
 
     <dependencies>
@@ -48,6 +47,7 @@
         </dependency>
 
     </dependencies>
+
 
 
 </project>
