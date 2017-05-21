@@ -39,7 +39,7 @@ function drawChart() {
      console.log("Generating and displaying Quiz histories graph for quiz with ID: " + currentAdaptiveQuizID)
 
      $.ajax({ type: 'GET',
-                 url: 'http://localhost:8080/StudentQuizPerformance?QuizID=' + currentAdaptiveQuizID,
+                 url: '/StudentQuizPerformance?QuizID=' + currentAdaptiveQuizID,
                  datatype: 'json',
                  success : function(studentQuizResults)
                  {
