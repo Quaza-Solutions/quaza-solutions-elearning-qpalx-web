@@ -37,5 +37,7 @@ public enum  AdaptiveLearningQuizAttributeE {
 
     QuizQuestionMedia,
 
+    QuizQuestionTypeSubmissionURL
+
     ;
 }

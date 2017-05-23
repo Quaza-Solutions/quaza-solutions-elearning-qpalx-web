@@ -31,6 +31,8 @@ public enum CurriculumDisplayAttributeE {
 
     SelectedQPalXELessonTitle,
 
+    AvailableCurriculumCourses,
+
     RandomQuestionBankItem
     ;
 }
