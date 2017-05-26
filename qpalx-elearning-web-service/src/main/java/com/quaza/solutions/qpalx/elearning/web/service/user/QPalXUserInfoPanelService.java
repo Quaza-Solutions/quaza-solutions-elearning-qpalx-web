@@ -16,7 +16,7 @@ import java.util.Optional;
 /**
  * @author manyce400
  */
-@Service("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserInfoPanelService")
+@Service(QPalXUserInfoPanelService.BEAN_NAME)
 public class QPalXUserInfoPanelService implements IQPalXUserInfoPanelService {
 
 
@@ -28,6 +28,8 @@ public class QPalXUserInfoPanelService implements IQPalXUserInfoPanelService {
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultAdaptiveProficiencyRankingService")
     private IAdaptiveProficiencyRankingService iAdaptiveProficiencyRankingService;
+
+    public static final String BEAN_NAME = "com.quaza.solutions.qpalx.elearning.web.service.QPalXUserInfoPanelService";
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(QPalXUserInfoPanelService.class);
 

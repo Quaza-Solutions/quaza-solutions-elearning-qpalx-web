@@ -22,21 +22,23 @@ public class AdaptiveLearningQuizWebVO implements IAdaptiveLearningQuizVO {
 
 
 
-    private String quizTitle;
+    protected String quizTitle;
 
-    private String quizDescription;
+    protected String quizDescription;
 
-    private Long id;
+    protected Long id;
 
     // Default max possible score on all quizzes to 100%
-    private Double maxPossibleActivityScore = 100d;
+    protected Double maxPossibleActivityScore = 100d;
 
     // Default min passing score to 70%
-    private Double minimumPassingActivityScore = 70d;
+    protected Double minimumPassingActivityScore = 70d;
 
-    private Long timeToCompleteActivity;
+    protected Long timeToCompleteActivity;
 
     protected String activeFlag;
+
+    public static final String CLASS_ATTRIBUTE = "AdaptiveLearningQuizWebVO";
 
     // Using LinkedHashSet to maintain ordering
     private Set<IAdaptiveLearningQuizQuestionVO> adaptiveLearningQuizQuestionVOS = new LinkedHashSet<>();
@@ -231,33 +233,4 @@ public class AdaptiveLearningQuizWebVO implements IAdaptiveLearningQuizVO {
                 .toString();
     }
 
-
-    public static void main(String[] args) {
-        Set<IAdaptiveLearningQuizQuestionVO> testItems = new LinkedHashSet<>();
-        AdaptiveLearningQuizQuestionVO one = new AdaptiveLearningQuizQuestionVO();
-        one.setID(1L);
-
-        AdaptiveLearningQuizQuestionVO two = new AdaptiveLearningQuizQuestionVO();
-        two.setQuestionTitle("Instance to be replaced");
-        two.setID(2L);
-
-        AdaptiveLearningQuizQuestionVO three = new AdaptiveLearningQuizQuestionVO();
-        three.setID(3L);
-
-        AdaptiveLearningQuizQuestionVO four = new AdaptiveLearningQuizQuestionVO();
-        four.setQuestionTitle("Replaced Instance");
-        four.setID(2L);
-
-        AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO = new AdaptiveLearningQuizWebVO();
-        adaptiveLearningQuizWebVO.addAdaptiveLearningQuizQuestionVO(one);
-        adaptiveLearningQuizWebVO.addAdaptiveLearningQuizQuestionVO(two);
-        adaptiveLearningQuizWebVO.addAdaptiveLearningQuizQuestionVO(three);
-
-        System.out.println("Before Replace Questions = " + adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs());
-
-        adaptiveLearningQuizWebVO.replaceAdaptiveLearningQuizQuestionVO(four);
-
-        System.out.println("\n\n");
-        System.out.println("After Replace Questions = " + adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs());
-    }
 }

@@ -26,7 +26,7 @@ import java.util.Optional;
  *
  * @author manyce400
  */
-@Service("quaza.solutions.qpalx.elearning.web.ContentAdminTutorialGradePanelService")
+@Service(ContentAdminTutorialGradePanelService.BEAN_NAME)
 public class ContentAdminTutorialGradePanelService implements IContentAdminTutorialGradePanelService {
 
 
@@ -41,6 +41,8 @@ public class ContentAdminTutorialGradePanelService implements IContentAdminTutor
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.CacheEnabledQPalXTutorialService")
     private IQPalXTutorialService iqPalXTutorialService;
+
+    public static final String BEAN_NAME = "quaza.solutions.qpalx.elearning.web.ContentAdminTutorialGradePanelService";
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(ContentAdminTutorialGradePanelService.class);
 

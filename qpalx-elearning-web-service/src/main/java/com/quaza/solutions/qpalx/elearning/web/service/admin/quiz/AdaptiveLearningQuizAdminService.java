@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * @author manyce400
  */
-@Service("com.quaza.solutions.qpalx.elearning.web.service.admin.AdaptiveLearningQuizAdminService")
+@Service(AdaptiveLearningQuizAdminService.BEAN_NAME)
 public class AdaptiveLearningQuizAdminService implements IAdaptiveLearningQuizAdminService {
 
 
@@ -30,6 +30,8 @@ public class AdaptiveLearningQuizAdminService implements IAdaptiveLearningQuizAd
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.sstatic.ELearningStaticContentService")
     private IELearningStaticContentService ieLearningStaticContentService;
+
+    public static final String BEAN_NAME = "com.quaza.solutions.qpalx.elearning.web.service.admin.AdaptiveLearningQuizAdminService";
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(AdaptiveLearningQuizAdminService.class);
 

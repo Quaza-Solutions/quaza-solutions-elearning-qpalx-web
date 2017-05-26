@@ -40,6 +40,8 @@ public class AdaptiveLearningQuizQuestionVO extends AdaptiveQuizQuestionAnswerMo
 
     private Set<IAdaptiveLearningQuizQuestionAnswerVO> iAdaptiveLearningQuizQuestionAnswerVOS = new LinkedHashSet<>();
 
+    public static final String CLASS_ATTRIBUTE_IDENTIFIER = "AdaptiveLearningQuizQuestionVO";
+
     public AdaptiveLearningQuizQuestionVO() {
 
     }

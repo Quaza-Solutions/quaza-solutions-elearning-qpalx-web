@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * @author manyce400
  */
-@Service("com.quaza.solutions.qpalx.elearning.web.sstatic.ELearningStaticContentService")
+@Service(ELearningStaticContentService.BEAN_NAME)
 public class ELearningStaticContentService implements IELearningStaticContentService {
 
 
@@ -33,6 +33,7 @@ public class ELearningStaticContentService implements IELearningStaticContentSer
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.sstatic.StaticContentMediaUtils")
     private IStaticContentMediaUtils iStaticContentMediaUtils;
 
+    public static final String BEAN_NAME = "com.quaza.solutions.qpalx.elearning.web.sstatic.ELearningStaticContentService";
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(ELearningStaticContentService.class);
 

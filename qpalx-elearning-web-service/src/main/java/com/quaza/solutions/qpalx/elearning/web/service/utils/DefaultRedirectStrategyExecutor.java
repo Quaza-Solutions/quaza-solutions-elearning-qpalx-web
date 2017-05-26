@@ -13,13 +13,15 @@ import java.io.IOException;
 /**
  * @author manyce400
  */
-@Service("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
+@Service(DefaultRedirectStrategyExecutor.BEAN_NAME)
 public class DefaultRedirectStrategyExecutor implements IRedirectStrategyExecutor {
 
 
 
 
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    public static final String BEAN_NAME = "com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor";
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(DefaultRedirectStrategyExecutor.class);
 
