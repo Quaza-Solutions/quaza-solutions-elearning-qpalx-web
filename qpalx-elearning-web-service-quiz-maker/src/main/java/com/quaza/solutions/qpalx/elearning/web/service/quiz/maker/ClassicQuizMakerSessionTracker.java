@@ -27,7 +27,7 @@ public class ClassicQuizMakerSessionTracker implements IClassicQuizMakerSessionT
         Assert.notNull(iHierarchicalLMSContent, "iHierarchicalLMSContent cannot be null");
         Assert.notNull(iAdaptiveLearningQuizVO, "iAdaptiveLearningQuizVO cannot be null");
 
-        LOGGER.info("Tracking start of new AdaptiveQuiz creation for iHierarchicalLMSContent: {}", iHierarchicalLMSContent);
+        LOGGER.debug("Tracking start of new AdaptiveQuiz creation for iHierarchicalLMSContent: {}", iHierarchicalLMSContent);
 
         // Add to modelMap session
         modelMap.addAttribute(AdaptiveLearningQuizWebVO.CLASS_ATTRIBUTE, iAdaptiveLearningQuizVO);

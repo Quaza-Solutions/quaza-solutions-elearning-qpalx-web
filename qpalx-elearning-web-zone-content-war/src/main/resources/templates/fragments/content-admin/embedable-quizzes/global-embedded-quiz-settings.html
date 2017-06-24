@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <script src="js/ckeditor.js"></script>
+    <script src="js/sample.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+
+</head>
+<body>
+<!-- Embedable quiz settings panel which can easily be added to any other components that require creation and addition of QPalX Quizzes -->
+<div th:fragment="embedable-quiz-settings-panel">
+
+    <div class="container" style="margin: 20px auto;">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <span class="large-fonts" th:text="|Customize Quiz For : ${AdaptiveQuizParentContentType} -  ${AdaptiveQuizParentContentName}|"></span>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <!-- Main Quiz tabs -->
+        <div class="col-md-12">
+            <nav class="blue-tabs">
+                <ul>
+                    <li><a class="blue-tabs-2" style="cursor: pointer;" onClick="Quizzes()" id="hide" href="#">Types of Quizzes</a></li>
+                    <li><a class="blue-tabs-3" style="cursor: pointer;" onClick="Settings()" id="show" href="#">Settings</a></li>
+                </ul>
+            </nav>
+            <br/>
+            <hr style="color: black; background-color: black; height: 2px;"/>
+            <br/>
+        </div>
+
+        <!-- Quiz Settings Selections -->
+        <div class="row">
+            <div class="col-md-2">
+                <div class="small-boxes" id="clock" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/customize-quiz-settings(quizSettingType=Scoring_Time)} + '\''">
+                    <i class="fa fa-clock-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Scoring &amp; Time
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="small-boxes" id="result" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/customize-quiz-settings(quizSettingType=Result)} + '\''">
+                    <i class="fa fa-check-circle-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Result
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="small-boxes" id="order">
+                    <i class="fa fa-bars" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Order
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Types of Quizzes Selections -->
+        <div class="row">
+            <div class="col-md-2">
+                <div class="small-boxes-2" id="list" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/launch-embedded-quiz-question-by-type(quizQuestionType=Multiple_Choice)} + '\''">
+                    <i class="fa fa-list-ul" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Multiple Choice
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="small-boxes-2" id="video" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/launch-embedded-quiz-question-by-type(quizQuestionType=Video)} + '\''">
+                    <i class="fa fa-video-camera" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Video Quiz
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="small-boxes-2" id="image-quiz" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/launch-embedded-quiz-question-by-type(quizQuestionType=Image)} + '\''">
+                    <i class="fa fa-picture-o" style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;Image Quiz
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="small-boxes-2" id="checkbox">
+                    <img src="images/assets/adaptive-learning/checkbox.png" style="margin-top: -4px;"/> &nbsp;&nbsp;Check Box
+                </div>
+            </div>
+
+            <div class="col-md-4"></div>
+        </div>
+
+        <br/>
+
+    </div>
+
+</div>
+</body>
+</html>

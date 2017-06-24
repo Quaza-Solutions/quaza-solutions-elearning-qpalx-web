@@ -50,7 +50,7 @@ public class ClassicQuizMaker implements IClassicQuizMaker {
     @Override
     public void makeBasicQuiz(IAdaptiveLearningQuizVO iAdaptiveLearningQuizVO) {
         Assert.notNull(iAdaptiveLearningQuizVO, "iAdaptiveLearningQuizVO cannot be null");
-        LOGGER.info("Making basic quiz from iAdaptiveLearningQuizVO: {}", iAdaptiveLearningQuizVO);
+        LOGGER.debug("Making basic quiz from iAdaptiveLearningQuizVO: {}", iAdaptiveLearningQuizVO);
 
         AdaptiveLearningQuiz adaptiveLearningQuiz = AdaptiveLearningQuiz.builder()
                 .quizTitle(iAdaptiveLearningQuizVO.getQuizTitle())
@@ -75,7 +75,7 @@ public class ClassicQuizMaker implements IClassicQuizMaker {
         Assert.notNull(iAdaptiveLearningQuizQuestionVO, "iAdaptiveLearningQuizQuestionVO cannot be null");
         Assert.notNull(questionOrder, "questionOrder cannot be null");
 
-        LOGGER.info("Modifying Quiz with id: {} adding new question: {}", iAdaptiveLearningQuizQuestionVO.getID(), iAdaptiveLearningQuizQuestionVO);
+        LOGGER.debug("Modifying Quiz with id: {} adding new question: {}", iAdaptiveLearningQuizQuestionVO.getID(), iAdaptiveLearningQuizQuestionVO.getQuestionTitle());
 
         AdaptiveLearningQuiz adaptiveLearningQuiz = iAdaptiveLearningQuizService.findByID(iAdaptiveLearningQuizVO.getID());
 
@@ -90,7 +90,7 @@ public class ClassicQuizMaker implements IClassicQuizMaker {
 
     private ClassicQuizMakerError uploadQuestionMultipartIFAvailable(Optional<MultipartFile> optionalMultipartFile, IAdaptiveLearningQuizQuestionVO iAdaptiveLearningQuizQuestionVO) {
         if(optionalMultipartFile.isPresent()) {
-            LOGGER.info("Quiz question contains multipart file: {} attempting to upload...", optionalMultipartFile);
+            LOGGER.debug("Quiz question contains multipart file: {} attempting to upload...", optionalMultipartFile);
             ELearningMediaContent eLearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(optionalMultipartFile.get(), iAdaptiveLearningQuizQuestionVO);
 
             if (eLearningMediaContent == null) {

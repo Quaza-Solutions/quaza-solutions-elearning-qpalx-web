@@ -190,7 +190,12 @@ margin: 20px 40px 20px 40px;
 }
 
 .sign-up {
-    margin-top: -5px;
+    color: #fff;
+    background-color: #07bed3;
+    padding-top: 6px;
+    width: 150px;
+    height: 40px;
+    font-size: 18px;
 }
 
 color: #fff;

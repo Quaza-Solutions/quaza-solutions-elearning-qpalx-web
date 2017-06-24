@@ -25,17 +25,21 @@
 <div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
 
 <!-- Quiz settings panel -->
-<div th:replace="fragments/content-admin/adaptive-quiz/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
+<div th:replace="fragments/content-admin/assessment/adaptive-assessment-settings-panel :: quiz-settings-panel"></div>
 
 <div class="container large-fonts-2" style="margin: 20px auto;">
     <form method="POST" th:action="@{save-adaptive-quiz}">
-
         <div class="row">
             <div class="col-md-1"></div>
-            <div class="col-md-10">Customize Adaptive Learning Quiz Using Options From Above.</div>
+            <div class="col-md-10">Customize Assessment Quiz Using Options From Above.</div>
             <div class="col-md-1"></div>
         </div>
 
+        <!--<br/>-->
+
+        <!--<div style="margin: auto; text-align: center">-->
+            <!--<button type="submit" class="btn btn-success">Save Scoring &amp; Time Settings</button>-->
+        <!--</div>-->
     </form>
 </div>
 
@@ -45,7 +49,7 @@
         <div class="col-md-1"></div>
 
         <div class="col-md-12">
-            <span class="large-fonts-3">Adaptive Quiz Questions</span><br/>
+            <span class="large-fonts-3">Assessment Quiz Questions</span><br/>
             <hr style="color: black; background-color: black; height: 1px;"/>
         </div>
 

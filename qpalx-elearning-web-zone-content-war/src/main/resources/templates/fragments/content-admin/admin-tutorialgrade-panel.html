@@ -35,7 +35,12 @@
                 <hr class="black-hr-I"/>
             </div>
 
-            <div class="col-md-4"></div>
+            <div class="col-md-2"></div>
+
+            <div class="col-md-2" style="cursor: pointer;" th:if="${SelectedELearningCurriculum} != null and ${SelectedELearningCurriculum.getAssessmentAdaptiveLearningQuiz()} == null">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-curriculum-assessment(curriculumID=${SelectedELearningCurriculum.id})}">Add Curriculum Assessment</a>
+            </div>
 
             <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
                 <img src="images/assets/platform/add-icon-image.png"/>
@@ -62,7 +67,12 @@
                 <hr class="black-hr-I"/>
             </div>
 
-            <div class="col-md-4"></div>
+            <div class="col-md-2"></div>
+
+            <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-curriculum-assessment(curriculumID=${SelectedELearningCurriculum.id})}">Add Curriculum Assessment</a>
+            </div>
 
             <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
                 <img src="images/assets/platform/add-icon-image.png"/>
@@ -89,7 +99,12 @@
                 <hr class="green-hr-I"/>
             </div>
 
-            <div class="col-md-4"></div>
+            <div class="col-md-2"></div>
+
+            <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-curriculum-assessment(curriculumID=${SelectedELearningCurriculum.id})}">Add Curriculum Assessment</a>
+            </div>
 
             <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
                 <img src="images/assets/platform/add-icon-image.png"/>

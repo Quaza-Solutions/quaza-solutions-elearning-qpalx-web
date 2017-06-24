@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <script src="js/ckeditor.js"></script>
+    <script src="js/sample.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/global-style.css"/>
+    <link rel="stylesheet" href="/css/adaptive-quiz-style.css"/>
+
+    <!-- Angular JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Content Admin user details overview panel -->
+<div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
+
+
+<div class="container" style="margin: 20px auto;">
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10"><span class="very-large-text-2">Assessment Focus Area</span></div>
+        <div class="col-md-1"></div>
+    </div>
+
+    <br/>
+
+</div>
+
+<div class="container" style="margin: 20px auto;">
+
+    <form method="POST" th:action="@{initialize-assessment-focus-area}" th:object="${AdaptiveLearningQuizWebVO}">
+
+        <br/>
+
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-1" style="text-align: center; margin: auto;">
+                <!--input type="file" name="datafile" size="40"-->
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">Select Course</div>
+            <div class="col-md-7">
+                <select style="height: 50px; width: 670px;" th:field="*{eLearningCourseID}">
+                    <option th:each="AvailableCurriculumCourse : ${AvailableCurriculumCourses}" th:value="${AvailableCurriculumCourse.id}" th:text="${AvailableCurriculumCourse.courseName}"></option>
+                </select>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <br/>
+
+        <div class="row">
+
+            <div class="col-md-1"></div>
+
+            <div class="col-md-3">Quiz Title</div>
+
+            <div class="col-md-7">
+                <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}" maxlength="100"></textarea>
+            </div>
+
+            <div class="col-md-1"></div>
+
+        </div>
+
+        <br/>
+
+        <div class="row">
+
+            <div class="col-md-1"></div>
+
+            <div class="col-md-3">Quiz Description</div>
+
+            <div class="col-md-7">
+                <textarea rows="5" cols="67" class="text-box-2" th:field="*{quizDescription}" maxlength="455"></textarea>
+            </div>
+
+            <div class="col-md-1"></div>
+
+        </div>
+
+        <br/>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div style="margin: auto; text-align: center">
+                    <button type="submit" class="sign-up">Save</button>
+                </div>
+                <br/>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+    </form>
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+</body>
+</html>

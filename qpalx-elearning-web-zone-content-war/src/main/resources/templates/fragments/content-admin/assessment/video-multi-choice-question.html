@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <script src="js/ckeditor.js"></script>
+    <script src="js/sample.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div th:fragment="video-multi-choice-question-panel">
+
+    <!-- Question types displayed based on the selected Adaptive Quiz Question Type -->
+    <div class="container large-fonts-2" style="margin: 20px auto;">
+        <form method="POST" th:action="@{add-quiz-question-image}" th:object="${AdaptiveLearningQuizQuestionVO}" enctype="multipart/form-data">
+            <br/>
+
+            <!-- Choose a video file that can be displayed with the Quiz.  Only mp4 files allowed-->
+            <div class="row">
+                <div class="col-md-6">
+                    <b>Only Video Files of format(MP4) Supported:</b>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Display empty space if  QuizQuestionMedia is null -->
+                <div th:if="${QuizQuestionMedia == null}">
+                    <div class="col-md-6"></div>
+                </div>
+
+                <!-- Display popup to Multimedia if QuizQuestionMedia is not null -->
+                <div th:if="${QuizQuestionMedia != null}">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                            View Uploaded Multi-Media
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-6"></div>
+
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-6" style="text-align: center; margin: auto;">
+                    <input type="file" name="file" size="40"/>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <span class="large-fonts-3">
+                        <textarea rows="1" cols="67" class="text-box-2"  th:field="*{questionTitle}" th:value="${AdaptiveLearningQuizQuestionVO.questionTitle}">Enter Question Here:</textarea>
+                    </span><br/>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-1 topmargin-5">
+                    <input type="radio" class="radio-blue" value="option1" th:field="*{correctAnswer1}"/>
+                </div>
+                <div class="col-md-9">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{option1}" th:value="${AdaptiveLearningQuizQuestionVO.option1}"></textarea>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-1 topmargin-5">
+                    <input type="radio" class="radio-blue" value="option2" th:field="*{correctAnswer1}"/>
+                </div>
+                <div class="col-md-9">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{option2}" th:value="${AdaptiveLearningQuizQuestionVO.option2}"></textarea>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-1 topmargin-5">
+                    <input type="radio" class="radio-blue" value="option3" th:field="*{correctAnswer1}"/>
+                </div>
+                <div class="col-md-9">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{option3}" th:value="${AdaptiveLearningQuizQuestionVO.option3}"></textarea>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-1 topmargin-5">
+                    <input type="radio" class="radio-blue" value="option4" th:field="*{correctAnswer1}"/>
+                </div>
+                <div class="col-md-9">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{option4}" th:value="${AdaptiveLearningQuizQuestionVO.option4}"></textarea>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <textarea id="editor" name="editor" th:field="*{questionFeedBack}" th:value="${AdaptiveLearningQuizQuestionVO.questionFeedBack}"></textarea><br/>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <!-- Hidden field to set back the value of the Quiz QuestionType-->
+            <input type="hidden" th:value="${AdaptiveLearningQuizQuestionVO.adaptiveLearningQuizQuestionTypeE}" name="adaptiveLearningQuizQuestionTypeE"/>
+
+            <div th:if="${AdaptiveLearningQuizQuestionVO.getID()} != null">
+                <!-- Hidden field to pass back the Question ID if it has already been saved -->
+                <input type="hidden" th:value="${AdaptiveLearningQuizQuestionVO.getID()}" name="adaptiveLearningQuizQuestionId"/>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="margin: auto; text-align: center">
+                        <button type="submit" id="submit" class="btn btn-success">Add Quiz Question Details</button>
+                    </div>
+                    <br/>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Uploaded Quiz Question Multi media displayed in modal popup -->
+    <div th:if="${QuizQuestionMedia != null}">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document" style="width: 1200px;">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #777; color: #fff;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Uploaded Item</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="whiteBody2">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <video oncontextmenu="return false;" width="800" controls="controls">
+                                        <source th:src="${QuizQuestionMedia.getELearningMediaFile()}" type="video/mp4"/>
+                                        Your browser does not support HTML5 video.
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer" style="background-color: #777;">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

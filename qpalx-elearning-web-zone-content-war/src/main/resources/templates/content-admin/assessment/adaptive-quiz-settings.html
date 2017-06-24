@@ -28,85 +28,83 @@
 <div th:replace="fragments/content-admin/adaptive-quiz/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
 
 <div class="container large-fonts-2" style="margin: 20px auto;">
-    <form method="POST" th:action="@{save-adaptive-quiz}">
-
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">Customize Adaptive Learning Quiz Using Options From Above.</div>
-            <div class="col-md-1"></div>
-        </div>
-
-    </form>
-</div>
-
-<div class="container" style="margin: 20px auto;">
-
     <div class="row">
         <div class="col-md-1"></div>
+        <div class="col-md-10">Select the Quiz Question Type From Above.</div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
 
-        <div class="col-md-12">
-            <span class="large-fonts-3">Adaptive Quiz Questions</span><br/>
+<div class="container large-fonts-2" style="margin: 20px auto;">
+
+    <!-- Adaptive Quiz Scoring and Time limits Settings -->
+    <div class="row" th:if="${AdaptiveLearningQuizSettingsE} == 'Scoring_Time'">
+        <form method="POST" th:action="@{add-quiz-settings-details}" th:object="${AdminAdaptiveLearningQuizWebVO}">
+        <div class="col-md-1"></div>
+
+        <div class="col-md-10"><span class="large-fonts-3">Scoring &amp; Time</span><br/>
             <hr style="color: black; background-color: black; height: 1px;"/>
-        </div>
 
-    </div>
+            <p>
+                Scoring: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="highlighting">Assign total points to the quiz</span>&nbsp;&nbsp;
+                <span class="highlighting">
+                    <input type="text" size="10" value="100" disabled="true" th:field="*{maxPossibleActivityScore}"/>
+                </span>
+            </p>
 
-    <div th:each="AdaptiveLearningQuizQuestionVO,rowStat : ${CurrentAdaptiveLearningQuizQuestionVOs}">
+            <!-- Time to complete Quiz currently not supported -->
+            <p>
+                Time to Complete Quiz &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlighting">No time limit</span>
+            </p>
 
-        <!-- Display Edit Button -->
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
-                <button type="button" class="btn" th:onclick="'document.location.href=\'' + @{/quiz-question-edit(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">Edit Quiz Question</button>
-            </div>
-            <div class="col-md-8"></div>
-        </div>
+            <br/>
 
-        <br/>
-
-        <!-- Display Quiz Question -->
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-11">
-                <p class="small-text" th:text="${AdaptiveLearningQuizQuestionVO.getQuestionTitle()}"></p>
-            </div>
-        </div>
-
-        <!-- Display all Quiz Question Answers -->
-        <div th:each="AdaptiveLearningQuizQuestionAnswerVO : ${AdaptiveLearningQuizQuestionVO.getIAdaptiveLearningQuizQuestionAnswerVOs()}">
-
-            <!-- Display circle with filled color to indicate a correct answer -->
-            <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswerVO.correctAnswer == true}">
-                <div class="col-md-1"></div>
-
-                <div class="col-md-10 small-text-2">
-                    <i class="fa fa-circle spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswerVO.quizQuestionAnswerText}"/>
-                </div>
-            </div>
-
-            <!-- Display empty circle to indicate wrong answer -->
-            <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswerVO.correctAnswer == false}">
-                <div class="col-md-1"></div>
-
-                <div class="col-md-10 small-text-2">
-                    <i class="fa fa-circle-o spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswerVO.quizQuestionAnswerText}"/>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row">
-        <form method="POST" th:action="@{persist-adaptive-quiz}">
-        <div class="col-md-12">
             <div style="margin: auto; text-align: center">
-                <button type="submit" id="submit" class="btn btn-success">Complete And Exit Quiz</button>
+                <button type="submit" class="btn btn-success">Save Scoring &amp; Time Settings</button>
             </div>
+
             <br/>
         </div>
+
+        <div class="col-md-1"></div>
         </form>
     </div>
 
+    <!-- Adaptive Quiz Result details Settings -->
+    <div class="row" th:if="${AdaptiveLearningQuizSettingsE} == 'Result'">
+        <form method="POST" th:action="@{add-quiz-settings-details}" th:object="${AdminAdaptiveLearningQuizWebVO}">
+        <div class="col-md-1"></div>
+
+        <div class="col-md-10"><span class="large-fonts-3">Scoring &amp; Time</span><br/>
+            <span class="large-fonts-3">Result</span><br/>
+            <hr style="color: black; background-color: black; height: 1px;"/>
+
+            <p>Result Type: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="highlighting">Pass</span>&nbsp;&nbsp;
+                <span class="highlighting">Min. Passing Grade</span>&nbsp;&nbsp;
+                <span class="highlighting">
+                    <select class="activity" th:field="*{minimumPassingActivityScore}">
+                        <option value="70">70</option>
+                        <option value="75">75</option>
+                        <option value="80">80</option>
+                        <option value="85">85</option>
+                    </select>
+                </span>
+            </p>
+
+            <br/>
+
+            <div style="margin: auto; text-align: center">
+                <button type="submit" class="btn btn-success">Save Result Settings</button>
+            </div>
+
+            <br/>
+        </div>
+
+        <div class="col-md-1"></div>
+        </form>
+    </div>
 </div>
 
 <!-- Include Footer for when user is logged in -->

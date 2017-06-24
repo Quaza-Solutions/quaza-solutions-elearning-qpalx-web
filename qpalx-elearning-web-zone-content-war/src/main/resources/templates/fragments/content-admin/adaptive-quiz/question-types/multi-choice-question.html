@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <script src="js/ckeditor.js"></script>
+    <script src="js/sample.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+
+</head>
+<body>
+<div th:fragment="multi-choice-question-panel">
+
+    <!-- Question types displayed based on the selected Adaptive Quiz Question Type -->
+    <div class="container large-fonts-2" style="margin: 20px auto;">
+        <form method="POST" th:action="@{${QuizQuestionTypeSubmissionURL}}" th:object="${AdaptiveLearningQuizQuestionVO}">
+            <br/>
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">Enter Question Title</div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <span class="large-fonts-3">
+                        <textarea rows="1" cols="67" class="text-box-2"  th:field="*{questionTitle}" th:value="${AdaptiveLearningQuizQuestionVO.questionTitle}"></textarea>
+                    </span><br/>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-1 topmargin-5">
+                    <input type="radio" class="radio-blue" value="option1" th:field="*{correctAnswer1}"/>
+                </div>
+                <div class="col-md-9">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{option1}" th:value="${AdaptiveLearningQuizQuestionVO.option1}"></textarea>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-1 topmargin-5">
+                    <input type="radio" class="radio-blue" value="option2" th:field="*{correctAnswer1}"/>
+                </div>
+                <div class="col-md-9">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{option2}" th:value="${AdaptiveLearningQuizQuestionVO.option2}"></textarea>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-1 topmargin-5">
+                    <input type="radio" class="radio-blue" value="option3" th:field="*{correctAnswer1}"/>
+                </div>
+                <div class="col-md-9">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{option3}" th:value="${AdaptiveLearningQuizQuestionVO.option3}"></textarea>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-1 topmargin-5">
+                    <input type="radio" class="radio-blue" value="option4" th:field="*{correctAnswer1}"/>
+                </div>
+                <div class="col-md-9">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{option4}" th:value="${AdaptiveLearningQuizQuestionVO.option4}"></textarea>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <textarea id="editor" name="editor" th:field="*{questionFeedBack}" th:value="${AdaptiveLearningQuizQuestionVO.questionFeedBack}"></textarea><br/>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <!-- Hidden field to set back the value of the Quiz QuestionType-->
+            <input type="hidden" th:value="${AdaptiveLearningQuizQuestionVO.adaptiveLearningQuizQuestionTypeE}" name="adaptiveLearningQuizQuestionTypeE"/>
+
+            <div th:if="${AdaptiveLearningQuizQuestionVO.getID()} != null">
+                <!-- Hidden field to pass back the Question ID if it has already been saved -->
+                <input type="hidden" th:value="${AdaptiveLearningQuizQuestionVO.getID()}" name="adaptiveLearningQuizQuestionId"/>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="margin: auto; text-align: center">
+                        <button type="submit" id="submit" class="btn btn-success">Save Quiz Question Details</button>
+                    </div>
+                    <br/>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

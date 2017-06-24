@@ -24,51 +24,29 @@
 <!-- Main Content Admin user details overview panel -->
 <div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
 
-<!-- Quiz settings panel -->
-<div th:replace="fragments/content-admin/adaptive-quiz/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
-
-<div class="container large-fonts-2" style="margin: 20px auto;">
-    <form method="POST" th:action="@{save-adaptive-quiz}">
-
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">Customize Adaptive Learning Quiz Using Options From Above.</div>
-            <div class="col-md-1"></div>
-        </div>
-
-    </form>
-</div>
+<!-- Assessment settings panel -->
+<div th:replace="fragments/content-admin/assessment/assessment-settings-panel :: assessment-settings-panel"></div>
 
 <div class="container" style="margin: 20px auto;">
 
-    <div class="row">
-        <div class="col-md-1"></div>
-
-        <div class="col-md-12">
-            <span class="large-fonts-3">Adaptive Quiz Questions</span><br/>
-            <hr style="color: black; background-color: black; height: 1px;"/>
-        </div>
-
-    </div>
-
-    <div th:each="AdaptiveLearningQuizQuestionVO,rowStat : ${CurrentAdaptiveLearningQuizQuestionVOs}">
+    <div th:each="AssessmentFocusArea,rowStat : ${AssessmentFocusAreas}">
 
         <!-- Display Edit Button -->
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
-                <button type="button" class="btn" th:onclick="'document.location.href=\'' + @{/quiz-question-edit(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">Edit Quiz Question</button>
-            </div>
-            <div class="col-md-8"></div>
-        </div>
+        <!--<div class="row">-->
+            <!--<div class="col-md-1"></div>-->
+            <!--<div class="col-md-3">-->
+                <!--<button type="button" class="btn" th:onclick="'document.location.href=\'' + @{/quiz-question-edit(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">Edit Quiz Question</button>-->
+            <!--</div>-->
+            <!--<div class="col-md-8"></div>-->
+        <!--</div>-->
 
-        <br/>
+        <!--<br/>-->
 
         <!-- Display Quiz Question -->
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-11">
-                <p class="small-text" th:text="${AdaptiveLearningQuizQuestionVO.getQuestionTitle()}"></p>
+                <p class="small-text" th:text="${AssessmentFocusArea.getELearningCourse().getCourseName()}"></p>
             </div>
         </div>
 
@@ -98,12 +76,12 @@
 
     <div class="row">
         <form method="POST" th:action="@{persist-adaptive-quiz}">
-        <div class="col-md-12">
-            <div style="margin: auto; text-align: center">
-                <button type="submit" id="submit" class="btn btn-success">Complete And Exit Quiz</button>
+            <div class="col-md-12">
+                <div style="margin: auto; text-align: center">
+                    <button type="submit" id="submit" class="btn btn-success">Save And Exit Assessment</button>
+                </div>
+                <br/>
             </div>
-            <br/>
-        </div>
         </form>
     </div>
 
@@ -116,18 +94,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-	$(document).ready(function(){
-		$(".small-boxes").hide();
-        //$(".small-boxes-2").show();
-    $("#hide").click(function(){
-		$(".small-boxes").hide();
-        $(".small-boxes-2").show();
-    });
-    $("#show").click(function(){
-        $(".small-boxes-2").hide();
-        $(".small-boxes").show();
-    });
-});
+
 	function Quizzes(){
 			if( $("#hide").hasClass("blue-tabs-2") ) {
 		$("#hide").removeClass("blue-tabs-2").addClass("blue-tabs-3");

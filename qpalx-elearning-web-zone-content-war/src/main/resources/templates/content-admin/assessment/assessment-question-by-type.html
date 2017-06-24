@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <script src="js/ckeditor.js"></script>
+    <script src="js/sample.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Content Admin user details overview panel -->
+<div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
+
+<!-- Quiz settings panel -->
+<div th:replace="fragments/content-admin/assessment/adaptive-assessment-settings-panel :: quiz-settings-panel"></div>
+
+<!--  Display any error messages -->
+<div class="container large-fonts-2" style="margin: 20px auto;">
+    <div class="row" th:if="${Invalid_FORM_Submission} != null">
+        <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"/>
+    </div>
+</div>
+
+<!-- Add the Multi-Choice Question types panel -->
+<div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Multiple_Choice'}">
+    <div th:replace="fragments/content-admin/adaptive-quiz/question-types/multi-choice-question :: multi-choice-question-panel"></div>
+</div>
+
+<!-- Add the Image Multi-Choice Question types panel -->
+<div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Image'}">
+    <div th:replace="fragments/content-admin/adaptive-quiz/question-types/image-multi-choice-question :: image-multi-choice-question-panel"></div>
+</div>
+
+<!-- Add the Video Multi-Choice Question types panel -->
+<div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Video'}">
+    <div th:replace="fragments/content-admin/adaptive-quiz/question-types/video-multi-choice-question :: video-multi-choice-question-panel"></div>
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+	initSample();
+	$(document).ready(function(){
+		$(".small-boxes").hide();
+        //$(".small-boxes-2").show();
+    $("#hide").click(function(){
+		$(".small-boxes").hide();
+        $(".small-boxes-2").show();
+    });
+    $("#show").click(function(){
+        $(".small-boxes-2").hide();
+        $(".small-boxes").show();
+    });
+});
+	function Quizzes(){
+			if( $("#hide").hasClass("blue-tabs-2") ) {
+		$("#hide").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+		$("#show").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+			} else {
+		$("#hide").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+		$("#show").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+			}
+	}
+	function Settings(){
+			if( $("#show").hasClass("blue-tabs-3") ) {
+		$("#show").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+		$("#hide").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+			} else {
+		$("#show").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+		$("#hide").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+			}
+	}
+</script>
+</body>
+</html>

@@ -22,6 +22,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -30,7 +32,7 @@ import java.util.Set;
 @Controller
 @SessionAttributes(
         value = {
-                IHierarchicalLMSContent.CLASS_ATTRIBUTE_IDENTIFIER, AdaptiveLearningQuizWebVO.CLASS_ATTRIBUTE, EmbedableQuizSetting.QUIZ_PARENT_LMS_CONTENT_NAME, EmbedableQuizSetting.QUIZ_PARENT_LMS_CONTENT_TYPE
+                EmbedableQuizAdminController.QUIZ_CREATION_COMPLETION_EXIT_URL_ATTR, IHierarchicalLMSContent.CLASS_ATTRIBUTE_IDENTIFIER, AdaptiveLearningQuizWebVO.CLASS_ATTRIBUTE, EmbedableQuizSetting.QUIZ_PARENT_LMS_CONTENT_NAME, EmbedableQuizSetting.QUIZ_PARENT_LMS_CONTENT_TYPE
         }
 )
 public class EmbedableQuizAdminController {
@@ -49,6 +51,10 @@ public class EmbedableQuizAdminController {
     @Autowired
     @Qualifier(DefaultRedirectStrategyExecutor.BEAN_NAME)
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
+
+
+    // Controllers that use Embedded Quiz capabilities should set an Exit URL Attribute that this Controller will redirect to after Quiz creation is complete
+    public static final String QUIZ_CREATION_COMPLETION_EXIT_URL_ATTR = "QuizCreationCompletionExitURL";
 
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(EmbedableQuizAdminController.class);
@@ -98,13 +104,29 @@ public class EmbedableQuizAdminController {
         int questionOrder = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs().size() + 1;
         adaptiveLearningQuizQuestionVO.setIHierarchicalLMSContent(adaptiveQuizParentContent);
         adaptiveLearningQuizWebVO.addAdaptiveLearningQuizQuestionVO(adaptiveLearningQuizQuestionVO);
-        //iClassicQuizMaker.modifyQuizWithQuestion(adaptiveLearningQuizWebVO, adaptiveLearningQuizQuestionVO, Optional.empty(), questionOrder);
+        iClassicQuizMaker.modifyQuizWithQuestion(adaptiveLearningQuizWebVO, adaptiveLearningQuizQuestionVO, Optional.empty(), questionOrder);
 
         // Get the list of all questions and answers as a map to return for display.
         Set<IAdaptiveLearningQuizQuestionVO> adaptiveLearningQuizQuestionVOSet = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs();
         model.addAttribute(AdaptiveLearningQuizAttributeE.CurrentAdaptiveLearningQuizQuestionVOs.toString(), adaptiveLearningQuizQuestionVOSet);
         return ContentRootE.Content_Admin_Embeded_Quiz.getContentRootPagePath("embedded-quiz-home");
     }
+
+
+
+    @RequestMapping(value = "/exit-embedded-content-quiz-mode", method = RequestMethod.POST)
+    public void exitEmbeddedAdaptiveLearningQuizQuestion(Model model,
+                                                           HttpServletRequest request, HttpServletResponse response,
+                                                           @ModelAttribute(EmbedableQuizAdminController.QUIZ_CREATION_COMPLETION_EXIT_URL_ATTR) String completionExitURL) {
+        LOGGER.info("Running exit sequence of embedded content quiz mode, will redirect to URL: {}", completionExitURL);
+        iRedirectStrategyExecutor.sendRedirect(request, response, completionExitURL);
+    }
+
+
+
+
+
+
 
 
 

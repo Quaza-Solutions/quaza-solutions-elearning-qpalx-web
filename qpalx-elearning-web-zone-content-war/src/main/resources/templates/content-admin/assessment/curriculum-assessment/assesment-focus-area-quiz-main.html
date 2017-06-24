@@ -25,19 +25,8 @@
 <div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
 
 <!-- Quiz settings panel -->
-<div th:replace="fragments/content-admin/adaptive-quiz/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
+<div th:replace="fragments/content-admin/embedable-quizzes/global-quiz-settings :: embedable-quiz-settings-panel"></div>
 
-<div class="container large-fonts-2" style="margin: 20px auto;">
-    <form method="POST" th:action="@{save-adaptive-quiz}">
-
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">Customize Adaptive Learning Quiz Using Options From Above.</div>
-            <div class="col-md-1"></div>
-        </div>
-
-    </form>
-</div>
 
 <div class="container" style="margin: 20px auto;">
 
@@ -45,7 +34,7 @@
         <div class="col-md-1"></div>
 
         <div class="col-md-12">
-            <span class="large-fonts-3">Adaptive Quiz Questions</span><br/>
+            <span class="large-fonts">Adaptive Quiz Questions</span><br/>
             <hr style="color: black; background-color: black; height: 1px;"/>
         </div>
 
@@ -98,12 +87,12 @@
 
     <div class="row">
         <form method="POST" th:action="@{persist-adaptive-quiz}">
-        <div class="col-md-12">
-            <div style="margin: auto; text-align: center">
-                <button type="submit" id="submit" class="btn btn-success">Complete And Exit Quiz</button>
+            <div class="col-md-12">
+                <div style="margin: auto; text-align: center">
+                    <button type="submit" id="submit" class="btn btn-success">Complete And Exit Quiz</button>
+                </div>
+                <br/>
             </div>
-            <br/>
-        </div>
         </form>
     </div>
 
