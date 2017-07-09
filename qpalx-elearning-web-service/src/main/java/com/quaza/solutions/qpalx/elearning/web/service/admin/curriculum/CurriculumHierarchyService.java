@@ -56,14 +56,16 @@ public class CurriculumHierarchyService implements ICurriculumHierarchyService {
     public void buildHierarchyForQPalXEMicroLessonVO(QPalXEMicroLessonVO qPalXEMicroLessonVO) {
         Assert.notNull(qPalXEMicroLessonVO, "qPalXELessonWebVO cannot be null");
 
-        LOGGER.info("Building hierarchical information for new QPalxMicro Lesson web object....");
+        if (qPalXEMicroLessonVO.getIHierarchicalLMSContent() == null) {
+            LOGGER.info("Building hierarchical information for new QPalxMicro Lesson web object....");
 
-        QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qPalXEMicroLessonVO.getQPalXELessonID());
-        QPalXEMicroLesson qPalXEMicroLesson = new QPalXEMicroLesson();
-        qPalXEMicroLesson.setQPalXELesson(qPalXELesson);
-        qPalXEMicroLesson.setMicroLessonName(qPalXEMicroLessonVO.getMicroLessonName());
-        qPalXEMicroLesson.setMicroLessonDescription(qPalXEMicroLessonVO.getMicroLessonDescription());
-        qPalXEMicroLessonVO.setiHierarchicalLMSContent(qPalXELesson);
+            QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qPalXEMicroLessonVO.getQPalXELessonID());
+            QPalXEMicroLesson qPalXEMicroLesson = new QPalXEMicroLesson();
+            qPalXEMicroLesson.setQPalXELesson(qPalXELesson);
+            qPalXEMicroLesson.setMicroLessonName(qPalXEMicroLessonVO.getMicroLessonName());
+            qPalXEMicroLesson.setMicroLessonDescription(qPalXEMicroLessonVO.getMicroLessonDescription());
+            qPalXEMicroLessonVO.setiHierarchicalLMSContent(qPalXELesson);
+        }
     }
 
     @Override

@@ -60,26 +60,6 @@
 
 <br/>
 
-<!-- Display Curriculum Assessment Quiz Info -->
-<div class="container" style="margin-top: 10px; margin-bottom: 0px;">
-
-    <div class="row">
-        <div class="large-font">Curriculum Assessment Quiz</div>
-    </div>
-
-    <div class="row" th:if="${SelectedELearningCurriculum} != null and ${SelectedELearningCurriculum.getAssessmentAdaptiveLearningQuiz()} != null">
-
-        <div class="col-md-1"></div>
-
-        <div class="col-md-3">
-            <b th:text="${SelectedELearningCurriculum.getAssessmentAdaptiveLearningQuiz().getQuizTitle()}"></b>
-        </div>
-
-        <div class="col-md-8"></div>
-
-    </div>
-
-</div>
 
 <div class="clearfix bottom-space"></div>
 

@@ -31,6 +31,10 @@ public class QPalXEMicroLessonVO extends AbstractILMSMediaContentVO implements I
 
     private ELearningMediaContent staticELearningMediaContent;
 
+    private ELearningMediaContent interactiveELearningMediaContent;
+
+    public static final String CLASS_ATTRIBUTE = "QPalXEMicroLessonVO";
+
     public QPalXEMicroLessonVO() {
 
     }
@@ -100,6 +104,15 @@ public class QPalXEMicroLessonVO extends AbstractILMSMediaContentVO implements I
 
     public void setStaticELearningMediaContent(ELearningMediaContent staticELearningMediaContent) {
         this.staticELearningMediaContent = staticELearningMediaContent;
+    }
+
+    @Override
+    public ELearningMediaContent getInteractiveELearningMediaContent() {
+        return interactiveELearningMediaContent;
+    }
+
+    public void setInteractiveELearningMediaContent(ELearningMediaContent interactiveELearningMediaContent) {
+        this.interactiveELearningMediaContent = interactiveELearningMediaContent;
     }
 
     @Override

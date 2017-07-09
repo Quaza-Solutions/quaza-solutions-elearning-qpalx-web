@@ -1,11 +1,14 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.admin.curriculum;
 
 import com.quaza.solutions.qpalx.elearning.domain.institutions.QPalXEducationalInstitution;
+import com.quaza.solutions.qpalx.elearning.domain.lms.assessment.CourseAssessmentFocusArea;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
 import com.quaza.solutions.qpalx.elearning.domain.subjectmatter.proficiency.ProficiencyRankingScaleE;
 import com.quaza.solutions.qpalx.elearning.service.institutions.IQPalXEducationalInstitutionService;
+import com.quaza.solutions.qpalx.elearning.service.lms.assessment.CourseAssessmentFocusAreaService;
+import com.quaza.solutions.qpalx.elearning.service.lms.assessment.ICourseAssessmentFocusAreaService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.curriculum.ICurriculumHierarchyService;
@@ -67,10 +70,17 @@ public class QPalXLessonAdminController {
     private ICurriculumHierarchyService iCurriculumHierarchyService;
 
     @Autowired
+    @Qualifier(CourseAssessmentFocusAreaService.BEAN_NAME)
+    private ICourseAssessmentFocusAreaService iCourseAssessmentFocusAreaService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
+
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(QPalXLessonAdminController.class);
+
+
 
     @RequestMapping(value = "/view-admin-qpalx-elessons", method = RequestMethod.GET)
     public String viewAdminQPalXLessons(final Model model, @RequestParam("eLearningCourseID") String eLearningCourseID, HttpServletRequest request, HttpServletResponse response) {
@@ -92,6 +102,11 @@ public class QPalXLessonAdminController {
         // Find all the QPalXELesson's currently available
         List<QPalXELesson> qPalXELessons = iqPalXELessonService.findQPalXELessonByCourse(eLearningCourse);
         model.addAttribute(LessonsAdminAttributesE.QPalXELessons.toString(), qPalXELessons);
+
+        // Find any created Assessment for this course
+        List<CourseAssessmentFocusArea> courseAssessmentFocusAreas = iCourseAssessmentFocusAreaService.findCourseAssessmentFocusAreas(eLearningCourse);
+        model.addAttribute(CourseAssessmentFocusArea.CLASS_ATTRIBUTE_IDENTIFIER, courseAssessmentFocusAreas);
+
         return ContentRootE.Content_Admin_Lessons.getContentRootPagePath("view-qpalx-elessons");
     }
 

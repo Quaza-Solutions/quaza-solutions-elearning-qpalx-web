@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Required configuration to make external file system directories available for use in the application.
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
  */
 @Configuration
 @AutoConfigureAfter(DispatcherServletAutoConfiguration.class)
-public class FileResourcesConfiguration extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter {
+public class FileResourcesConfiguration extends WebMvcConfigurerAdapter {
 
 
     @Autowired
@@ -29,6 +29,8 @@ public class FileResourcesConfiguration extends WebMvcAutoConfiguration.WebMvcAu
 
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(FileResourcesConfiguration.class);
+
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

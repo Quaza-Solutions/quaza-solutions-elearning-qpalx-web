@@ -28,6 +28,8 @@ public enum ContentRootE {
 
     Content_Admin_Lessons("content-admin/lessons/"),
 
+    Content_Admin_Micro_Lessons("content-admin/micro-lesson/"),
+
     Content_Admin_Quiz("content-admin/adaptive-quiz/"),
 
     Content_Admin_Embeded_Quiz("content-admin/embedable-quizzes/"),

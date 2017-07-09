@@ -148,37 +148,6 @@ public class QPalXMicroLessonAdminController {
         return ContentRootE.Content_Admin_Lessons.getContentRootPagePath("modify-qpalx-microlesson");
     }
 
-    @RequestMapping(value = "/save-qpalx-microlesson", method = RequestMethod.POST)
-    public void saveMicroLesson(Model model, @ModelAttribute("QPalXEMicroLessonVO") QPalXEMicroLessonVO qPalXEMicroLessonVO,
-                                 HttpServletRequest request, HttpServletResponse response, @RequestParam("narration_file") MultipartFile multipartFile, @RequestParam("static_file") MultipartFile staticMultipartFile) {
-        LOGGER.info("Saving QPalX micro lesson with VO attributes: {}", qPalXEMicroLessonVO);
-
-        // Build hierarchy based content structure on the Lesson which will allow for uploading content to the right directory structure
-        iCurriculumHierarchyService.buildHierarchyForQPalXEMicroLessonVO(qPalXEMicroLessonVO);
-
-        // Upload file and create the ELearningMediaContent
-        ELearningMediaContent eLearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(multipartFile, qPalXEMicroLessonVO);
-        ELearningMediaContent staticELearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(staticMultipartFile, qPalXEMicroLessonVO);
-
-        if(eLearningMediaContent == null || staticELearningMediaContent == null) {
-            LOGGER.warn("Selected ELearning Media content could not be uploaded.  Check selected file content.");
-            String targetURL = "/add-qpalx-microlesson?qpalxELessonID=" + qPalXEMicroLessonVO.getQPalXELessonID();
-            String errorMessage = "Failed to upload file: Check the contents of the file";
-            iRedirectStrategyExecutor.sendRedirectWithError(targetURL, errorMessage, WebOperationErrorAttributesE.Invalid_FORM_Submission, request, response);
-        } else if(eLearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT || staticELearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT) {
-            LOGGER.warn("Uploaded course activity media content file is currently not supported...");
-            String targetURL = "/add-qpalx-microlesson?qpalxELessonID=" + qPalXEMicroLessonVO.getQPalXELessonID();
-            String errorMessage = "Uploaded file is not supported: Only Files of type(MP4, SWF) supported";
-            iRedirectStrategyExecutor.sendRedirectWithError(targetURL, errorMessage, WebOperationErrorAttributesE.Invalid_FORM_Submission, request, response);
-        } else {
-            LOGGER.info("QPalX Lesson media content was succesfully uploaded, saving micro lesson details...");
-            qPalXEMicroLessonVO.setELearningMediaContent(eLearningMediaContent);
-            qPalXEMicroLessonVO.setStaticELearningMediaContent(staticELearningMediaContent);
-            iqPalXEMicroLessonService.createAndSaveQPalXEMicroLesson(qPalXEMicroLessonVO);
-            String targetURL = "/view-admin-qpalx-micro-elessons?qpalxELessonID=" + qPalXEMicroLessonVO.getQPalXELessonID();
-            iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
-        }
-    }
 
     @RequestMapping(value = "/update-qpalx-microlesson", method = RequestMethod.POST)
     public void updateQPalXMicroLesson(Model model, @ModelAttribute("QPalXEMicroLessonVO") QPalXEMicroLessonVO qPalXEMicroLessonVO,
@@ -245,7 +214,5 @@ public class QPalXMicroLessonAdminController {
             iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
         }
     }
-
-
 
 }
