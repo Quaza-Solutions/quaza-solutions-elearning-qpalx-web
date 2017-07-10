@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/modal-style.css"/>
 
     <!-- Add Javascript libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -47,20 +48,27 @@
                 </div>
 
                 <!-- Display narration content icon -->
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 align-top">
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 align-top">
                     <a th:attr="href='#popup' + ${rowStat.count}">
                         <img src="images/assets/adaptive-learning/audio.png" />
                     </a>
                 </div>
 
-                <!-- Display interactive content icon -->
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 align-top">
+                <!-- Display static swf content icon -->
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 align-top">
                     <a th:attr="href='#popup_static' + ${rowStat.count}">
                         <img src="images/assets/adaptive-learning/hand.png" />
                     </a>
                 </div>
 
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 align-top">
+                <!-- Display interactive exercise swf content icon -->
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 align-top">
+                    <a href="#" data-toggle="modal" th:attr="data-target='#interactive-exercise-modal' + ${rowStat.count}">
+                        <img src="images/assets/adaptive-learning/hand.png" />
+                    </a>
+                </div>
+
+                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 align-top">
                     <div>
                         <progress class="progressbar" value="0" max="100" th:attr="data-max=${QPalXEMicroLesson.getQuizzesCompletionRate()}"></progress>
                         <span th:inline="text">[[${QPalXEMicroLesson.getQuizzesCompletionRate()}]]%</span></div>
@@ -155,6 +163,32 @@
                 <embed th:src="${QPalXEMicroLesson.getInteractiveMediaFile()}" FlashVars="autoplay=false" width="800" height="560"  />
             </div>
             <div class="bar-3"></div>
+        </div>
+    </div>
+
+
+    <!-- Micro lesson interactive exercise -->
+    <div class="modal fade" th:id="'interactive-exercise-modal' + ${rowStat.count}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" >
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #777; color: #fff;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Interactive Exercise</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="interactiveExerciseModalBody">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <object width="100%" height="100%" data="elearning-content/Science/Agricultural-Science/The-Nitrogen-Cycle/nitrogen_1499561576986.swf"></object>
+                                <!--<embed th:src="${QPalXEMicroLesson.getInteractiveELearningMediaContent()}" width="100%" height="100%" />-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background-color: #777;">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 
