@@ -8,17 +8,24 @@
 	overflow-y: hidden;
 }
 
-.interactiveExerciseModalBody{
-	background-color: #fff;
-	width: 100%;
-	height: 100%;
-	margin: 0 auto;
-	max-width:100%;
-	max-height:100%;
-	overflow-y: hidden;
-}
-
-/** We always want to display Interactive exercises in a much bigger modal **/
+/**
+    We always want to display Interactive exercises in a much bigger modal.
+    Haven't found Bootstrap easy way of creating below individual styles dynamically so creating a bunch of these.
+    More than likely a lesson will only have 1 or 2 micro-lessons with interactive content so this should never be an issue.
+**/
 @media screen and (min-width: 768px) {
 	#interactive-exercise-modal1 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal2 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal7 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal8 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal9 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal10 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal11 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal12 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal13 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal14 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal15 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal16 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal17 .modal-dialog  {width:1350px;height: 1000px;}
+    #interactive-exercise-modal18 .modal-dialog  {width:1350px;height: 1000px;}
 }

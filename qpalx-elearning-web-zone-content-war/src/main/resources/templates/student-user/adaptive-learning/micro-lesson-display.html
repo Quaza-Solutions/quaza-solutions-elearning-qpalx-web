@@ -176,14 +176,8 @@
                     <h4 class="modal-title" >Interactive Exercise</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="interactiveExerciseModalBody">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <object width="100%" height="100%" data="elearning-content/Science/Agricultural-Science/The-Nitrogen-Cycle/nitrogen_1499561576986.swf"></object>
-                                <!--<embed th:src="${QPalXEMicroLesson.getInteractiveELearningMediaContent()}" width="100%" height="100%" />-->
-                            </div>
-                        </div>
-                    </div>
+                    <object width="100%" height="700" data="elearning-content/Science/Agricultural-Science/The-Nitrogen-Cycle/nitrogen_1499561576986.swf"></object>
+                    <!--<embed th:src="${QPalXEMicroLesson.getInteractiveELearningMediaContent()}" width="100%" height="700" />-->
                 </div>
                 <div class="modal-footer" style="background-color: #777;">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -193,6 +187,7 @@
     </div>
 
 </div>
+
 
 <div id="QuestionBank" class="modalBox" th:if="${RandomQuestionBankItem != null}" th:href="@{/question-bank-progress-tracker(questionBankItemID=${RandomQuestionBankItem.id}, uniqueQPalxUserKey=${LoggedInQPalXUser.getEmail()})}">
     <a href="#" class="modalCloseOuter" onClick="stopQuestionBankItem('QuestionBank');"></a>
