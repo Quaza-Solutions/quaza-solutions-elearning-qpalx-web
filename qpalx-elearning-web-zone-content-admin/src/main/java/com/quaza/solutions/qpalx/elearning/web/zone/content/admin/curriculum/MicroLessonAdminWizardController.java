@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @SessionAttributes(
-        value = {QPalXEMicroLessonVO.CLASS_ATTRIBUTE}
+        value = {QPalXEMicroLessonVO.CLASS_ATTRIBUTE, "SelectedQPalXELesson"}
 )
 public class MicroLessonAdminWizardController {
 
@@ -76,7 +76,7 @@ public class MicroLessonAdminWizardController {
 
         // Add all required attributes to dispaly add qpalx elesson page
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qpalxELessonID);
-        model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), qPalXELesson);
+        modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), qPalXELesson);
 
         model.addAttribute(ValueObjectDataDisplayAttributeE.SupportedQPalXTutorialContentTypes.toString(), qPalXEMicroLessonVO.getQPalXTutorialContentTypes());
         model.addAttribute(ValueObjectDataDisplayAttributeE.SupportedStaticQPalXTutorialContentTypes.toString(), qPalXEMicroLessonVO.getStaticQPalXTutorialContentTypes());
@@ -147,7 +147,7 @@ public class MicroLessonAdminWizardController {
 
     @RequestMapping(value = "/save-microlesson-interactive", method = RequestMethod.POST)
     public String saveMicroLessonInteractiveFile(Model model, SessionStatus status,
-                                                 @ModelAttribute("QPalXEMicroLessonVO") QPalXEMicroLessonVO qPalXEMicroLessonVO,
+                                                 @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO,
                                                  @RequestParam("interactive_file") MultipartFile multipartFile, HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Saving QPalX Micro lesson narration file with VO attributes: {}", qPalXEMicroLessonVO);
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
@@ -179,12 +179,22 @@ public class MicroLessonAdminWizardController {
 
     @RequestMapping(value = "/complete-microlesson-wizard", method = RequestMethod.POST)
     public void completeMicroLessonCreateWizard(Model model, SessionStatus status,
-                                               @ModelAttribute("QPalXEMicroLessonVO") QPalXEMicroLessonVO qPalXEMicroLessonVO,
+                                               @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO,
                                                HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Completing MicroLesson creation wizard....");
         status.setComplete();
         iqPalXEMicroLessonService.createAndSaveQPalXEMicroLesson(qPalXEMicroLessonVO);
         String targetURL = "/view-admin-qpalx-micro-elessons?qpalxELessonID=" + qPalXEMicroLessonVO.getQPalXELessonID();
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
+    }
+
+    @RequestMapping(value = "/exit-microlesson-create", method = RequestMethod.GET)
+    public void exitMicroLessonCreateWizard(Model model, SessionStatus status,
+                                            @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
+                                            HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Canceling creation of MicroLesson wizard for Lesson: {}", qPalXELesson.getId());
+        String targetURL = "/view-admin-qpalx-micro-elessons?qpalxELessonID=" + qPalXELesson.getId();
+        status.setComplete();
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
 
