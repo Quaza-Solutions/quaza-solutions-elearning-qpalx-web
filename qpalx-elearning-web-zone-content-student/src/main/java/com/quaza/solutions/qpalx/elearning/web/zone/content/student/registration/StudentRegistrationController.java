@@ -4,6 +4,7 @@ import com.quaza.solutions.qpalx.elearning.domain.geographical.QPalXMunicipality
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.subjectmatter.proficiency.SimplifiedProficiencyRankE;
 import com.quaza.solutions.qpalx.elearning.domain.subscription.QPalXSubscription;
+import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IGeographicalDateTimeFormatter;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IQPalXMunicipalityService;
 import com.quaza.solutions.qpalx.elearning.service.prepaidsubscription.IQPalxPrepaidIDService;
@@ -95,6 +96,10 @@ public class StudentRegistrationController {
             model.addAttribute("StudentSignupDomainError", "* Existing Account found for phone number entered. Enter a new number");
             return ContentRootE.Student_Signup.getContentRootPagePath("sign-up-student");
         }
+
+        // TODO find better way of setting this from the Front End dynamicaly
+        StudentTutorialGrade studentTutorialGrade = iqPalXTutorialService.findTutorialGradeByID(qPalXWebUserVO.getTutorialGradeID());
+        qPalXWebUserVO.setStudentTutorialLevelID(studentTutorialGrade.getStudentTutorialLevel().getId());
 
         // Find all currently available prepaid subscriptions for Ghana.  Default for now.
         // TODO replace with student's home country

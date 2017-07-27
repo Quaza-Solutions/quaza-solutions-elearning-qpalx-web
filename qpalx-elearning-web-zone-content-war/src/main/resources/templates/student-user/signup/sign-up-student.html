@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
 
+    <!-- Angular JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
     <!-- Bootstrap CSS latest compiled version -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/global-style.css"/>
@@ -127,15 +130,17 @@
         </div>
 
         <div class="clearfix bottom-space"></div>
-        <div class="col-md-3">Education Level</div>
+        <div class="col-md-3"></div>
         <div class="col-md-3">Grade Level</div>
         <div class="col-md-3">Country</div>
         <div class="col-md-3">Region</div>
         <div class="clearfix"></div>
         <div class="col-md-3">
-            <select class="dropdown" th:field="*{studentTutorialLevelID}">
-                <option value="4">Senior High School</option>
-            </select>
+            <!--<select class="dropdown" th:field="*{studentTutorialLevelID}">-->
+                <!--<option value="">Choose Your Tutorial Level</option>-->
+                <!--<option value="5">Junior High School</option>-->
+                <!--<option value="4">Senior High School</option>-->
+            <!--</select>-->
         </div>
         <div class="col-md-3">
             <select class="dropdown" th:field="*{tutorialGradeID}">
