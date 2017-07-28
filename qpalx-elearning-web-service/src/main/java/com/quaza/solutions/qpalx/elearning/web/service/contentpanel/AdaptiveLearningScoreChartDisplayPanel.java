@@ -38,9 +38,14 @@ public class AdaptiveLearningScoreChartDisplayPanel implements IAdaptiveLearning
     @Override
     public void addCurriculumProficiency(Model model, AdaptiveProficiencyRanking adaptiveProficiencyRanking) {
         Assert.notNull(model, "model cannot be null");
-        Assert.notNull(adaptiveProficiencyRanking, "adaptiveProficiencyRanking cannot be null");
 
-        ProficiencyRankingScaleE proficiencyRankingScaleE = adaptiveProficiencyRanking.getProficiencyRankingScaleE();
+        ProficiencyRankingScaleE proficiencyRankingScaleE;
+        if (adaptiveProficiencyRanking != null) {
+            proficiencyRankingScaleE = adaptiveProficiencyRanking.getProficiencyRankingScaleE();
+        } else {
+            LOGGER.debug("No existing ProficiencyRankingScale found, defaulting to ProficiencyRankingScaleE.ONE");
+            proficiencyRankingScaleE = ProficiencyRankingScaleE.ONE;
+        }
         ProficiencyScoreRangeE proficiencyScoreRangeE = proficiencyRankingScaleE.getProficiencyScoreRangeE();
 
         double inverseScore = getInverseProficiencyScore(proficiencyRankingScaleE.getProficiencyRanking());

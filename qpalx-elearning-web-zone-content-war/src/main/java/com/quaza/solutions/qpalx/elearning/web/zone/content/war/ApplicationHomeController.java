@@ -4,11 +4,14 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalxUserTypeE;
+import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.ContentAdminProfileRecord;
 import com.quaza.solutions.qpalx.elearning.domain.subscription.QPalXSubscription;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IGeographicalDateTimeFormatter;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IStudentCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultContentAdminProfileRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IContentAdminProfileRecordService;
 import com.quaza.solutions.qpalx.elearning.service.subscription.IQPalxSubscriptionService;
 import com.quaza.solutions.qpalx.elearning.web.security.login.WebQPalXUser;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.IContentAdminWebService;
@@ -84,6 +87,10 @@ public class ApplicationHomeController {
     @Qualifier("quaza.solutions.qpalx.elearning.service.CacheEnabledELearningCurriculumService")
     private IELearningCurriculumService ieLearningCurriculumService;
 
+    @Autowired
+    @Qualifier(DefaultContentAdminProfileRecordService.SPRING_BEAN)
+    private IContentAdminProfileRecordService iContentAdminProfileRecordService;
+
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 
@@ -106,6 +113,11 @@ public class ApplicationHomeController {
                 iAdaptiveLearningScoreChartDisplayPanel.addEmptyLearningScoreChartDisplayPanel(model);
                 return ContentRootE.Student_Home.getContentRootPagePath("homepage");
             } else if(QPalxUserTypeE.CONTENT_DEVELOPER == optionalUser.get().getUserType()) {
+                // Find the ContentAdminProfileRecord for this user
+                ContentAdminProfileRecord contentAdminProfileRecord = iContentAdminProfileRecordService.findEnabledContentAdminProfileRecord(optionalUser.get());
+                LOGGER.debug("Found contentAdminProfileRecord: {}", contentAdminProfileRecord);
+
+
                 String redirectUrl = "/curriculum-by-tutorialgrade?tutorialGradeID=1&curriculumType=CORE";
                 LOGGER.info("Logged in user is a Content Developer, redirecting to:> {}", redirectUrl);
                 redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, redirectUrl);

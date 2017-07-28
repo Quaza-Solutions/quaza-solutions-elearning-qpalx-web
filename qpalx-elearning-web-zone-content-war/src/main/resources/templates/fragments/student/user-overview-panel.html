@@ -16,6 +16,7 @@
                 <br/>
                 <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
                 Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
+                Academic Level: <span th:text="${StudentTutorialGrade.getTutorialGrade()}"></span><br/>
 
                 <!-- Display ELearning Curriculum if a course has been selected -->
                 <div class="large-font" th:if="${CurriculumType != null}" th:inline="text">[[${CurriculumType}]] - Curriculum</div>
