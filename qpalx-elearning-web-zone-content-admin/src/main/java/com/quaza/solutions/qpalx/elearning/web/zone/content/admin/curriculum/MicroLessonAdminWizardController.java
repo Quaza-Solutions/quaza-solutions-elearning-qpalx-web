@@ -1,11 +1,15 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.admin.curriculum;
 
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.QPalXTutorialContentTypeE;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXEMicroLessonService;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.curriculum.ICurriculumHierarchyService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ValueObjectDataDisplayAttributeE;
@@ -58,6 +62,10 @@ public class MicroLessonAdminWizardController {
     private IQPalXUserInfoPanelService qPalXUserInfoPanelService;
 
     @Autowired
+    @Qualifier(AcademicLevelAdminPanelService.BEAN_NAME)
+    private IAcademicLevelAdminPanelService iAcademicLevelAdminPanelService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
@@ -76,7 +84,13 @@ public class MicroLessonAdminWizardController {
 
         // Add all required attributes to dispaly add qpalx elesson page
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qpalxELessonID);
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
         modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), qPalXELesson);
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         model.addAttribute(ValueObjectDataDisplayAttributeE.SupportedQPalXTutorialContentTypes.toString(), qPalXEMicroLessonVO.getQPalXTutorialContentTypes());
         model.addAttribute(ValueObjectDataDisplayAttributeE.SupportedStaticQPalXTutorialContentTypes.toString(), qPalXEMicroLessonVO.getStaticQPalXTutorialContentTypes());
@@ -87,10 +101,18 @@ public class MicroLessonAdminWizardController {
     }
 
     @RequestMapping(value = "/microlesson-narration-select", method = RequestMethod.POST)
-    public String microLessonNarrationSelect(ModelMap modelMap, Model model, @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO) {
+    public String microLessonNarrationSelect(ModelMap modelMap, Model model,
+                                             @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
+                                             @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO) {
         LOGGER.info("Building view for MicroLesson narration file selection page: {}", qPalXEMicroLessonVO);
 
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
         model.addAttribute(ValueObjectDataDisplayAttributeE.SupportedQPalXTutorialContentTypes.toString(), qPalXEMicroLessonVO.getQPalXTutorialContentTypes());
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         // Add all attributes required for User information panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
@@ -99,13 +121,20 @@ public class MicroLessonAdminWizardController {
 
     @RequestMapping(value = "/save-microlesson-narration", method = RequestMethod.POST)
     public String saveMicroLessonNarrationFile(Model model,
+                                               @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
                                                @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO,
                                                @RequestParam("narration_file") MultipartFile multipartFile) {
         LOGGER.info("Saving QPalX Micro lesson narration file with VO attributes: {}", qPalXEMicroLessonVO);
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
 
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
         iCurriculumHierarchyService.buildHierarchyForQPalXEMicroLessonVO(qPalXEMicroLessonVO);
         qPalXEMicroLessonVO.setQPalXTutorialContentType(QPalXTutorialContentTypeE.Video.toString());
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         // Upload file and create the ELearningMediaContent
         ELearningMediaContent eLearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(multipartFile, qPalXEMicroLessonVO);
@@ -123,10 +152,17 @@ public class MicroLessonAdminWizardController {
 
     @RequestMapping(value = "/save-microlesson-static", method = RequestMethod.POST)
     public String saveMicroLessonStaticFile(Model model,
+                                            @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
                                             @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO,
                                             @RequestParam("static_file") MultipartFile multipartFile) {
         LOGGER.info("Saving QPalX Micro lesson static file with VO attributes: {}", qPalXEMicroLessonVO);
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
+
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         iCurriculumHierarchyService.buildHierarchyForQPalXEMicroLessonVO(qPalXEMicroLessonVO);
         qPalXEMicroLessonVO.setQPalXTutorialContentType(QPalXTutorialContentTypeE.Static.toString());
@@ -147,10 +183,17 @@ public class MicroLessonAdminWizardController {
 
     @RequestMapping(value = "/save-microlesson-interactive", method = RequestMethod.POST)
     public String saveMicroLessonInteractiveFile(Model model, SessionStatus status,
+                                                 @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
                                                  @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO,
                                                  @RequestParam("interactive_file") MultipartFile multipartFile, HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Saving QPalX Micro lesson narration file with VO attributes: {}", qPalXEMicroLessonVO);
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
+
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         iCurriculumHierarchyService.buildHierarchyForQPalXEMicroLessonVO(qPalXEMicroLessonVO);
         qPalXEMicroLessonVO.setQPalXTutorialContentType(QPalXTutorialContentTypeE.Interactive_Excersise.toString());

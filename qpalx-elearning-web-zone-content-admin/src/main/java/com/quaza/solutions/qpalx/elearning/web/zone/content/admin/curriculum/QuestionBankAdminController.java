@@ -1,8 +1,12 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.admin.curriculum;
 
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IQuestionBankService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ValueObjectDataDisplayAttributeE;
@@ -44,6 +48,10 @@ public class QuestionBankAdminController {
     private IQuestionBankService iQuestionBankService;
 
     @Autowired
+    @Qualifier(AcademicLevelAdminPanelService.BEAN_NAME)
+    private IAcademicLevelAdminPanelService iAcademicLevelAdminPanelService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
@@ -67,8 +75,14 @@ public class QuestionBankAdminController {
         // Add all required attributes to dispaly add qpalx elesson page
         Long lessonID = NumberUtils.toLong(qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(lessonID);
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
         model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), qPalXELesson);
         model.addAttribute(ValueObjectDataDisplayAttributeE.SupportedQPalXTutorialContentTypes.toString(), questionBankVO.getQPalXTutorialContentTypes());
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         // Add all attributes required for User information panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);

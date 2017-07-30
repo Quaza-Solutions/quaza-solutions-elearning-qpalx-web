@@ -17,6 +17,12 @@
     <!-- Start Admin tutorial grade control and Add new course panel -->
     <div class="container" style="margin-bottom: 20px;">
 
+        <!--
+
+            SHS TutorialGrade Panel Control Section
+
+        -->
+
         <!-- SHS1 is selected -->
         <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'SHS1'">
 
@@ -132,6 +138,164 @@
 
             <div class="col-md-2">
                 <b class="green">SHS3</b>
+                <hr class="green-hr-I"/>
+            </div>
+
+            <div class="col-md-2"></div>
+
+            <!-- View Course Activities Mode:  Add Lessons option enabled -->
+            <div class="col-md-4" style="cursor: pointer;" th:if="${AddLessonsEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-qpalx-elesson(eLearningCourseID=${SelectedELearningCourse.id})}">Add QPalX Lesson</a>
+            </div>
+            <!-- End View Course Activities Mode:  -->
+
+
+            <!-- Lesson Activities View Mode:  IF current mode is viewing all Lesson activities, display add micro lesson and question bank -->
+            <div class="col-md-2" style="cursor: pointer;" th:if="${AddMicroLessonsEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/microlesson-create-start(qpalxELessonID=${SelectedQPalXELesson.id})}">Add Micro Lesson</a>
+            </div>
+
+            <div class="col-md-2" style="cursor: pointer;" align="left" th:if="${AddMicroLessonsEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-question-bank(qpalxELessonID=${SelectedQPalXELesson.id})}">Add QuestionBank Item</a>
+            </div>
+            <!-- End Lesson Activities View Mode -->
+
+
+            <!-- View Micro Lessons Activities Mode:  Add Adaptive Quiz enabled -->
+            <div class="col-md-4" style="cursor: pointer;" th:if="${AddMicroLessonActivitiesEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/create-qpalx-quiz(microLessonID=${SelectedQPalXMicroLesson.id})}">Add Adaptive Quiz</a>
+            </div>
+            <!-- End View Micro Lessons Activities Mode -->
+
+        </div>
+
+
+
+        <!--
+
+            JHS TutorialGrade Panel Control Section
+
+        -->
+
+        <!-- JHS1 is selected -->
+        <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'JHS1'">
+
+            <div class="col-md-2">
+                <b class="green">JHS1</b>
+                <hr class="green-hr-I" />
+            </div>
+
+            <div class="col-md-2" style="margin-left: -80px; cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='5',curriculumType=${CurriculumType})}"><b>JHS2</b></a>
+                <hr class="black-hr-I"/>
+            </div>
+
+            <div class="col-md-2" style="margin-left: -80px; cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='5',curriculumType=${CurriculumType})}"><b>JHS3</b></a>
+                <hr class="black-hr-I"/>
+            </div>
+
+            <div class="col-md-2"></div>
+
+            <!-- View Course Activities Mode:  Add Lessons option enabled -->
+            <div class="col-md-4" style="cursor: pointer;" th:if="${AddLessonsEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-qpalx-elesson(eLearningCourseID=${SelectedELearningCourse.id})}">Add QPalX Lesson</a>
+            </div>
+            <!-- End View Course Activities Mode:  -->
+
+
+            <!-- Lesson Activities View Mode:  IF current mode is viewing all Lesson activities, display add micro lesson and question bank -->
+            <div class="col-md-2" style="cursor: pointer;" th:if="${AddMicroLessonsEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/microlesson-create-start(qpalxELessonID=${SelectedQPalXELesson.id})}">Add Micro Lesson</a>
+            </div>
+
+            <div class="col-md-2" style="cursor: pointer;" align="left" th:if="${AddMicroLessonsEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-question-bank(qpalxELessonID=${SelectedQPalXELesson.id})}">Add QuestionBank Item</a>
+            </div>
+            <!-- End Lesson Activities View Mode -->
+
+
+            <!-- View Micro Lessons Activities Mode:  Add Adaptive Quiz enabled -->
+            <div class="col-md-4" style="cursor: pointer;" th:if="${AddMicroLessonActivitiesEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/create-qpalx-quiz(microLessonID=${SelectedQPalXMicroLesson.id})}">Add Adaptive Quiz</a>
+            </div>
+            <!-- End View Micro Lessons Activities Mode -->
+
+        </div>
+
+        <!-- JHS2 is selected -->
+        <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'SHS2'">
+
+            <div class="col-md-2" style="cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='4',curriculumType=${CurriculumType})}"><b>JHS1</b></a>
+                <hr class="black-hr-I" />
+            </div>
+
+            <div class="col-md-2">
+                <b class="green">SHS2</b>
+                <hr class="green-hr-I"/>
+            </div>
+
+            <div class="col-md-2" style="margin-left: -80px; cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='6',curriculumType=${CurriculumType})}"><b>JHS3</b></a>
+                <hr class="black-hr-I"/>
+            </div>
+
+            <div class="col-md-2"></div>
+
+            <!-- View Course Activities Mode:  Add Lessons option enabled -->
+            <div class="col-md-4" style="cursor: pointer;" th:if="${AddLessonsEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-qpalx-elesson(eLearningCourseID=${SelectedELearningCourse.id})}">Add QPalX Lesson</a>
+            </div>
+            <!-- End View Course Activities Mode:  -->
+
+
+            <!-- Lesson Activities View Mode:  IF current mode is viewing all Lesson activities, display add micro lesson and question bank -->
+            <div class="col-md-2" style="cursor: pointer;" th:if="${AddMicroLessonsEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/microlesson-create-start(qpalxELessonID=${SelectedQPalXELesson.id})}">Add Micro Lesson</a>
+            </div>
+
+            <div class="col-md-2" style="cursor: pointer;" align="left" th:if="${AddMicroLessonsEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-question-bank(qpalxELessonID=${SelectedQPalXELesson.id})}">Add QuestionBank Item</a>
+            </div>
+            <!-- End Lesson Activities View Mode -->
+
+
+            <!-- View Micro Lessons Activities Mode:  Add Adaptive Quiz enabled -->
+            <div class="col-md-4" style="cursor: pointer;" th:if="${AddMicroLessonActivitiesEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/create-qpalx-quiz(microLessonID=${SelectedQPalXMicroLesson.id})}">Add Adaptive Quiz</a>
+            </div>
+            <!-- End View Micro Lessons Activities Mode -->
+
+        </div>
+
+        <!-- JHS3 is selected -->
+        <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'JHS3'">
+
+            <div class="col-md-2" style="cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='4',curriculumType=${CurriculumType})}"><b>JHS1</b></a>
+                <hr class="black-hr-I" />
+            </div>
+
+            <div class="col-md-2" style="margin-left: -80px; cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='5',curriculumType=${CurriculumType})}"><b>JHS2</b></a>
+                <hr class="black-hr-I"/>
+            </div>
+
+            <div class="col-md-2">
+                <b class="green">JHS3</b>
                 <hr class="green-hr-I"/>
             </div>
 

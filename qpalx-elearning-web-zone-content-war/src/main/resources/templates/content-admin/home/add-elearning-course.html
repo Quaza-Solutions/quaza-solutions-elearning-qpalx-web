@@ -41,10 +41,10 @@
 
 
         <div class="col-md-3">
-            <input type="text" size="26" th:field="*{courseName}"/><span class="name"/>
+            <input type="text" size="40" th:field="*{courseName}" maxlength="30"/><span class="name"/>
         </div>
         <div class="col-md-3">
-            <input type="text" size="26" th:field="*{courseDescription}"/><span class="description"></span>
+            <input type="text" size="50" th:field="*{courseDescription}" maxlength="100"/><span class="description"></span>
         </div>
         <div class="col-md-6">
             <select class="activity" th:field="*{educationalInstitutionID}">

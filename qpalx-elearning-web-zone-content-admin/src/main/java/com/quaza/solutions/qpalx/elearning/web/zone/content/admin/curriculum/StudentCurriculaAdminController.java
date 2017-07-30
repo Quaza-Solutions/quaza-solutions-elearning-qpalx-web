@@ -157,6 +157,9 @@ public class StudentCurriculaAdminController {
             // Add all attributes required for User information panel
             qPalXUserInfoPanelService.addUserInfoAttributes(model);
 
+            // Add Academic Level panel details
+            iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
+
             // Add all attributes required for add elearning course page
             model.addAttribute("SelectedELearningCurriculum", eLearningCurriculum);
             model.addAttribute("QPalXEducationalInstitutions", qPalXEducationalInstitutions);

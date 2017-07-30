@@ -3,6 +3,7 @@ package com.quaza.solutions.qpalx.elearning.web.zone.content.admin.curriculum;
 import com.quaza.solutions.qpalx.elearning.domain.institutions.QPalXEducationalInstitution;
 import com.quaza.solutions.qpalx.elearning.domain.lms.assessment.CourseAssessmentFocusArea;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
 import com.quaza.solutions.qpalx.elearning.domain.subjectmatter.proficiency.ProficiencyRankingScaleE;
@@ -12,6 +13,8 @@ import com.quaza.solutions.qpalx.elearning.service.lms.assessment.ICourseAssessm
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.curriculum.ICurriculumHierarchyService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.*;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
@@ -74,6 +77,10 @@ public class QPalXLessonAdminController {
     private ICourseAssessmentFocusAreaService iCourseAssessmentFocusAreaService;
 
     @Autowired
+    @Qualifier(AcademicLevelAdminPanelService.BEAN_NAME)
+    private IAcademicLevelAdminPanelService iAcademicLevelAdminPanelService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
@@ -96,8 +103,12 @@ public class QPalXLessonAdminController {
         // Add all attributes required for content admin tutorial panel
         Long courseID = NumberUtils.toLong(eLearningCourseID);
         ELearningCourse eLearningCourse = ieLearningCourseService.findByCourseID(courseID);
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
         model.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCourse.toString(), eLearningCourse);
         contentAdminTutorialGradePanelService.addDisplayPanelAttributes(model, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, eLearningCourse);
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         // Find all the QPalXELesson's currently available
         List<QPalXELesson> qPalXELessons = iqPalXELessonService.findQPalXELessonByCourse(eLearningCourse);
@@ -124,6 +135,10 @@ public class QPalXLessonAdminController {
         // Add all required attributes to dispaly add qpalx elesson page
         Long courseID = NumberUtils.toLong(eLearningCourseID);
         ELearningCourse eLearningCourse = ieLearningCourseService.findByCourseID(courseID);
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         List<QPalXEducationalInstitution> qPalXEducationalInstitutions = iqPalXEducationalInstitutionService.findAll();
         model.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCourse.toString(), eLearningCourse);
@@ -144,8 +159,13 @@ public class QPalXLessonAdminController {
         Long id = NumberUtils.toLong(qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(id);
         ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
         model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), qPalXELesson);
         model.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCourse.toString(), eLearningCourse);
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         // Create value object used to bind form elements
         QPalXELessonWebVO qPalXELessonWebVO = new QPalXELessonWebVO(qPalXELesson);

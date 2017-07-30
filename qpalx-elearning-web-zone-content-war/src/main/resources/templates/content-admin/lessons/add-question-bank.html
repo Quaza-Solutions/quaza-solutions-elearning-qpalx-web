@@ -40,7 +40,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-3"><input type="text" size="26" id="name" name="name" th:field="*{questionTitle}"/><span class="name"></span></div>
+            <div class="col-md-3"><input type="text" size="40" id="name" name="name" th:field="*{questionTitle}" maxlength="50"/><span class="name"></span></div>
             <div class="col-md-6">
                 <select class="activity" th:field="*{qPalXTutorialContentType}">
                     <option value=""></option>
@@ -58,7 +58,7 @@
         <div class="row">
             <div class="col-md-12">
                 <!--<textarea rows="3" cols="100" th:field="*{questionDescription}"></textarea>-->
-                <textarea id="editor" name="editor" th:field="*{questionDescription}"></textarea><br/>
+                <textarea id="editor" name="editor" th:field="*{questionDescription}" maxlength="200"></textarea><br/>
             </div>
         </div>
 

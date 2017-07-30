@@ -36,8 +36,8 @@
         </div>
 
         <div class="row">
-            <div class="col-md-3"><input type="text" size="26" id="name" name="name" th:field="*{lessonName}"/><span class="name"></span></div>
-            <div class="col-md-3"><input type="text" size="26" id="description" name="description" th:field="*{lessonDescription}"/><span class="description"></span></div>
+            <div class="col-md-3"><input type="text" size="30" id="name" name="name" th:field="*{lessonName}" maxlength="100"/><span class="name"></span></div>
+            <div class="col-md-3"><input type="text" size="50" id="description" name="description" th:field="*{lessonDescription}" maxlength="150"/><span class="description"></span></div>
             <div class="col-md-6">
                 <select class="activity" th:field="*{qPalXTutorialContentType}">
                     <option value=""></option>

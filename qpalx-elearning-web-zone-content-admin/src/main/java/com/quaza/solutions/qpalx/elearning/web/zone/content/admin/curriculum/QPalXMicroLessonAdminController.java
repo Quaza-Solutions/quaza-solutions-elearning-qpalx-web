@@ -1,14 +1,14 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.admin.curriculum;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.scorable.QuestionBankItem;
-import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
-import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
-import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.*;
 import com.quaza.solutions.qpalx.elearning.service.institutions.IQPalXEducationalInstitutionService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IQuestionBankService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXEMicroLessonService;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.curriculum.ICurriculumHierarchyService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.*;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
@@ -71,6 +71,10 @@ public class QPalXMicroLessonAdminController {
     private ICurriculumHierarchyService iCurriculumHierarchyService;
 
     @Autowired
+    @Qualifier(AcademicLevelAdminPanelService.BEAN_NAME)
+    private IAcademicLevelAdminPanelService iAcademicLevelAdminPanelService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
@@ -91,8 +95,14 @@ public class QPalXMicroLessonAdminController {
         // Add all attributes required for content admin tutorial panel
         Long lessonID = NumberUtils.toLong(qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(lessonID);
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
         model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), qPalXELesson);
         contentAdminTutorialGradePanelService.addDisplayPanelAttributes(model, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, qPalXELesson);
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         // Find all the QPalXELesson's currently available
         List<QPalXEMicroLesson> qPalXEMicroLessons = iqPalXEMicroLessonService.findQPalXEMicroLessons(qPalXELesson);
@@ -118,10 +128,16 @@ public class QPalXMicroLessonAdminController {
         // Add all required attributes to dispaly add qpalx elesson page
         Long lessonID = NumberUtils.toLong(qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(lessonID);
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
         model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), qPalXELesson);
         model.addAttribute(ValueObjectDataDisplayAttributeE.QPalXEMicroLessonVO.toString(), qPalXEMicroLessonVO);
         model.addAttribute(ValueObjectDataDisplayAttributeE.SupportedQPalXTutorialContentTypes.toString(), qPalXEMicroLessonVO.getQPalXTutorialContentTypes());
         model.addAttribute(ValueObjectDataDisplayAttributeE.SupportedStaticQPalXTutorialContentTypes.toString(), qPalXEMicroLessonVO.getStaticQPalXTutorialContentTypes());
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         // Add all attributes required for User information panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
@@ -129,7 +145,7 @@ public class QPalXMicroLessonAdminController {
     }
 
     @RequestMapping(value = "/edit-qpalx-micro-lesson", method = RequestMethod.GET)
-    public String editAdminQPalXLessons(final Model model, @RequestParam("microLessonID") String microLessonID, HttpServletRequest request, HttpServletResponse response) {
+    public String editAdminQPalxMicroLessons(final Model model, @RequestParam("microLessonID") String microLessonID, HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Loading and displaying Edit view for microLessonID: {}", microLessonID);
 
         // IF this is a result of a redirect add any web operations errrors to model
