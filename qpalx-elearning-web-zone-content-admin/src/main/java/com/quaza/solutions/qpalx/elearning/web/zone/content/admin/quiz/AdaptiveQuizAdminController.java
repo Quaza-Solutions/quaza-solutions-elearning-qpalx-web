@@ -3,12 +3,12 @@ package com.quaza.solutions.qpalx.elearning.web.zone.content.admin.quiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IAdaptiveLearningQuizQuestionVO;
-import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
-import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
-import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.*;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXEMicroLessonService;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.quiz.IAdaptiveLearningQuizAdminService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
@@ -70,6 +70,10 @@ public class AdaptiveQuizAdminController {
     private IAdaptiveLearningQuizAdminService iAdaptiveLearningQuizAdminService;
 
     @Autowired
+    @Qualifier(AcademicLevelAdminPanelService.BEAN_NAME)
+    private IAcademicLevelAdminPanelService iAcademicLevelAdminPanelService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
@@ -91,7 +95,13 @@ public class AdaptiveQuizAdminController {
         model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXMicroLesson.toString(), qPalXEMicroLesson);
 
         QPalXELesson qPalXELesson = qPalXEMicroLesson.getQPalXELesson();
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
         model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXMicroLesson.toString(), qPalXEMicroLesson);
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         List<AdaptiveLearningQuiz> adaptiveLearningQuizList = iAdaptiveLearningQuizService.findQuizzesForMicroLesson(qPalXEMicroLesson);
         model.addAttribute(AdaptiveLearningQuizAttributeE.AdminMicroLessonAdaptiveQuizzes.toString(), adaptiveLearningQuizList);
@@ -116,6 +126,12 @@ public class AdaptiveQuizAdminController {
 
         Long id = NumberUtils.toLong(microLessonID);
         QPalXEMicroLesson qPalXEMicroLesson = iqPalXEMicroLessonService.findByID(id);
+        ELearningCourse eLearningCourse = qPalXEMicroLesson.getQPalXELesson().geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
+
         modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXMicroLesson.toString(), qPalXEMicroLesson);
         return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("add-adaptive-quiz-details");
     }
@@ -128,6 +144,12 @@ public class AdaptiveQuizAdminController {
         // Get the list of all questions and answers as a map to return for display.
         Set<IAdaptiveLearningQuizQuestionVO> adaptiveLearningQuizQuestionVOSet = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs();
         model.addAttribute(AdaptiveLearningQuizAttributeE.CurrentAdaptiveLearningQuizQuestionVOs.toString(), adaptiveLearningQuizQuestionVOSet);
+
+        ELearningCourse eLearningCourse = qPalXEMicroLesson.getQPalXELesson().geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("customize-adaptive-quiz");
     }
@@ -152,6 +174,12 @@ public class AdaptiveQuizAdminController {
 
         model.addAttribute(AdaptiveLearningQuizAttributeE.AdaptiveLearningQuizQuestionVO.toString(), adaptiveLearningQuizQuestionVO);
 
+        ELearningCourse eLearningCourse = qPalXEMicroLesson.getQPalXELesson().geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
+
         return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("customize-adaptive-quiz-question-type");
     }
 
@@ -175,6 +203,12 @@ public class AdaptiveQuizAdminController {
 
         // IF this is a result of a redirect add any web operations errrors to model
         iRedirectStrategyExecutor.addWebOperationRedirectErrorsToModel(model, request);
+
+        ELearningCourse eLearningCourse = qPalXEMicroLesson.getQPalXELesson().geteLearningCourse();
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
+        // Add Admin AcademicLevel Panel data
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("customize-adaptive-quiz-question-type");
     }

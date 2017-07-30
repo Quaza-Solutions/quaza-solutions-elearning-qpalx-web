@@ -83,6 +83,9 @@
                 <br/>
                 <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
 
+                QPalx User Type: <span th:text="${LoggedInQPalXUser.getUserType()}"></span><br/>
+                Academic Level: <span th:text="${StudentTutorialLevel.getTutorialLevel()}"></span><br/>
+
                 <!-- Display Course Lesson if a course has been selected -->
                 <div class="large-font" th:if="${SelectedQPalXELesson != null}" th:inline="text">Micro Lesson - : [[${SelectedQPalXMicroLesson.microLessonName}]]</div>
 
