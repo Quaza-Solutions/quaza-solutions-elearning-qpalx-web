@@ -45,6 +45,14 @@ public class QPalXUserWebService implements IQPalXUserWebService {
     }
 
     @Override
+    public WebQPalXUser getWebQPalXUser() {
+        LOGGER.info("Attempting to retrieve the current logged in WebQPalXUser user session");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        WebQPalXUser webQPalXUser = auth.getPrincipal() instanceof  WebQPalXUser ? (WebQPalXUser) auth.getPrincipal() : null;
+        return webQPalXUser;
+    }
+
+    @Override
     public void addQPalXUserInfoDetailsToWebModel(Model model, QPalXUser qPalXUser) {
         LOGGER.debug("Adding logged in user details for user: {}", qPalXUser.getEmail());
         model.addAttribute("LoggedInQPalXUser", qPalXUser);

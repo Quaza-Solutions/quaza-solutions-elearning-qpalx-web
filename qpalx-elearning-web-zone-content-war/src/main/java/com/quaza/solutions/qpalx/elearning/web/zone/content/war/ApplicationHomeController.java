@@ -4,8 +4,8 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalxUserTypeE;
-import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.ContentAdminProfileRecord;
 import com.quaza.solutions.qpalx.elearning.domain.subscription.QPalXSubscription;
+import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IGeographicalDateTimeFormatter;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IStudentCurriculumService;
@@ -15,6 +15,8 @@ import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IContentAdm
 import com.quaza.solutions.qpalx.elearning.service.subscription.IQPalxSubscriptionService;
 import com.quaza.solutions.qpalx.elearning.web.security.login.WebQPalXUser;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.IContentAdminWebService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLearningScoreChartDisplayPanel;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
@@ -91,6 +93,10 @@ public class ApplicationHomeController {
     @Qualifier(DefaultContentAdminProfileRecordService.SPRING_BEAN)
     private IContentAdminProfileRecordService iContentAdminProfileRecordService;
 
+    @Autowired
+    @Qualifier(AcademicLevelAdminPanelService.BEAN_NAME)
+    private IAcademicLevelAdminPanelService iAcademicLevelAdminPanelService;
+
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 
@@ -113,12 +119,9 @@ public class ApplicationHomeController {
                 iAdaptiveLearningScoreChartDisplayPanel.addEmptyLearningScoreChartDisplayPanel(model);
                 return ContentRootE.Student_Home.getContentRootPagePath("homepage");
             } else if(QPalxUserTypeE.CONTENT_DEVELOPER == optionalUser.get().getUserType()) {
-                // Find the ContentAdminProfileRecord for this user
-                ContentAdminProfileRecord contentAdminProfileRecord = iContentAdminProfileRecordService.findEnabledContentAdminProfileRecord(optionalUser.get());
-                LOGGER.debug("Found contentAdminProfileRecord: {}", contentAdminProfileRecord);
-
-
-                String redirectUrl = "/curriculum-by-tutorialgrade?tutorialGradeID=1&curriculumType=CORE";
+                StudentTutorialGrade studentTutorialGrade = iAcademicLevelAdminPanelService.findBaseAdminAssignedStudentTutorialGrade();
+                LOGGER.info("Found Content_Developer Base studentTutorialGrade : {}", studentTutorialGrade.getTutorialGrade());
+                String redirectUrl = "/curriculum-by-tutorialgrade?tutorialGradeID=" + studentTutorialGrade.getId() +"&curriculumType=CORE";
                 LOGGER.info("Logged in user is a Content Developer, redirecting to:> {}", redirectUrl);
                 redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, redirectUrl);
             } else if(QPalxUserTypeE.Executive == optionalUser.get().getUserType()) {

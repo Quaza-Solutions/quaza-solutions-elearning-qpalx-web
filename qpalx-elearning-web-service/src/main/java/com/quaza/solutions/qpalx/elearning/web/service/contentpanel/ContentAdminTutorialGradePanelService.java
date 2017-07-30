@@ -112,8 +112,8 @@ public class ContentAdminTutorialGradePanelService implements IContentAdminTutor
             ImmutableMap<String, Object> attributes = AdminTutorialGradePanelE.buildAttributes(addCoursesEnabled, addCourseActivitiesEnabled, studentTutorialGrade, curriculumType.toString());
             iWebAttributesUtil.addWebAttributes(model, attributes);
         }
-
     }
+
 
     private void addWebAttributes(Model model, ImmutableMap<String, Object> webAttributes) {
         Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();

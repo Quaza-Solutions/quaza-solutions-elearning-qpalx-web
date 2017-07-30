@@ -1,6 +1,7 @@
 package com.quaza.solutions.qpalx.elearning.web.service.user;
 
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
+import com.quaza.solutions.qpalx.elearning.web.security.login.WebQPalXUser;
 import org.springframework.ui.Model;
 
 import java.util.Optional;
@@ -17,6 +18,11 @@ public interface IQPalXUserWebService {
      * @return
      */
     public Optional<QPalXUser> getLoggedInQPalXUser();
+
+    /**
+     * @return The full blown WebQPalXUser instance
+     */
+    public WebQPalXUser getWebQPalXUser();
 
 
     /**

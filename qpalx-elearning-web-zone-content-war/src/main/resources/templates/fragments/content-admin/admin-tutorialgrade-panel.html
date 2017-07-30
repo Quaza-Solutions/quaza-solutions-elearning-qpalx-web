@@ -17,6 +17,9 @@
     <!-- Start Admin tutorial grade control and Add new course panel -->
     <div class="container" style="margin-bottom: 20px;">
 
+        <!--
+            SHS Tutorial Grade Panel Section
+        -->
         <!-- SHS1 is selected -->
         <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'SHS1'">
 
@@ -96,6 +99,106 @@
 
             <div class="col-md-2">
                 <b class="green">SHS3</b>
+                <hr class="green-hr-I"/>
+            </div>
+
+            <div class="col-md-2"></div>
+
+            <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-curriculum-assessment(curriculumID=${SelectedELearningCurriculum.id})}">Add Curriculum Assessment</a>
+            </div>
+
+            <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-curriculum-course(curriculumID=${SelectedELearningCurriculum.id})}">Add Course</a>
+            </div>
+
+        </div>
+
+        <!--
+            JHS Tutorial Grade Panel Section
+        -->
+
+        <!-- JHS1 is selected -->
+        <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'JHS1'">
+
+            <div class="col-md-2">
+                <b class="green">JHS1</b>
+                <hr class="green-hr-I" />
+            </div>
+
+            <div class="col-md-2" style="margin-left: -80px; cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='5',curriculumType=${CurriculumType})}"><b>JHS2</b></a>
+                <hr class="black-hr-I"/>
+            </div>
+
+            <div class="col-md-2" style="margin-left: -80px; cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='6',curriculumType=${CurriculumType})}"><b>JHS3</b></a>
+                <hr class="black-hr-I"/>
+            </div>
+
+            <div class="col-md-2"></div>
+
+            <div class="col-md-2" style="cursor: pointer;" th:if="${SelectedELearningCurriculum} != null and ${SelectedELearningCurriculum.getAssessmentAdaptiveLearningQuiz()} == null">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-curriculum-assessment(curriculumID=${SelectedELearningCurriculum.id})}">Add Curriculum Assessment</a>
+            </div>
+
+            <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-curriculum-course(curriculumID=${SelectedELearningCurriculum.id})}">Add Course</a>
+            </div>
+
+        </div>
+
+        <!-- JHS2 is selected -->
+        <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'JHS2'">
+
+            <div class="col-md-2" style="cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='4',curriculumType=${CurriculumType})}"><b>JHS1</b></a>
+                <hr class="black-hr-I" />
+            </div>
+
+            <div class="col-md-2">
+                <b class="green">JHS2</b>
+                <hr class="green-hr-I"/>
+            </div>
+
+            <div class="col-md-2" style="margin-left: -80px; cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='5',curriculumType=${CurriculumType})}"><b>JHS3</b></a>
+                <hr class="black-hr-I"/>
+            </div>
+
+            <div class="col-md-2"></div>
+
+            <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-curriculum-assessment(curriculumID=${SelectedELearningCurriculum.id})}">Add Curriculum Assessment</a>
+            </div>
+
+            <div class="col-md-2" style="cursor: pointer;" th:if="${AddCoursesEnabled} == 'true'">
+                <img src="images/assets/platform/add-icon-image.png"/>
+                <a th:href="@{/add-curriculum-course(curriculumID=${SelectedELearningCurriculum.id})}">Add Course</a>
+            </div>
+
+        </div>
+
+        <!-- JHS3 is selected -->
+        <div class="row" th:if="${StudentTutorialGrade.tutorialGrade} == 'JHS3'">
+
+            <div class="col-md-2" style="cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='4',curriculumType=${CurriculumType})}"><b>JHS1</b></a>
+                <hr class="black-hr-I" />
+            </div>
+
+            <div class="col-md-2" style="margin-left: -80px; cursor: pointer;">
+                <a th:href="@{/curriculum-by-tutorialgrade(tutorialGradeID='5',curriculumType=${CurriculumType})}"><b>JHS2</b></a>
+                <hr class="black-hr-I"/>
+            </div>
+
+            <div class="col-md-2">
+                <b class="green">JHS3</b>
                 <hr class="green-hr-I"/>
             </div>
 

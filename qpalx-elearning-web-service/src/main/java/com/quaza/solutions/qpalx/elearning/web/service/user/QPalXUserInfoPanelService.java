@@ -3,6 +3,7 @@ package com.quaza.solutions.qpalx.elearning.web.service.user;
 import com.quaza.solutions.qpalx.elearning.domain.institutions.QPalXEducationalInstitution;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.AdaptiveProficiencyRanking;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
+import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalxUserTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.StudentEnrolmentRecord;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.IAdaptiveProficiencyRankingService;
@@ -55,15 +56,17 @@ public class QPalXUserInfoPanelService implements IQPalXUserInfoPanelService {
             model.addAttribute(UserInfoPanelAttributesE.LoggedInQPalXUser.toString(), qPalXUser);
             model.addAttribute(UserInfoPanelAttributesE.QPalXUserType.toString(), userType);
 
-            // Find user Enrolment record and add attributes used for displaying Student info in panel
-            StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(qPalXUser);
-            LOGGER.debug("Found studentEnrolmentRecord: {}", studentEnrolmentRecord);
-            model.addAttribute(StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER, studentEnrolmentRecord.getStudentTutorialGrade());
-            model.addAttribute(QPalXEducationalInstitution.CLASS_ATTRIBUTE_IDENTIFIER, studentEnrolmentRecord.getEducationalInstitution());
+            if (optionalUser.get().getUserType() == QPalxUserTypeE.STUDENT) {
+                // Find user Enrolment record and add attributes used for displaying Student info in panel
+                StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(qPalXUser);
+                LOGGER.debug("Found studentEnrolmentRecord: {}", studentEnrolmentRecord);
+                model.addAttribute(StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER, studentEnrolmentRecord.getStudentTutorialGrade());
+                model.addAttribute(QPalXEducationalInstitution.CLASS_ATTRIBUTE_IDENTIFIER, studentEnrolmentRecord.getEducationalInstitution());
 
-            // load and all all Student adaptive proficiency rankings
-            List<AdaptiveProficiencyRanking> adaptiveProficiencyRankings = iAdaptiveProficiencyRankingService.findStudentAdaptiveProficiencyRankings(qPalXUser);
-            model.addAttribute(UserInfoPanelAttributesE.AdpativeProficiencyRankings.toString(), adaptiveProficiencyRankings);
+                // load and all all Student adaptive proficiency rankings
+                List<AdaptiveProficiencyRanking> adaptiveProficiencyRankings = iAdaptiveProficiencyRankingService.findStudentAdaptiveProficiencyRankings(qPalXUser);
+                model.addAttribute(UserInfoPanelAttributesE.AdpativeProficiencyRankings.toString(), adaptiveProficiencyRankings);
+            }
         }
     }
 

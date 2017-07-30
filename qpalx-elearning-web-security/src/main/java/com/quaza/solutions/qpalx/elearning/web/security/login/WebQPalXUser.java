@@ -2,6 +2,7 @@ package com.quaza.solutions.qpalx.elearning.web.security.login;
 
 import com.quaza.solutions.qpalx.elearning.domain.geographical.QPalXMunicipality;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
+import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.ContentAdminProfileHolder;
 import com.quaza.solutions.qpalx.elearning.domain.subscription.SubscriptionStatusE;
 import com.quaza.solutions.qpalx.elearning.domain.subscription.SubscriptionValidationResult;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IGeographicalDateTimeFormatter;
@@ -29,6 +30,8 @@ public class WebQPalXUser implements UserDetails {
 
     private final SubscriptionValidationResult subscriptionValidationResult;
 
+    private Optional<ContentAdminProfileHolder> contentAdminProfileHolder = Optional.empty();
+
     private IGeographicalDateTimeFormatter iGeographicalDateTimeFormatter;
 
 
@@ -48,6 +51,12 @@ public class WebQPalXUser implements UserDetails {
     public WebQPalXUser(final QPalXUser qPalXUser, SubscriptionValidationResult subscriptionValidationResult) {
         this.qPalXUser = Optional.of(qPalXUser);
         this.subscriptionValidationResult = subscriptionValidationResult;
+    }
+
+    public WebQPalXUser(final QPalXUser qPalXUser, ContentAdminProfileHolder contentAdminProfileHolder) {
+        this.qPalXUser = Optional.of(qPalXUser);
+        this.contentAdminProfileHolder = Optional.of(contentAdminProfileHolder);
+        this.subscriptionValidationResult = null;
     }
 
     public String getUserFullName() {
@@ -90,6 +99,10 @@ public class WebQPalXUser implements UserDetails {
 
     public QPalXUser getQPalXUser() {
         return qPalXUser.get();
+    }
+
+    public Optional<ContentAdminProfileHolder> getContentAdminProfileHolder() {
+        return contentAdminProfileHolder;
     }
 
     public boolean hasValidQPalXUser() {
@@ -164,7 +177,13 @@ public class WebQPalXUser implements UserDetails {
         return new ToStringBuilder(this)
                 .append("qPalXUser", qPalXUser)
                 .append("subscriptionValidationResult", subscriptionValidationResult)
+                .append("contentAdminProfileHolder", contentAdminProfileHolder)
                 .append("iGeographicalDateTimeFormatter", iGeographicalDateTimeFormatter)
                 .toString();
+    }
+
+
+    public static WebQPalXUser instance(QPalXUser qPalXUser, ContentAdminProfileHolder contentAdminProfileHolder) {
+        return new WebQPalXUser(qPalXUser, contentAdminProfileHolder);
     }
 }

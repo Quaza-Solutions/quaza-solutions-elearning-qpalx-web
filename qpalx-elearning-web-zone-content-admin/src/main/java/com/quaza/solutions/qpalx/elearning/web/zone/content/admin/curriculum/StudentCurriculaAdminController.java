@@ -12,6 +12,8 @@ import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCour
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdminTutorialGradePanelE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
@@ -85,6 +87,11 @@ public class StudentCurriculaAdminController {
     @Qualifier("quaza.solutions.qpalx.elearning.web.ContentAdminTutorialGradePanelService")
     private IContentAdminTutorialGradePanelService contentAdminTutorialGradePanelService;
 
+    @Autowired
+    @Qualifier(AcademicLevelAdminPanelService.BEAN_NAME)
+    private IAcademicLevelAdminPanelService iAcademicLevelAdminPanelService;
+
+
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(StudentCurriculaAdminController.class);
 
@@ -97,7 +104,7 @@ public class StudentCurriculaAdminController {
         // Find all Core and Elective curriculum for tutorial grade
         CurriculumType curriculumTypeE = CurriculumType.valueOf(curriculumType);
         StudentTutorialGrade studentTutorialGrade = iqPalXTutorialService.findTutorialGradeByID(NumberUtils.toLong(tutorialGradeID));
-        List<ELearningCurriculum> eLearningCurricula = ieLearningCurriculumService.findAllCurriculumByTutorialGradeAndType(curriculumTypeE, studentTutorialGrade);
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, curriculumTypeE, studentTutorialGrade);
 
         // Add all attributes required for User information panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
@@ -105,9 +112,6 @@ public class StudentCurriculaAdminController {
 
         // Add all attributes required for content admin tutorial panel
         contentAdminTutorialGradePanelService.addDisplayPanelAttributes(model, Boolean.FALSE, Boolean.FALSE, tutorialGradeID, curriculumType);
-
-        // Add attributes required for page
-        model.addAttribute("ELearningCurricula", eLearningCurricula);
         return ContentRootE.Content_Admin_Home.getContentRootPagePath("home");
     }
 
@@ -119,6 +123,9 @@ public class StudentCurriculaAdminController {
         ELearningCurriculum eLearningCurriculum = ieLearningCurriculumService.findByELearningCurriculumID(id);
         String studentTutorialGradeID = eLearningCurriculum.getStudentTutorialGrade().getId().toString();
         String curriculumType = eLearningCurriculum.getCurriculumType().toString();
+
+        // Add Academic Level panel details
+        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
         // Add all attributes required for User information panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
