@@ -35,15 +35,14 @@
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
         <div class="row">
-            <div class="col-md-3">Question Bank Title</div>
-            <div class="col-md-9">QPalX Content Type</div>
+            <div class="col-md-3"><h4><span class="label label-primary">Question Bank Title</span></h4></div>
+            <div class="col-md-9"><h4><span class="label label-primary">QPalX Content Type</span></h4></div>
         </div>
 
         <div class="row">
             <div class="col-md-3"><input type="text" size="40" id="name" name="name" th:field="*{questionTitle}" maxlength="50"/><span class="name"></span></div>
             <div class="col-md-6">
                 <select class="activity" th:field="*{qPalXTutorialContentType}">
-                    <option value=""></option>
                     <option th:each="SupportedQPalXTutorialContentType : ${SupportedQPalXTutorialContentTypes}" th:value="${SupportedQPalXTutorialContentType}" th:text="${SupportedQPalXTutorialContentType}"></option>
                 </select>
             </div>
@@ -52,7 +51,7 @@
         <div class="clearfix bottom-space"></div>
 
         <div class="row">
-            <div class="col-md-12">Question Bank Description</div>
+            <div class="col-md-12"><h4><span class="label label-primary">Question Bank Description</span></h4></div>
         </div>
 
         <div class="row">
@@ -62,13 +61,9 @@
             </div>
         </div>
 
-        <div class="clearfix bottom-space"></div>
-
-        <div class="clearfix bottom-space"></div>
-
         <div class="row">
             <div class="col-md-6">
-                Active Flag
+                <h4><span class="label label-primary">Active Flag</span></h4>
             </div>
             <div class="col-md-6"></div>
         </div>
