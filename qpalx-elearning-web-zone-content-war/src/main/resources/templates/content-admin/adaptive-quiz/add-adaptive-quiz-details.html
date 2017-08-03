@@ -10,6 +10,9 @@
     <script src="js/ckeditor.js"></script>
     <script src="js/sample.js"></script>
 
+    <!-- Angular JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
@@ -25,12 +28,12 @@
 <div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
 
 
-<div class="container large-fonts-2" style="margin: 20px auto;">
+<div class="container" style="margin: 20px auto;" ng-app="">
 
-    <form method="POST" th:action="@{process-quiz-details}" th:object="${AdminAdaptiveLearningQuizWebVO}">
+    <form method="POST" th:action="@{process-quiz-details}" th:object="${AdminAdaptiveLearningQuizWebVO}" name="AdaptiveQuizForm" novalidate="novalidate" ng-submit="login.submit()">
         <div class="row">
             <div class="col-md-1"></div>
-            <div class="col-md-10">Enter Quiz Title</div>
+            <div class="col-md-10"><h4><span class="label label-primary">Enter Quiz Title</span></h4></div>
             <div class="col-md-1"></div>
         </div>
 
@@ -40,8 +43,8 @@
             <div class="col-md-1"></div>
 
             <div class="col-md-10">
-                <span class="large-fonts-3">
-                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}" maxlength="100"></textarea>
+                <span class="med-text">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}" maxlength="100" ng-model="quizTitle" required="required"></textarea>
                 </span><br/>
             </div>
 
@@ -52,7 +55,7 @@
 
         <div class="row">
             <div class="col-md-1"></div>
-            <div class="col-md-10">Enter Quiz Title</div>
+            <div class="col-md-10"><h4><span class="label label-primary">Enter Quiz Description</span></h4></div>
             <div class="col-md-1"></div>
         </div>
 
@@ -62,7 +65,9 @@
             <div class="col-md-1"></div>
 
             <div class="col-md-10">
-                <textarea rows="5" cols="67" class="text-box-2" th:field="*{quizDescription}" maxlength="455"></textarea>
+                <span class="med-text">
+                    <textarea rows="7" cols="80" class="text-box-2" th:field="*{quizDescription}" maxlength="455" ng-model="quizDescription" required="required"></textarea>
+                </span>
             </div>
 
             <div class="col-md-1"></div>
@@ -76,7 +81,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div style="margin: auto; text-align: center">
-                    <button type="submit" id="submit" class="btn btn-success">Save Quiz Details</button>
+                    <button type="submit" id="submit" class="btn btn-success" ng-disabled="AdaptiveQuizForm.$invalid">Save Quiz Details</button>
                 </div>
                 <br/>
             </div>
