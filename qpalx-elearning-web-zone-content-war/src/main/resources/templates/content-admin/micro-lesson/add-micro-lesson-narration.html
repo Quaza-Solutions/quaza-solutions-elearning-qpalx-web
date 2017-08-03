@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/modal-style.css"/>
     <link rel="stylesheet" href="css/form-control.css"/>
 
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="js/form-control/file-control.js" type="text/javascript"></script>
@@ -24,7 +25,7 @@
 <!-- Main Content Admin user details overview panel -->
 <div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
 
-<div class="container">
+<div class="container" ng-app="">
 
     <div class="row" th:if="${Invalid_FORM_Submission} != null">
         <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"/>
@@ -43,21 +44,21 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <label>Choose A Narration(mp4) File</label>
+                        <h4><span class="label label-primary">Choose A Narration(mp4) File</span></h4>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
-                        <input type="submit" name="submit" class="btn btn-primary"/>
+                        <button class="browse btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                        <input type="submit" name="submit" class="btn btn-primary" />
                     </div>
                 </div>
 
                 <div class="row">
                     <input type="file" name="narration_file" class="file"/>
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                        <input type="text" class="form-control" disabled="true" placeholder="Upload Narration MP4 Video" size="50" name="narration_file"/>
+                        <input type="text" class="form-control" disabled="true" placeholder="Upload Narration MP4 Video" size="50" name="narration_file" />
                     </div>
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>

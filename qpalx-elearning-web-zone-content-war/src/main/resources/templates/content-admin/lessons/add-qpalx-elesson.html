@@ -38,18 +38,18 @@
 
 
 
-    <form method="post" enctype="multipart/form-data" th:action="@{save-qpalx-elesson}" th:object="${QPalXELessonWebVO}">
+    <form method="post" enctype="multipart/form-data" th:action="@{save-qpalx-elesson}" th:object="${QPalXELessonWebVO}" name="LessonInfoForm" novalidate="novalidate" ng-submit="login.submit()">
     <div class="panel panel-success">
         <div class="panel-body">
 
             <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
-                    <label>QPalx Lesson Name:</label>
-                    <input type="text"  size="50" id="name" name="name" th:field="*{lessonName}" maxlength="100"/>
+                    <h4><span class="label label-primary">QPalx Lesson Name:</span></h4>
+                    <input type="text"  size="50" id="name" name="name" th:field="*{lessonName}" maxlength="100" ng-model="name" required="required"/>
                 </div>
 
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" align="Left">
-                    <label>QPalX Content Type:</label>
+                    <h4><span class="label label-primary">QPalX Content Type:</span></h4>
                     <select class="selectpicker" style="width: 522px;height: 32px;" th:field="*{qPalXTutorialContentType}">
                         <option th:each="SupportedQPalXTutorialContentType : ${SupportedQPalXTutorialContentTypes}" th:value="${SupportedQPalXTutorialContentType}" th:text="${SupportedQPalXTutorialContentType}"></option>
                     </select>
@@ -60,13 +60,13 @@
 
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
-                    <label>QPalx Lesson Description:</label>
+                    <h4><span class="label label-primary">QPalx Lesson Description:</span></h4>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
-                    <textarea rows="10" cols="100" id="description" name="description" th:field="*{lessonDescription}" maxlength="150"></textarea>
+                    <textarea rows="10" cols="100" id="description" name="description" th:field="*{lessonDescription}" maxlength="150" ng-model="description" required="required"></textarea>
                 </div>
             </div>
 
@@ -77,11 +77,11 @@
             <!-- Proficiency Rating Floor, Ceiling  -->
             <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
-                    <label>Proficiency Rating Floor</label>
+                    <h4><span class="label label-primary">Proficiency Rating Floor - (Lowest Performance Rating For Lesson)</span></h4>
                 </div>
 
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
-                    <label>Proficiency Rating Ceiling</label>
+                    <h4><span class="label label-primary">Proficiency Rating Ceiling - (Highest Performance Rating For Lesson)</span></h4>
                 </div>
 
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left"></div>
@@ -111,11 +111,11 @@
             <!-- Proficiency Rating Floor, Ceiling  -->
             <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
-                    <label>Tutorial Calendar</label>
+                    <h4><span class="label label-primary">Tutorial Calendar</span></h4>
                 </div>
 
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
-                    <label>Educational Institutions</label>
+                    <h4><span class="label label-primary">Educational Institutions</span></h4>
                 </div>
 
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left"></div>
@@ -147,13 +147,13 @@
             <!-- Upload optional Introductory video -->
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left">
-                    <label>Choose An Optional Introduction(mp4) File</label>
+                    <h4><span class="label label-primary">Optional Lesson Intro(mp4) Video</span></h4>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                    <button class="browse btn " type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
 
                 </div>
             </div>
@@ -180,8 +180,8 @@
 
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
-                    <input type="radio" value="TRUE" th:field="*{activeFlag}"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" value="FALSE" th:field="*{activeFlag}"/> Inactive
+                    <input type="radio" value="TRUE" th:field="*{activeFlag}" ng-model="activeFlag" ng-required="required"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" value="FALSE" th:field="*{activeFlag}" ng-model="activeFlag" ng-required="required"/> Inactive
                 </div>
             </div>
 
@@ -194,7 +194,7 @@
 
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left">
-                    <button type="submit" class="btn btn-success">Add QPalX ELesson</button>
+                    <button type="submit" class="btn btn-success" ng-disabled="LessonInfoForm.$invalid">Add QPalX ELesson</button>
                     &nbsp;&nbsp;
                     <button type="button" class="btn btn-success">Cancel</button>
                 </div>
