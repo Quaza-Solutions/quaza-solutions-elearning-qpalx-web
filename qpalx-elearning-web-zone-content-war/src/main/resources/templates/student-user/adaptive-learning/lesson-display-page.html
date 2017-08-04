@@ -28,10 +28,16 @@
 
         <div class="row">
             <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" th:text="${rowStat.count}"></div>
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+
+            <!-- Enable Intro Video modal popup Link only IF available -->
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" th:if="${QPalXELesson.getLessonMediaFile()} != null">
                 <a class="anchor-1" th:attr="href='#popup' + ${rowStat.count}">
-                    <img src="images/assets/adaptive-learning/video-icon.png" id="video-icon"/>
+                    <img src="images/assets/adaptive-learning/video-icon.png"/>
                 </a>
+            </div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" th:if="${QPalXELesson.getLessonMediaFile()} == null">
+
             </div>
 
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 large-fonts topmargin">
@@ -59,7 +65,7 @@
 <!-- Build modals to popup on clicking QPalx lessons displayed above.  We used the id of modal attributes to link a lesson to its introductory video -->
 <div th:each="QPalXELesson,rowStat : ${QPalXELessons}">
 
-    <div th:id="'popup' + ${rowStat.count}" class="modalBox">
+    <div th:id="'popup' + ${rowStat.count}" class="modalBox" th:if="${QPalXELesson.getLessonMediaFile()} != null">
         <a href="#" class="modalCloseOuter" onClick="stopVideo();"></a>
         <div class="mp4">
             <div class="bar-1"></div>

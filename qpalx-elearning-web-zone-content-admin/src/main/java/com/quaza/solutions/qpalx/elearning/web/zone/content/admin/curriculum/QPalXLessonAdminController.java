@@ -178,6 +178,10 @@ public class QPalXLessonAdminController {
         // Add Admin AcademicLevel Panel data
         iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
+        StudentTutorialLevel studentTutorialLevel = eLearningCurriculum.getStudentTutorialGrade().getStudentTutorialLevel();
+        List<TutorialLevelCalendar> tutorialLevelCalendars = iTutorialLevelCalendarService.findAllByStudentTutorialLevel(studentTutorialLevel);
+        model.addAttribute(TutorialLevelCalendar.CLASS_ATTRIBUTE_INSTANCES, tutorialLevelCalendars);
+
         // Create value object used to bind form elements
         QPalXELessonWebVO qPalXELessonWebVO = new QPalXELessonWebVO(qPalXELesson);
         model.addAttribute(ValueObjectDataDisplayAttributeE.QPalXELessonWebVO.toString(), qPalXELessonWebVO);
