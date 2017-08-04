@@ -7,11 +7,14 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurric
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
 import com.quaza.solutions.qpalx.elearning.domain.subjectmatter.proficiency.ProficiencyRankingScaleE;
+import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialLevel;
+import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.TutorialLevelCalendar;
 import com.quaza.solutions.qpalx.elearning.service.institutions.IQPalXEducationalInstitutionService;
 import com.quaza.solutions.qpalx.elearning.service.lms.assessment.CourseAssessmentFocusAreaService;
 import com.quaza.solutions.qpalx.elearning.service.lms.assessment.ICourseAssessmentFocusAreaService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
+import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.ITutorialLevelCalendarService;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.curriculum.ICurriculumHierarchyService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
@@ -81,6 +84,10 @@ public class QPalXLessonAdminController {
     private IAcademicLevelAdminPanelService iAcademicLevelAdminPanelService;
 
     @Autowired
+    @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultTutorialLevelCalendarService")
+    private ITutorialLevelCalendarService iTutorialLevelCalendarService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
@@ -136,6 +143,10 @@ public class QPalXLessonAdminController {
         Long courseID = NumberUtils.toLong(eLearningCourseID);
         ELearningCourse eLearningCourse = ieLearningCourseService.findByCourseID(courseID);
         ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
+        StudentTutorialLevel studentTutorialLevel = eLearningCurriculum.getStudentTutorialGrade().getStudentTutorialLevel();
+        List<TutorialLevelCalendar> tutorialLevelCalendars = iTutorialLevelCalendarService.findAllByStudentTutorialLevel(studentTutorialLevel);
+        model.addAttribute(TutorialLevelCalendar.CLASS_ATTRIBUTE_INSTANCES, tutorialLevelCalendars);
 
         // Add Admin AcademicLevel Panel data
         iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());

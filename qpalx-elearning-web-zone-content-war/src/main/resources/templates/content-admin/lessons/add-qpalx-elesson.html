@@ -124,9 +124,7 @@
             <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
                     <select id="term" class="selectpicker" style="width: 522px; height: 32px;" th:field="*{tutorialLevelCalendarID}">
-                        <option value="1">First Term</option>
-                        <option value="2">Second Term</option>
-                        <option value="3">Third Term</option>
+                        <option th:each="TutorialLevelCalendar : ${TutorialLevelCalendars}" th:value="${TutorialLevelCalendar.getId()}" th:text="${TutorialLevelCalendar.getCalendarItemDescripiton()}"></option>
                     </select>
                 </div>
 
