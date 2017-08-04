@@ -194,11 +194,11 @@ public class QPalXLessonAdminController {
         return ContentRootE.Content_Admin_Lessons.getContentRootPagePath("edit-qpalx-elesson");
     }
 
-    @RequestMapping(value = "/save-qpalx-elesson", params = "file", method = RequestMethod.POST)
+    @RequestMapping(value = "/save-qpalx-elesson", params = "narration_file", method = RequestMethod.POST)
     public void saveQPalXELesson(Model model,
                                  @ModelAttribute("QPalXELessonWebVO") QPalXELessonWebVO qPalXELessonWebVO,
-                                 HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile multipartFile) {
-        LOGGER.info("Saving QPalX ELesson with VO attributes: {}", qPalXELessonWebVO);
+                                 HttpServletRequest request, HttpServletResponse response, @RequestParam("narration_file") MultipartFile multipartFile) {
+        LOGGER.info("Saving QPalX ELesson with narration_file and VO attributes: {}", qPalXELessonWebVO);
 
         System.out.println("multipartFile = " + multipartFile);
 
@@ -228,9 +228,9 @@ public class QPalXLessonAdminController {
     }
 
     @RequestMapping(value = "/save-qpalx-elesson", method = RequestMethod.POST)
-    public void saveQPalXELesson(Model model,
-                                 @ModelAttribute("QPalXELessonWebVO") QPalXELessonWebVO qPalXELessonWebVO,
-                                 HttpServletRequest request, HttpServletResponse response) {
+    public void saveQPalXELessonNoFile(Model model,
+                                       @ModelAttribute("QPalXELessonWebVO") QPalXELessonWebVO qPalXELessonWebVO,
+                                       HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Saving QPalX ELesson with VO attributes: {}", qPalXELessonWebVO);
 
 
