@@ -143,15 +143,17 @@ public class StudentLessonController {
         List<AdaptiveMicroLessonStatistics> adaptiveMicroLessonStatisticsList = iAdaptiveMicroLessonStatisticsService.findAdaptiveMicroLessonStatisticsByLessonAndCourse(qPalXELesson, optionalUser.get());
         model.addAttribute(LessonsAdminAttributesE.QPalXEMicroLessons.toString(), adaptiveMicroLessonStatisticsList);
 
-        List<AdaptiveLessonQuizStatistics> adaptiveLessonQuizStatisticsList = iAdaptiveLearningQuizStatisticsService.findMicroLessonStudentQuizStatistics(optionalUser.get(), adaptiveMicroLessonStatisticsList.get(0).getMicroLessonID());
+        if (adaptiveMicroLessonStatisticsList !=null && adaptiveMicroLessonStatisticsList.size() > 0) {
+            List<AdaptiveLessonQuizStatistics> adaptiveLessonQuizStatisticsList = iAdaptiveLearningQuizStatisticsService.findMicroLessonStudentQuizStatistics(optionalUser.get(), adaptiveMicroLessonStatisticsList.get(0).getMicroLessonID());
 
-        if(adaptiveLessonQuizStatisticsList.size() == 1) {
-            AdaptiveLessonQuizStatistics adaptiveLessonQuizStatistics = adaptiveLessonQuizStatisticsList.get(0);
-            if(adaptiveLessonQuizStatistics.getAdaptiveLearningQuizID().longValue() > 0) {
+            if(adaptiveLessonQuizStatisticsList.size() == 1) {
+                AdaptiveLessonQuizStatistics adaptiveLessonQuizStatistics = adaptiveLessonQuizStatisticsList.get(0);
+                if(adaptiveLessonQuizStatistics.getAdaptiveLearningQuizID().longValue() > 0) {
+                    model.addAttribute(LessonsAdminAttributesE.AdaptiveLearningQuizzes.toString(), adaptiveLessonQuizStatisticsList);
+                }
+            } else {
                 model.addAttribute(LessonsAdminAttributesE.AdaptiveLearningQuizzes.toString(), adaptiveLessonQuizStatisticsList);
             }
-        } else {
-            model.addAttribute(LessonsAdminAttributesE.AdaptiveLearningQuizzes.toString(), adaptiveLessonQuizStatisticsList);
         }
 
         // Find the current default TutorialLevelCalendar based on the selected value

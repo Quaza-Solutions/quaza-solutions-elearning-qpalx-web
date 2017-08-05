@@ -211,7 +211,7 @@
 
 
 <!-- Popup for Lesson Intro Video -->
-<div class="modalBox" th:if="${SelectedQPalXELesson != null}">
+<div class="modalBox" th:if="${SelectedQPalXELesson != null and SelectedQPalXELesson.geteLearningMediaContent() != null}">
 
     <div id="LessonIntroVideo" class="modalBox">
         <a href="#" class="modalCloseOuter" onClick="stopVideo();"></a>

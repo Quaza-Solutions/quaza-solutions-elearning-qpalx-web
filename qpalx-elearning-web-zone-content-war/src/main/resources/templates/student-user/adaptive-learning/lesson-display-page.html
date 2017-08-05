@@ -27,20 +27,23 @@
     <div th:each="QPalXELesson,rowStat : ${QPalXELessons}">
 
         <div class="row">
-            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" th:text="${rowStat.count}"></div>
 
-            <!-- Enable Intro Video modal popup Link only IF available -->
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" th:if="${QPalXELesson.getLessonMediaFile()} != null">
-                <a class="anchor-1" th:attr="href='#popup' + ${rowStat.count}">
-                    <img src="images/assets/adaptive-learning/video-icon.png"/>
-                </a>
+            <!-- Display video icon if available -->
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" th:if="${QPalXELesson.getLessonMediaFile()} != null">
+                <span th:text="${rowStat.count}"></span> &nbsp;
+                <span>
+                    <a th:attr="href='#popup' + ${rowStat.count}">
+                        <img src="images/assets/adaptive-learning/video-icon-lg.png"/>
+                    </a>
+                </span>
             </div>
 
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" th:if="${QPalXELesson.getLessonMediaFile()} == null">
-
+            <!-- Show no icon since media file is not available -->
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" th:if="${QPalXELesson.getLessonMediaFile()} == null">
+                <span th:text="${rowStat.count}"></span>
             </div>
 
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 large-fonts topmargin">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 large-fonts topmargin">
                 <a th:href="@{/view-micro-lessons(eLessonID=${QPalXELesson.getLessonID()}, tutorialLevelID=${SelectedTutorialCalendar.id})}">
                     <span class="blue" th:text="${QPalXELesson.getLessonName()}"></span>
                 </a>
@@ -52,6 +55,8 @@
                     <span class="progress-value">0%</span>
                 </div>
             </div>
+
+            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5"></div>
 
         </div>
 
