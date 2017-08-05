@@ -35,7 +35,7 @@
                 <div class="black-bar"></div>
                 <div class="quiz-image">
 
-                    <video width="800" id="quiz-image" controls="controls">
+                    <video width="800" id="quiz-image" controls="controls" th:if="${LessonIntroVideo != null}">
                         <source th:src="${LessonIntroVideo}" type="video/mp4"/>
                         Your browser does not support HTML5 video.
                     </video>

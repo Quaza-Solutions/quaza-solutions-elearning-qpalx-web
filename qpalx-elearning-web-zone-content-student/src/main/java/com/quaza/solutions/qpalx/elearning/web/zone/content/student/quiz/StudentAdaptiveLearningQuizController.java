@@ -97,7 +97,9 @@ public class StudentAdaptiveLearningQuizController {
 
         // Retrieve the ELesson Intro Video
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(NumberUtils.toLong(eLessonID));
-        model.addAttribute("LessonIntroVideo", qPalXELesson.geteLearningMediaContent().getELearningMediaFile());
+        if (qPalXELesson.geteLearningMediaContent() != null) {
+            model.addAttribute("LessonIntroVideo", qPalXELesson.geteLearningMediaContent().getELearningMediaFile());
+        }
 
         // Retrieve Banner to be used for Quiz Display background
         ELearningCurriculum eLearningCurriculum = qPalXELesson.geteLearningCourse().geteLearningCurriculum();
