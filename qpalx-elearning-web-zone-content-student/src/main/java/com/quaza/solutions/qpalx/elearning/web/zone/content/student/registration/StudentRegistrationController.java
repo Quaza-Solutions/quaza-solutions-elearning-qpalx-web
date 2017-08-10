@@ -97,7 +97,6 @@ public class StudentRegistrationController {
             return ContentRootE.Student_Signup.getContentRootPagePath("sign-up-student");
         }
 
-        // TODO find better way of setting this from the Front End dynamicaly
         StudentTutorialGrade studentTutorialGrade = iqPalXTutorialService.findTutorialGradeByID(qPalXWebUserVO.getTutorialGradeID());
         qPalXWebUserVO.setStudentTutorialLevelID(studentTutorialGrade.getStudentTutorialLevel().getId());
 
