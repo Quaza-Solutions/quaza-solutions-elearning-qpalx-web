@@ -120,9 +120,9 @@
         <div class="clearfix"></div>
 
 
-        <div class="col-md-3"><input type="text" size="26" id="first" th:field="*{firstName}"/><span id="first-name"></span></div>
-        <div class="col-md-3"><input type="text" size="26" id="last" th:field="*{lastName}"/><span id="last-name"></span></div>
-        <div class="col-md-6"><input type="password" size="61" class="password" id="password-1" th:field="*{password}"/></div>
+        <div class="col-md-3"><input type="text" size="40" id="first" th:field="*{firstName}"/><span id="first-name"></span></div>
+        <div class="col-md-3"><input type="text" size="40" id="last" th:field="*{lastName}"/><span id="last-name"></span></div>
+        <div class="col-md-6"><input type="password" size="50" class="password" id="password-1" th:field="*{password}"/></div>
 
         <div class="clearfix bottom-space"></div>
         <div class="col-md-6"><label>Email:</label></div>
@@ -168,21 +168,26 @@
 
 
         <div class="clearfix bottom-space"></div>
-        <div class="col-md-6">Current School</div>
-        <div class="col-md-3">Zip/Postal</div>
-        <div class="col-md-3">Phone</div>
+        <div class="col-md-6"><label>Phone:</label></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
 
         <div class="clearfix"></div>
-        <div class="col-md-6">
 
+        <div class="col-md-6">
+            <input type="text" size="40" id="phone" th:field="*{mobilePhoneNumber}"/>
         </div>
-        <div class="col-md-3"><input type="text" size="30" id="zip"/><span id="zip-code"></span></div>
-        <div class="col-md-3"><input type="text" size="30" id="phone" th:field="*{mobilePhoneNumber}"/><span id="phone-number"></span></div>
+
+        <div class="col-md-3"></div>
+
+        <div class="col-md-3"></div>
 
         <div class="clearfix bottom-space"></div>
+
         <div class="col-md-12 continue">
             <button type="submit" class="btn btn-success">Continue</button>
         </div>
+
     </form>
 </div>
 
