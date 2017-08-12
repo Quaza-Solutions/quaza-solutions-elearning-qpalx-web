@@ -227,21 +227,21 @@ public class QPalXLessonAdminController {
         }
     }
 
-//    @RequestMapping(value = "/save-qpalx-elesson", method = RequestMethod.POST)
-//    public void saveQPalXELessonNoFile(Model model,
-//                                       @ModelAttribute("QPalXELessonWebVO") QPalXELessonWebVO qPalXELessonWebVO,
-//                                       HttpServletRequest request, HttpServletResponse response) {
-//        LOGGER.info("Saving QPalX ELesson with VO attributes: {}", qPalXELessonWebVO);
-//
-//
-//        // Build hierarchy based content structure on the Lesson which will allow for uploading content to the right directory structure
-//        iCurriculumHierarchyService.buildHierarchyForQPalXELessonWebVO(qPalXELessonWebVO);
-//
-//        LOGGER.info("QPalX Lesson media content was succesfully uploaded, saving lesson details...");
-//        iqPalXELessonService.createAndSaveQPalXELesson(qPalXELessonWebVO);
-//        String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + qPalXELessonWebVO.getELearningCourseID();
-//        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
-//    }
+    @RequestMapping(value = "/save-qpalx-elesson-no-intro-video", method = RequestMethod.POST)
+    public void saveQPalXELessonNoFile(Model model,
+                                       @ModelAttribute("QPalXELessonWebVO") QPalXELessonWebVO qPalXELessonWebVO,
+                                       HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Saving QPalX ELesson with VO attributes: {}", qPalXELessonWebVO);
+
+
+        // Build hierarchy based content structure on the Lesson which will allow for uploading content to the right directory structure
+        iCurriculumHierarchyService.buildHierarchyForQPalXELessonWebVO(qPalXELessonWebVO);
+
+        LOGGER.info("QPalX Lesson media content was succesfully uploaded, saving lesson details...");
+        iqPalXELessonService.createAndSaveQPalXELesson(qPalXELessonWebVO);
+        String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + qPalXELessonWebVO.getELearningCourseID();
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
+    }
 
     @RequestMapping(value = "/update-qpalx-elesson", method = RequestMethod.POST)
     public void updateQPalXELesson(Model model, @ModelAttribute("QPalXELessonWebVO") QPalXELessonWebVO qPalXELessonWebVO,

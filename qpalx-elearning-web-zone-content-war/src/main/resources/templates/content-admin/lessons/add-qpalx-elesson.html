@@ -19,6 +19,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="js/form-control/file-control.js" type="text/javascript"></script>
+
+    <script>
+        $(document).ready(function() {
+            // when page first loads force hide form to create Lesson with Intro video.
+            $("#LessonInfoForm").hide();
+            //$("#NoIntroVideoLessonInfoForm").hide();
+
+            $("#QLesson").click(function(){
+                $("#NoIntroVideoLessonInfoForm").show();
+                $("#LessonInfoForm").hide();
+            });
+            $("#QLessonWithVideo").click(function(){
+                $("#LessonInfoForm").show();
+                $("#NoIntroVideoLessonInfoForm").hide();
+            });
+        });
+</script>
 </head>
 <body>
 
@@ -34,11 +51,18 @@
         <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"/>
     </div>
 
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
+            <button id="QLesson" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>Add Lesson</button> &nbsp;&nbsp;
+            <button id="QLessonWithVideo" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>Add Lesson With Intro Video</button>
+        </div>
+    </div>
+
+    <br/>
 
 
-
-
-    <form method="post" enctype="multipart/form-data" th:action="@{save-qpalx-elesson}" th:object="${QPalXELessonWebVO}" name="LessonInfoForm" novalidate="novalidate" ng-submit="login.submit()">
+    <!--  Form for adding Lesson with an Intro Video -->
+    <form method="post" enctype="multipart/form-data" th:action="@{save-qpalx-elesson}" th:object="${QPalXELessonWebVO}" id="LessonInfoForm" name="LessonInfoForm" novalidate="novalidate" ng-submit="login.submit()">
     <div class="panel panel-success">
         <div class="panel-body">
 
@@ -203,7 +227,143 @@
     </form>
 
 
+    <!--  Form for adding Lesson without an Intro Video -->
+    <form method="post" enctype="multipart/form-data" th:action="@{save-qpalx-elesson-no-intro-video}" th:object="${QPalXELessonWebVO}" id="NoIntroVideoLessonInfoForm" name="NoIntroVideoLessonInfoForm" novalidate="novalidate" ng-submit="login.submit()">
+        <div class="panel panel-success">
+            <div class="panel-body">
 
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
+                        <h4><span class="label label-primary">QPalx Lesson Name:</span></h4>
+                        <input type="text"  size="50" id="name" name="name" th:field="*{lessonName}" maxlength="100" ng-model="name" required="required"/>
+                    </div>
+
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" align="Left">
+                        <h4><span class="label label-primary">QPalX Content Type:</span></h4>
+                        <select class="selectpicker" style="width: 522px;height: 32px;" th:field="*{qPalXTutorialContentType}">
+                            <option th:each="SupportedQPalXTutorialContentType : ${SupportedQPalXTutorialContentTypes}" th:value="${SupportedQPalXTutorialContentType}" th:text="${SupportedQPalXTutorialContentType}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <br/>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
+                        <h4><span class="label label-primary">QPalx Lesson Description:</span></h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
+                        <textarea rows="10" cols="100" id="description" name="description" th:field="*{lessonDescription}" maxlength="150" ng-model="description" required="required"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left"><br/></div>
+                </div>
+
+                <!-- Proficiency Rating Floor, Ceiling  -->
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
+                        <h4><span class="label label-primary">Proficiency Rating Floor - (Lowest Performance Rating For Lesson)</span></h4>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
+                        <h4><span class="label label-primary">Proficiency Rating Ceiling - (Highest Performance Rating For Lesson)</span></h4>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
+                        <select class="selectpicker" style="width: 522px;height: 32px;" th:field="*{proficiencyRankingScaleFloor}">
+                            <option th:each="ProficiencyRanking : ${ProficiencyRankings}" th:value="${ProficiencyRanking}" th:text="${ProficiencyRanking}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
+                        <select class="selectpicker" style="width: 522px;height: 32px;" th:field="*{proficiencyRankingScaleCeiling}">
+                            <option th:each="ProficiencyRanking : ${ProficiencyRankings}" th:value="${ProficiencyRanking}" th:text="${ProficiencyRanking}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left"></div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left"><br/></div>
+                </div>
+
+                <!-- Proficiency Rating Floor, Ceiling  -->
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
+                        <h4><span class="label label-primary">Tutorial Calendar</span></h4>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
+                        <h4><span class="label label-primary">Educational Institutions</span></h4>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
+                        <select id="term" class="selectpicker" style="width: 522px; height: 32px;" th:field="*{tutorialLevelCalendarID}">
+                            <option th:each="TutorialLevelCalendar : ${TutorialLevelCalendars}" th:value="${TutorialLevelCalendar.getId()}" th:text="${TutorialLevelCalendar.getCalendarItemDescripiton()}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left">
+                        <select class="selectpicker" style="width: 522px; height: 32px;" th:field="*{educationalInstitutionID}">
+                            <option value=""></option>
+                            <option th:each="QPalXEducationalInstitution : ${AvailableQPalXEducationalInstitutions}" th:value="${QPalXEducationalInstitution.id}" th:text="${QPalXEducationalInstitution.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="Left"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><br/></div>
+                </div>
+
+                <!-- Active/Inactive Preferences panel -->
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
+                        <label>Set Active/Inactive Preferences</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
+                        <input type="radio" value="TRUE" th:field="*{activeFlag}" ng-model="activeFlag" ng-required="required"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="FALSE" th:field="*{activeFlag}" ng-model="activeFlag" ng-required="required"/> Inactive
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><br/><br/></div>
+                </div>
+
+                <!-- Hidden field to pass back the value of the current ELearningCourseID-->
+                <input type="hidden" th:value="${SelectedELearningCourse.id}" name="eLearningCourseID"/>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left">
+                        <button type="submit" class="btn btn-success" ng-disabled="NoIntroVideoLessonInfoForm.$invalid">Add QPalX ELesson</button>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-success">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
 
 
 
