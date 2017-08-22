@@ -280,6 +280,27 @@ public class QPalXLessonAdminController {
     }
 
 
+    @RequestMapping(value = "/update-qpalx-elesson-no-file", method = RequestMethod.POST)
+    public void updateQPalXELessonNoFile(Model model, @ModelAttribute("QPalXELessonWebVO") QPalXELessonWebVO qPalXELessonWebVO,
+                                         HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Saving QPalX ELesson with VO attributes: {}", qPalXELessonWebVO);
+
+        // Build hierarchy based content structure on the Lesson which will allow for uploading content to the right directory structure
+        iCurriculumHierarchyService.buildHierarchyForQPalXELessonWebVO(qPalXELessonWebVO);
+
+        // Delete the current existing Lesson Intro video
+        QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qPalXELessonWebVO.getQPalxELessonID());
+        if (qPalXELesson.geteLearningMediaContent() != null) {
+            LOGGER.debug("Deleting current existing intro video media contet: {}", qPalXELesson.geteLearningMediaContent());
+            ieLearningStaticContentService.deleteELearningMediaContent(qPalXELesson.geteLearningMediaContent());
+        }
+
+        iqPalXELessonService.updateAndSaveQPalXELesson(qPalXELesson, qPalXELessonWebVO);
+        String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + qPalXELessonWebVO.getELearningCourseID();
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
+    }
+
+
     @RequestMapping(value = "/delete-qpalx-elesson", method = RequestMethod.GET)
     public void deleteQPalXELessons(final Model model, @RequestParam("qpalxELessonID") String qpalxELessonID, HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Attempting to delete QPalX Lesson with ID: {}", qpalxELessonID);

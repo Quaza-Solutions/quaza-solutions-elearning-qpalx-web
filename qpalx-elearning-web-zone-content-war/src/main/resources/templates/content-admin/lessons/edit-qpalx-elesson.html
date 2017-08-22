@@ -37,147 +37,300 @@
         <div><h2>Edit QPalx ELesson</h2></div>
     </div>
 
-    <form method="post" enctype="multipart/form-data" th:action="@{update-qpalx-elesson}" th:object="${QPalXELessonWebVO}">
+    <!-- Display Form for when no multimedia file is available -->
+    <div th:if="${SelectedQPalXELesson.geteLearningMediaContent() != null}">
+        <form method="post" enctype="multipart/form-data" th:action="@{update-qpalx-elesson}" th:object="${QPalXELessonWebVO}">
 
-        <!-- hidden field is a spring-security feature which generates a hidden token checked on submission to make sure submission is from this website directly -->
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <!-- hidden field is a spring-security feature which generates a hidden token checked on submission to make sure submission is from this website directly -->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-        <div class="row">
-            <div class="col-md-6"><h4><span class="label label-primary">QPalx Lesson Name:</span></h4></div>
-            <div class="col-md-6" ><h4><span class="label label-primary">QPalX Content Type:</span></h4></div>
-        </div>
-
-        <!-- Thymeleaf dynamically will select selected component if value is set in VO object. Or use th:selected="${ProficiencyRanking == QPalXELessonWebVO.proficiencyRankingScaleFloor}" -->
-        <div class="row">
-            <div class="col-md-6"><input type="text" size="26" id="name" name="name" th:field="*{lessonName}"/><span class="name"></span></div>
-            <div class="col-md-6">
-                <select class="activity" th:field="*{qPalXTutorialContentType}">
-                    <option th:each="SupportedQPalXTutorialContentType : ${SupportedQPalXTutorialContentTypes}" th:value="${SupportedQPalXTutorialContentType}" th:text="${SupportedQPalXTutorialContentType}"></option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
-                <h4><span class="label label-primary">QPalx Lesson Description:</span></h4>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
-                <textarea rows="10" cols="100" id="description" name="description" th:field="*{lessonDescription}" maxlength="150" ng-model="description" required="required"></textarea>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-md-6"><h4><span class="label label-primary">Proficiency Rating Floor - (Lowest Performance Rating For Lesson)</span></h4></div>
-            <div class="col-md-6"><h4><span class="label label-primary">Proficiency Rating Ceiling - (Highest Performance Rating For Lesson)</span></h4></div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <span></span>
-                <select class="ceiling" th:field="*{proficiencyRankingScaleFloor}">
-                    <option th:each="ProficiencyRanking : ${ProficiencyRankings}" th:value="${ProficiencyRanking}" th:text="${ProficiencyRanking}"></option>
-                </select>
-            </div>
-            <div class="col-md-6">
-                <span></span>
-                <select class="ceiling" th:field="*{proficiencyRankingScaleCeiling}">
-                    <option th:each="ProficiencyRanking : ${ProficiencyRankings}" th:value="${ProficiencyRanking}" th:text="${ProficiencyRanking}"></option>
-                </select>
-            </div>
-        </div>
-
-        <br/>
-
-        <div class="row" >
-
-            <div class="col-md-6">
-                <h4><span class="label label-primary">Tutorial Calendar:</span></h4>
+            <div class="row">
+                <div class="col-md-6"><h4><span class="label label-primary">QPalx Lesson Name:</span></h4></div>
+                <div class="col-md-6" ><h4><span class="label label-primary">QPalX Content Type:</span></h4></div>
             </div>
 
-            <div class="col-md-6">
-                <h4><span class="label label-primary">Educational Institution</span></h4>
+            <!-- Thymeleaf dynamically will select selected component if value is set in VO object. Or use th:selected="${ProficiencyRanking == QPalXELessonWebVO.proficiencyRankingScaleFloor}" -->
+            <div class="row">
+                <div class="col-md-6"><input type="text" size="50" id="name" name="name" th:field="*{lessonName}"/><span class="name"></span></div>
+                <div class="col-md-6">
+                    <select class="activity" th:field="*{qPalXTutorialContentType}">
+                        <option th:each="SupportedQPalXTutorialContentType : ${SupportedQPalXTutorialContentTypes}" th:value="${SupportedQPalXTutorialContentType}" th:text="${SupportedQPalXTutorialContentType}"></option>
+                    </select>
+                </div>
             </div>
 
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6">
-                <select id="term" class="ceiling" th:field="*{tutorialLevelCalendarID}">
-                    <option value="1">First Term</option>
-                    <option value="2">Second Term</option>
-                    <option value="3">Third Term</option>
-                </select>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
+                    <h4><span class="label label-primary">QPalx Lesson Description:</span></h4>
+                </div>
             </div>
 
-            <div class="col-md-6">
-                <select class="activity" th:field="*{educationalInstitutionID}">
-                    <option value=""></option>
-                    <option th:each="QPalXEducationalInstitution : ${AvailableQPalXEducationalInstitutions}" th:value="${QPalXEducationalInstitution.id}" th:text="${QPalXEducationalInstitution.name}"></option>
-                </select>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
+                    <textarea rows="10" cols="100" id="description" name="description" th:field="*{lessonDescription}" maxlength="150" ng-model="description" required="required"></textarea>
+                </div>
             </div>
 
-        </div>
 
-        <div class="row" >
-
-            <div class="col-md-12" th:if="${SelectedQPalXELesson.geteLearningMediaContent() != null}">
-                <a href="#LessonIntroVideo">Currently Uploaded Lesson(MP4):</a>
+            <div class="row">
+                <div class="col-md-6"><h4><span class="label label-primary">Proficiency Rating Floor - (Lowest Performance Rating For Lesson)</span></h4></div>
+                <div class="col-md-6"><h4><span class="label label-primary">Proficiency Rating Ceiling - (Highest Performance Rating For Lesson)</span></h4></div>
             </div>
 
-            <div class="col-md-12" th:if="${SelectedQPalXELesson.geteLearningMediaContent() == null}">
-                <h4><span class="label label-primary">Optional Lesson Intro(mp4) Video</span></h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <span></span>
+                    <select class="ceiling" th:field="*{proficiencyRankingScaleFloor}">
+                        <option th:each="ProficiencyRanking : ${ProficiencyRankings}" th:value="${ProficiencyRanking}" th:text="${ProficiencyRanking}"></option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <span></span>
+                    <select class="ceiling" th:field="*{proficiencyRankingScaleCeiling}">
+                        <option th:each="ProficiencyRanking : ${ProficiencyRankings}" th:value="${ProficiencyRanking}" th:text="${ProficiencyRanking}"></option>
+                    </select>
+                </div>
             </div>
 
-        </div>
+            <br/>
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <button class="browse btn " type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+            <div class="row" >
+
+                <div class="col-md-6">
+                    <h4><span class="label label-primary">Tutorial Calendar:</span></h4>
+                </div>
+
+                <div class="col-md-6">
+                    <h4><span class="label label-primary">Educational Institution</span></h4>
+                </div>
 
             </div>
-        </div>
 
-        <div class="row">
-            <input type="file" name="file" class="file"/>
-            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                <input type="text" class="form-control" disabled="true" placeholder="Optional Introduction MP4 Video" size="50"/>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <select id="term" class="selectpicker" style="width: 522px; height: 32px;" th:field="*{tutorialLevelCalendarID}">
+                        <option th:each="TutorialLevelCalendar : ${TutorialLevelCalendars}" th:value="${TutorialLevelCalendar.getId()}" th:text="${TutorialLevelCalendar.getCalendarItemDescripiton()}"></option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <select class="activity" th:field="*{educationalInstitutionID}">
+                        <option value=""></option>
+                        <option th:each="QPalXEducationalInstitution : ${AvailableQPalXEducationalInstitutions}" th:value="${QPalXEducationalInstitution.id}" th:text="${QPalXEducationalInstitution.name}"></option>
+                    </select>
+                </div>
+
             </div>
-            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
-            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
-        </div>
 
-        <div class="clearfix bottom-space"></div>
+            <!-- Intro Video Section:  IF an Intro video was uploaded then allow modifying and changing video -->
+            <div th:if="${SelectedQPalXELesson.geteLearningMediaContent() != null}">
+                <div class="row" >
 
-        <div class="row">
-            <div class="col-md-12">
-                <h4><span class="label label-primary">Set Active/Inactive Preferences</span></h4>
+                    <div class="col-md-12" th:if="${SelectedQPalXELesson.geteLearningMediaContent() != null}">
+                        <a href="#LessonIntroVideo">Currently Uploaded Lesson(MP4):</a>
+                    </div>
+
+                    <div class="col-md-12" th:if="${SelectedQPalXELesson.geteLearningMediaContent() == null}">
+                        <h4><span class="label label-primary">Optional Lesson Intro(mp4) Video</span></h4>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button class="browse btn " type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <input type="file" name="file" class="file"/>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <input type="text" class="form-control" disabled="true" placeholder="Optional Introduction MP4 Video" size="50"/>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <input type="radio" value="TRUE" th:field="*{activeFlag}"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="radio" value="FALSE" th:field="*{activeFlag}"/> Inactive
+
+            <div class="clearfix bottom-space"></div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4><span class="label label-primary">Set Active/Inactive Preferences</span></h4>
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="radio" value="TRUE" th:field="*{activeFlag}"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" value="FALSE" th:field="*{activeFlag}"/> Inactive
+                </div>
+            </div>
 
-        <div class="clearfix bottom-space"></div>
-        <div class="clearfix bottom-space"></div>
+            <div class="clearfix bottom-space"></div>
+            <div class="clearfix bottom-space"></div>
 
-        <!-- Hidden field to pass back the value of the current ELearningCourseID-->
-        <input type="hidden" th:value="${SelectedELearningCourse.id}" name="eLearningCourseID"/>
+            <!-- Hidden field to pass back the value of the current ELearningCourseID-->
+            <input type="hidden" th:value="${SelectedELearningCourse.id}" name="eLearningCourseID"/>
 
-        <!-- Hidden field to pass back the value of the current QPalXELesson that we are editing-->
-        <input type="hidden" th:value="${SelectedQPalXELesson.id}" name="qPalxELessonID"/>
+            <!-- Hidden field to pass back the value of the current QPalXELesson that we are editing-->
+            <input type="hidden" th:value="${SelectedQPalXELesson.id}" name="qPalxELessonID"/>
 
-        <div class="col-md-12 continue">
-            <button type="submit" id="submit" class="btn btn-success">Update QPalX ELesson</button>
-        </div>
-    </form>
+            <div class="col-md-12 continue">
+                <button type="submit" id="submit" class="btn btn-success">Update QPalX ELesson</button>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- Display Form for when multimedia file is available -->
+    <div th:if="${SelectedQPalXELesson.geteLearningMediaContent() == null}">
+        <form method="post" th:action="@{update-qpalx-elesson-no-file}" th:object="${QPalXELessonWebVO}">
+
+            <!-- hidden field is a spring-security feature which generates a hidden token checked on submission to make sure submission is from this website directly -->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+            <div class="row">
+                <div class="col-md-6"><h4><span class="label label-primary">QPalx Lesson Name:</span></h4></div>
+                <div class="col-md-6" ><h4><span class="label label-primary">QPalX Content Type:</span></h4></div>
+            </div>
+
+            <!-- Thymeleaf dynamically will select selected component if value is set in VO object. Or use th:selected="${ProficiencyRanking == QPalXELessonWebVO.proficiencyRankingScaleFloor}" -->
+            <div class="row">
+                <div class="col-md-6"><input type="text" size="50" id="name" name="name" th:field="*{lessonName}"/><span class="name"></span></div>
+                <div class="col-md-6">
+                    <select class="activity" th:field="*{qPalXTutorialContentType}">
+                        <option th:each="SupportedQPalXTutorialContentType : ${SupportedQPalXTutorialContentTypes}" th:value="${SupportedQPalXTutorialContentType}" th:text="${SupportedQPalXTutorialContentType}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
+                    <h4><span class="label label-primary">QPalx Lesson Description:</span></h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
+                    <textarea rows="10" cols="100" id="description" name="description" th:field="*{lessonDescription}" maxlength="150" ng-model="description" required="required"></textarea>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6"><h4><span class="label label-primary">Proficiency Rating Floor - (Lowest Performance Rating For Lesson)</span></h4></div>
+                <div class="col-md-6"><h4><span class="label label-primary">Proficiency Rating Ceiling - (Highest Performance Rating For Lesson)</span></h4></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <span></span>
+                    <select class="ceiling" th:field="*{proficiencyRankingScaleFloor}">
+                        <option th:each="ProficiencyRanking : ${ProficiencyRankings}" th:value="${ProficiencyRanking}" th:text="${ProficiencyRanking}"></option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <span></span>
+                    <select class="ceiling" th:field="*{proficiencyRankingScaleCeiling}">
+                        <option th:each="ProficiencyRanking : ${ProficiencyRankings}" th:value="${ProficiencyRanking}" th:text="${ProficiencyRanking}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row" >
+
+                <div class="col-md-6">
+                    <h4><span class="label label-primary">Tutorial Calendar:</span></h4>
+                </div>
+
+                <div class="col-md-6">
+                    <h4><span class="label label-primary">Educational Institution</span></h4>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <select id="term" class="selectpicker" style="width: 522px; height: 32px;" th:field="*{tutorialLevelCalendarID}">
+                        <option th:each="TutorialLevelCalendar : ${TutorialLevelCalendars}" th:value="${TutorialLevelCalendar.getId()}" th:text="${TutorialLevelCalendar.getCalendarItemDescripiton()}"></option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <select class="activity" th:field="*{educationalInstitutionID}">
+                        <option value=""></option>
+                        <option th:each="QPalXEducationalInstitution : ${AvailableQPalXEducationalInstitutions}" th:value="${QPalXEducationalInstitution.id}" th:text="${QPalXEducationalInstitution.name}"></option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Intro Video Section:  IF an Intro video was uploaded then allow modifying and changing video -->
+            <div th:if="${SelectedQPalXELesson.geteLearningMediaContent() != null}">
+                <div class="row" >
+
+                    <div class="col-md-12" th:if="${SelectedQPalXELesson.geteLearningMediaContent() != null}">
+                        <a href="#LessonIntroVideo">Currently Uploaded Lesson(MP4):</a>
+                    </div>
+
+                    <div class="col-md-12" th:if="${SelectedQPalXELesson.geteLearningMediaContent() == null}">
+                        <h4><span class="label label-primary">Optional Lesson Intro(mp4) Video</span></h4>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button class="browse btn " type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <input type="file" name="file" class="file"/>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <input type="text" class="form-control" disabled="true" placeholder="Optional Introduction MP4 Video" size="50"/>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                </div>
+            </div>
+
+            <div class="clearfix bottom-space"></div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4><span class="label label-primary">Set Active/Inactive Preferences</span></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="radio" value="TRUE" th:field="*{activeFlag}"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" value="FALSE" th:field="*{activeFlag}"/> Inactive
+                </div>
+            </div>
+
+            <div class="clearfix bottom-space"></div>
+            <div class="clearfix bottom-space"></div>
+
+            <!-- Hidden field to pass back the value of the current ELearningCourseID-->
+            <input type="hidden" th:value="${SelectedELearningCourse.id}" name="eLearningCourseID"/>
+
+            <!-- Hidden field to pass back the value of the current QPalXELesson that we are editing-->
+            <input type="hidden" th:value="${SelectedQPalXELesson.id}" name="qPalxELessonID"/>
+
+            <div class="col-md-12 continue">
+                <button type="submit" id="submit" class="btn btn-success">Update QPalX ELesson</button>
+            </div>
+        </form>
+    </div>
+
+
 </div>
 
 <div class="clearfix bottom-space"></div>
