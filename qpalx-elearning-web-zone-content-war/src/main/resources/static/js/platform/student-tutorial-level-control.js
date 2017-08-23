@@ -31,7 +31,7 @@ function loadMunicipalityAcademicLevels(municipalityID) {
     console.log("Executing remote call for all QPalx AcademicLevels in MunicipalityID: "+municipalityID)
 
     $.ajax({ type: 'GET',
-                     url: 'http://localhost:8080/find-academic-levels-by-municipality?municipalityID=' + municipalityID,
+                     url: '/find-academic-levels-by-municipality?municipalityID=' + municipalityID,
                      datatype: 'json',
                      success : function(academicLevels)
                      {
@@ -54,7 +54,7 @@ function loadStudentTutorialGrades(studentTutorialLevelID) {
     console.log("Executing remote call for all QPalx TutorailGrades in studentTutorialLevelID: "+studentTutorialLevelID)
 
     $.ajax({ type: 'GET',
-                     url: 'http://localhost:8080/find-student-tutorial-grades-by-academic-level?studentTutorialLevelID=' + studentTutorialLevelID,
+                     url: '/find-student-tutorial-grades-by-academic-level?studentTutorialLevelID=' + studentTutorialLevelID,
                      datatype: 'json',
                      success : function(tutorialGrades)
                      {
@@ -76,7 +76,7 @@ function loadAllSchoolsByMunicipalityAndAcademicLevel(municipalityID, studentTut
     console.log("Executing remote call to load all Schools in municipalityID:" + municipalityID + " studentTutorialLevelID: " + studentTutorialLevelID)
 
     $.ajax({ type: 'GET',
-                     url: 'http://localhost:8080/FindEducationalInstitutionsMatching?municipalityID=' + municipalityID + '&studentTutorialLevelID=' + studentTutorialLevelID,
+                     url: '/FindEducationalInstitutionsMatching?municipalityID=' + municipalityID + '&studentTutorialLevelID=' + studentTutorialLevelID,
                      datatype: 'json',
                      success : function(schools)
                      {
