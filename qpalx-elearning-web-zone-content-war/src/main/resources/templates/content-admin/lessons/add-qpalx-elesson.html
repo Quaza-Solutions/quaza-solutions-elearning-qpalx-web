@@ -51,6 +51,38 @@
         <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"/>
     </div>
 
+
+    <!-- Display Caption for Adding Lesson -->
+    <div class="row">
+        <div>
+            <h3><span class="glyphicon glyphicon-hand-right"></span> &nbsp;&nbsp; Add Lesson</h3>
+        </div>
+    </div>
+
+    <!-- Admin Page Breadcrumb Panel -->
+    <div class="row">
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><span class="glyphicon glyphicon-home"></span>&nbsp;Curriculum:</li>
+
+                <!-- Display Curriculum name and link to Curriculum Courses in bread crumb -->
+                <li class="breadcrumb-item">
+                    <a th:href="@{/view-admin-curriculum-courses(curriculumID=${SelectedELearningCourse.getIHierarchicalLMSContentParent().id})}" th:inline="text">
+                        [[${SelectedELearningCourse.getIHierarchicalLMSContentParent().getCurriculumType()}]] - [[${SelectedELearningCourse.getIHierarchicalLMSContentParent().getHierarchicalLMSContentName()}]]
+                    </a>
+                </li>
+
+                <!-- Display Course name and link to Course Lessons in bread crumb -->
+                <li class="breadcrumb-item">
+                    <a th:href="@{/view-admin-qpalx-elessons(eLearningCourseID=${SelectedELearningCourse.id})}" th:text="${SelectedELearningCourse.getCourseName()}"/>
+                </li>
+
+                <li class="breadcrumb-item active">Add Lesson</li>
+            </ol>
+        </div>
+    </div>
+
+
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="Left">
             <button id="QLesson" type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus"></span>&nbsp;Lesson No Intro</button> &nbsp;&nbsp;

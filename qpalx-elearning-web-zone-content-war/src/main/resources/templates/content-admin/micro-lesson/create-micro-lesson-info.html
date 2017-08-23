@@ -33,6 +33,42 @@
         <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"/>
     </div>
 
+    <!-- Display Caption for Adding MicroLesson -->
+    <div class="row">
+        <div>
+            <h3><span class="glyphicon glyphicon-hand-right"></span> &nbsp;&nbsp; Add Micro Lesson</h3>
+        </div>
+    </div>
+
+    <!-- Admin Page Breadcrumb Panel -->
+    <div class="row">
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><span class="glyphicon glyphicon-home"></span>&nbsp;Curriculum:</li>
+
+                <!-- Display Curriculum name and link to Curriculum Courses in bread crumb -->
+                <li class="breadcrumb-item">
+                    <a th:href="@{/view-admin-curriculum-courses(curriculumID=${SelectedQPalXELesson.getIHierarchicalLMSContentParent().getIHierarchicalLMSContentParent().id})}" th:inline="text">
+                        [[${SelectedQPalXELesson.getIHierarchicalLMSContentParent().getIHierarchicalLMSContentParent().getCurriculumType()}]] - [[${SelectedQPalXELesson.getIHierarchicalLMSContentParent().getIHierarchicalLMSContentParent().getHierarchicalLMSContentName()}]]
+                    </a>
+                </li>
+
+                <!-- Display Course name and link to Course Lessons in bread crumb -->
+                <li class="breadcrumb-item">
+                    <a th:href="@{/view-admin-qpalx-elessons(eLearningCourseID=${SelectedQPalXELesson.getIHierarchicalLMSContentParent().id})}" th:text="${SelectedQPalXELesson.getIHierarchicalLMSContentParent().getHierarchicalLMSContentName()}"/>
+                </li>
+
+                <!-- Display Lesson name and link to Lesson Micro-Lessons in bread crumb -->
+                <li class="breadcrumb-item">
+                    <a th:href="@{/view-admin-qpalx-micro-elessons(qpalxELessonID=${SelectedQPalXELesson.id})}" th:text="${SelectedQPalXELesson.getLessonName()}"/>
+                </li>
+
+                <li class="breadcrumb-item active">Add Micro-Lesson</li>
+            </ol>
+
+        </div>
+    </div>
+
     <form method="post" th:action="@{microlesson-narration-select}" th:object="${QPalXEMicroLessonVO}" name="MicroLessonInfoForm" novalidate="novalidate" ng-submit="login.submit()">
 
         <!-- hidden field is a spring-security feature which generates a hidden token checked on submission to make sure submission is from this website directly -->
