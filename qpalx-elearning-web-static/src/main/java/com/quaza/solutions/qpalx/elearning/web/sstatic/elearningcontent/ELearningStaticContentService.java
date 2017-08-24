@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StopWatch;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Optional;
@@ -65,11 +66,13 @@ public class ELearningStaticContentService implements IELearningStaticContentSer
 
         if(mediaTypeSupported) {
             String fileUploadLocation = iStaticContentMediaUtils.getELearningMediaUploadLocation(ilmsMediaContentVO);
+            String fileNameWithPathInfo = fileUploadLocation + safeFileName;
             LOGGER.info("File with name: {} will be uploaded to:> {}", safeFileName, fileUploadLocation);
 
-            File mediaContentFile = writeFileToDisk(multipartFile, safeFileName, fileUploadLocation);
-            if (mediaContentFile != null) {
-                ELearningMediaContent eLearningMediaContent = iStaticContentMediaUtils.buildELearningMediaContent(mediaContentFile, ilmsMediaContentVO.getSelectedQPalXTutorialContentTypeE(), StaticContentConfigurationTypeE.ELearningContent);
+            int bytesRead = copyFileToStaticContentLocation(multipartFile, fileNameWithPathInfo);
+            if (bytesRead > 0) {
+                LOGGER.info("File was succesfully uploaded, bytesRead: {}", bytesRead);
+                ELearningMediaContent eLearningMediaContent = iStaticContentMediaUtils.buildELearningMediaContent(safeFileName, fileNameWithPathInfo, ilmsMediaContentVO.getSelectedQPalXTutorialContentTypeE(), StaticContentConfigurationTypeE.ELearningContent);
                 return eLearningMediaContent;
             }
 
@@ -82,22 +85,41 @@ public class ELearningStaticContentService implements IELearningStaticContentSer
     }
 
 
-    private File writeFileToDisk(MultipartFile multipartFile, String uniqueSafefileName, String fileLocation) {
-        String fileName = uniqueSafefileName;
+//    private File writeFileToDisk(MultipartFile multipartFile, String uniqueSafefileName, String fileLocation) {
+//        String fileName = uniqueSafefileName;
+//
+//        try {
+//            // First we need to upload and output to local directory
+//            byte[] bytes = multipartFile.getBytes();
+//            String newFileName = fileLocation + fileName;
+//            new File(newFileName).getParentFile().mkdirs();
+//            LOGGER.info("Writing new file with name: {} to output stream", fileName);
+//            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(newFileName)));
+//            stream.write(bytes);
+//            stream.close();
+//            return new File(newFileName);
+//        } catch (Exception e) {
+//            LOGGER.error("Exception occurred while uploading file.  File could not be uploaded", e);
+//            return null;
+//        }
+//    }
+
+    // This version uses StreamUtils to copy file in order to account for large files
+    private int copyFileToStaticContentLocation(MultipartFile multipartFile, String fileNameWithPathInfo) {
 
         try {
-            // First we need to upload and output to local directory
-            byte[] bytes = multipartFile.getBytes();
-            String newFileName = fileLocation + fileName;
-            new File(newFileName).getParentFile().mkdirs();
-            LOGGER.info("Writing new file with name: {} to output stream", fileName);
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(newFileName)));
-            stream.write(bytes);
-            stream.close();
-            return new File(newFileName);
+            // Use copy functionality which buffers to copy file to new location on disk
+            StopWatch stopWatch = new StopWatch();
+            new File(fileNameWithPathInfo).getParentFile().mkdirs();
+            stopWatch.start("Uploading: " +fileNameWithPathInfo);
+            int bytesRead = StreamUtils.copy(multipartFile.getInputStream(), new FileOutputStream(fileNameWithPathInfo));
+            stopWatch.stop();
+
+            LOGGER.info(stopWatch.prettyPrint());
+            return bytesRead;
         } catch (Exception e) {
             LOGGER.error("Exception occurred while uploading file.  File could not be uploaded", e);
-            return null;
+            return 0;
         }
     }
 }

@@ -133,6 +133,16 @@ public class StaticContentMediaUtilsTest {
         Assert.assertEquals("/Users/manyce400/QuazaSolutions/elearning-content/Science/Chemistry/Chemistry-as-a-Discipline/intro_1483995941079.mp4", eLearningMediaContent.getELearningMediaPhysicalFile());
     }
 
+    @Test
+    public void testBuildELearningMediaContent2() {
+        String fileName = "intro_1483995941079.mp4";
+        String filePathWithName = "/Users/manyce400/QuazaSolutions/elearning-content/Science/Chemistry/Chemistry-as-a-Discipline/intro_1483995941079.mp4";
+        ELearningMediaContent eLearningMediaContent = staticContentMediaUtils.buildELearningMediaContent(fileName, filePathWithName, QPalXTutorialContentTypeE.Video, StaticContentConfigurationTypeE.ELearningContent);
+
+        Assert.assertEquals("elearning-content/Science/Chemistry/Chemistry-as-a-Discipline/intro_1483995941079.mp4", eLearningMediaContent.getELearningMediaFile());
+        Assert.assertEquals("/Users/manyce400/QuazaSolutions/elearning-content/Science/Chemistry/Chemistry-as-a-Discipline/intro_1483995941079.mp4", eLearningMediaContent.getELearningMediaPhysicalFile());
+    }
+
 
     // AdaptiveQuiz
     private final class AdaptiveQuizIHierarchicalLMSContent implements IHierarchicalLMSContent {

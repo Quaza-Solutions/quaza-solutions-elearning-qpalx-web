@@ -139,6 +139,36 @@ public class StaticContentMediaUtils implements IStaticContentMediaUtils {
                 .build();
     }
 
+    @Override
+    public ELearningMediaContent buildELearningMediaContent(String fileName, String filePath, QPalXTutorialContentTypeE qPalXTutorialContentTypeE, StaticContentConfigurationTypeE staticContentConfigurationTypeE) {
+        Assert.notNull(fileName, "fileName cannot be null");
+        Assert.notNull(filePath, "filePath cannot be null");
+        Assert.notNull(qPalXTutorialContentTypeE, "qPalXTutorialContentTypeE cannot be null");
+        Assert.notNull(staticContentConfigurationTypeE, "staticContentConfigurationTypeE cannot be null");
+
+        LOGGER.debug("Creating new ELearningMediaContent from file: {} with filePath: {}", fileName, filePath);
+
+        // Get the file extension to figure out the media content type
+        Optional<MediaContentTypeE> optionalMediaContentType = getMediaContentType(fileName);
+
+        StaticContentConfiguration defaultELearningStaticContentConfiguration = iStaticContentConfigurationService.findStaticContentConfigurationByContentName(staticContentConfigurationTypeE);
+
+        // We save file name using symbolic link directory as the actual file will get uploaded to a directory outside web app context
+        String symbolicFileDirectory = defaultELearningStaticContentConfiguration.getStaticContentApplicationContextLocation();
+
+        // Use the physical file path to build the context relative file path
+        String physicalFilePath = filePath;
+        int endIndexOfContextRoot = physicalFilePath.indexOf(symbolicFileDirectory) + 1;
+        String contextRootRelativeFileName = physicalFilePath.substring(endIndexOfContextRoot);
+
+        return ELearningMediaContent.builder()
+                .eLearningMediaType(optionalMediaContentType.get().toString())
+                .qPalXTutorialContentTypeE(qPalXTutorialContentTypeE)
+                .eLearningMediaFile(contextRootRelativeFileName)
+                .eLearningMediaPhysicalFile(physicalFilePath)
+                .build();
+    }
+
     protected LinkedList<IHierarchicalLMSContent> getContentHierarchies(IHierarchicalLMSContent iHierarchicalLMSContent, LinkedList<IHierarchicalLMSContent> hierarchies) {
         IHierarchicalLMSContent parentContent = iHierarchicalLMSContent.getIHierarchicalLMSContentParent();
 

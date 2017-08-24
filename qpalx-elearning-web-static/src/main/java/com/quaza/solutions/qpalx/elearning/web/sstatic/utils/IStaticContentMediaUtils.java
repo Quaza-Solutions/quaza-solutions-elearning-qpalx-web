@@ -21,4 +21,6 @@ public interface IStaticContentMediaUtils {
     public String getELearningMediaPhysicalFileLocation(ELearningMediaContent eLearningMediaContent, StaticContentConfigurationTypeE staticContentConfigurationTypeE);
 
     public ELearningMediaContent buildELearningMediaContent(File mediaContentFile, QPalXTutorialContentTypeE qPalXTutorialContentTypeE, StaticContentConfigurationTypeE staticContentConfigurationTypeE);
+
+    public ELearningMediaContent buildELearningMediaContent(String fileName, String filePath, QPalXTutorialContentTypeE qPalXTutorialContentTypeE, StaticContentConfigurationTypeE staticContentConfigurationTypeE);
 }
