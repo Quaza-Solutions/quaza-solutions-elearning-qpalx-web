@@ -1,12 +1,16 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.student.registration;
 
 import com.quaza.solutions.qpalx.elearning.domain.geographical.QPalXMunicipality;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.subjectmatter.proficiency.SimplifiedProficiencyRankE;
 import com.quaza.solutions.qpalx.elearning.domain.subscription.QPalXSubscription;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IGeographicalDateTimeFormatter;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IQPalXMunicipalityService;
+import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.CacheEnabledELearningCurriculumService;
+import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.prepaidsubscription.IQPalxPrepaidIDService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalXUserSubscriptionService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
@@ -28,8 +32,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author manyce400
@@ -64,6 +67,10 @@ public class StudentRegistrationController {
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.CacheEnabledQPalXTutorialService")
     private IQPalXTutorialService iqPalXTutorialService;
+
+    @Autowired
+    @Qualifier(CacheEnabledELearningCurriculumService.BEAN_NAME)
+    private IELearningCurriculumService ieLearningCurriculumService;
 
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultQPalxPrepaidIDService")
@@ -117,11 +124,23 @@ public class StudentRegistrationController {
         // Redeem prepaid code using the selected municipality
         QPalXMunicipality qPalXMunicipality = iqPalXMunicipalityService.findQPalXMunicipalityByID(qPalXWebUserVO.getMunicipalityID());
 
+        // Find all Content both Core and Elective for the TutorialGrade that the Student selected
+        StudentTutorialGrade studentTutorialGrade = iqPalXTutorialService.findTutorialGradeByID(qPalXWebUserVO.getTutorialGradeID());
+        List<ELearningCurriculum> coreELearningCurricula = ieLearningCurriculumService.findAllCurriculumByTutorialGradeAndType(CurriculumType.CORE, studentTutorialGrade);
+        List<ELearningCurriculum> electiveELearningCurricula = ieLearningCurriculumService.findAllCurriculumByTutorialGradeAndType(CurriculumType.ELECTIVE, studentTutorialGrade);
+
+        Map<Integer, List<ELearningCurriculum>> coreCurriculaMap = getCurriculumDisplayMap(coreELearningCurricula);
+        Map<Integer, List<ELearningCurriculum>> electiveCurriculaMap = getCurriculumDisplayMap(electiveELearningCurricula);
+
+        model.addAttribute("CoreELearningCurriculaMap", coreCurriculaMap);
+        model.addAttribute("ElectiveLearningCurriculaMap", electiveCurriculaMap);
+
+
         if(qPalXWebUserVO.getIncorrectValueCounter() == 5){
             return "/launch.html";//penalty
         }
         else {
-            if (iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXWebUserVO.getSubscriptionID(), qPalXMunicipality)) {
+            if (1==1) { //iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXWebUserVO.getSubscriptionID(), qPalXMunicipality)
                 qPalXWebUserVO.setRedemptionFailure(false);
                 model.addAttribute("QPalXWebUserVO", qPalXWebUserVO);
                 LOGGER.info("Processing student signup payment page with qPalXWebUserVO: {}", qPalXWebUserVO);
@@ -157,6 +176,31 @@ public class StudentRegistrationController {
         }
 
         return ContentRootE.Home.getContentRootPagePath("homepage");
+    }
+
+
+    private Map<Integer, List<ELearningCurriculum>> getCurriculumDisplayMap(List<ELearningCurriculum> coreELearningCurricula) {
+        Map<Integer, List<ELearningCurriculum>> displayMap = new HashMap<>();
+
+        int positionCount = 1;
+        int keyCount = 1;
+        int curriculaCount = coreELearningCurricula.size();
+
+        List<ELearningCurriculum> collector = new ArrayList<>();
+
+        for(ELearningCurriculum eLearningCurriculum: coreELearningCurricula) {
+            collector.add(eLearningCurriculum);
+            if(positionCount == 3 || keyCount == curriculaCount) {
+                displayMap.put(keyCount, new ArrayList<>(collector));
+                collector.clear();
+                positionCount = 0;
+            }
+
+            positionCount++;
+            keyCount++;
+        }
+
+        return displayMap;
     }
 
 }

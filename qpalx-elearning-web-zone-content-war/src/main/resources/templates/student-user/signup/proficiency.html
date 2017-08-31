@@ -45,80 +45,87 @@
     <div class="clearfix"></div>
     <br/><br/>
     <form th:action="@{/complete-qpalx-signup}" th:object="${QPalXWebUserVO}" method="post">
+
         <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
-                <div class="profi-box left-box" id="green-box">
-                    <i class="fa fa-lg fa-check" aria-hidden="true" id="check"></i>
-                    <img src="images/subjects/core/English.png" class="skill" id="english"/>
-                    <br/><br/>
-                    <p class="skill-text"><b>English</b></p>
-                    <select class="form-control profi-level" th:field="*{coreEnglishProficiencyLevel}">
-                        <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
-                    </select>
+            <div class="col-md-12"><h3>Core Curriculum</h3></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">Your Proficiency will default to Beginner for each Curriculum</div>
+        </div>
+
+        <br/>
+        <!-- First display all CORE ELearning Curricula -->
+        <div class="row" th:each="mapElement  : ${CoreELearningCurriculaMap}">
+
+            <div th:each="CoreELearningCurriculum : ${mapElement.value}">
+                <br/>
+
+                <div class="col-md-4">
+                    <div class="profi-box left-box" id="blue-tint-box">
+                        <i class="fa fa-lg" aria-hidden="true" id="check"></i>
+                        <img th:src="${CoreELearningCurriculum.getCurriculumIcon()}" class="skill"/>
+                        <br/><br/>
+                        <p class="skill-text"><b th:text="${CoreELearningCurriculum.getCurriculumName()}"/></p>
+                        <input type="text" size="35" readonly="true" value="Beginner"/>
+                        <!--<select class="form-control profi-level" th:field="*{coreEnglishProficiencyLevel}">-->
+                            <!--<option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>-->
+                        <!--</select>-->
+                    </div>
                 </div>
+
             </div>
-            <div class="col-md-3">
-                <div class="profi-box center-box"><img src="images/subjects/core/Math.png" class="skill"/>
-                    <br/><br/>
-                    <p class="skill-text"><b>Mathematics</b></p>
-                    <select class="form-control profi-level" th:field="*{coreMathProficiencyLevel}">
-                        <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="profi-box right-box"><img src="images/subjects/core/SocialStudies.png" class="skill"/>
-                    <br/><br/>
-                    <p class="skill-text"><b>Social Studies</b></p>
-                    <select class="form-control profi-level" th:field="*{coreSocialStudiesProficiencyLevel}">
-                        <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-1"></div>
+
+        </div>
+
+
+        <br/><br/>
+
+
+        <div class="row">
+            <div class="col-md-12"><h3>Elective Curriculum</h3></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">Your Proficiency will default to Beginner for each Curriculum</div>
         </div>
         <br/>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
-                <div class="profi-box left-box"><img src="images/subjects/core/Science.png" class="skill"/>
-                    <br/><br/>
-                    <p class="skill-text"><b>Science</b></p>
-                    <select class="form-control profi-level" th:field="*{coreScienceProficiencyLevel}">
-                        <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
-                    </select>
+
+        <!-- First display all CORE ELearning Curricula -->
+        <div class="row" th:each="mapElement  : ${ElectiveLearningCurriculaMap}">
+
+            <div th:each="ElectiveELearningCurriculum : ${mapElement.value}">
+
+                <div class="col-md-4">
+                    <div class="profi-box left-box" id="blue-tint-box">
+                        <i class="fa fa-lg" aria-hidden="true" id="check"></i>
+                        <img th:src="${ElectiveELearningCurriculum.getCurriculumIcon()}" class="skill"/>
+                        <br/><br/>
+                        <p class="skill-text"><b th:text="${ElectiveELearningCurriculum.getCurriculumName()}"/></p>
+                        <select class="form-control profi-level" th:field="*{coreEnglishProficiencyLevel}">
+                            <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
+                        </select>
+                    </div>
                 </div>
+
             </div>
-            <div class="col-md-3">
-                <div class="profi-box center-box"><img src="images/subjects/core/Technology.png" class="skill"/>
-                    <br/><br/>
-                    <p class="skill-text"><b>ICT</b></p>
-                    <select class="form-control profi-level" th:field="*{coreICTProficiencyLevel}">
-                        <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
-                    </select>
-                </div>
-            </div>
-            <!--<div class="col-md-3">-->
-                <!--<div class="profi-box right-box"><img src="images/english.png" class="skill"/>-->
-                    <!--<br/><br/>-->
-                    <!--<p class="skill-text"><b>Vocational Studies</b></p>-->
-                    <!--<select class="form-control profi-level" th:field="*{coreVocationalStudiesProficiencyLevel}">-->
-                        <!--<option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>-->
-                    <!--</select>-->
-                <!--</div>-->
-            <!--</div>-->
-            <div class="col-md-1"></div>
+
         </div>
+
+
+
+
         <div class="clearfix bottom-space"></div>
         <br/>
+
         <div class="col-md-12 continue">
             <button type="button" class="btn btn-default load-more">Load More</button>
         </div>
+
         <div class="clearfix bottom-space"></div>
+
         <div class="col-md-12 continue">
             <button type="submit" class="btn btn-success">Complete Account</button>
         </div>
+
     </form>
 </div>
 
