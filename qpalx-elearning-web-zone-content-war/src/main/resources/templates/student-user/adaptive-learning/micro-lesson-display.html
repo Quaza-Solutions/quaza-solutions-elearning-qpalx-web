@@ -146,7 +146,7 @@
             <div class="bar-1"></div>
             <a href="#" style="float:right; margin: 20px 40px 20px 0;"   th:attr="onclick='javascript:stopVideo(\'' + ${rowStat.count} +'\');'">Close</a>
             <div class="modalBody">
-                <video oncontextmenu="return false;" width="800"  th:id="'modal-box-' + ${rowStat.count}"  controls="controls">
+                <video oncontextmenu="return false;" width="1000"  th:id="'modal-box-' + ${rowStat.count}"  controls="controls">
                     <source th:src="${QPalXEMicroLesson.getNarrationMediaFile()}" type="video/mp4"/>
                     Your browser does not support HTML5 video.
                 </video>

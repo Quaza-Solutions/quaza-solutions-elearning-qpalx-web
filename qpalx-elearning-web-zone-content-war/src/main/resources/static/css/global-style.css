@@ -1019,8 +1019,13 @@ left: 12%;
 	height: 360px;
 	border-radius: 20px;
 }
+
 #green-box {
 	border: 2px solid #7dc855;
+}
+
+#blue-tint-box {
+	border: 2px solid #99d6e5;
 }
 
 .left-box {
