@@ -26,11 +26,11 @@
             class="three-text-blue"><b> Proficiency</b></span></div>
     <div class="col-md-4"></div>
     <div class="col-md-2">
-        <button type="button" class="btn btn-default skip" data-toggle="tooltip" data-placement="top"
-                title="Skipping this step will start your account at the beginner level."><span class="green"><b>Skip this step &#8594;</b></span>
-        </button>
-
+        <!--<button type="button" class="btn btn-default skip" data-toggle="tooltip" data-placement="top"-->
+                <!--title="Skipping this step will start your account at the beginner level."><span class="green"><b>Skip this step &#8594;</b></span>-->
+        <!--</button>-->
     </div>
+
     <div class="clearfix"></div>
     <div class="col-md-2">
         <hr class="gray-line"/>
@@ -47,29 +47,32 @@
     <form th:action="@{/complete-qpalx-signup}" th:object="${QPalXWebUserVO}" method="post">
 
         <div class="row">
-            <div class="col-md-12"><h3>Core Curriculum</h3></div>
+            <div class="col-md-12"><h3>Core Curriculum:</h3></div>
         </div>
         <div class="row">
-            <div class="col-md-12">Your Proficiency will default to Beginner for each Curriculum</div>
+            <div class="col-md-12">Your QPalX Proficiency level in each of Curriculum Item will start at Beginner.</div>
         </div>
 
         <br/>
         <!-- First display all CORE ELearning Curricula -->
         <div class="row" th:each="mapElement  : ${CoreELearningCurriculaMap}">
 
+            <br/>
+
             <div th:each="CoreELearningCurriculum : ${mapElement.value}">
-                <br/>
 
                 <div class="col-md-4">
                     <div class="profi-box left-box" id="blue-tint-box">
+
                         <i class="fa fa-lg" aria-hidden="true" id="check"></i>
-                        <img th:src="${CoreELearningCurriculum.getCurriculumIcon()}" class="skill"/>
-                        <br/><br/>
+
+                        <img th:src="${CoreELearningCurriculum.getCurriculumIcon()}" class="courses-image"/>
+                        <br/><br/><br/><br/>
                         <p class="skill-text"><b th:text="${CoreELearningCurriculum.getCurriculumName()}"/></p>
-                        <input type="text" size="35" readonly="true" value="Beginner"/>
-                        <!--<select class="form-control profi-level" th:field="*{coreEnglishProficiencyLevel}">-->
-                            <!--<option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>-->
-                        <!--</select>-->
+
+                        <br/>
+                        <button type="button" class="btn btn-info">Beginner: <span class="badge">1</span> to <span class="badge">3</span></button>
+
                     </div>
                 </div>
 
@@ -82,27 +85,29 @@
 
 
         <div class="row">
-            <div class="col-md-12"><h3>Elective Curriculum</h3></div>
+            <div class="col-md-12"><h3>Elective Curriculum:</h3></div>
         </div>
         <div class="row">
-            <div class="col-md-12">Your Proficiency will default to Beginner for each Curriculum</div>
+            <div class="col-md-12">Your QPalX Proficiency level in each of Curriculum Item will start at Beginner.</div>
         </div>
         <br/>
 
         <!-- First display all CORE ELearning Curricula -->
         <div class="row" th:each="mapElement  : ${ElectiveLearningCurriculaMap}">
-
+            <br/>
             <div th:each="ElectiveELearningCurriculum : ${mapElement.value}">
 
                 <div class="col-md-4">
                     <div class="profi-box left-box" id="blue-tint-box">
+
                         <i class="fa fa-lg" aria-hidden="true" id="check"></i>
-                        <img th:src="${ElectiveELearningCurriculum.getCurriculumIcon()}" class="skill"/>
+                        <img th:src="${ElectiveELearningCurriculum.getCurriculumIcon()}" class="courses-image"/>
                         <br/><br/>
                         <p class="skill-text"><b th:text="${ElectiveELearningCurriculum.getCurriculumName()}"/></p>
-                        <select class="form-control profi-level" th:field="*{coreEnglishProficiencyLevel}">
-                            <option th:each="SimplifiedProficiencyRankE : ${SimplifiedProficiencyRanks}"  th:value="${SimplifiedProficiencyRankE}" th:text="${SimplifiedProficiencyRankE}"></option>
-                        </select>
+
+                        <br/>
+                        <button type="button" class="btn btn-info">Beginner: <span class="badge">1</span> to <span class="badge">3</span></button>
+
                     </div>
                 </div>
 
@@ -117,7 +122,7 @@
         <br/>
 
         <div class="col-md-12 continue">
-            <button type="button" class="btn btn-default load-more">Load More</button>
+            <!--<button type="button" class="btn btn-default load-more">Load More</button>-->
         </div>
 
         <div class="clearfix bottom-space"></div>
