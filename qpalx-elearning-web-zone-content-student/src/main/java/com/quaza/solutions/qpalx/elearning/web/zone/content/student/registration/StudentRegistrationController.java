@@ -140,7 +140,10 @@ public class StudentRegistrationController {
             return "/launch.html";//penalty
         }
         else {
-            if (1==1) { //iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXWebUserVO.getSubscriptionID(), qPalXMunicipality)
+            // Attempt to redeem code
+            boolean codeRedeemed = iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXWebUserVO.getSubscriptionID(), qPalXMunicipality);
+
+            if (codeRedeemed) {
                 qPalXWebUserVO.setRedemptionFailure(false);
                 model.addAttribute("QPalXWebUserVO", qPalXWebUserVO);
                 LOGGER.info("Processing student signup payment page with qPalXWebUserVO: {}", qPalXWebUserVO);
