@@ -25,6 +25,7 @@
     <module>qpalx-elearning-web-zone-content-executive</module>
       <module>qpalx-elearning-web-zone-content-teacher</module>
       <module>qpalx-elearning-web-service-quiz-maker</module>
+      <module>qpalx-elearning-web-zone-content-guardian</module>
   </modules>
 
 </project>
