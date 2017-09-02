@@ -77,7 +77,7 @@ public class RegistrationController {
                 break;
             case Parent:
                 LOGGER.info("Parent QPalX signup selected, returning parent sign-up form");
-                selectedSignupTypePage = ContentRootE.Guardian_Signup.getContentRootPagePath("sign-up-parent");
+                selectedSignupTypePage = ContentRootE.Guardian_Signup.getContentRootPagePath("sign-up-guardian");
                 addRegistrationProcessAttributes(model, modelMap);
                 break;
             case Teacher:

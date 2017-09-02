@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Angular JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!-- JQuery JS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- JS controlling selection of tutorial level options -->
+    <script src="js/platform/student-tutorial-level-control.js"></script>
+
+    <!-- Bootstrap CSS latest compiled version -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+<body ng-app="staticSelect">
+
+<!-- Include general header for no logged in user session found -->
+<div th:replace="fragments/header-nosession :: header-nosession"></div>
+
+<h1>Sign Up</h1>
+<div class="container">
+    <form th:action="@{/link-guardian-student}" th:object="${QPalXWebUserVO}" method="post">
+
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
+        <!--  Header section -->
+        <div class="col-md-2">
+
+            <span class="three-circle-blue">
+                <span class="three-blue"><b>1</b></span>
+            </span>
+
+            <span class="three-gray"><b> Account</b></span>
+        </div>
+
+        <div class="col-md-2">
+            <span class="three-circle-blue">
+                <span class="three-blue">2</span>
+            </span>
+
+            <span class="three-text-blue"><b> Add Your Dependent Student</b></span>
+        </div>
+
+        <div class="col-md-2">
+            <span class="three-circle-gray">
+                <span class="three-gray">3</span>
+            </span> Complete Registration
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="col-md-2">
+            <hr id="blue-line"/>
+        </div>
+        <div class="col-md-10">
+            <hr id="gray-line"/>
+        </div>
+
+        <div class="clearfix bottom-space"></div>
+
+
+        <!-- Display all validation errors -->
+        <div class="alert row" th:if="${ValidationError != null}">
+            <div class="alert-danger fade in col-sm-12" th:text="${ValidationError}"></div>
+        </div>
+        <!-- End validations display -->
+
+
+        <div class="clearfix bottom-space"></div>
+
+
+        <div class="col-md-3"><b>Account Information</b></div>
+
+        <div class="col-md-9"></div>
+
+        <div class="clearfix bottom-space"></div>
+
+        <div class="col-md-3"><img src="images/assets/sign-up/parent.png"/></div>
+
+        <div class="col-md-9"></div>
+
+        <div class="clearfix bottom-space"></div>
+
+        <div class="col-md-3"><label>Enter Your Dependent Student's Success ID:</label></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-6" id="password"></div>
+
+        <div class="clearfix"></div>
+
+
+        <div class="col-md-3">
+            <input type="text" size="50" id="successID" name="successID"/>
+        </div>
+
+        <div class="col-md-3"></div>
+        <div class="col-md-6"></div>
+
+
+        <div class="clearfix bottom-space"></div>
+
+        <div class="col-md-12 continue">
+            <button type="submit" class="btn btn-success">Continue</button>
+        </div>
+
+    </form>
+</div>
+
+<div class="clearfix bottom-space"></div>
+
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" language="javascript">
+        function onFocus(el) {
+            if (el.value == el.defaultValue) {
+                el.value = '';
+            }
+        }
+</script>
+</body>
+</html>
