@@ -50,23 +50,30 @@ public class QPalXUserInfoPanelService implements IQPalXUserInfoPanelService {
         Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
 
         if(optionalUser.isPresent()) {
-            QPalXUser qPalXUser = optionalUser.get();
-            String userType = qPalXUser.getUserType().toString();
-            LOGGER.info("Adding all all QPalx User information panel attributes for user:> {} type:> {}", qPalXUser.getEmail(), userType);
-            model.addAttribute(UserInfoPanelAttributesE.LoggedInQPalXUser.toString(), qPalXUser);
-            model.addAttribute(UserInfoPanelAttributesE.QPalXUserType.toString(), userType);
+            addStudentUserInfoAttributes(model, optionalUser.get());
+        }
+    }
 
-            if (optionalUser.get().getUserType() == QPalxUserTypeE.STUDENT) {
-                // Find user Enrolment record and add attributes used for displaying Student info in panel
-                StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(qPalXUser);
-                LOGGER.debug("Found studentEnrolmentRecord: {}", studentEnrolmentRecord);
-                model.addAttribute(StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER, studentEnrolmentRecord.getStudentTutorialGrade());
-                model.addAttribute(QPalXEducationalInstitution.CLASS_ATTRIBUTE_IDENTIFIER, studentEnrolmentRecord.getEducationalInstitution());
+    @Override
+    public void addStudentUserInfoAttributes(Model model, QPalXUser qPalXUser) {
+        Assert.notNull(model, "model cannot be null");
+        Assert.notNull(qPalXUser, "qPalXUser cannot be null");
 
-                // load and all all Student adaptive proficiency rankings
-                List<AdaptiveProficiencyRanking> adaptiveProficiencyRankings = iAdaptiveProficiencyRankingService.findStudentAdaptiveProficiencyRankings(qPalXUser);
-                model.addAttribute(UserInfoPanelAttributesE.AdpativeProficiencyRankings.toString(), adaptiveProficiencyRankings);
-            }
+        String userType = qPalXUser.getUserType().toString();
+        LOGGER.info("Adding all all QPalx User information panel attributes for user:> {} type:> {}", qPalXUser.getEmail(), userType);
+        model.addAttribute(UserInfoPanelAttributesE.LoggedInQPalXUser.toString(), qPalXUser);
+        model.addAttribute(UserInfoPanelAttributesE.QPalXUserType.toString(), userType);
+
+        if (qPalXUser.getUserType() == QPalxUserTypeE.STUDENT) {
+            // Find user Enrolment record and add attributes used for displaying Student info in panel
+            StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(qPalXUser);
+            LOGGER.debug("Found studentEnrolmentRecord: {}", studentEnrolmentRecord);
+            model.addAttribute(StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER, studentEnrolmentRecord.getStudentTutorialGrade());
+            model.addAttribute(QPalXEducationalInstitution.CLASS_ATTRIBUTE_IDENTIFIER, studentEnrolmentRecord.getEducationalInstitution());
+
+            // load and all all Student adaptive proficiency rankings
+            List<AdaptiveProficiencyRanking> adaptiveProficiencyRankings = iAdaptiveProficiencyRankingService.findStudentAdaptiveProficiencyRankings(qPalXUser);
+            model.addAttribute(UserInfoPanelAttributesE.AdpativeProficiencyRankings.toString(), adaptiveProficiencyRankings);
         }
     }
 

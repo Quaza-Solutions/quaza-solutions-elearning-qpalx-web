@@ -22,6 +22,8 @@ import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLea
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.platformadmin.PlatformAdminManagementModeE;
+import com.quaza.solutions.qpalx.elearning.web.service.user.GuardianUserControlPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.user.IGuardianUserControlPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXWebUserVO;
@@ -95,6 +97,10 @@ public class ApplicationHomeController {
     private IContentAdminProfileRecordService iContentAdminProfileRecordService;
 
     @Autowired
+    @Qualifier(GuardianUserControlPanelService.BEAN_NAME)
+    private IGuardianUserControlPanelService iGuardianUserControlPanelService;
+
+    @Autowired
     @Qualifier(AcademicLevelAdminPanelService.BEAN_NAME)
     private IAcademicLevelAdminPanelService iAcademicLevelAdminPanelService;
 
@@ -135,6 +141,7 @@ public class ApplicationHomeController {
                 LOGGER.info("Logged in user is a Teacher, directing to homepage...");
                 return ContentRootE.School_Teacher_Home.getContentRootPagePath("homepage");
             } else if(QPalxUserTypeE.PARENT_GUARDIAN == optionalUser.get().getUserType()) {
+                iGuardianUserControlPanelService.addGuardianUserControlInfo(model);
                 LOGGER.info("Logged in user is a Parent, directing to homepage...");
                 return ContentRootE.Guardian_Home.getContentRootPagePath("homepage");
             } else if(QPalxUserTypeE.PLATFORM_ADMIN == optionalUser.get().getUserType()) {

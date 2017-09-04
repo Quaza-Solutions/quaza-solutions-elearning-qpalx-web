@@ -17,13 +17,15 @@ import java.util.Optional;
 /**
  * @author manyce400
  */
-@Service("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserWebService")
+@Service(QPalXUserWebService.BEAN_NAME)
 public class QPalXUserWebService implements IQPalXUserWebService {
 
 
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.StudentCurriculumService")
     private IStudentCurriculumService iStudentCurriculumService;
+
+    public static final String BEAN_NAME = "com.quaza.solutions.qpalx.elearning.web.service.QPalXUserWebService";
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(QPalXUserWebService.class);
 

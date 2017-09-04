@@ -67,7 +67,8 @@ public class DefaultQPalXAuthenticationSuccessFailureHandler implements Authenti
                         || authority.getAuthority().equals(QPalxUserTypeE.Executive.toString())
                         || authority.getAuthority().equals(QPalxUserTypeE.Teacher.toString())
                         || authority.getAuthority().equals(QPalxUserTypeE.CONTENT_DEVELOPER.toString())
-                        || authority.getAuthority().equals(QPalxUserTypeE.PLATFORM_ADMIN.toString()))
+                        || authority.getAuthority().equals(QPalxUserTypeE.PLATFORM_ADMIN.toString())
+                        || authority.getAuthority().equals(QPalxUserTypeE.PARENT_GUARDIAN.toString()))
                 .findFirst();
 
         if(userAuthority.isPresent()) {

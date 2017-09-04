@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- User information overview panel -->
+<div th:fragment="student-metrics-nav">
+
+    <div class="row" th:if="${CurriculumType} == 'CORE'">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <span class="three-text-blue" id="text-1">Core Curriculum</span>
+        </div>
+
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/select-curriculum(curricumlumType=ELECTIVE)} + '\''">
+            <span>Elective Curriculum</span>
+        </div>
+
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/ebooks-promo} + '\''">
+            <span>Participation Information</span>
+        </div>
+    </div>
+
+    <div class="row" th:if="${CurriculumType} == 'ELECTIVE'">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/select-curriculum(curricumlumType=CORE)} + '\''">
+            <span>Core Curriculum</span>
+        </div>
+
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <span class="three-text-blue">Elective Curriculum</span>
+        </div>
+
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/ebooks-promo} + '\''">
+            <span>Participation Information</span>
+        </div>
+    </div>
+
+    <div class="row" th:if="${CurriculumType} == 'PARTICIPATION_INFO'">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/select-curriculum(curricumlumType=CORE)} + '\''">
+            <span>Core Curriculum</span>
+        </div>
+
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/select-curriculum(curricumlumType=ELECTIVE)} + '\''">
+            <span>Elective Curriculum</span>
+        </div>
+
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <span class="three-text-blue">Participation Information</span>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
