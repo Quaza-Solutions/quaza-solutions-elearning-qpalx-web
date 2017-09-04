@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<div class="container" style="margin: 20px auto 20px auto;">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h4>Guardian Control Panel:  Monitor Global QPalX performance for your dependent Student!</h4>
+        </div>
+    </div>
+</div>
+
+<!-- Main Student details overview panel -->
+<div th:replace="fragments/student/user-overview-panel :: overview"></div>
+
+
+<div class="container" style="margin: 20px auto 20px auto;">
+
+    <!-- Curriculum navigation panel -->
+    <div th:replace="fragments/guardian-user/student-metrics-control-panel :: student-metrics-nav"></div>
+
+    <!--  Display the specific curriculum type of the ELearning Curriculum that was selected -->
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-font" style="margin: 0 0 0 40px;">
+            Core Curriculum
+        </div>
+    </div>
+
+    <br /><br />
+
+    <!-- Display details about the Selected Curriculum.  Image and Curriculum name -->
+    <div class="row">
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+        </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <img th:src="${CoreProgress.getCurriculumIcon()}" class="courses-image" />
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <span class="blue courses" style="font-size: 26px;" th:text="${CoreProgress.getCurriculumName()}"></span>
+            <p style="font-size: 24px;" th:text="${CoreProgress.getCurriculumDescription()}"></p>
+        </div>
+    </div>
+
+    <!-- Display details about the Selected Curriculum.  Image and Curriculum name -->
+    <div class="row">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        </div>
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+            <table border="0" width="100%" style="font-size: 20px;">
+                <tr>
+                    <td><b>Total Items:</b></td>
+                    <td><b th:text="${CoreProgress.getTotalNumberOfLessons()} + ' Lessons'"></b></td>
+                    <td><b th:text="${CoreProgress.getTotalNumberOfMicroLessons()} + ' Micro Lessons'"></b></td>
+                    <td><b th:text="${CoreProgress.getTotalNumberOfQuizzes()} + ' Quizzes'"></b></td>
+                    <td><b th:text="${CoreProgress.getTotalNumberOfQuestionBankItems()} + ' Question Banks'"></b></td>
+                </tr>
+                <tr>
+                    <td>Completed Items</td>
+                    <td></td>
+                    <td th:text="${CoreProgress.getUniqueMicroLessonsAttempted()} + ' Micro Lessons'"></td>
+                    <td th:text="${CoreProgress.getUniqueQuizzesAttempted()} + ' Quizzes'"></td>
+                    <td th:text="${CoreProgress.getUniqueQuestionBankItemsAttempted()} + ' Question Banks'"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/hr.js"></script>
+<script src="js/hover.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/progress-bar.js" type="text/javascript"></script>
+<script src="js/modernizr.js" type="text/javascript"></script>
+</body>
+</html>

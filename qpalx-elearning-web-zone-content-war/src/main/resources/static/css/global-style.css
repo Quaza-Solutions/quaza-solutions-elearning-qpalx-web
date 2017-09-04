@@ -1020,6 +1020,14 @@ left: 12%;
 	border-radius: 20px;
 }
 
+.ecurriculum-display-box {
+	border: 1px solid gray;
+	width: 260px;
+	height: 300px;
+	border-radius: 20px;
+}
+
+
 #green-box {
 	border: 2px solid #7dc855;
 }

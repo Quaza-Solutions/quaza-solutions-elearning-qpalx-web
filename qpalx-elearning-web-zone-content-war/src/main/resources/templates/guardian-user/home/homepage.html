@@ -18,7 +18,7 @@
 <div class="container" style="margin: 20px auto 20px auto;">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h4>Guardian Control Panel, Monitor global QPalX performance for your dependent Student!</h4>
+            <h4>Guardian Control Panel:  Monitor Global QPalX performance for your dependent Student!</h4>
         </div>
     </div>
 </div>
@@ -40,16 +40,21 @@
         <div th:each="CoreELearningCurriculum : ${mapElement.value}">
 
             <div class="col-md-4">
-                <div class="profi-box left-box" id="blue-tint-box">
+
+                <div class="ecurriculum-display-box left-box" id="blue-tint-box">
 
                     <i class="fa fa-lg" aria-hidden="true" id="check"></i>
 
                     <img th:src="${CoreELearningCurriculum.getCurriculumIcon()}" class="courses-image"/>
                     <br/><br/><br/><br/>
-                    <p class="skill-text"><b th:text="${CoreELearningCurriculum.getCurriculumName()}"/></p>
+                    <p class="skill-text">
+                        <a href="#">
+                        <b th:text="${CoreELearningCurriculum.getCurriculumName()}"/>
+                        </a>
+                    </p>
 
-                    <br/>
-                    <button type="button" class="btn btn-info">Beginner: <span class="badge">1</span> to <span class="badge">3</span></button>
+                    <!--<br/>-->
+                    <!--<button type="button" class="btn btn-info">Beginner: <span class="badge">1</span> to <span class="badge">3</span></button>-->
 
                 </div>
             </div>

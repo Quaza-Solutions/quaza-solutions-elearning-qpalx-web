@@ -24,6 +24,8 @@ public enum ContentRootE {
 
     Guardian_Signup("guardian-user/signup/"),
 
+    Guardian_Global_Performance("guardian-user/global-performance/"),
+
     Content_Admin_Home("content-admin/home/"),
 
     Content_Admin_Lessons("content-admin/lessons/"),
