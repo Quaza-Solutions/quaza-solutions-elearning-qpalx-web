@@ -11,6 +11,7 @@ import com.quaza.solutions.qpalx.elearning.domain.subscription.SubscriptionValid
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.CacheEnabledELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.DefaultQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultContentAdminProfileRecordService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IContentAdminProfileRecordService;
@@ -43,7 +44,7 @@ public class QPalXGlobalUserDetailsService implements UserDetailsService {
 
 
     @Autowired
-    @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultQPalxUserService")
+    @Qualifier(DefaultQPalxUserService.BEAN_NAME)
     private IQPalxUserService iqPalxUserService;
 
     @Autowired

@@ -8,6 +8,7 @@ import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialG
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialLevel;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IQPalXMunicipalityService;
 import com.quaza.solutions.qpalx.elearning.service.institutions.IQPalXEducationalInstitutionService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.DefaultQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalXUserSubscriptionService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.subscription.IQPalxSubscriptionService;
@@ -74,7 +75,7 @@ public class AccountInfoController {
     private IQPalXEducationalInstitutionService iqPalXEducationalInstitutionService;
 
     @Autowired
-    @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultQPalxUserService")
+    @Qualifier(DefaultQPalxUserService.BEAN_NAME)
     private IQPalxUserService iqPalxUserService;
 
     @Autowired

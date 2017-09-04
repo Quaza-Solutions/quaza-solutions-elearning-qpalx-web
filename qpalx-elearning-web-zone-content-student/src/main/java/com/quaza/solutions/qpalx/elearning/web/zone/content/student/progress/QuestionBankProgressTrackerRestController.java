@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.scorable.QuestionBankItem;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IQuestionBankService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.DefaultQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class QuestionBankProgressTrackerRestController {
 
 
     @Autowired
-    @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultQPalxUserService")
+    @Qualifier(DefaultQPalxUserService.BEAN_NAME)
     private IQPalxUserService iqPalxUserService;
 
     @Autowired

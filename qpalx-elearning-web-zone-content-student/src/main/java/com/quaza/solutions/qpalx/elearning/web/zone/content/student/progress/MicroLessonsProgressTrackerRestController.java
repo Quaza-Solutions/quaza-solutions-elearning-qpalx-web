@@ -4,6 +4,7 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLess
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.statistics.IAdaptiveLessonStatisticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXEMicroLessonService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.DefaultQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class MicroLessonsProgressTrackerRestController {
 
 
     @Autowired
-    @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultQPalxUserService")
+    @Qualifier(DefaultQPalxUserService.BEAN_NAME)
     private IQPalxUserService iqPalxUserService;
 
     @Autowired

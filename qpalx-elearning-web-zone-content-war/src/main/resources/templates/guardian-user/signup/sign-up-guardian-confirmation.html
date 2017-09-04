@@ -27,7 +27,7 @@
 
 <h1>Sign Up</h1>
 <div class="container">
-    <form th:action="@{/link-guardian-student}" th:object="${QPalXWebUserVO}" method="post">
+    <form th:action="@{/complete-guardian-registration}" th:object="${QPalXWebUserVO}" method="post">
 
         <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
@@ -71,13 +71,31 @@
 
         <div class="clearfix bottom-space"></div>
 
-        <div class="col-md-3">
-            <img src="images/assets/sign-up/parent.png"/>
+        <!--<div class="col-md-3">-->
+            <!--<img src="images/assets/sign-up/parent.png"/>-->
+        <!--</div>-->
+
+        <!--<div class="col-md-9"/>-->
+        <!--<div class="clearfix bottom-space"></div>-->
+
+        <div class="row">
+
+            <div class="col-md-2">
+                <img src="images/assets/sign-up/parent.png"/>
+            </div>
+
+            <div class="col-md-7 pull-left">
+                <b>Name:</b> <span th:inline="text">[[${QPalXWebUserVO.firstName}]] [[${QPalXWebUserVO.lastName}]]</span><br/>
+                <b>Email:</b> <span th:inline="text">[[${QPalXWebUserVO.firstName}]] [[${QPalXWebUserVO.email}]]</span>
+            </div>
+
+            <div class="col-md-3"></div>
         </div>
 
-        <div class="col-md-9">
-            Name: <span th:inline="text">[[${QPalXWebUserVO.firstName}]] [[${QPalXWebUserVO.lastName}]]</span>
-        </div>
+        <!--<div class="col-md-9 text-left">-->
+            <!--Name: <span th:inline="text">[[${QPalXWebUserVO.firstName}]] [[${QPalXWebUserVO.lastName}]]</span><br/>-->
+            <!--Email: <span th:inline="text">[[${QPalXWebUserVO.firstName}]] [[${QPalXWebUserVO.lastName}]]</span>-->
+        <!--</div>-->
 
         <div class="clearfix bottom-space"></div>
 
@@ -104,6 +122,8 @@
         <div class="clearfix bottom-space"></div>
 
         <div class="col-md-12 continue">
+            <button type="button" class="btn btn-success">Cancel Registration</button>
+            &nbsp;
             <button type="submit" class="btn btn-success">Complete Registration</button>
         </div>
 

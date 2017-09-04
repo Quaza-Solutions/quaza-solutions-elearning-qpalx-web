@@ -141,19 +141,30 @@
         <div class="clearfix bottom-space"></div>
 
 
+        <div class="col-md-3"><label>Sex:</label></div>
+        <div class="col-md-3"><label>Region:</label></div>
         <div class="col-md-6"><label>Phone:</label></div>
-        <div class="col-md-3"></div>
-        <div class="col-md-3"></div>
 
         <div class="clearfix"></div>
+
+        <!--  Select User Sex, M/F -->
+        <div class="col-md-3">
+            <select class="dropdown" th:field="*{userSex}">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+
+        <!-- Select user region -->
+        <div class="col-md-3">
+            <select class="dropdown" th:field="*{municipalityID}">
+                <option th:each="QPalXMunicipality : ${QPalXMunicipalities}" th:value="${QPalXMunicipality.id}" th:text="${QPalXMunicipality.name}"></option>
+            </select>
+        </div>
 
         <div class="col-md-6">
             <input type="text" size="40" id="phone" th:field="*{mobilePhoneNumber}"/>
         </div>
-
-        <div class="col-md-3"></div>
-
-        <div class="col-md-3"></div>
 
         <div class="clearfix bottom-space"></div>
 

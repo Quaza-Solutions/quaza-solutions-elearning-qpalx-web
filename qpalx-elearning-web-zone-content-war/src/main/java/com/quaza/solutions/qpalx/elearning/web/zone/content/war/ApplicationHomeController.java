@@ -9,6 +9,7 @@ import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialG
 import com.quaza.solutions.qpalx.elearning.service.geographical.IGeographicalDateTimeFormatter;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IStudentCurriculumService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.DefaultQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultContentAdminProfileRecordService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IContentAdminProfileRecordService;
@@ -54,7 +55,7 @@ public class ApplicationHomeController {
 
 
     @Autowired
-    @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultQPalxUserService")
+    @Qualifier(DefaultQPalxUserService.BEAN_NAME)
     private IQPalxUserService iqPalxUserService;
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.quaza.solutions.qpalx.elearning.web.sstatic.vo;
 
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.IQPalXUserVO;
+import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -49,6 +50,8 @@ public class QPalXWebUserVO implements IQPalXUserVO {
     @Size(min=2, max=10)
     private String password;
 
+    private String userSex;
+
     @NotNull
     @Size(min=2, max=10)
     private String passwordConfirm;
@@ -82,17 +85,8 @@ public class QPalXWebUserVO implements IQPalXUserVO {
 
     private String studentPhotoFile;
 
-    private String coreEnglishProficiencyLevel;
+    private QPalXUser globalAuditQPalxUser;
 
-    private String coreMathProficiencyLevel;
-
-    private String coreSocialStudiesProficiencyLevel;
-
-    private String coreScienceProficiencyLevel;
-
-    private String coreICTProficiencyLevel;
-
-    private String coreVocationalStudiesProficiencyLevel;
 
     public QPalXWebUserVO() {
 
@@ -148,6 +142,15 @@ public class QPalXWebUserVO implements IQPalXUserVO {
 
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
+
+    @Override
+    public String getUserSex() {
+        return userSex;
     }
 
     public Long getRegisteredByUserID() {
@@ -258,52 +261,13 @@ public class QPalXWebUserVO implements IQPalXUserVO {
         this.studentPhotoFile = studentPhotoFile;
     }
 
-    public String getCoreEnglishProficiencyLevel() {
-        return coreEnglishProficiencyLevel;
+    @Override
+    public QPalXUser getGlobalAuditQPalxUser() {
+        return globalAuditQPalxUser;
     }
 
-    public void setCoreEnglishProficiencyLevel(String coreEnglishProficiencyLevel) {
-        this.coreEnglishProficiencyLevel = coreEnglishProficiencyLevel;
-    }
-
-    public String getCoreMathProficiencyLevel() {
-        return coreMathProficiencyLevel;
-    }
-
-    public void setCoreMathProficiencyLevel(String coreMathProficiencyLevel) {
-        this.coreMathProficiencyLevel = coreMathProficiencyLevel;
-    }
-
-    public String getCoreSocialStudiesProficiencyLevel() {
-        return coreSocialStudiesProficiencyLevel;
-    }
-
-    public void setCoreSocialStudiesProficiencyLevel(String coreSocialStudiesProficiencyLevel) {
-        this.coreSocialStudiesProficiencyLevel = coreSocialStudiesProficiencyLevel;
-    }
-
-    public String getCoreScienceProficiencyLevel() {
-        return coreScienceProficiencyLevel;
-    }
-
-    public void setCoreScienceProficiencyLevel(String coreScienceProficiencyLevel) {
-        this.coreScienceProficiencyLevel = coreScienceProficiencyLevel;
-    }
-
-    public String getCoreICTProficiencyLevel() {
-        return coreICTProficiencyLevel;
-    }
-
-    public void setCoreICTProficiencyLevel(String coreICTProficiencyLevel) {
-        this.coreICTProficiencyLevel = coreICTProficiencyLevel;
-    }
-
-    public String getCoreVocationalStudiesProficiencyLevel() {
-        return coreVocationalStudiesProficiencyLevel;
-    }
-
-    public void setCoreVocationalStudiesProficiencyLevel(String coreVocationalStudiesProficiencyLevel) {
-        this.coreVocationalStudiesProficiencyLevel = coreVocationalStudiesProficiencyLevel;
+    public void setGlobalAuditQPalxUser(QPalXUser globalAuditQPalxUser) {
+        this.globalAuditQPalxUser = globalAuditQPalxUser;
     }
 
     @Override
@@ -315,6 +279,7 @@ public class QPalXWebUserVO implements IQPalXUserVO {
                 .append("mobilePhoneNumber", mobilePhoneNumber)
                 .append("password", password)
                 .append("passwordConfirm", passwordConfirm)
+                .append("userSex", userSex)
                 .append("registeredByUserID", registeredByUserID)
                 .append("municipalityID", municipalityID)
                 .append("subscriptionID", subscriptionID)
@@ -325,12 +290,6 @@ public class QPalXWebUserVO implements IQPalXUserVO {
                 .append("mPowerAccountAlias", mPowerAccountAlias)
                 .append("mPowerAuthorizationToken", mPowerAuthorizationToken)
                 .append("studentPhotoFile", studentPhotoFile)
-                .append("coreEnglishProficiencyLevel", coreEnglishProficiencyLevel)
-                .append("coreMathProficiencyLevel", coreMathProficiencyLevel)
-                .append("coreSocialStudiesProficiencyLevel", coreSocialStudiesProficiencyLevel)
-                .append("coreScienceProficiencyLevel", coreScienceProficiencyLevel)
-                .append("coreICTProficiencyLevel", coreICTProficiencyLevel)
-                .append("coreVocationalStudiesProficiencyLevel", coreVocationalStudiesProficiencyLevel)
                 .append("redemptionFailure", redemptionFailure)
                 .append("prepaidValue", prepaidValue)
                 .append("numToGenerate", numToGenerate)
@@ -359,6 +318,11 @@ public class QPalXWebUserVO implements IQPalXUserVO {
 
         public Builder password(String password) {
             qPalXWebUserVO.setPassword(password);
+            return this;
+        }
+
+        public Builder userSex(String userSex) {
+            qPalXWebUserVO.setUserSex(userSex);
             return this;
         }
 
