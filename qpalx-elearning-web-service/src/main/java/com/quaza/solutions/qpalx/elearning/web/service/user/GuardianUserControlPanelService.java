@@ -1,10 +1,17 @@
 package com.quaza.solutions.qpalx.elearning.web.service.user;
 
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.GlobalStudentPerformanceAudit;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalxUserTypeE;
+import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.StudentEnrolmentRecord;
+import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.CacheEnabledELearningCurriculumService;
+import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.GlobalStudentPerformanceAuditService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IGlobalStudentPerformanceAuditService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStudentEnrolmentRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrolmentRecordService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,8 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author manyce400
@@ -29,6 +35,14 @@ public class GuardianUserControlPanelService implements IGuardianUserControlPane
     @Autowired
     @Qualifier(QPalXUserInfoPanelService.BEAN_NAME)
     private IQPalXUserInfoPanelService iqPalXUserInfoPanelService;
+
+    @Autowired
+    @Qualifier(CacheEnabledELearningCurriculumService.BEAN_NAME)
+    private IELearningCurriculumService ieLearningCurriculumService;
+
+    @Autowired
+    @Qualifier(DefaultStudentEnrolmentRecordService.SPRING_BEAN)
+    private IStudentEnrolmentRecordService iStudentEnrolmentRecordService;
 
     @Autowired
     @Qualifier(GlobalStudentPerformanceAuditService.BEAN_NAME)
@@ -53,12 +67,49 @@ public class GuardianUserControlPanelService implements IGuardianUserControlPane
             // Default to CORE ELearning curriculum for global performance control panel
             model.addAttribute("CurriculumType", "CORE");
 
+            // Find enrolmentrecord in order to figure out the core and elective curriculu
+
             // TODO add support for multiple depdent students for a Guardian
             // Find the student user that this Guardian user is linked to monitor global performance.  Currently only one student per Guardian supported
             List<GlobalStudentPerformanceAudit> globalStudentPerformanceAuditList = iGlobalStudentPerformanceAuditService.findAllGlobalStudentPerformanceAuditForAuditUser(optionalUser.get());
             iqPalXUserInfoPanelService.addStudentUserInfoAttributes(model, globalStudentPerformanceAuditList.get(0).getStudentQPalxUser());
-
+            populateStudentUserCurriculumInfo(model, globalStudentPerformanceAuditList.get(0).getStudentQPalxUser());
         }
+    }
+
+    private void populateStudentUserCurriculumInfo(Model model, QPalXUser studentQPalxUser) {
+        StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(studentQPalxUser);
+        List<ELearningCurriculum> coreELearningCurricula = ieLearningCurriculumService.findAllCurriculumByTutorialGradeAndType(CurriculumType.CORE, studentEnrolmentRecord.getStudentTutorialGrade());
+        List<ELearningCurriculum> electiveELearningCurricula = ieLearningCurriculumService.findAllCurriculumByTutorialGradeAndType(CurriculumType.ELECTIVE, studentEnrolmentRecord.getStudentTutorialGrade());
+        Map<Integer, List<ELearningCurriculum>> coreCurriculaMap = getCurriculumDisplayMap(coreELearningCurricula);
+        Map<Integer, List<ELearningCurriculum>> electiveCurriculaMap = getCurriculumDisplayMap(electiveELearningCurricula);
+        model.addAttribute("CoreELearningCurriculaMap", coreCurriculaMap);
+        model.addAttribute("ElectiveLearningCurriculaMap", electiveCurriculaMap);
+    }
+
+    // TODO move this method
+    private Map<Integer, List<ELearningCurriculum>> getCurriculumDisplayMap(List<ELearningCurriculum> coreELearningCurricula) {
+        Map<Integer, List<ELearningCurriculum>> displayMap = new HashMap<>();
+
+        int positionCount = 1;
+        int keyCount = 1;
+        int curriculaCount = coreELearningCurricula.size();
+
+        List<ELearningCurriculum> collector = new ArrayList<>();
+
+        for(ELearningCurriculum eLearningCurriculum: coreELearningCurricula) {
+            collector.add(eLearningCurriculum);
+            if(positionCount == 3 || keyCount == curriculaCount) {
+                displayMap.put(keyCount, new ArrayList<>(collector));
+                collector.clear();
+                positionCount = 0;
+            }
+
+            positionCount++;
+            keyCount++;
+        }
+
+        return displayMap;
     }
 
 }

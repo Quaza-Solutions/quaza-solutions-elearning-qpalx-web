@@ -15,6 +15,14 @@
 <!-- Include general header for when a valid logged in user session is found -->
 <div th:replace="fragments/header-usersession :: header-usersession"></div>
 
+<div class="container" style="margin: 20px auto 20px auto;">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h4>Guardian Control Panel, Monitor global QPalX performance for your dependent Student!</h4>
+        </div>
+    </div>
+</div>
+
 <!-- Main Student details overview panel -->
 <div th:replace="fragments/student/user-overview-panel :: overview"></div>
 
@@ -25,25 +33,30 @@
     <div th:replace="fragments/guardian-user/student-metrics-control-panel :: student-metrics-nav"></div>
 
     <!-- All Student available curriculum panel -->
+    <div class="row" th:each="mapElement  : ${CoreELearningCurriculaMap}">
 
+        <br/>
 
-    <!--<div class="row" th:each="StudentUserCurriculum,rowStat : ${StudentUserCurricula}">-->
-        <!--<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">-->
-            <!--<span class="number" th:text="${rowStat.count}"></span>-->
-        <!--</div>-->
+        <div th:each="CoreELearningCurriculum : ${mapElement.value}">
 
-        <!--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">-->
-            <!--<img th:src="${StudentUserCurriculum.curriculumIcon}" class="courses-image"/>-->
-        <!--</div>-->
+            <div class="col-md-4">
+                <div class="profi-box left-box" id="blue-tint-box">
 
-        <!--<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-fonts topmargin">-->
-            <!--<a th:href="@{/curriculum-courses(curriculumID=${StudentUserCurriculum.id})}">-->
-                <!--<span class="blue courses" th:text="${StudentUserCurriculum.curriculumName}"></span>-->
-            <!--</a>-->
-            <!--<span class="small" th:text="${StudentUserCurriculum.curriculumDescription}"></span>-->
-            <!--&lt;!&ndash;<p th:text="${StudentUserCurriculum.curriculumDescription}"></p>&ndash;&gt;-->
-        <!--</div>-->
-    <!--</div>-->
+                    <i class="fa fa-lg" aria-hidden="true" id="check"></i>
+
+                    <img th:src="${CoreELearningCurriculum.getCurriculumIcon()}" class="courses-image"/>
+                    <br/><br/><br/><br/>
+                    <p class="skill-text"><b th:text="${CoreELearningCurriculum.getCurriculumName()}"/></p>
+
+                    <br/>
+                    <button type="button" class="btn btn-info">Beginner: <span class="badge">1</span> to <span class="badge">3</span></button>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
 
 </div>
