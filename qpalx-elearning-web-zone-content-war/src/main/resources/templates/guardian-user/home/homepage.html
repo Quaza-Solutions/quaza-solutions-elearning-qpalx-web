@@ -48,7 +48,7 @@
                     <img th:src="${CoreELearningCurriculum.getCurriculumIcon()}" class="courses-image"/>
                     <br/><br/><br/><br/>
                     <p class="skill-text">
-                        <a href="#">
+                        <a th:href="@{/view-global-curriculum-progress(curriculumID=${CoreELearningCurriculum.id})}">
                         <b th:text="${CoreELearningCurriculum.getCurriculumName()}"/>
                         </a>
                     </p>
