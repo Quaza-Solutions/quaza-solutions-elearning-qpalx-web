@@ -4,6 +4,8 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.statistic
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.GlobalStudentPerformanceAudit;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.DefaultAdaptiveProficiencyRankingService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.IAdaptiveProficiencyRankingService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.statistics.IStudentOverallProgressStatisticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.statistics.StudentOverallProgressStatisticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.CacheEnabledELearningCurriculumService;
@@ -48,6 +50,10 @@ public class GuardianGlobalPerformanceController {
     @Autowired
     @Qualifier(GlobalStudentPerformanceAuditService.BEAN_NAME)
     private IGlobalStudentPerformanceAuditService iGlobalStudentPerformanceAuditService;
+
+    @Autowired
+    @Qualifier(DefaultAdaptiveProficiencyRankingService.SPRING_BEAN_NAME)
+    private IAdaptiveProficiencyRankingService iAdaptiveProficiencyRankingService;
 
     @Autowired
     @Qualifier(StudentOverallProgressStatisticsService.BEAN_NAME)
