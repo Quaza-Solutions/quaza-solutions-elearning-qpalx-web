@@ -51,8 +51,16 @@
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
             <span class="blue courses" style="font-size: 26px;" th:text="${CoreProgress.getCurriculumName()}"></span>
             <p style="font-size: 24px;" th:text="${CoreProgress.getCurriculumDescription()}"></p>
-            <p><h5>QPalX Proficiency Level: <span class="label label-danger">Beginner</span></h5>  </p>
-            <p><span class="glyphicon glyphicon-warning-sign" style="font-size:10px;color:red;"></span> Your Dependent Student has not completed enough Micro-Lessons, Quizzes and Question Banks for us to determine proficiency</p>
+
+            <span th:if="${AdaptiveProficiencyRanking.getProficiencyRankingTriggerTypeE().toString() == 'ENROLMENT'}">
+                <p><h5>QPalX Proficiency Level: <span class="label label-danger">Beginner</span></h5></p>
+                <p><span class="glyphicon glyphicon-warning-sign" style="font-size:10px;color:red;"></span> Your Dependent Student has not completed enough Micro-Lessons, Quizzes and Question Banks for us to assess proficiency</p>
+            </span>
+
+            <p>
+                <span class="glyphicon glyphicon-info-sign" style="font-size:10px;color:#06bfd3;"></span> <a href="#" data-toggle="modal" data-target="#myModal">How We teach?</a>
+            </p>
+
         </div>
     </div>
 
@@ -80,6 +88,49 @@
         </div>
     </div>
 
+</div>
+
+<!-- Information modal to display details about Lessons, MicroLessons, Quizzes and Question Bankss -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1200px;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #777; color: #fff;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">How We Teach</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="whiteBody2">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <h3>Lessons &amp; Micro-Lessons:</h3>
+                            <p>
+                                At QPalX our Lessons is the fundamental unit of work.  A Lesson is broken down into multiple Micro-Lessons with progressive degrees of difficulty.
+                                Each Micro-Lesson is a custom QPalX short curated video which presents selected sub elements of a Lesson in a fun and engaging presentation allowing Students to
+                                learn and grasp concepts quickly.  After going through each Micro-Lesson, Students will able to build mastery of all key concepts presented in a Lesson.
+                            </p>
+
+                            <h3>Quizzes:</h3>
+                            <p>
+                                At the end of every Micro-Lesson Students will be assessed to determine their level of understanding around concepts presented in each Micro-Lesson.  This is a crucial part
+                                of our Teaching Methodology as we are able to gather instant real-time feedback on the Students level of understanding and mastery.  How Students perform on these quizzes
+                                will directly impact their proficiency ratings that we calculate in the Curriculum.
+                            </p>
+
+                            <h3>Question Banks:</h3>
+                            <p>
+                                Question Banks are randomly selected Take Home problems which Students can use to practice concepts presented in a given lesson offline.  Question Banks are not directly scored or
+                                impact a Students performance on our platform.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: #777;">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Include Footer for when user is logged in -->

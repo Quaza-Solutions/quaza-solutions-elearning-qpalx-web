@@ -4,8 +4,6 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.statistic
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.GlobalStudentPerformanceAudit;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
-import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.DefaultAdaptiveProficiencyRankingService;
-import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.IAdaptiveProficiencyRankingService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.statistics.IStudentOverallProgressStatisticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.statistics.StudentOverallProgressStatisticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.CacheEnabledELearningCurriculumService;
@@ -13,10 +11,7 @@ import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurr
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.GlobalStudentPerformanceAuditService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IGlobalStudentPerformanceAuditService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
-import com.quaza.solutions.qpalx.elearning.web.service.user.GuardianUserControlPanelService;
-import com.quaza.solutions.qpalx.elearning.web.service.user.IGuardianUserControlPanelService;
-import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
-import com.quaza.solutions.qpalx.elearning.web.service.user.QPalXUserWebService;
+import com.quaza.solutions.qpalx.elearning.web.service.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -52,8 +47,9 @@ public class GuardianGlobalPerformanceController {
     private IGlobalStudentPerformanceAuditService iGlobalStudentPerformanceAuditService;
 
     @Autowired
-    @Qualifier(DefaultAdaptiveProficiencyRankingService.SPRING_BEAN_NAME)
-    private IAdaptiveProficiencyRankingService iAdaptiveProficiencyRankingService;
+    @Qualifier(GlobalControlPerformanceOverviewPanelService.BEAN_NAME)
+    private IGlobalControlPerformanceOverviewPanelService iGlobalControlPerformanceOverviewPanelService;
+
 
     @Autowired
     @Qualifier(StudentOverallProgressStatisticsService.BEAN_NAME)
@@ -77,6 +73,10 @@ public class GuardianGlobalPerformanceController {
         // Find the Overall performance progress report for QPalx Student that this guardian is monitoring
         GlobalStudentPerformanceAudit globalStudentPerformanceAudit = iGlobalStudentPerformanceAuditService.findAllGlobalStudentPerformanceAuditForAuditUser(guardianUser).get(0);
         StudentOverallProgressStatistics studentOverallProgressStatistics = iStudentOverallProgressStatisticsService.getGlobalStudentOverallProgressStatisticsInCurriculum(globalStudentPerformanceAudit.getStudentQPalxUser(), eLearningCurriculum);
+
+        // Populate performance overview for curriculum
+        iGlobalControlPerformanceOverviewPanelService.addPerformanceOverviewInCurriculum(model, eLearningCurriculum, globalStudentPerformanceAudit.getStudentQPalxUser());
+
         model.addAttribute("CoreProgress", studentOverallProgressStatistics);
         return ContentRootE.Guardian_Global_Performance.getContentRootPagePath("curriculum-overall-progress");
     }
