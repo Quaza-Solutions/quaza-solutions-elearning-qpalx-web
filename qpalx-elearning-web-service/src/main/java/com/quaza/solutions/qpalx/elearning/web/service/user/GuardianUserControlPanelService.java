@@ -64,9 +64,6 @@ public class GuardianUserControlPanelService implements IGuardianUserControlPane
             // Enable displaying of the Student user's information panel
             model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
 
-            // Default to CORE ELearning curriculum for global performance control panel
-            model.addAttribute("CurriculumType", "CORE");
-
             // Find enrolmentrecord in order to figure out the core and elective curriculu
 
             // TODO add support for multiple depdent students for a Guardian

@@ -27,6 +27,7 @@
 <div th:replace="fragments/student/user-overview-panel :: overview"></div>
 
 
+<!-- Container Displaying the dependent Students QPalX Progress overview in Curriculum -->
 <div class="container" style="margin: 20px auto 20px auto;">
 
     <!-- Curriculum navigation panel -->
@@ -34,8 +35,8 @@
 
     <!--  Display the specific curriculum type of the ELearning Curriculum that was selected -->
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin: 0 0 0 40px;">
-
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 large-font" style="margin: 0 0 0 40px;">
+            QPalX Progress Overview:
         </div>
     </div>
 
@@ -89,6 +90,46 @@
     </div>
 
 </div>
+
+<!-- Container Displaying the dependent Students Real World Progress overview in Curriculum -->
+<!--<div class="container" style="margin: 20px auto 20px auto;">-->
+
+    <!--&lt;!&ndash; Curriculum navigation panel &ndash;&gt;-->
+    <!--<div th:replace="fragments/guardian-user/student-metrics-control-panel :: student-metrics-nav"></div>-->
+
+    <!--&lt;!&ndash;  Display the specific curriculum type of the ELearning Curriculum that was selected &ndash;&gt;-->
+    <!--<div class="row">-->
+        <!--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 large-font" style="margin: 0 0 0 40px;">-->
+            <!--In Class Progress Overview:-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<br /><br />-->
+
+    <!--&lt;!&ndash; Display details about the Selected Curriculum.  Image and Curriculum name &ndash;&gt;-->
+    <!--<div class="row">-->
+        <!--<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">-->
+        <!--</div>-->
+        <!--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">-->
+            <!--<img th:src="${CoreProgress.getCurriculumIcon()}" class="courses-image" />-->
+        <!--</div>-->
+        <!--<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">-->
+            <!--<span class="blue courses" style="font-size: 26px;" th:text="${CoreProgress.getCurriculumName()}"></span>-->
+            <!--<p style="font-size: 24px;" th:text="${CoreProgress.getCurriculumDescription()}"></p>-->
+
+            <!--<p><h6>Marking Period 1: <span class="label label-danger">C4</span></h6></p>-->
+            <!--<p><h6>Marking Period 2: <span class="label label-danger">D7</span></h6></p>-->
+            <!--<p><h6>Mid Term: &nbsp;&nbsp;<span class="label label-danger">C4</span></h6></p>-->
+            <!--<p><h6>Marking Period 3: <span class="label label-success">B2</span></h6></p>-->
+            <!--<p><h6>Marking Period 4: <span class="label label-danger">C4</span></h6></p>-->
+            <!--<p><h6>Final Term Grade: <span class="label label-danger">C4</span></h6></p>-->
+            <!--&lt;!&ndash;<p><span class="glyphicon glyphicon-warning-sign" style="font-size:10px;color:red;"></span> Your Dependent Student has not completed enough Micro-Lessons, Quizzes and Question Banks for us to assess proficiency</p>&ndash;&gt;-->
+
+        <!--</div>-->
+    <!--</div>-->
+
+
+<!--</div>-->
 
 <!-- Information modal to display details about Lessons, MicroLessons, Quizzes and Question Bankss -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

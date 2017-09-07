@@ -141,6 +141,9 @@ public class ApplicationHomeController {
                 LOGGER.info("Logged in user is a Teacher, directing to homepage...");
                 return ContentRootE.School_Teacher_Home.getContentRootPagePath("homepage");
             } else if(QPalxUserTypeE.PARENT_GUARDIAN == optionalUser.get().getUserType()) {
+                // Default to CORE ELearning curriculum for initial Guardian hompage view
+                model.addAttribute("CurriculumType", "CORE");
+
                 iGuardianUserControlPanelService.addGuardianUserControlInfo(model);
                 LOGGER.info("Logged in user is a Parent, directing to homepage...");
                 return ContentRootE.Guardian_Home.getContentRootPagePath("homepage");

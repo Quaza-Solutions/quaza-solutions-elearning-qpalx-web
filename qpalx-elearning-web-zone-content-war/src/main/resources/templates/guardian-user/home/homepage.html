@@ -33,34 +33,68 @@
     <div th:replace="fragments/guardian-user/student-metrics-control-panel :: student-metrics-nav"></div>
 
     <!-- All Student available curriculum panel -->
-    <div class="row" th:each="mapElement  : ${CoreELearningCurriculaMap}">
+    <div th:if="${CurriculumType == 'CORE'}">
+        <div class="row" th:each="mapElement  : ${CoreELearningCurriculaMap}">
 
-        <br/>
+            <br/>
 
-        <div th:each="CoreELearningCurriculum : ${mapElement.value}">
+            <div th:each="CoreELearningCurriculum : ${mapElement.value}">
 
-            <div class="col-md-4">
+                <div class="col-md-4">
 
-                <div class="ecurriculum-display-box left-box" id="blue-tint-box">
+                    <div class="ecurriculum-display-box left-box" id="blue-tint-box">
 
-                    <i class="fa fa-lg" aria-hidden="true" id="check"></i>
+                        <i class="fa fa-lg" aria-hidden="true" id="check"></i>
 
-                    <img th:src="${CoreELearningCurriculum.getCurriculumIcon()}" class="courses-image"/>
-                    <br/><br/><br/><br/>
-                    <p class="skill-text">
-                        <a th:href="@{/view-global-curriculum-progress(curriculumID=${CoreELearningCurriculum.id})}">
-                        <b th:text="${CoreELearningCurriculum.getCurriculumName()}"/>
-                        </a>
-                    </p>
+                        <img th:src="${CoreELearningCurriculum.getCurriculumIcon()}" class="courses-image"/>
+                        <br/><br/><br/><br/>
+                        <p class="skill-text">
+                            <a th:href="@{/view-global-curriculum-progress(curriculumID=${CoreELearningCurriculum.id})}">
+                            <b th:text="${CoreELearningCurriculum.getCurriculumName()}"/>
+                            </a>
+                        </p>
 
-                    <!--<br/>-->
-                    <!--<button type="button" class="btn btn-info">Beginner: <span class="badge">1</span> to <span class="badge">3</span></button>-->
+                        <!--<br/>-->
+                        <!--<button type="button" class="btn btn-info">Beginner: <span class="badge">1</span> to <span class="badge">3</span></button>-->
 
+                    </div>
                 </div>
+
             </div>
 
         </div>
+    </div>
 
+    <div th:if="${CurriculumType == 'ELECTIVE'}">
+        <div class="row" th:each="mapElement  : ${ElectiveLearningCurriculaMap}">
+
+            <br/>
+
+            <div th:each="ElectiveELearningCurriculum : ${mapElement.value}">
+
+                <div class="col-md-4">
+
+                    <div class="ecurriculum-display-box left-box" id="blue-tint-box">
+
+                        <i class="fa fa-lg" aria-hidden="true" id="check"></i>
+
+                        <img th:src="${ElectiveELearningCurriculum.getCurriculumIcon()}" class="courses-image"/>
+                        <br/><br/><br/><br/>
+                        <p class="skill-text">
+                            <a th:href="@{/view-global-curriculum-progress(curriculumID=${ElectiveELearningCurriculum.id})}">
+                                <b th:text="${ElectiveELearningCurriculum.getCurriculumName()}"/>
+                            </a>
+                        </p>
+
+                        <!--<br/>-->
+                        <!--<button type="button" class="btn btn-info">Beginner: <span class="badge">1</span> to <span class="badge">3</span></button>-->
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
     </div>
 
 

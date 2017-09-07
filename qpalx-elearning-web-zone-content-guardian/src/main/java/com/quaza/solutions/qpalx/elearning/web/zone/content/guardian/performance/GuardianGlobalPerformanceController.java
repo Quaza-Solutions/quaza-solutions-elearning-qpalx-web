@@ -58,6 +58,14 @@ public class GuardianGlobalPerformanceController {
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(GuardianGlobalPerformanceController.class);
 
+    @RequestMapping(value = "/guardian-control-curricula", method = RequestMethod.GET)
+    public String loadGuardianCurriculaView(final Model model, @RequestParam("curricumlumType") String curricumlumType) {
+        LOGGER.info("Loading all guardian Curriculum by curricumlumType:> {}", curricumlumType);
+        model.addAttribute("CurriculumType", curricumlumType);
+        iGuardianUserControlPanelService.addGuardianUserControlInfo(model);
+        return ContentRootE.Guardian_Home.getContentRootPagePath("homepage");
+    }
+
 
     @RequestMapping(value = "/view-global-curriculum-progress", method = RequestMethod.GET)
     public String accessRegistrationPayment(Model model, @RequestParam(value = "curriculumID") Long curriculumID) {
