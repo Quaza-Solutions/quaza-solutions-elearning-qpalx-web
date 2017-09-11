@@ -49,7 +49,7 @@
 
                 <!-- Display narration content icon -->
                 <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 align-top">
-                    <a th:attr="href='#popup' + ${rowStat.count}">
+                    <a th:attr="href='#popup' + ${rowStat.count}" th:if="${QPalXEMicroLesson.getNarrationMediaFile() != null}">
                         <img src="images/assets/adaptive-learning/audio.png" />
                     </a>
                 </div>
@@ -140,7 +140,7 @@
 <div th:each="QPalXEMicroLesson,rowStat : ${QPalXEMicroLessons}">
 
     <!-- Micro lesson with narration -->
-    <div th:id="'popup' + ${rowStat.count}"  th:with="uniqueID=${rowStat.count}" class="modalBox" th:href="@{/micro-lesson-progress-tracker(microLessonID=${QPalXEMicroLesson.getMicroLessonID()}, uniqueQPalxUserKey=${LoggedInQPalXUser.getEmail()})}">
+    <div th:id="'popup' + ${rowStat.count}"  th:with="uniqueID=${rowStat.count}" class="modalBox" th:href="@{/micro-lesson-progress-tracker(microLessonID=${QPalXEMicroLesson.getMicroLessonID()}, uniqueQPalxUserKey=${LoggedInQPalXUser.getEmail()})}" th:if="${QPalXEMicroLesson.getNarrationMediaFile() != null}">
         <a href="#" class="modalCloseOuter" th:attr="onclick='javascript:stopVideo(\'' + ${rowStat.count} +'\');'"></a>
         <div class="mp4">
             <div class="bar-1"></div>

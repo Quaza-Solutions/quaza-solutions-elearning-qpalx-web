@@ -119,6 +119,13 @@ public class MicroLessonAdminWizardController {
         return ContentRootE.Content_Admin_Micro_Lessons.getContentRootPagePath("add-micro-lesson-narration");
     }
 
+    @RequestMapping(value = "/skip-microlesson-narration", method = RequestMethod.POST)
+    public String saveMicroLessonNarrationFile(Model model,
+                                               @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO) {
+        LOGGER.info("Skipping narration file creation for qPalXEMicroLessonVO: {}", qPalXEMicroLessonVO);
+        return ContentRootE.Content_Admin_Micro_Lessons.getContentRootPagePath("add-micro-lesson-static");
+    }
+
     @RequestMapping(value = "/save-microlesson-narration", method = RequestMethod.POST)
     public String saveMicroLessonNarrationFile(Model model,
                                                @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
