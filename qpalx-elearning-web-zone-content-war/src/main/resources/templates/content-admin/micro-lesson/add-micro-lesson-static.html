@@ -66,6 +66,21 @@
         </div>
     </form>
 
+    <!-- Skip Interactive Exercise upload panel-->
+    <form method="post" th:action="@{skip-microlesson-static}" th:object="${QPalXEMicroLessonVO}">
+        <div class="panel panel-success">
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button class="browse btn btn-primary" type="submit"><i class="glyphicon glyphicon-asterisk"></i> Skip Static File Upload</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
 </div>
 
 <div class="clearfix bottom-space"></div>
