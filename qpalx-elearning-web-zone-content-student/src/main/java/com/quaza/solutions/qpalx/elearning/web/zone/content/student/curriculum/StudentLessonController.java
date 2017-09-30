@@ -144,7 +144,7 @@ public class StudentLessonController {
         model.addAttribute(LessonsAdminAttributesE.QPalXEMicroLessons.toString(), adaptiveMicroLessonStatisticsList);
 
         if (adaptiveMicroLessonStatisticsList !=null && adaptiveMicroLessonStatisticsList.size() > 0) {
-            List<AdaptiveLessonQuizStatistics> adaptiveLessonQuizStatisticsList = iAdaptiveLearningQuizStatisticsService.findMicroLessonStudentQuizStatistics(optionalUser.get(), adaptiveMicroLessonStatisticsList.get(0).getMicroLessonID());
+            List<AdaptiveLessonQuizStatistics> adaptiveLessonQuizStatisticsList = iAdaptiveLearningQuizStatisticsService.findStudentQuizzesStatisticsForLesson(optionalUser.get(), qPalXELesson.getId());
 
             if(adaptiveLessonQuizStatisticsList.size() == 1) {
                 AdaptiveLessonQuizStatistics adaptiveLessonQuizStatistics = adaptiveLessonQuizStatisticsList.get(0);
