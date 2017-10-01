@@ -1,5 +1,6 @@
 package com.quaza.solutions.qpalx.elearning.web.sstatic.vo;
 
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.IELearningCourseVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -9,6 +10,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class ELearningCourseWebVO implements IELearningCourseVO {
 
 
+    public Long id;
+
     public String courseName;
 
     public String courseDescription;
@@ -16,6 +19,29 @@ public class ELearningCourseWebVO implements IELearningCourseVO {
     private Long eLearningCurriculumID;
 
     private Long educationalInstitutionID;
+
+    public ELearningCourseWebVO() {
+
+    }
+
+    public ELearningCourseWebVO(ELearningCourse eLearningCourse) {
+        this.id = eLearningCourse.getId();
+        this.courseName = eLearningCourse.getCourseName();
+        this.courseDescription = eLearningCourse.getCourseDescription();
+        this.eLearningCurriculumID = eLearningCourse.geteLearningCurriculum().getId();
+
+        if (eLearningCourse.getqPalXEducationalInstitution() != null) {
+            this.educationalInstitutionID = eLearningCourse.getqPalXEducationalInstitution().getId();
+        }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public String getCourseName() {
@@ -56,6 +82,7 @@ public class ELearningCourseWebVO implements IELearningCourseVO {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .append("id", id)
                 .append("courseName", courseName)
                 .append("courseDescription", courseDescription)
                 .append("eLearningCurriculumID", eLearningCurriculumID)

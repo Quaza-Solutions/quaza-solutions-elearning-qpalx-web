@@ -29,7 +29,7 @@
         <div class="alert alert-danger fade in" th:text="${ErrorMessage}"/>
     </div>
 
-    <form th:action="@{/save-elearning-course}" th:object="${ELearningCourseWebVO}" method="post">
+    <form th:action="@{/update-elearning-course}" th:object="${ELearningCourseWebVO}" method="post">
 
         <!-- hidden field is a spring-security feature which generates a hidden token checked on submission to make sure submission is from this website directly -->
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -60,7 +60,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <br/>
-                <h4><span class="label label-primary">Educational Institution:</span></h4>
+                <h4><span class="label label-primary">Micro Lesson Description:</span></h4>
             </div>
         </div>
 
@@ -76,11 +76,14 @@
         <!-- Hidden field to pass back the value of the ELearning curriculum for which new course will be created. -->
         <input type="hidden" name='eLearningCurriculumID' th:value="${SelectedELearningCurriculum.id}"/>
 
+        <!-- Hidden field to pass back the value of the the existing CoursID. -->
+        <input type="hidden" name='id' th:value="${ELearningCourseWebVO.id}"/>
+
         <div class="clearfix bottom-space"></div>
 
         <div class="col-md-12 continue">
             <button type="button" class="btn btn-success">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="submit" id="submit" class="btn btn-success">Add Course</button>
+            <button type="submit" id="submit" class="btn btn-success">Update Course</button>
         </div>
     </form>
 </div>

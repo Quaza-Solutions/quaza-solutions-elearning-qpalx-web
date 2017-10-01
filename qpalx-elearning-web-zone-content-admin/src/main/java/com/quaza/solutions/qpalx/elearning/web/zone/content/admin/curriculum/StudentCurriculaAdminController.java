@@ -203,6 +203,47 @@ public class StudentCurriculaAdminController {
         }
     }
 
+
+    @RequestMapping(value = "/edit-elearning-course", method = RequestMethod.GET)
+    public String editELearningCourse(final Model model,
+                                    HttpServletRequest request, HttpServletResponse response,
+                                    @RequestParam("eLearningCourseID") Long eLearningCourseID) {
+        LOGGER.info("Generating edit view for ELearning course with id:> {}", eLearningCourseID);
+
+        ELearningCourse eLearningCourse = ieLearningCourseService.findByCourseID(eLearningCourseID);
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+        List<QPalXEducationalInstitution> qPalXEducationalInstitutions = iqPalXEducationalInstitutionService.findAll();
+
+        ELearningCourseWebVO eLearningCourseWebVO = new ELearningCourseWebVO(eLearningCourse);
+        model.addAttribute(AdminTutorialGradePanelE.ELearningCourseWebVO.toString(), eLearningCourseWebVO);
+        model.addAttribute("SelectedELearningCurriculum", eLearningCurriculum);
+        model.addAttribute("QPalXEducationalInstitutions", qPalXEducationalInstitutions);
+
+        return ContentRootE.Content_Admin_Home.getContentRootPagePath("edit-elearning-course");
+    }
+
+    @RequestMapping(value = "/update-elearning-course", method = RequestMethod.POST)
+    public void updateELearningCourse(HttpServletRequest request,
+                                      HttpServletResponse response,
+                                      @ModelAttribute("ELearningCourseWebVO") ELearningCourseWebVO eLearningCourseWebVO) {
+        LOGGER.info("Updating ELearning course with details from eLearningCourseWebVO:> {}", eLearningCourseWebVO);
+
+        ELearningCourse eLearningCourse = ieLearningCourseService.findByCourseID(eLearningCourseWebVO.getId());
+        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+
+        // Update values from VO object and save
+        // TODO add support for EducationalInstitution selection
+        eLearningCourse.setCourseName(eLearningCourseWebVO.getCourseName());
+        eLearningCourse.setCourseDescription(eLearningCourseWebVO.getCourseDescription());
+        ieLearningCourseService.saveELearningCourse(eLearningCourse);
+
+        //redirect to view all courses page
+        String targetURL = "/view-admin-curriculum-courses?curriculumID=" + eLearningCurriculum.getId();
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
+    }
+
+
+
     @RequestMapping(value = "/delete-elearning-course", method = RequestMethod.GET)
     public void deleteELearningCourse(final Model model,
                                         HttpServletRequest request, HttpServletResponse response,
