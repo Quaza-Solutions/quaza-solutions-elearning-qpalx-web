@@ -5,8 +5,11 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.Adap
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionAnswer;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.QPalXTutorialContentTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.microlesson.IMicroLessonPerformanceMonitorService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.microlesson.MicroLessonPerformanceMonitorService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizStatisticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IAdaptiveLearningExperienceService;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -73,6 +77,10 @@ public class StudentAdaptiveLearningQuizController {
     private IQPalXUserWebService iqPalXUserWebService;
 
     @Autowired
+    @Qualifier(MicroLessonPerformanceMonitorService.BEAN_NAME)
+    private IMicroLessonPerformanceMonitorService iMicroLessonPerformanceMonitorService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
@@ -82,10 +90,20 @@ public class StudentAdaptiveLearningQuizController {
     @RequestMapping(value = "/launch-adaptive-quiz", method = RequestMethod.GET)
     public String launchAdaptiveLearningQuiz(final Model model, ModelMap modelMap, @RequestParam("quizID") String quizID, @RequestParam("eLessonID") String eLessonID, @RequestParam("tutorialLevelID") String tutorialLevelID) {
         LOGGER.info("Launching AdaptiveLearningQuiz with ID: {}", quizID);
+        Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
 
         Long id = NumberUtils.toLong(quizID);
         AdaptiveLearningQuiz adaptiveLearningQuiz = iAdaptiveLearningQuizService.findByID(id);
+        QPalXEMicroLesson quizMicroLesson = adaptiveLearningQuiz.getQPalXEMicroLesson();
         modelMap.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuiz.toString(), adaptiveLearningQuiz);
+
+        // Check to see if there are prerequisite Quizzes which the student has not attempted
+        List<AdaptiveLearningQuiz> prerequisiteQuizzes =  iMicroLessonPerformanceMonitorService.findPrerequisiteIncompleteQuizzes(optionalUser.get(), quizMicroLesson, adaptiveLearningQuiz);
+        if(prerequisiteQuizzes != null && prerequisiteQuizzes.size() > 0) {
+            LOGGER.info("There are prerequisite Quizzes which must be completed before student can attempt this quiz");
+            model.addAttribute("PreRequisiteQuizzes", prerequisiteQuizzes);
+            return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("launch-quiz-prerequisite");
+        }
 
         // Build model for all Quizzes questions
         Map<Integer, AdaptiveLearningQuizQuestion> questionModelMap = iStudentQuizQuestionService.getAdaptiveQuizQuestionsModel(adaptiveLearningQuiz);
