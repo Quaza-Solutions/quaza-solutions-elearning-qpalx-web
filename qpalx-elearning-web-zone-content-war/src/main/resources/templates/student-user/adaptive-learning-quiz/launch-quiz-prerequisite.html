@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+
+<div class="large-fonts-2" th:attr="style='background-image: url(\'' + ${CurriculumFocusBanner} +'\');  '">
+
+    <div class="row">
+        <div class="col-md-12" style="text-align: center; margin: auto;">
+            <h2 style="color: #ffffff;" th:text="|Quiz:  ${LaunchedAdaptiveLearningQuiz.getQuizTitle()}|"></h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1"></div>
+
+        <div class="col-md-10">
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <br/><br/>
+
+</div>
+
+
+<!-- Display Quiz Prerequisites -->
+<div class="row bottom-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h1 style="color: #00bdd1;">Below Prerequisite Quizzed Must Be Completed</h1>
+        <ol th:each="PreRequisiteQuiz : ${PreRequisiteQuizzes}">
+            <li th:text="${PreRequisiteQuiz.getQuizTitle()}"></li>
+        </ol>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
