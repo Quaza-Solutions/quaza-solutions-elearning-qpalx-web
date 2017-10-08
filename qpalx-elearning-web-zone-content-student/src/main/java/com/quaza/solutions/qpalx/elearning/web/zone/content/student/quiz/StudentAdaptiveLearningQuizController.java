@@ -97,6 +97,17 @@ public class StudentAdaptiveLearningQuizController {
         QPalXEMicroLesson quizMicroLesson = adaptiveLearningQuiz.getQPalXEMicroLesson();
         modelMap.addAttribute(AdaptiveLearningQuizAttributeE.LaunchedAdaptiveLearningQuiz.toString(), adaptiveLearningQuiz);
 
+        // Retrieve the ELesson Intro Video
+        QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(NumberUtils.toLong(eLessonID));
+        if (qPalXELesson.geteLearningMediaContent() != null) {
+            model.addAttribute("LessonIntroVideo", qPalXELesson.geteLearningMediaContent().getELearningMediaFile());
+        }
+
+        // Retrieve Banner to be used for Quiz Display background
+        ELearningCurriculum eLearningCurriculum = qPalXELesson.geteLearningCourse().geteLearningCurriculum();
+        model.addAttribute("CurriculumFocusBanner", eLearningCurriculum.getCurriculumBannerIcon());
+        modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCurriculum.toString(), eLearningCurriculum);
+
         // Check to see if there are prerequisite Quizzes which the student has not attempted
         List<AdaptiveLearningQuiz> prerequisiteQuizzes =  iMicroLessonPerformanceMonitorService.findPrerequisiteIncompleteQuizzes(optionalUser.get(), quizMicroLesson, adaptiveLearningQuiz);
         if(prerequisiteQuizzes != null && prerequisiteQuizzes.size() > 0) {
@@ -112,17 +123,6 @@ public class StudentAdaptiveLearningQuizController {
         // Track the ELessonID and TutorialLevel Calendar as part of this Quiz Session so we could go back to viewing all micro lessons for the lesson we are currently dealing with.
         modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), eLessonID);
         modelMap.addAttribute(TutorialCalendarPanelE.SelectedTutorialCalendar.toString(), tutorialLevelID);
-
-        // Retrieve the ELesson Intro Video
-        QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(NumberUtils.toLong(eLessonID));
-        if (qPalXELesson.geteLearningMediaContent() != null) {
-            model.addAttribute("LessonIntroVideo", qPalXELesson.geteLearningMediaContent().getELearningMediaFile());
-        }
-
-        // Retrieve Banner to be used for Quiz Display background
-        ELearningCurriculum eLearningCurriculum = qPalXELesson.geteLearningCourse().geteLearningCurriculum();
-        model.addAttribute("CurriculumFocusBanner", eLearningCurriculum.getCurriculumBannerIcon());
-        modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCurriculum.toString(), eLearningCurriculum);
 
         // Get the Introductory video for the Lesson that this Quiz is in.
         return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("launch-quiz");
