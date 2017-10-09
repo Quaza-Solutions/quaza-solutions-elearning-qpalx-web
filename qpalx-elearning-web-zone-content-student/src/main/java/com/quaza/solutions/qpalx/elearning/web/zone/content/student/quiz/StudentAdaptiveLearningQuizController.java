@@ -1,5 +1,6 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.student.quiz;
 
+import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.AdaptiveProficiencyRanking;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestion;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionAnswer;
@@ -15,7 +16,9 @@ import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAd
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IAdaptiveLearningExperienceService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLearningScoreChartDisplayPanel;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IStudentInfoOverviewPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.*;
+import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.quiz.IStudentQuizQuestionService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
@@ -53,6 +56,10 @@ public class StudentAdaptiveLearningQuizController {
     private IAdaptiveLearningQuizService iAdaptiveLearningQuizService;
 
     @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.StudentInfoOverviewPanelService")
+    private IStudentInfoOverviewPanelService iStudentInfoOverviewPanelService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.StudentQuizQuestionService")
     private IStudentQuizQuestionService iStudentQuizQuestionService;
 
@@ -77,6 +84,10 @@ public class StudentAdaptiveLearningQuizController {
     private IQPalXUserWebService iqPalXUserWebService;
 
     @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserInfoPanelService")
+    private IQPalXUserInfoPanelService qPalXUserInfoPanelService;
+
+    @Autowired
     @Qualifier(MicroLessonPerformanceMonitorService.BEAN_NAME)
     private IMicroLessonPerformanceMonitorService iMicroLessonPerformanceMonitorService;
 
@@ -92,6 +103,9 @@ public class StudentAdaptiveLearningQuizController {
         LOGGER.info("Launching AdaptiveLearningQuiz with ID: {}", quizID);
         Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
 
+        // Add all attributes required for User information panel
+        qPalXUserInfoPanelService.addUserInfoAttributes(model);
+
         Long id = NumberUtils.toLong(quizID);
         AdaptiveLearningQuiz adaptiveLearningQuiz = iAdaptiveLearningQuizService.findByID(id);
         QPalXEMicroLesson quizMicroLesson = adaptiveLearningQuiz.getQPalXEMicroLesson();
@@ -103,10 +117,17 @@ public class StudentAdaptiveLearningQuizController {
             model.addAttribute("LessonIntroVideo", qPalXELesson.geteLearningMediaContent().getELearningMediaFile());
         }
 
+        // Add Student Info Overview with this Lesson
+        iStudentInfoOverviewPanelService.addStudentInfoOverviewWithMicroLesson(model, quizMicroLesson);
+
         // Retrieve Banner to be used for Quiz Display background
         ELearningCurriculum eLearningCurriculum = qPalXELesson.geteLearningCourse().geteLearningCurriculum();
         model.addAttribute("CurriculumFocusBanner", eLearningCurriculum.getCurriculumBannerIcon());
         modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCurriculum.toString(), eLearningCurriculum);
+
+        // Calculate the Students Current AdaptiveProficiencyRanking for this MicroLesson
+        AdaptiveProficiencyRanking adaptiveProficiencyRanking = iMicroLessonPerformanceMonitorService.calculateAdaptiveProficiencyRanking(optionalUser.get(), quizMicroLesson);
+        model.addAttribute("AdaptiveProficiencyRanking", adaptiveProficiencyRanking);
 
         // Check to see if there are prerequisite Quizzes which the student has not attempted
         List<AdaptiveLearningQuiz> prerequisiteQuizzes =  iMicroLessonPerformanceMonitorService.findPrerequisiteIncompleteQuizzes(optionalUser.get(), quizMicroLesson, adaptiveLearningQuiz);

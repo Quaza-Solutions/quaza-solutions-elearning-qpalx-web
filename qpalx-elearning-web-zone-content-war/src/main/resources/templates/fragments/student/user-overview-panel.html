@@ -143,6 +143,35 @@
 
         </div>
 
+        <!--  Display Student Overview with MicroLesson Details -->
+        <div class="row" th:if="${DisplayMicroLesson == 'true'}">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div class="circle"></div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <br/>
+                <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
+                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
+                Academic Level: <span th:text="${StudentTutorialGrade.getTutorialGrade()}"></span><br/>
+
+                <!-- Display Course Lesson if a course has been selected -->
+                <div class="large-font" th:if="${SelectedQPalXMicroLesson != null}" th:inline="text">Micro Lesson - [[${SelectedQPalXMicroLesson.getMicroLessonName()}]]</div>
+
+            </div>
+
+            <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
+                <div class="curriculum-proficiency circle-bar">
+                    <strong></strong>
+                </div>
+            </div>
+
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore == 0  OR AdaptiveLearningChartScore == null}">
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>

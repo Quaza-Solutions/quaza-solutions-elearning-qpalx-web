@@ -3,6 +3,7 @@ package com.quaza.solutions.qpalx.elearning.web.service.contentpanel;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
@@ -16,7 +17,7 @@ import org.springframework.util.Assert;
 /**
  * @author manyce400
  */
-@Service("com.quaza.solutions.qpalx.elearning.web.service.StudentInfoOverviewPanelService")
+@Service(StudentInfoOverviewPanelService.BEAN_NAME)
 public class StudentInfoOverviewPanelService implements IStudentInfoOverviewPanelService {
 
 
@@ -32,6 +33,9 @@ public class StudentInfoOverviewPanelService implements IStudentInfoOverviewPane
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.QPalXELessonService")
     private IQPalXELessonService iqPalXELessonService;
+
+
+    public static final String BEAN_NAME = "com.quaza.solutions.qpalx.elearning.web.service.StudentInfoOverviewPanelService";
 
 
     @Override
@@ -88,4 +92,13 @@ public class StudentInfoOverviewPanelService implements IStudentInfoOverviewPane
         model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), qPalXELesson);
     }
 
+    @Override
+    public void addStudentInfoOverviewWithMicroLesson(Model model, QPalXEMicroLesson qPalXEMicroLesson) {
+        Assert.notNull(model, "model cannot be null");
+        Assert.notNull(qPalXEMicroLesson, "qPalXEMicroLesson cannot be null");
+        model.addAttribute(CurriculumDisplayAttributeE.DisplayMicroLesson.toString(), Boolean.TRUE.toString());
+        model.addAttribute(CurriculumDisplayAttributeE.DisplayCourse.toString(), Boolean.FALSE.toString());
+        model.addAttribute(CurriculumDisplayAttributeE.DisplayCurriculum.toString(), Boolean.FALSE.toString());
+        model.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXMicroLesson.toString(), qPalXEMicroLesson);
+    }
 }
