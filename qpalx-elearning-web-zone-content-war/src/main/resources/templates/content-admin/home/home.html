@@ -33,6 +33,7 @@
 
 
     <div th:each="ELearningCurriculum,rowStat : ${ELearningCurricula}">
+
         <div class="row">
             <div class="col-md-1 num" th:text="${rowStat.count}"/>
             <div class="col-md-2">
@@ -43,13 +44,16 @@
                 <br />
                 <div th:text="${ELearningCurriculum.curriculumDescription}"/>
             </div>
-            <div class="col-md-5"></div>
+            <div class="col-md-1 curr"><b th:inline="text">Active -> [[${ELearningCurriculum.isActive()}]]</b></div>
+            <div class="col-md-4"></div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <hr class="full-width" />
             </div>
         </div>
+
     </div>
 
 
