@@ -2,10 +2,14 @@ package com.quaza.solutions.qpalx.elearning.web.service.user;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.AdaptiveProficiencyRanking;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.ProficiencyRankingTriggerTypeE;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.DefaultAdaptiveProficiencyRankingService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.IAdaptiveProficiencyRankingService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.microlesson.IMicroLessonPerformanceMonitorService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.microlesson.MicroLessonPerformanceMonitorService;
+import com.quaza.solutions.qpalx.elearning.web.sstatic.domain.GlobalPerformance;
 import org.apache.commons.lang3.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +28,10 @@ public class GlobalControlPerformanceOverviewPanelService implements IGlobalCont
     @Autowired
     @Qualifier(DefaultAdaptiveProficiencyRankingService.SPRING_BEAN_NAME)
     private IAdaptiveProficiencyRankingService iAdaptiveProficiencyRankingService;
+
+    @Autowired
+    @Qualifier(MicroLessonPerformanceMonitorService.BEAN_NAME)
+    private IMicroLessonPerformanceMonitorService iMicroLessonPerformanceMonitorService;
 
 
     public static final String BEAN_NAME = "com.quaza.solutions.qpalx.elearning.web.service.user.GlobalControlPerformanceOverviewPanelService";
@@ -48,5 +56,20 @@ public class GlobalControlPerformanceOverviewPanelService implements IGlobalCont
             String rangeStr = scoreRange.getMinimum() + "% - " + scoreRange.getMaximum() + "%";
             model.addAttribute("ProficiencyScoreRange", rangeStr);
         }
+    }
+
+    @Override
+    public void addELearningCourcePerformance(Model model, ELearningCourse eLearningCourse, QPalXUser studentQPalxUser) {
+        Assert.notNull(model, "model cannot be null");
+        Assert.notNull(eLearningCourse, "eLearningCourse cannot be null");
+        Assert.notNull(studentQPalxUser, "studentQPalxUser cannot be null");
+
+        LOGGER.info("Calculating realtime global performance for Student: {} in Course: {}", studentQPalxUser.getEmail(), eLearningCourse.getCourseName());
+
+        AdaptiveProficiencyRanking adaptiveProficiencyRanking = iMicroLessonPerformanceMonitorService.calculateAdaptiveProficiencyRanking(studentQPalxUser, eLearningCourse);
+
+        // Build Global Performance
+        GlobalPerformance globalPerformance = GlobalPerformance.newInstance("Beginner", adaptiveProficiencyRanking.getProficiencyRankingScaleE());
+        model.addAttribute(GlobalPerformance.CLASS_ATTRIBUTE, globalPerformance);
     }
 }

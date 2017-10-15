@@ -9,6 +9,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/global-style.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -40,10 +43,29 @@
 
             <!-- Show no icon since media file is not available -->
             <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" th:if="${QPalXELesson.getLessonMediaFile()} == null">
-                <span th:text="${rowStat.count}"></span>
+                <span th:text="${rowStat.count}"></span> &nbsp;&nbsp;
+                <span class="glyphicon glyphicon-lock"></span>
             </div>
 
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 large-fonts topmargin">
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-toggle="tooltip" data-placement="top" title="Proficiency Ranking Required.">
+                <span th:each="RequiredProficiency,rowStat : ${QPalXELesson.getProficiencyRankingRangeForLesson()}">
+
+                    <div class="round round-sm hollow red" th:if="${RequiredProficiency.getProficiencyRanking() == 1 OR RequiredProficiency.getProficiencyRanking() == 2 OR RequiredProficiency.getProficiencyRanking() == 3}">
+                        <b th:inline="text">[[${RequiredProficiency.getProficiencyRanking()}]]</b>
+                    </div>
+
+                    &nbsp;
+
+                    <div class="round round-sm hollow yellow" th:if="${RequiredProficiency.getProficiencyRanking() == 4 OR RequiredProficiency.getProficiencyRanking() == 5 OR RequiredProficiency.getProficiencyRanking() == 6}">
+                        <b th:inline="text">[[${RequiredProficiency.getProficiencyRanking()}]]</b>
+                    </div>
+
+                    &nbsp;
+                </span>
+
+            </div>
+
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 large-fonts">
                 <a th:href="@{/view-micro-lessons(eLessonID=${QPalXELesson.getLessonID()}, tutorialLevelID=${SelectedTutorialCalendar.id})}">
                     <span class="blue" th:text="${QPalXELesson.getLessonName()}"></span>
                 </a>
@@ -56,7 +78,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5"></div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
 
         </div>
 
@@ -91,5 +113,10 @@
 <!-- Include Footer for when user is logged in -->
 <div th:replace="fragments/footer-usersession :: footer-usersession"/>
 
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 </body>
 </html>

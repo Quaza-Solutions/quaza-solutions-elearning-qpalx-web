@@ -8,8 +8,8 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.TutorialLevelCalendar;
-import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IQuestionBankService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizStatisticsService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.scorable.IQuestionBankService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.statistics.IAdaptiveLessonStatisticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.statistics.IAdaptiveMicroLessonStatisticsService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseService;
@@ -22,6 +22,8 @@ import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningDis
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.LessonsAdminAttributesE;
+import com.quaza.solutions.qpalx.elearning.web.service.user.GlobalControlPerformanceOverviewPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.user.IGlobalControlPerformanceOverviewPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -92,6 +94,10 @@ public class StudentLessonController {
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.StudentInfoOverviewPanelService")
     private IStudentInfoOverviewPanelService iStudentInfoOverviewPanelService;
 
+    @Autowired
+    @Qualifier(GlobalControlPerformanceOverviewPanelService.BEAN_NAME)
+    private IGlobalControlPerformanceOverviewPanelService iGlobalControlPerformanceOverviewPanelService;
+
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(StudentCurriculaController.class);
 
@@ -121,6 +127,9 @@ public class StudentLessonController {
 
         // Add Lessons display attributes
         model.addAttribute(AdaptiveLearningDisplayAttributeE.LessonsDisplayEnabled.toString(), Boolean.TRUE.toString());
+
+        // Calculate Student's realtime global performance in this course.
+        iGlobalControlPerformanceOverviewPanelService.addELearningCourcePerformance(model, eLearningCourse, optionalUser.get());
 
         return ContentRootE.Student_Adaptive_Learning.getContentRootPagePath("lesson-display-page");
     }

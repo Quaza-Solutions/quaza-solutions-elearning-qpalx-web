@@ -10,7 +10,7 @@
         <!--  Display Student user information overview -->
         <div class="row" th:if="${DisplayUserInfo == 'true'}">
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <div class="circle"></div>
+                <div><img src="images/schools/shs/Ghana/Accra/Accra-Academy.png"/></div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <br/>
@@ -41,7 +41,7 @@
         <div class="row" th:if="${DisplayCurriculum == 'true'}">
 
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <div class="circle"></div>
+                <div><img src="images/schools/shs/Ghana/Accra/Accra-Academy.png"/></div>
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -51,7 +51,7 @@
                 Academic Level: <span th:text="${StudentTutorialGrade.getTutorialGrade()}"></span><br/>
 
                 <!-- Display ELearning Curriculum if a course has been selected -->
-                <div class="large-font" th:if="${SelectedELearningCurriculum != null}" th:inline="text">[[${SelectedELearningCurriculum.curriculumName}]]</div>
+                <div class="large-font" th:if="${SelectedELearningCurriculum != null}" th:inline="text">Curriculum - [[${SelectedELearningCurriculum.curriculumName}]]</div>
 
             </div>
 
@@ -88,7 +88,7 @@
         <!--  Display Course details Student info details -->
         <div class="row" th:if="${DisplayCourse == 'true'}">
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <div class="circle"></div>
+                <div ><img src="images/schools/shs/Ghana/Accra/Accra-Academy.png"/></div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <br/>
@@ -97,18 +97,48 @@
                 Academic Level: <span th:text="${StudentTutorialGrade.getTutorialGrade()}"></span><br/>
 
                 <!-- Display ELearning Course if a course has been selected -->
-                <div class="large-font" th:if="${SelectedELearningCourse != null}" th:inline="text">[[${SelectedELearningCourse.courseName}]]</div>
+                <div class="large-font" th:if="${SelectedELearningCourse != null}" th:inline="text">Course - [[${SelectedELearningCourse.courseName}]]</div><br/>
 
             </div>
 
             <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
-                <div class="curriculum-proficiency circle-bar">
-                    <strong></strong>
-                </div>
-            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <button type="button" class="btn btn-info">Experience Level: &nbsp;&nbsp;<span class="badge" th:inline="text">[[${GlobalPerformance.getQpalXExperienceLevel()}]]</span></button>
 
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore == 0  OR AdaptiveLearningChartScore == null}">
+                <br/><br/>
+
+                <!-- Display Proficiency Ranking with a Red Badge if between 1 and 4 to indicate horrible performance -->
+                <div th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
+                    <div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 1 OR AcquiredProficiency.getProficiencyRanking() == 2 OR AcquiredProficiency.getProficiencyRanking() == 3}">
+                        <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
+                    </div>
+                </div>
+
+                <!-- Display Proficiency Ranking with a Yellow Badge if between 4 and 7 to indicate improved performance -->
+                <div th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
+                    <div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 4 OR AcquiredProficiency.getProficiencyRanking() == 4 OR AcquiredProficiency.getProficiencyRanking() == 6 OR AcquiredProficiency.getProficiencyRanking() == 7}">
+                        <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
+                    </div>
+                </div>
+
+                <!-- Display Proficiency Ranking with a Green Badge if between 8 and 10 to indicate outstanding performance -->
+                <div th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
+                    <div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 8 OR AcquiredProficiency.getProficiencyRanking() == 9 OR AcquiredProficiency.getProficiencyRanking() == 10}">
+                        <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
+                    </div>
+                </div>
+
+                <!--<div class="round round-sm hollow red">-->
+                    <!--<b>1</b>-->
+                <!--</div>-->
+                <!--&nbsp;-->
+                <!--<div class="round round-sm hollow red">-->
+                    <!--<b>2</b>-->
+                <!--</div>-->
+                <!--&nbsp;-->
+                <!--<div class="round round-sm hollow red">-->
+                    <!--<b>3</b>-->
+                <!--</div>-->
 
             </div>
 
@@ -117,7 +147,7 @@
         <!--  Display Course details Student info details -->
         <div class="row" th:if="${DisplayLesson == 'true'}">
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <div class="circle"></div>
+                <div><img src="images/schools/shs/Ghana/Accra/Accra-Academy.png"/></div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <br/>
@@ -146,7 +176,7 @@
         <!--  Display Student Overview with MicroLesson Details -->
         <div class="row" th:if="${DisplayMicroLesson == 'true'}">
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <div class="circle"></div>
+                <div><img src="images/schools/shs/Ghana/Accra/Accra-Academy.png"/></div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <br/>
