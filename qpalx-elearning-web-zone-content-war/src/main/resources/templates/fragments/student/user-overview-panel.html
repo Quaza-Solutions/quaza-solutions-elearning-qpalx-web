@@ -103,42 +103,32 @@
 
             <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <button type="button" class="btn btn-info">Experience Level: &nbsp;&nbsp;<span class="badge" th:inline="text">[[${GlobalPerformance.getQpalXExperienceLevel()}]]</span></button>
+                <button type="button" class="btn btn-info"><span class="badge" th:inline="text">[[${GlobalPerformance.getQpalXExperienceLevel()}]]</span> &nbsp;&nbsp; Profiency Rankings Acheived: </button>
 
                 <br/><br/>
 
                 <!-- Display Proficiency Ranking with a Red Badge if between 1 and 4 to indicate horrible performance -->
-                <div th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
+                <span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
                     <div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 1 OR AcquiredProficiency.getProficiencyRanking() == 2 OR AcquiredProficiency.getProficiencyRanking() == 3}">
                         <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
                     </div>
-                </div>
+                </span>
+
+                &nbsp;&nbsp;
 
                 <!-- Display Proficiency Ranking with a Yellow Badge if between 4 and 7 to indicate improved performance -->
-                <div th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
-                    <div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 4 OR AcquiredProficiency.getProficiencyRanking() == 4 OR AcquiredProficiency.getProficiencyRanking() == 6 OR AcquiredProficiency.getProficiencyRanking() == 7}">
+                <span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
+                    <div class="round round-sm hollow yellow" th:if="${AcquiredProficiency.getProficiencyRanking() == 4 OR AcquiredProficiency.getProficiencyRanking() == 5 OR AcquiredProficiency.getProficiencyRanking() == 6}">
                         <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
                     </div>
-                </div>
+                </span>
 
-                <!-- Display Proficiency Ranking with a Green Badge if between 8 and 10 to indicate outstanding performance -->
-                <div th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
-                    <div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 8 OR AcquiredProficiency.getProficiencyRanking() == 9 OR AcquiredProficiency.getProficiencyRanking() == 10}">
-                        <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
-                    </div>
-                </div>
-
-                <!--<div class="round round-sm hollow red">-->
-                    <!--<b>1</b>-->
-                <!--</div>-->
-                <!--&nbsp;-->
-                <!--<div class="round round-sm hollow red">-->
-                    <!--<b>2</b>-->
-                <!--</div>-->
-                <!--&nbsp;-->
-                <!--<div class="round round-sm hollow red">-->
-                    <!--<b>3</b>-->
-                <!--</div>-->
+                <!--&lt;!&ndash; Display Proficiency Ranking with a Green Badge if between 8 and 10 to indicate outstanding performance &ndash;&gt;-->
+                <!--<span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">-->
+                    <!--<div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 7 OR AcquiredProficiency.getProficiencyRanking() == 8 OR AcquiredProficiency.getProficiencyRanking() == 9}">-->
+                        <!--<b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>-->
+                    <!--</div>-->
+                <!--</span>-->
 
             </div>
 

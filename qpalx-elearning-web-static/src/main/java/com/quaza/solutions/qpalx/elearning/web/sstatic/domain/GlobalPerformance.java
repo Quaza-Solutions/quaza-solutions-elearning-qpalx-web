@@ -15,6 +15,8 @@ public class GlobalPerformance {
 
     private final String qpalxExperienceLevel;
 
+    private final ProficiencyRankingScaleE currentProficiencyRankingScaleE;
+
 
     private final Set<ProficiencyRankingScaleE> acheivedProficiencies = new TreeSet<>(new ProficiencyRankingScaleE.ProficiencyComparator());
 
@@ -25,6 +27,7 @@ public class GlobalPerformance {
         Assert.notNull(qpalxExperienceLevel, "qpalxExperienceLevel cannot be null");
         Assert.notNull(currentProficiencyRankingScaleE, "currentProficiencyRankingScaleE cannot be null");
         this.qpalxExperienceLevel = qpalxExperienceLevel;
+        this.currentProficiencyRankingScaleE = currentProficiencyRankingScaleE;
         buildProficiencyRankingScaleE(currentProficiencyRankingScaleE);
     }
 
@@ -32,16 +35,19 @@ public class GlobalPerformance {
         return qpalxExperienceLevel;
     }
 
+    public ProficiencyRankingScaleE getCurrentProficiencyRankingScaleE() {
+        return currentProficiencyRankingScaleE;
+    }
+
     public Set<ProficiencyRankingScaleE> getAcheivedProficiencies() {
         return acheivedProficiencies;
     }
 
     private void buildProficiencyRankingScaleE(ProficiencyRankingScaleE currentProficiencyRankingScaleE) {
-        acheivedProficiencies.add(currentProficiencyRankingScaleE);
-        while(ProficiencyRankingScaleE.getProficiencyRankingScaleEBelow(currentProficiencyRankingScaleE).isPresent()) {
-            ProficiencyRankingScaleE proficiencyRankingScaleE = ProficiencyRankingScaleE.getProficiencyRankingScaleEBelow(currentProficiencyRankingScaleE).get();
-            acheivedProficiencies.add(proficiencyRankingScaleE);
-        }
+        System.out.println("currentProficiencyRankingScaleE = " + currentProficiencyRankingScaleE);
+        Set<ProficiencyRankingScaleE> results = ProficiencyRankingScaleE.getAllProficiencyRankingsInScope(ProficiencyRankingScaleE.ONE.getProficiencyRanking(), currentProficiencyRankingScaleE.getProficiencyRanking());
+        System.out.println("results = " + results);
+        acheivedProficiencies.addAll(results);
     }
 
     public static final GlobalPerformance newInstance(String qpalxExperienceLevel, ProficiencyRankingScaleE currentProficiencyRankingScaleE) {
