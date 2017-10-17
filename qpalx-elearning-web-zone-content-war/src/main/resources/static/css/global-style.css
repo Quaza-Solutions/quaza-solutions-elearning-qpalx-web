@@ -2183,26 +2183,26 @@ line-height: 2.0;
 
 .round.hollow.red {
     color: #030b0f;
-    background-color: #FFF;
-    -webkit-box-shadow: 0px 0px 0px 3px #e088a8;
-    -moz-box-shadow: 0px 0px 0px 3px #e088a8;
-    box-shadow: 0px 0px 0px 3px #e088a8;
+    background-color: #fcc7d2;
+    -webkit-box-shadow: 0px 0px 0px 3px #f2355e;
+    -moz-box-shadow: 0px 0px 0px 3px #f2355e;
+    box-shadow: 0px 0px 0px 3px #f2355e;
 }
 
 .round.hollow.orange {
-    color: #FF6701;
-    background-color: #FFF;
-    -webkit-box-shadow: 0px 0px 0px 3px #FF6701;
-    -moz-box-shadow: 0px 0px 0px 3px #FF6701;
-    box-shadow: 0px 0px 0px 3px #FF6701;
+    color: #030b0f;
+    background-color: #f2dccd;
+    -webkit-box-shadow: 0px 0px 0px 3px #ef9456;
+    -moz-box-shadow: 0px 0px 0px 3px #ef9456;
+    box-shadow: 0px 0px 0px 3px #ef9456;
 }
 
 .round.hollow.yellow {
     color: #030b0f;
-    background-color: #FFF;
-    -webkit-box-shadow: 0px 0px 0px 3px #d8cb0f;
-    -moz-box-shadow: 0px 0px 0px 3px #d8cb0f;
-    box-shadow: 0px 0px 0px 3px #d8cb0f;
+    background-color: #f3f4de;
+    -webkit-box-shadow: 0px 0px 0px 3px #bbc40b;
+    -moz-box-shadow: 0px 0px 0px 3px #bbc40b;
+    box-shadow: 0px 0px 0px 3px #bbc40b;
 }
 
 .round.hollow.green {

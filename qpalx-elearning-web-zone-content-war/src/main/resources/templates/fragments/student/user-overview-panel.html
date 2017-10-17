@@ -118,7 +118,7 @@
 
                 <!-- Display Proficiency Ranking with a Yellow Badge if between 4 and 7 to indicate improved performance -->
                 <span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
-                    <div class="round round-sm hollow yellow" th:if="${AcquiredProficiency.getProficiencyRanking() == 4 OR AcquiredProficiency.getProficiencyRanking() == 5 OR AcquiredProficiency.getProficiencyRanking() == 6}">
+                    <div class="round round-sm hollow orange" th:if="${AcquiredProficiency.getProficiencyRanking() == 4 OR AcquiredProficiency.getProficiencyRanking() == 5 OR AcquiredProficiency.getProficiencyRanking() == 6}">
                         <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
                     </div>
                 </span>
