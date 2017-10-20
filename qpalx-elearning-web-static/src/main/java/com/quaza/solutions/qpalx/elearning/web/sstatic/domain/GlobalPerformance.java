@@ -44,9 +44,7 @@ public class GlobalPerformance {
     }
 
     private void buildProficiencyRankingScaleE(ProficiencyRankingScaleE currentProficiencyRankingScaleE) {
-        System.out.println("currentProficiencyRankingScaleE = " + currentProficiencyRankingScaleE);
         Set<ProficiencyRankingScaleE> results = ProficiencyRankingScaleE.getAllProficiencyRankingsInScope(ProficiencyRankingScaleE.ONE.getProficiencyRanking(), currentProficiencyRankingScaleE.getProficiencyRanking());
-        System.out.println("results = " + results);
         acheivedProficiencies.addAll(results);
     }
 
