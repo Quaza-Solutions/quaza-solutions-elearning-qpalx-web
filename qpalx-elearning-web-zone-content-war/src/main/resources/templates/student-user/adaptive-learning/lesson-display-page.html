@@ -39,12 +39,12 @@
 
                 <!-- Remove lock icon to indicate that this Lesson is open for the Student to access -->
                 <!-- Formula to determine if proficiency is in range(1 to 3):   boolean x = 1 <= 5 && (5 <= 3 || 5 >= 3); -->
-                <div th:if="${QPalXELesson.getProficiencyRankingScaleFloor() &lt;= GlobalPerformance.getCurrentProficiencyRankingScaleE().getProficiencyRanking() and (GlobalPerformance.getCurrentProficiencyRankingScaleE().getProficiencyRanking() &lt;=  QPalXELesson.getProficiencyRankingScaleCeiling() || GlobalPerformance.getCurrentProficiencyRankingScaleE().getProficiencyRanking() &gt;=  QPalXELesson.getProficiencyRankingScaleCeiling())}">
+                <div th:if="${GlobalPerformance.getCurrentProficiencyRankingScaleE().canAccessProficiencyRange(QPalXELesson.getProficiencyRankingScaleFloor(), QPalXELesson.getProficiencyRankingScaleCeiling())}">
                     <span th:text="${rowStat.count}"></span> &nbsp;&nbsp;
                 </div>
 
                 <!-- Show Lock Icon to indicate that this Lesson is currently locked and Student cannot access because their proficiency is less than the required Ceiling proficiency of the Lesson -->
-                <div th:if="${GlobalPerformance.getCurrentProficiencyRankingScaleE().getProficiencyRanking() &lt;  QPalXELesson.getProficiencyRankingScaleFloor()}">
+                <div th:if="${!GlobalPerformance.getCurrentProficiencyRankingScaleE().canAccessProficiencyRange(QPalXELesson.getProficiencyRankingScaleFloor(), QPalXELesson.getProficiencyRankingScaleCeiling())}">
                     <span th:text="${rowStat.count}"></span> &nbsp;&nbsp;
                     <span class="glyphicon glyphicon-lock"></span>
                 </div>
@@ -62,7 +62,7 @@
                         <b th:inline="text">[[${RequiredProficiency.getProficiencyRanking()}]]</b>
                     </div>
 
-                    <div class="round round-sm hollow yellow" th:if="${RequiredProficiency.getProficiencyRanking() == 7 OR RequiredProficiency.getProficiencyRanking() == 8 OR RequiredProficiency.getProficiencyRanking() == 9}">
+                    <div class="round round-sm hollow green" th:if="${RequiredProficiency.getProficiencyRanking() == 7 OR RequiredProficiency.getProficiencyRanking() == 8 OR RequiredProficiency.getProficiencyRanking() == 9 OR RequiredProficiency.getProficiencyRanking() == 10}">
                         <b th:inline="text">[[${RequiredProficiency.getProficiencyRanking()}]]</b>
                     </div>
 
@@ -74,14 +74,14 @@
 
                 <!-- IF Current Student Ranking is >= Lesso Ranking then Student can access so link to Lesson for clicking by student -->
                 <!-- Formula to determine if proficiency is in range(1 to 3):   boolean x = 1 <= 5 && (5 <= 3 || 5 >= 3); -->
-                <div th:if="${QPalXELesson.getProficiencyRankingScaleFloor() &lt;= GlobalPerformance.getCurrentProficiencyRankingScaleE().getProficiencyRanking() and (GlobalPerformance.getCurrentProficiencyRankingScaleE().getProficiencyRanking() &lt;=  QPalXELesson.getProficiencyRankingScaleCeiling() || GlobalPerformance.getCurrentProficiencyRankingScaleE().getProficiencyRanking() &gt;=  QPalXELesson.getProficiencyRankingScaleCeiling())}">
+                <div th:if="${GlobalPerformance.getCurrentProficiencyRankingScaleE().canAccessProficiencyRange(QPalXELesson.getProficiencyRankingScaleFloor(), QPalXELesson.getProficiencyRankingScaleCeiling())}">
                     <a th:href="@{/view-micro-lessons(eLessonID=${QPalXELesson.getLessonID()}, tutorialLevelID=${SelectedTutorialCalendar.id})}">
                         <span class="blue" th:text="${QPalXELesson.getLessonName()}"></span>
                     </a>
                 </div>
 
                 <!-- Student cannot access this Lesson.  Their proficiency is currently below the required so remove link to prevent them from accessing -->
-                <div th:if="${GlobalPerformance.getCurrentProficiencyRankingScaleE().getProficiencyRanking() &lt;  QPalXELesson.getProficiencyRankingScaleFloor()}">
+                <div th:if="${!GlobalPerformance.getCurrentProficiencyRankingScaleE().canAccessProficiencyRange(QPalXELesson.getProficiencyRankingScaleFloor(), QPalXELesson.getProficiencyRankingScaleCeiling())}">
                     <span class="gray" th:text="${QPalXELesson.getLessonName()}"></span>
                 </div>
 

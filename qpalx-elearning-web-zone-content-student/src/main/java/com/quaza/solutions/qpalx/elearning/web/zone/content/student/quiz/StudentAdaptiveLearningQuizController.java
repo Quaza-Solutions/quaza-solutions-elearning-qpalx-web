@@ -125,8 +125,9 @@ public class StudentAdaptiveLearningQuizController {
         model.addAttribute("CurriculumFocusBanner", eLearningCurriculum.getCurriculumBannerIcon());
         modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCurriculum.toString(), eLearningCurriculum);
 
+        //TODO fix or remove
         // Calculate the Students Current AdaptiveProficiencyRanking for this MicroLesson
-        AdaptiveProficiencyRanking adaptiveProficiencyRanking = iMicroLessonPerformanceMonitorService.calculateAdaptiveProficiencyRanking(optionalUser.get(), quizMicroLesson);
+        AdaptiveProficiencyRanking adaptiveProficiencyRanking = null; //iMicroLessonPerformanceMonitorService.calculateAdaptiveProficiencyRanking(optionalUser.get(), quizMicroLesson);
         model.addAttribute("AdaptiveProficiencyRanking", adaptiveProficiencyRanking);
 
         // Check to see if there are prerequisite Quizzes which the student has not attempted
