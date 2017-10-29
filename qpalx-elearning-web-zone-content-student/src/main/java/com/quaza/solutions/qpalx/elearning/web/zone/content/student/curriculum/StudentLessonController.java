@@ -129,7 +129,7 @@ public class StudentLessonController {
         model.addAttribute(AdaptiveLearningDisplayAttributeE.LessonsDisplayEnabled.toString(), Boolean.TRUE.toString());
 
         // Calculate Student's realtime global performance in this course.
-        iGlobalControlPerformanceOverviewPanelService.addELearningCourcePerformance(model, eLearningCourse, optionalUser.get());
+        iGlobalControlPerformanceOverviewPanelService.addELearningCourseGlobalPerformance(model, eLearningCourse, optionalUser.get());
 
         return ContentRootE.Student_Adaptive_Learning.getContentRootPagePath("lesson-display-page");
     }

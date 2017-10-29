@@ -40,11 +40,11 @@
         <!--  Display Curriculum details Student info details -->
         <div class="row" th:if="${DisplayCurriculum == 'true'}">
 
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <div><img src="images/schools/shs/Ghana/Accra/Accra-Academy.png"/></div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div ><img src="images/schools/shs/Ghana/Accra/Accra-Academy.png"/></div>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <br/>
                 <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
                 Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
@@ -52,58 +52,14 @@
 
                 <!-- Display ELearning Curriculum if a course has been selected -->
                 <div class="large-font" th:if="${SelectedELearningCurriculum != null}" th:inline="text">Curriculum - [[${SelectedELearningCurriculum.curriculumName}]]</div>
-
-            </div>
-
-            <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" th:if="${AdaptiveLearningChartScore > 0}">
-                <div class="curriculum-proficiency circle-bar">
-                    <strong></strong>
-                </div>
-
-                <p style="color: #06bfd3;" th:inline="text">
-                    Proficiency Rating:&nbsp;[[${ProficiencyScoreRangeE}]] <a th:href="@{/performance/calculate-performance-ranking/curriculum/1}"><img  src="images/assets/adaptive-learning/calculate-proficiency.png"/></a>
-                </p>
-            </div>
-
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <div id="rounded">
-                    <table class="green-table">
-                        <tr><td>10</td><td>&nbsp;Exceptional Performer</td></tr>
-                        <tr><td>9</td><td>High Flyer Performer</td></tr>
-                        <tr><td>8</td><td>Strong Performer</td></tr>
-                        <tr><td>7</td><td>Average Performer</td></tr>
-                        <tr><td>6</td><td>Below Average Performer</td></tr>
-                        <tr><td>5</td><td>Poor Performer</td></tr>
-                        <tr><td>4</td><td>Failing Performer</td></tr>
-                        <tr><td>3</td><td>Fundamentals Lacking</td></tr>
-                        <tr><td>2</td><td>Deficient</td></tr>
-                        <tr><td>1</td><td>Extremely Deficient</td></tr>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-
-        <!--  Display Course details Student info details -->
-        <div class="row" th:if="${DisplayCourse == 'true'}">
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <div ><img src="images/schools/shs/Ghana/Accra/Accra-Academy.png"/></div>
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <br/>
-                <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
-                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
-                Academic Level: <span th:text="${StudentTutorialGrade.getTutorialGrade()}"></span><br/>
-
-                <!-- Display ELearning Course if a course has been selected -->
-                <div class="large-font" th:if="${SelectedELearningCourse != null}" th:inline="text">Course - [[${SelectedELearningCourse.courseName}]]</div><br/>
+                <a th:href="@{/select-curriculum(curricumlumType=${SelectedELearningCurriculum.curriculumType})}"><i class="fa fa-backward" aria-hidden="true"></i> Back To All Curriculum </a>
 
             </div>
 
-            <!-- Display Adaptive Learning Score for Progress Circle Chart if available -->
+            <!-- Display Students Current GlobalPerformance Proficiency Ranking details in Curriculum -->
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                <!--<i class="fa fa-graduation-cap" aria-hidden="true"></i> : Your Proficiency Rating Levels-->
+
                 <div class="update-nag">
                     <div class="update-split update-success"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
                     <div class="update-text">
@@ -136,28 +92,65 @@
 
                 <br/><br/>
 
-                <!--&lt;!&ndash; Display Proficiency Ranking with a Red Badge if between 1 and 4 to indicate horrible performance &ndash;&gt;-->
-                <!--<span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">-->
-                    <!--<div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 1 OR AcquiredProficiency.getProficiencyRanking() == 2 OR AcquiredProficiency.getProficiencyRanking() == 3}">-->
-                        <!--<b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>-->
-                    <!--</div>-->
-                <!--</span>-->
+            </div>
 
-                <!--&nbsp;&nbsp;-->
+        </div>
 
-                <!--&lt;!&ndash; Display Proficiency Ranking with a Yellow Badge if between 4 and 7 to indicate improved performance &ndash;&gt;-->
-                <!--<span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">-->
-                    <!--<div class="round round-sm hollow orange" th:if="${AcquiredProficiency.getProficiencyRanking() == 4 OR AcquiredProficiency.getProficiencyRanking() == 5 OR AcquiredProficiency.getProficiencyRanking() == 6}">-->
-                        <!--<b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>-->
-                    <!--</div>-->
-                <!--</span>-->
+        <!--  Display Course details Student info details -->
+        <div class="row" th:if="${DisplayCourse == 'true'}">
 
-                <!--&lt;!&ndash; Display Proficiency Ranking with a Green Badge if between 8 and 10 to indicate outstanding performance &ndash;&gt;-->
-                <!--<span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">-->
-                    <!--<div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 7 OR AcquiredProficiency.getProficiencyRanking() == 8 OR AcquiredProficiency.getProficiencyRanking() == 9}">-->
-                        <!--<b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>-->
-                    <!--</div>-->
-                <!--</span>-->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div ><img src="images/schools/shs/Ghana/Accra/Accra-Academy.png"/></div>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <br/>
+                <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
+                Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
+                Academic Level: <span th:text="${StudentTutorialGrade.getTutorialGrade()}"></span><br/>
+
+                <!-- Display ELearning Course if a course has been selected -->
+                <div class="large-font" th:if="${SelectedELearningCourse != null}" th:inline="text">Course - [[${SelectedELearningCourse.courseName}]]</div><br/>
+
+                <br/>
+                <a th:href="@{/curriculum-courses(curriculumID=${SelectedELearningCourse.geteLearningCurriculum().getId()})}"><i class="fa fa-backward" aria-hidden="true"></i> Back To All Courses </a>
+
+            </div>
+
+            <!-- Display Students Current GlobalPerformance Proficiency Ranking details in Course -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+                <div class="update-nag">
+                    <div class="update-split update-success"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
+                    <div class="update-text">
+                        <!-- Display Proficiency Ranking with a Red Badge if between 1 and 4 to indicate horrible performance -->
+                        <span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
+                            <div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 1 OR AcquiredProficiency.getProficiencyRanking() == 2 OR AcquiredProficiency.getProficiencyRanking() == 3}">
+                                <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
+                            </div>
+                        </span>
+
+                        &nbsp;&nbsp;
+
+                        <!-- Display Proficiency Ranking with a Yellow Badge if between 4 and 6 to indicate improved performance -->
+                        <span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
+                            <div class="round round-sm hollow orange" th:if="${AcquiredProficiency.getProficiencyRanking() == 4 OR AcquiredProficiency.getProficiencyRanking() == 5 OR AcquiredProficiency.getProficiencyRanking() == 6}">
+                                <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
+                            </div>
+                        </span>
+
+                        &nbsp;&nbsp;
+
+                        <!-- Display Proficiency Ranking with a Green Badge if between 7 and 9 to indicate improved performance -->
+                        <span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
+                            <div class="round round-sm hollow green" th:if="${AcquiredProficiency.getProficiencyRanking() == 7 OR AcquiredProficiency.getProficiencyRanking() == 8 OR AcquiredProficiency.getProficiencyRanking() == 9 OR AcquiredProficiency.getProficiencyRanking() == 10}">
+                                <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+
+                <br/><br/>
 
             </div>
 
@@ -176,6 +169,9 @@
 
                 <!-- Display Course Lesson if a course has been selected -->
                 <div class="large-font" th:if="${SelectedQPalXELesson != null}" th:inline="text">Lesson - [[${SelectedQPalXELesson.lessonName}]]</div>
+
+                <br/>
+                <a th:href="@{/view-course-lessons(eLearningCourseID=${SelectedELearningCourse.getId()}, tutorialLevelID=${SelectedTutorialCalendar.getId()})}"><i class="fa fa-backward" aria-hidden="true"></i> Back To All Lessons</a>
 
             </div>
 
