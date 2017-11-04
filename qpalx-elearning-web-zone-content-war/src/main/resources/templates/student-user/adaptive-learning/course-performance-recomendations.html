@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/widgets/simple-widgets.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/2af44216b6.js"></script>
+    <script src="https://use.fontawesome.com/2af44216b6.js"></script>
+    <script src="js/platform/simple-widget-controls.js"></script>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Student details overview panel -->
+<div th:replace="fragments/student/user-overview-panel :: overview"></div>
+
+<div class="container" style="margin: 20px auto 20px auto;">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Factors Helping And Impacting Your Overall Course Performance:</h2>
+        </div>
+    </div>
+
+    <br/><br/>
+
+    <!-- Display all Positive Feedback Course Recommendations -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h6>Your Performance On Below Quizzes Are Helping Your Overall Proficiency Ranking</h6>
+                    <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                </div>
+                <div class="panel-body" align="left">
+                    <div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Lesson</th>
+                                <th>Quiz Title</th>
+                                <th>Your Most Recent Score(%)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="ProficiencyAlgorithmResult,rowStat : ${ProficiencyAlgorithmExecutionInfo.getPositiveProgressItems()}">
+                                <td scope="row" th:inline="text">[[${rowStat.count}]]</td>
+                                <td></td>
+                                <td th:inline="text">[[${ProficiencyAlgorithmResult.getAlgorithmFocusArea()}]]</td>
+                                <td th:inline="text">[[${ProficiencyAlgorithmResult.getAlgorithmScore()}]]%</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Display all Negative Feedback Course Recommendations -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h6>You Havent Attempted Below Quizzes.  This Is Negatively Impacting Your Overall Proficiency Ranking</h6>
+                    <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                </div>
+                <div class="panel-body" align="left">
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Lesson</th>
+                                    <th>Quiz Title</th>
+                                    <th>Your Most Recent Score(%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="ProficiencyAlgorithmResult,rowStat : ${ProficiencyAlgorithmExecutionInfo.getNegativeProgressItems()}">
+                                    <td scope="row" th:inline="text">[[${rowStat.count}]]</td>
+                                    <td></td>
+                                    <td th:inline="text">[[${ProficiencyAlgorithmResult.getAlgorithmFocusArea()}]]</td>
+                                    <td th:inline="text">[[${ProficiencyAlgorithmResult.getAlgorithmScore()}]]%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+</body>
+</html>

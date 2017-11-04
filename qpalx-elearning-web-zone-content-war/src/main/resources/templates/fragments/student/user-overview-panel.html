@@ -50,6 +50,8 @@
                 Success ID: <span th:text="${LoggedInQPalXUser.getSuccessID()}"></span><br/>
                 Academic Level: <span th:text="${StudentTutorialGrade.getTutorialGrade()}"></span><br/>
 
+                <!--<span class="label label-success">SHS 1 | First Term</span><br/>-->
+
                 <!-- Display ELearning Curriculum if a course has been selected -->
                 <div class="large-font" th:if="${SelectedELearningCurriculum != null}" th:inline="text">Curriculum - [[${SelectedELearningCurriculum.curriculumName}]]</div>
                 <br/>
@@ -59,35 +61,9 @@
 
             <!-- Display Students Current GlobalPerformance Proficiency Ranking details in Curriculum -->
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-
-                <div class="update-nag">
-                    <div class="update-split update-success"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
-                    <div class="update-text">
-                        <!-- Display Proficiency Ranking with a Red Badge if between 1 and 4 to indicate horrible performance -->
-                        <span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
-                            <div class="round round-sm hollow red" th:if="${AcquiredProficiency.getProficiencyRanking() == 1 OR AcquiredProficiency.getProficiencyRanking() == 2 OR AcquiredProficiency.getProficiencyRanking() == 3}">
-                                <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
-                            </div>
-                        </span>
-
-                        &nbsp;&nbsp;
-
-                        <!-- Display Proficiency Ranking with a Yellow Badge if between 4 and 6 to indicate improved performance -->
-                        <span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
-                            <div class="round round-sm hollow orange" th:if="${AcquiredProficiency.getProficiencyRanking() == 4 OR AcquiredProficiency.getProficiencyRanking() == 5 OR AcquiredProficiency.getProficiencyRanking() == 6}">
-                                <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
-                            </div>
-                        </span>
-
-                        &nbsp;&nbsp;
-
-                        <!-- Display Proficiency Ranking with a Green Badge if between 7 and 9 to indicate improved performance -->
-                        <span th:each="AcquiredProficiency,rowStat : ${GlobalPerformance.getAcheivedProficiencies()}">
-                            <div class="round round-sm hollow green" th:if="${AcquiredProficiency.getProficiencyRanking() == 7 OR AcquiredProficiency.getProficiencyRanking() == 8 OR AcquiredProficiency.getProficiencyRanking() == 9 OR AcquiredProficiency.getProficiencyRanking() == 10}">
-                                <b th:inline="text">[[${AcquiredProficiency.getProficiencyRanking()}]]</b>
-                            </div>
-                        </span>
-                    </div>
+                <div><h4>Your Curriculum Proficiency Ranking</h4></div>
+                <div class="curriculum-proficiency circle-bar">
+                    <strong></strong>
                 </div>
 
                 <br/><br/>
@@ -120,6 +96,8 @@
             <!-- Display Students Current GlobalPerformance Proficiency Ranking details in Course -->
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 
+                <div><h4>Course Proficiency Ranking</h4></div>
+
                 <div class="update-nag">
                     <div class="update-split update-success"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
                     <div class="update-text">
@@ -149,6 +127,8 @@
                         </span>
                     </div>
                 </div>
+
+                <div><a th:href="@{/improve-my-course-performance(eLearningCourseID=${SelectedELearningCourse.getId()}, tutorialLevelID=${SelectedTutorialCalendar.getId()})}">Improve My Proficiency Ranking</a></div>
 
                 <br/><br/>
 

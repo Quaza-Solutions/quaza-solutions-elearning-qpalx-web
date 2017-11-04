@@ -59,7 +59,21 @@ public class GlobalControlPerformanceOverviewPanelService implements IGlobalCont
     }
 
     @Override
-    public void addELearningCourcePerformance(Model model, ELearningCourse eLearningCourse, QPalXUser studentQPalxUser) {
+    public void addELearningCurriclumGlobalPerformance(Model model, ELearningCurriculum eLearningCurriculum, QPalXUser studentQPalxUser) {
+        Assert.notNull(model, "model cannot be null");
+        Assert.notNull(eLearningCurriculum, "eLearningCurriculum cannot be null");
+        Assert.notNull(studentQPalxUser, "studentQPalxUser cannot be null");
+
+        LOGGER.debug("Finding and returning Students current AdaptiveProficiency Global Performance Ranking in eLearningCurriculum: {}", eLearningCurriculum.getCurriculumName());
+
+        // Find Adaptive ProficiencyRanking for this user
+        AdaptiveProficiencyRanking adaptiveProficiencyRanking = iAdaptiveProficiencyRankingService.findCurrentStudentAdaptiveProficiencyRankingForCurriculum(studentQPalxUser, eLearningCurriculum);
+        GlobalPerformance globalPerformance = GlobalPerformance.newInstance("Beginner", adaptiveProficiencyRanking.getProficiencyRankingScaleE());
+        model.addAttribute(GlobalPerformance.CLASS_ATTRIBUTE, globalPerformance);
+    }
+
+    @Override
+    public void addELearningCourseGlobalPerformance(Model model, ELearningCourse eLearningCourse, QPalXUser studentQPalxUser) {
         Assert.notNull(model, "model cannot be null");
         Assert.notNull(eLearningCourse, "eLearningCourse cannot be null");
         Assert.notNull(studentQPalxUser, "studentQPalxUser cannot be null");

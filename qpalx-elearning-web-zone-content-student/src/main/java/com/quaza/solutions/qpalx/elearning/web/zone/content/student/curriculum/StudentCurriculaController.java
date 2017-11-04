@@ -1,5 +1,6 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.student.curriculum;
 
+import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.AdaptiveProficiencyRanking;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourseActivity;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
@@ -11,6 +12,8 @@ import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCour
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.ITutorialLevelCalendarService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AdaptiveLearningScoreChartDisplayPanel;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAdaptiveLearningScoreChartDisplayPanel;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IStudentInfoOverviewPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.ITutorialLevelCalendarPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
@@ -76,6 +79,10 @@ public class StudentCurriculaController {
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.StudentInfoOverviewPanelService")
     private IStudentInfoOverviewPanelService iStudentInfoOverviewPanelService;
 
+    @Autowired
+    @Qualifier(AdaptiveLearningScoreChartDisplayPanel.SPRING_BEAN_NAME)
+    private IAdaptiveLearningScoreChartDisplayPanel iAdaptiveLearningScoreChartDisplayPanel;
+
 
     @Autowired
     @Qualifier(GlobalControlPerformanceOverviewPanelService.BEAN_NAME)
@@ -99,6 +106,9 @@ public class StudentCurriculaController {
 
         // Add Students Current Performance in this Curriculum
         iGlobalControlPerformanceOverviewPanelService.addELearningCurriclumGlobalPerformance(model, eLearningCurriculum, optionalUser.get());
+
+        AdaptiveProficiencyRanking adaptiveProficiencyRanking = iAdaptiveProficiencyRankingService.findCurrentStudentAdaptiveProficiencyRankingForCurriculum(optionalUser.get(), eLearningCurriculum);
+        iAdaptiveLearningScoreChartDisplayPanel.addCurriculumProficiency(model, adaptiveProficiencyRanking);
 
         // Add all attributes required for User information panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);

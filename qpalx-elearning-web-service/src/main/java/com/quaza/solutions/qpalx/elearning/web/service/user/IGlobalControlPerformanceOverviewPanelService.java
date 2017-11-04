@@ -13,6 +13,8 @@ public interface IGlobalControlPerformanceOverviewPanelService {
 
     public void addPerformanceOverviewInCurriculum(Model model, ELearningCurriculum eLearningCurriculum, QPalXUser studentQPalxUser);
 
-    public void addELearningCourcePerformance(Model model, ELearningCourse eLearningCourse, QPalXUser studentQPalxUser);
+    public void addELearningCurriclumGlobalPerformance(Model model, ELearningCurriculum eLearningCurriculum, QPalXUser studentQPalxUser);
+
+    public void addELearningCourseGlobalPerformance(Model model, ELearningCourse eLearningCourse, QPalXUser studentQPalxUser);
 
 }
