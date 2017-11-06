@@ -17,7 +17,7 @@
                 <div class="large-font" th:text="${LoggedInQPalXUser.getFullName()}"></div>
                 QPalx User Type: <span th:text="${LoggedInQPalXUser.getUserType()}"></span><br/>
 
-                <span th:if="${LoggedInQPalXUser.getUserType().toString() != 'PLATFORM_ADMIN'}">
+                <span th:if="${LoggedInQPalXUser.getUserType().toString() == 'STUDENT'}">
                     Academic Level: <span th:text="${StudentTutorialLevel.getTutorialLevel()}"></span><br/>
                 </span>
             </div>

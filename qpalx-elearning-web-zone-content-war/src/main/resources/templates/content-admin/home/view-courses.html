@@ -44,14 +44,14 @@
 
             <div class="col-md-1">
                 <div class="default-btn-1"></div>
-                <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onClick="|document.location.href='/edit-elearning-course?eLearningCourseID=${CurriculumELearningCourses.id}'|">
+                <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onClick="|document.location.href='@{/edit-elearning-course(eLearningCourseID=${CurriculumELearningCourses.id})}'|">
                     Edit Course
                 </button>
             </div>
 
             <div class="col-md-1">
                 <div class="default-btn-1"></div>
-                <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onClick="|document.location.href='/delete-elearning-course?eLearningCourseID=${CurriculumELearningCourses.id}&amp;curriculumID=${SelectedELearningCurriculum.id}'|">
+                <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onClick="|document.location.href='@{/delete-elearning-course(eLearningCourseID=${CurriculumELearningCourses.id},curriculumID=${SelectedELearningCurriculum.id})}'|">
                     Remove Course
                 </button>
             </div>
