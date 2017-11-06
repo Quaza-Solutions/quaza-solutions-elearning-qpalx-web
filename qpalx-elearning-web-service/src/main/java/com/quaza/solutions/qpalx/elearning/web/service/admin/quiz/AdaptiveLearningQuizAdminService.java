@@ -41,11 +41,11 @@ public class AdaptiveLearningQuizAdminService implements IAdaptiveLearningQuizAd
         Assert.notNull(adaptiveLearningQuiz, "adaptiveLearningQuiz cannot be null");
         LOGGER.info("Attempting to delete quiz with ID: {} title: {}", adaptiveLearningQuiz.getId(), adaptiveLearningQuiz.getQuizTitle());
 
-        // Delete all media content associated with this Quiz.  This means deleting all questions and answers multimedia files
-        deleteAllAdaptiveQuizQuestionsMedia(adaptiveLearningQuiz);
-
         // Delete the actual Quiz from DB
         iAdaptiveLearningQuizService.delete(adaptiveLearningQuiz);
+
+        // Delete all media content associated with this Quiz.  This means deleting all questions and answers multimedia files
+        deleteAllAdaptiveQuizQuestionsMedia(adaptiveLearningQuiz);
     }
 
 
