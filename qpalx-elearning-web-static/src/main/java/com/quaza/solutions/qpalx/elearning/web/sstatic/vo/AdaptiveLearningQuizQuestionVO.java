@@ -137,7 +137,7 @@ public class AdaptiveLearningQuizQuestionVO extends AdaptiveQuizQuestionAnswerMo
     @Override
     public Set<MediaContentTypeE> getMediaContentTypes() {
         if (adaptiveLearningQuizQuestionTypeE == AdaptiveLearningQuizQuestionTypeE.Image) {
-            return ImmutableSet.of(MediaContentTypeE.jpeg, MediaContentTypeE.png);
+            return MediaContentTypeE.getImageMediaTypes();
         } else if (adaptiveLearningQuizQuestionTypeE == AdaptiveLearningQuizQuestionTypeE.Video) {
             return ImmutableSet.of(MediaContentTypeE.mp4);
         }
