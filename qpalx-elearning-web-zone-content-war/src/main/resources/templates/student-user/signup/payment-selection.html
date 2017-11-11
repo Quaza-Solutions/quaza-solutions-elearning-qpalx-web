@@ -29,6 +29,13 @@
     <div class="clearfix"></div>
 
     <form th:action="@{/customize-proficiency-ranking}" th:object="${QPalXWebUserVO}" method="post">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Select A QPalX Subscription Duration Type, You will Have To Renew Once Your Subscription Expires</h4>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-6">
                 <!-- Note that value of radio is set to ID for monthly on QPalXSubscription.  This needs to be changed if table changes -->
@@ -36,7 +43,8 @@
                 <label for="check-box-one" class="cents-box cents-box-2">
                     <img class="cents" src="images/assets/sign-up/subscription-weekly-green.png" />
                     <span></span>
-                    <p class="centered large-text"><b>Weekly</b></p><p class="centered">You will be billed on a weekly basis</p>
+                    <p class="centered large-text"><b>Weekly</b></p>
+                    <!--<p class="centered">You will be billed on a weekly basis</p>-->
                 </label>
             </div>
 
@@ -46,7 +54,8 @@
                 <label for="check-box-two" class="cents-box cents-box-5">
                     <img class="cents" src="images/assets/sign-up/subscription-monthly-blue.png" />
                     <span></span>
-                    <p class="centered large-text"><b>Monthly</b></p><p class="centered side-margin">You will be charged on a monthly basis.</p>
+                    <p class="centered large-text"><b>Monthly</b></p>
+                    <!--<p class="centered side-margin">You will be charged on a monthly basis.</p>-->
                 </label>
             </div>
         </div>
@@ -60,7 +69,8 @@
                 <label for="check-box-three" class="cents-box cents-box-2">
                     <img class="cents" src="images/assets/sign-up/subscription-quaterly-green.png" />
                     <span></span>
-                    <p class="centered large-text"><b>Quarterly</b></p><p class="centered">You will be billed on a quarterly basis</p>
+                    <p class="centered large-text"><b>Quarterly</b></p>
+                    <!--<p class="centered">You will be billed on a quarterly basis</p>-->
                 </label>
             </div>
 
@@ -70,7 +80,8 @@
                 <label for="check-box-four" class="cents-box cents-box-5">
                     <img class="cents" src="images/assets/sign-up/subscription-yearly-blue.png" />
                     <span></span>
-                    <p class="centered large-text"><b>Annually</b></p><p class="centered side-margin">You will be charged on a yearly basis at a discounted price.</p>
+                    <p class="centered large-text"><b>Annually</b></p>
+                    <!--<p class="centered side-margin">You will be charged on a yearly basis at a discounted price.</p>-->
                 </label>
             </div>
         </div>
@@ -78,54 +89,54 @@
 
 
         <br /><br /><br /> <br /><br /><br />
-        <div class="row hover">
-            <div class="col-md-2"></div>
-            <div class="col-md-1"><input type="radio" class="radio-btn radio-btn-1" name="payment-options" /></div>
-            <div class="col-md-6"><p><b>Credit Card</b></p><p>Safe money transfer using your bank account. Safe payment online. Credit card needed: Visa, Maestro, Discover, American Express.</p><span class="red"></span></div>
-            <div class="col-md-1"><img src="images/assets/platform/visa.png" /></div>
-            <div class="col-md-2"></div>
-        </div>
-        <br /><br /><br />
-        <div class="row hover">
-            <div class="col-md-2"></div>
-            <div class="col-md-1"><input type="radio" class="radio-btn radio-btn-2" name="payment-options"  /></div>
-            <div class="col-md-6"><p><b><a class="anchor-5" href="#popup1">PayPal</a></b></p><p>Safe payment online. Credit card needed. PayPal account is not necessary</p><span class="red-2"></span></div>
-            <div class="col-md-1"><img src="images/assets/platform/paypal.png" /></div>
-            <div class="col-md-2"></div>
-        </div>
-        <br /><br /><br />
-        <div class="row hover">
-            <div class="col-md-2"></div>
-            <div class="col-md-1"><input type="radio" id="radio-2" class="radio-btn" name="payment-options" /></div>
-            <div class="col-md-6"><p><b><a class="anchor-5" href="#popup2">Mpower</a></b></p><p>Safe secure payment online with Mpower</p></div>
-            <div class="col-md-1"><img src="images/assets/platform/mpower.png" /></div>
-            <div class="col-md-2"></div>
-        </div>
+        <!--<div class="row hover">-->
+            <!--<div class="col-md-2"></div>-->
+            <!--<div class="col-md-1"><input type="radio" class="radio-btn radio-btn-1" name="payment-options" /></div>-->
+            <!--<div class="col-md-6"><p><b>Credit Card</b></p><p>Safe money transfer using your bank account. Safe payment online. Credit card needed: Visa, Maestro, Discover, American Express.</p><span class="red"></span></div>-->
+            <!--<div class="col-md-1"><img src="images/assets/platform/visa.png" /></div>-->
+            <!--<div class="col-md-2"></div>-->
+        <!--</div>-->
+        <!--<br /><br /><br />-->
+        <!--<div class="row hover">-->
+            <!--<div class="col-md-2"></div>-->
+            <!--<div class="col-md-1"><input type="radio" class="radio-btn radio-btn-2" name="payment-options"  /></div>-->
+            <!--<div class="col-md-6"><p><b><a class="anchor-5" href="#popup1">PayPal</a></b></p><p>Safe payment online. Credit card needed. PayPal account is not necessary</p><span class="red-2"></span></div>-->
+            <!--<div class="col-md-1"><img src="images/assets/platform/paypal.png" /></div>-->
+            <!--<div class="col-md-2"></div>-->
+        <!--</div>-->
+        <!--<br /><br /><br />-->
+        <!--<div class="row hover">-->
+            <!--<div class="col-md-2"></div>-->
+            <!--<div class="col-md-1"><input type="radio" id="radio-2" class="radio-btn" name="payment-options" /></div>-->
+            <!--<div class="col-md-6"><p><b><a class="anchor-5" href="#popup2">Mpower</a></b></p><p>Safe secure payment online with Mpower</p></div>-->
+            <!--<div class="col-md-1"><img src="images/assets/platform/mpower.png" /></div>-->
+            <!--<div class="col-md-2"></div>-->
+        <!--</div>-->
 
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-4">Mpower Alias Number</div>
-            <div class="col-md-2"><img src="images/assets/platform/alias.png" style="margin-left: 30px;" /></div>
-            <div class="col-md-3"></div>
-        </div>
+        <!--<div class="row">-->
+            <!--<div class="col-md-3"></div>-->
+            <!--<div class="col-md-4">Mpower Alias Number</div>-->
+            <!--<div class="col-md-2"><img src="images/assets/platform/alias.png" style="margin-left: 30px;" /></div>-->
+            <!--<div class="col-md-3"></div>-->
+        <!--</div>-->
 
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6"><input type="text" id="form-text-1" class="form-control mpower-2" /></div>
-            <div class="col-md-3"></div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">Full Name</div>
-            <div class="col-md-3"></div>
-        </div>
+        <!--<div class="row">-->
+            <!--<div class="col-md-3"></div>-->
+            <!--<div class="col-md-6"><input type="text" id="form-text-1" class="form-control mpower-2" /></div>-->
+            <!--<div class="col-md-3"></div>-->
+        <!--</div>-->
+        <!--<br />-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-3"></div>-->
+            <!--<div class="col-md-6">Full Name</div>-->
+            <!--<div class="col-md-3"></div>-->
+        <!--</div>-->
 
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6"><input type="text" id="form-text" class="form-control" />
-                <div class="col-md-3"></div></div>
-        </div>
+        <!--<div class="row">-->
+            <!--<div class="col-md-3"></div>-->
+            <!--<div class="col-md-6"><input type="text" id="form-text" class="form-control" />-->
+                <!--<div class="col-md-3"></div></div>-->
+        <!--</div>div-->
 
         <br /><br /><br />
         <div class="row hover">

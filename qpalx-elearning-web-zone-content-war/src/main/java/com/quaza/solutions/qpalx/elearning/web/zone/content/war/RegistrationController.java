@@ -97,7 +97,6 @@ public class RegistrationController {
     private void addRegistrationProcessAttributes(final Model model, final ModelMap modelMap) {
         List<QPalXMunicipality> municipalities = iqPalXMunicipalityService.findAllQPalXMunicipalities();
         List<StudentTutorialLevel> studentTutorialLevels = iqPalXTutorialService.findAllQPalXTutorialLevels();
-        System.out.println("studentTutorialLevels = " + studentTutorialLevels);
         List<StudentTutorialGrade> studentTutorialGrades = iqPalXTutorialService.findAllStudentTutorialGrade();
         List<QPalXEducationalInstitution> qPalXEducationalInstitutions = iqPalXEducationalInstitutionService.findAll();
         modelMap.addAttribute("QPalXWebUserVO", new QPalXWebUserVO());
