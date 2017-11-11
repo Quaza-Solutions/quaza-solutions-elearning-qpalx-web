@@ -85,7 +85,7 @@ public class QPalXGlobalSecurityConfiguration extends WebSecurityConfigurerAdapt
         List<String> exclustionList = Lists.newArrayList(
                 "/", "/css/**", "/css/**/**", "/js/**", "/img/**", "/images/**", "/font/**", "/videos/**", "/QGatewaySignup", "/QPalxSubscribptionEducatioProfile",
                 "/QPalxSubscribptionPayment", "/QPalxSubscribptionConfirm", "/QPalxSubscribptionMobilePaySetup", "/QPalxSubscribptionCancel", "/QPalxSubscribptionProcess",
-                "/QPalxSubscribptionComplete", "/QPalXGateway", "/qpalx-access-failure", "/ConfirmSubscriptionRenewal", "/GetSubscriptionRenewalToken", "/SubscribptionRenewalComplete",
+                "/QPalxSubscribptionComplete", "/QPalXGateway", "/qpalx-access-failure", "/ConfirmSubscriptionRenewal", "/GetSubscriptionRenewalToken", "/SubscribptionRenewalComplete", "/renew-subscription-with-payment",
                 "/PerformanceSnapshot", "/qpalx-sign-up", "/sign-up-type-select", "/select-signup-payment", "/customize-proficiency-ranking", "/complete-qpalx-signup", "/generateIds",
                 "/micro-lesson-progress-tracker", "/question-bank-progress-tracker", "/track-microlesson-quiz", "/StudentQuizPerformance", "/FindEducationalInstitutionsMatching", "/find-academic-levels-by-municipality",
                 "/find-student-tutorial-grades-by-academic-level", "/link-guardian-student", "/complete-guardian-registration"

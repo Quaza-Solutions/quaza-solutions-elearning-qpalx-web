@@ -1,5 +1,6 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.student.registration;
 
+import com.google.common.collect.ImmutableMap;
 import com.quaza.solutions.qpalx.elearning.domain.geographical.QPalXMunicipality;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
@@ -19,6 +20,8 @@ import com.quaza.solutions.qpalx.elearning.service.subscription.IQPalxSubscripti
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.student.StudentSignUpModelAttributeE;
+import com.quaza.solutions.qpalx.elearning.web.service.utils.DefaultRedirectStrategyExecutor;
+import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXWebUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,7 +34,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -76,6 +84,10 @@ public class StudentRegistrationController {
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultQPalxPrepaidIDService")
     private IQPalxPrepaidIDService iQpalxPrepaidIDService;
+
+    @Autowired
+    @Qualifier(DefaultRedirectStrategyExecutor.BEAN_NAME)
+    private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(StudentRegistrationController.class);
 
@@ -158,6 +170,33 @@ public class StudentRegistrationController {
                 model.addAttribute("QPalXWebUserVO", qPalXWebUserVO);
                 return ContentRootE.Student_Signup.getContentRootPagePath("payment-selection");
             }
+        }
+    }
+
+    @RequestMapping(value = "/renew-subscription-with-payment", method = RequestMethod.POST)
+    public void executeSubscriptionRenewalWithPayment(ModelMap modelMap, Model model, @ModelAttribute("SubscriptionRenewQPalXWebUserVO") QPalXWebUserVO qPalXWebUserVO, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        LOGGER.info("Processing student subscription renewal for qPalXWebUserVO: {}", qPalXWebUserVO);
+
+        LOGGER.info("Attempting to redeem prepaid code: {} ..", qPalXWebUserVO.getPrepaidValue());
+
+        // Redeem prepaid code using the selected municipality
+        QPalXMunicipality qPalXMunicipality = iqPalXMunicipalityService.findQPalXMunicipalityByID(qPalXWebUserVO.getMunicipalityID());
+
+        // Attempt to redeem code
+        boolean codeRedeemed = iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXWebUserVO.getSubscriptionID(), qPalXMunicipality);
+
+        if (codeRedeemed) {
+            qPalXWebUserVO.setRedemptionFailure(false);
+            LOGGER.info("Redeemed and completed processing Student subscription renewal, posting to login form...");
+            UriComponents url = ServletUriComponentsBuilder.fromServletMapping(httpServletRequest).path("/login").build();
+            Map<String, String> formDetails = ImmutableMap.of("username", qPalXWebUserVO.getEmail(), "password", qPalXWebUserVO.getPassword());
+            new RestTemplate().postForLocation(url.toString(), formDetails);
+            //iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "");
+        } else {
+            qPalXWebUserVO.setRedemptionFailure(true);
+            int holder = qPalXWebUserVO.getIncorrectValueCounter();
+            holder++;
+            qPalXWebUserVO.setIncorrectValueCounter(holder);
         }
     }
 

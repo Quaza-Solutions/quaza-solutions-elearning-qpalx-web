@@ -84,7 +84,7 @@ public class QPalXGlobalUserDetailsService implements UserDetailsService {
                     return validatedQPalXUser;
                 } else {
                     LOGGER.info("No valid or active subscription found for user with email: {}", qPalXUser.getEmail());
-                    throw new QPalXUserLoginException(validatedQPalXUser, "QPalXSubscription has currently expired");
+                    throw new QPalXUserLoginException(validatedQPalXUser, UserAuthFailureE.Subscription_Expired, "QPalXSubscription has currently expired");
                 }
             } else if (QPalxUserTypeE.CONTENT_DEVELOPER == userTypeE) {
                 LOGGER.info("Authenticated QPalxUser is a Content_Developer, building content developer profile info....");

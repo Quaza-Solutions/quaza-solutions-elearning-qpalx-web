@@ -4,7 +4,6 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalxUserTypeE;
-import com.quaza.solutions.qpalx.elearning.domain.subscription.QPalXSubscription;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
 import com.quaza.solutions.qpalx.elearning.service.geographical.IGeographicalDateTimeFormatter;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
@@ -14,6 +13,7 @@ import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultContentAdminProfileRecordService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IContentAdminProfileRecordService;
 import com.quaza.solutions.qpalx.elearning.service.subscription.IQPalxSubscriptionService;
+import com.quaza.solutions.qpalx.elearning.web.security.login.UserAuthFailureE;
 import com.quaza.solutions.qpalx.elearning.web.security.login.WebQPalXUser;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.IContentAdminWebService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
@@ -206,9 +206,13 @@ public class ApplicationHomeController {
 
     @RequestMapping(value = "/qpalx-access-failure", method = {RequestMethod.GET, RequestMethod.POST})
     public String indexMain(ModelMap modelMap, Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        WebQPalXUser validationFailureUser = (WebQPalXUser) httpServletRequest.getAttribute("AuthenticationFailedUser");
+        WebQPalXUser validationFailureUser = (WebQPalXUser) httpServletRequest.getSession().getAttribute("AuthenticationFailedUser");
+        UserAuthFailureE userAuthFailureE =  (UserAuthFailureE) httpServletRequest.getSession().getAttribute("UserAuthFailureE");
 
-        if (validationFailureUser != null && validationFailureUser.hasValidQPalXUser()) {
+        if (validationFailureUser != null
+                && validationFailureUser.hasValidQPalXUser()
+                && userAuthFailureE == UserAuthFailureE.Subscription_Expired) {
+            LOGGER.info("Detected that User Subscription has expired, allowing Student user to purchase a new subscription...");
             QPalXUser qPalXUser = validationFailureUser.getQPalXUser();
 
             //build from the validation failure user
@@ -216,14 +220,17 @@ public class ApplicationHomeController {
                     .firstName(qPalXUser.getFirstName())
                     .lastName(qPalXUser.getLastName())
                     .email(qPalXUser.getEmail())
+                    .password(qPalXUser.getPassword())
                     .municipalityID(qPalXUser.getQPalXMunicipality().getId())
                     .build();
 
-            List<QPalXSubscription> subscriptions = iqPalxSubscriptionService.findAllQPalXSubscriptionsByCountryCode("GH");
-            model.addAttribute("QPalXUserSubscriptions", subscriptions);
+            // clean up session
+//            httpServletRequest.getSession().removeAttribute("AuthenticationFailedUser");
+//            httpServletRequest.getSession().removeAttribute("UserAuthFailureE");
 
-            modelMap.addAttribute("QPalXUserSubscriptionForm", qPalXWebUserVO);
-            return ContentRootE.Home.getContentRootPagePath("Subscription_Renewal");
+            modelMap.addAttribute("SubscriptionRenewQPalXWebUserVO", qPalXWebUserVO);
+
+            return ContentRootE.Student_Signup.getContentRootPagePath("subscription_renewal_payment");
         } else {
             LOGGER.info("Invalid Qpalx User login detected, redirecting to home page...");
             model.addAttribute("CredentialsAuthentication", "Invalid Login Detected");

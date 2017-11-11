@@ -54,8 +54,7 @@ public class DefaultQPalXAuthenticationSuccessFailureHandler implements Authenti
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException exception) throws IOException, ServletException {
-        WebQPalXUser authenticationFailedUser = getAuthenticationFailedWebUser(exception);
-        httpServletRequest.setAttribute("AuthenticationFailedUser", authenticationFailedUser);
+        populateAuthenticationFailedWebUser(exception, httpServletRequest);
         redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/qpalx-access-failure");
     }
 
@@ -80,21 +79,27 @@ public class DefaultQPalXAuthenticationSuccessFailureHandler implements Authenti
         return null;
     }
 
-    private WebQPalXUser getAuthenticationFailedWebUser(AuthenticationException exception) {
+    private void populateAuthenticationFailedWebUser(AuthenticationException exception, HttpServletRequest httpServletRequest) {
         WebQPalXUser authenticationFailedUser;
         Throwable exceptionCause = exception.getCause();
 
         if(exceptionCause instanceof BadCredentialsException) {
             // password did not match the password we have on file return empty web user with invalid subscription
             authenticationFailedUser = new WebQPalXUser();
-            return authenticationFailedUser;
+            httpServletRequest.setAttribute("AuthenticationFailedUser", authenticationFailedUser);
         } else if(exceptionCause instanceof QPalXUserLoginException) {
             QPalXUserLoginException qPalXUserLoginException = (QPalXUserLoginException) exceptionCause;
-            Optional<WebQPalXUser> optional = qPalXUserLoginException.getWebQPalXUser();
-            authenticationFailedUser = optional.get();
-            return authenticationFailedUser;
-        }
 
-        return null;
+            if (qPalXUserLoginException.getWebQPalXUser().isPresent()) {
+                authenticationFailedUser = qPalXUserLoginException.getWebQPalXUser().get();
+                httpServletRequest.getSession().setAttribute("AuthenticationFailedUser", authenticationFailedUser);
+            }
+
+            if (qPalXUserLoginException.getUserAuthFailureE().isPresent()) {
+                LOGGER.info("Student user subscription details have expired, adding session details to route to subscription renewal.");
+                UserAuthFailureE userAuthFailureE = qPalXUserLoginException.getUserAuthFailureE().get();
+                httpServletRequest.getSession().setAttribute("UserAuthFailureE", userAuthFailureE);
+            }
+        }
     }
 }
