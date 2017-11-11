@@ -146,6 +146,7 @@
         <!-- Select Region Dropdown -->
         <div class="col-md-3">
             <select class="dropdown" th:field="*{municipalityID}">
+                <option value="0">Choose Your Region</option>
                 <option th:each="QPalXMunicipality : ${QPalXMunicipalities}" th:value="${QPalXMunicipality.id}" th:text="${QPalXMunicipality.name}"></option>
             </select>
         </div>

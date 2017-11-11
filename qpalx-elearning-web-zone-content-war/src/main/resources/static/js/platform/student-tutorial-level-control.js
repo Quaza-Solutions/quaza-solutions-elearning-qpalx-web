@@ -2,8 +2,13 @@ $(document).ready(function () {
     // Listen to QPalx Country Region Select for any changes.  Changes will trigger loading of Academic levels in that Region
     $('#municipalityID').change(function() {
         var municipalityID = $(this).val();
-        //console.log("Municipality Currently Selected: "+ municipalityID);
-        loadMunicipalityAcademicLevels(municipalityID);
+        console.log("Municipality Currently Selected: "+ municipalityID);
+        if(municipalityID > 0) {
+            loadMunicipalityAcademicLevels(municipalityID);
+        } else {
+            // IF 0 or less is selected this is not a valid municipalityID so clear all previous selection
+            clearAllStudentLevelSelection(true, true, true);
+        }
     });
 
 });
