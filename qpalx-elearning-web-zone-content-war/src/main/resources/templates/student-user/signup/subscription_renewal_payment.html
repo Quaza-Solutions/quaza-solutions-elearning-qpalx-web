@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS latest compiled version -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+
+    <script src="js/payment-selection-util.js"></script>
+</head>
+<body>
+
+<!-- Include general header for no logged in user session found -->
+<div th:replace="fragments/header-nosession :: header-nosession"></div>
+
+<br />
+
+<h1>Renew Your QPalX Subscription</h1>
+<div class="container">
+    <div class="col-md-2" onClick="hrFunctionA()" style="cursor: pointer;"><span class="three-circle-blue" id="circle-1"><span class="three-blue" id="number-1"><b>1</b></span></span><span class="three-text-blue" id="text-1"><b> Payment</b> </span><hr class="blue-hr-1" id="hr-1" /></div>
+
+    <div class="col-md-2"></div>
+
+    <div class="col-md-2"></div>
+    <div class="clearfix"></div>
+
+    <form th:action="@{/renew-subscription-with-payment}" th:object="${SubscriptionRenewQPalXWebUserVO}" method="post">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Your QPalX Subscription Has Expired!!!  Select A QPalX Subscription Type.</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Note that value of radio is set to ID for monthly on QPalXSubscription.  This needs to be changed if table changes -->
+                <input type="radio" id="check-box-one" value="1" name="subscriptions" onClick="displayCheckmark1();" th:field="*{subscriptionID}"/>
+                <label for="check-box-one" class="cents-box cents-box-2">
+                    <img class="cents" src="images/assets/sign-up/subscription-weekly-green.png" />
+                    <span></span>
+                    <p class="centered large-text"><b>Weekly</b></p>
+                    <!--<p class="centered">You will be billed on a weekly basis</p>-->
+                </label>
+            </div>
+
+            <div class="col-md-6">
+                <!-- Note that value of radio is set to ID for Yearly on QPalXSubscription.  This needs to be changed if table changes -->
+                <input type="radio" id="check-box-two" value="2" name="subscriptions" onClick="displayCheckmark2();" th:field="*{subscriptionID}"/>
+                <label for="check-box-two" class="cents-box cents-box-5">
+                    <img class="cents" src="images/assets/sign-up/subscription-monthly-blue.png" />
+                    <span></span>
+                    <p class="centered large-text"><b>Monthly</b></p>
+                    <!--<p class="centered side-margin">You will be charged on a monthly basis.</p>-->
+                </label>
+            </div>
+        </div>
+
+        <br/><br/>
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Note that value of radio is set to ID for monthly on QPalXSubscription.  This needs to be changed if table changes -->
+                <input type="radio" id="check-box-three" value="3" name="subscriptions" onClick="displayCheckmark1();" th:field="*{subscriptionID}"/>
+                <label for="check-box-three" class="cents-box cents-box-2">
+                    <img class="cents" src="images/assets/sign-up/subscription-quaterly-green.png" />
+                    <span></span>
+                    <p class="centered large-text"><b>Quarterly</b></p>
+                    <!--<p class="centered">You will be billed on a quarterly basis</p>-->
+                </label>
+            </div>
+
+            <div class="col-md-6">
+                <!-- Note that value of radio is set to ID for Yearly on QPalXSubscription.  This needs to be changed if table changes -->
+                <input type="radio" id="check-box-four" value="4" name="subscriptions" onClick="displayCheckmark2();" th:field="*{subscriptionID}"/>
+                <label for="check-box-four" class="cents-box cents-box-5">
+                    <img class="cents" src="images/assets/sign-up/subscription-yearly-blue.png" />
+                    <span></span>
+                    <p class="centered large-text"><b>Annually</b></p>
+                    <!--<p class="centered side-margin">You will be charged on a yearly basis at a discounted price.</p>-->
+                </label>
+            </div>
+        </div>
+
+
+
+        <br /><br /><br /> <br /><br /><br />
+        <!--<div class="row hover">-->
+        <!--<div class="col-md-2"></div>-->
+        <!--<div class="col-md-1"><input type="radio" class="radio-btn radio-btn-1" name="payment-options" /></div>-->
+        <!--<div class="col-md-6"><p><b>Credit Card</b></p><p>Safe money transfer using your bank account. Safe payment online. Credit card needed: Visa, Maestro, Discover, American Express.</p><span class="red"></span></div>-->
+        <!--<div class="col-md-1"><img src="images/assets/platform/visa.png" /></div>-->
+        <!--<div class="col-md-2"></div>-->
+        <!--</div>-->
+        <!--<br /><br /><br />-->
+        <!--<div class="row hover">-->
+        <!--<div class="col-md-2"></div>-->
+        <!--<div class="col-md-1"><input type="radio" class="radio-btn radio-btn-2" name="payment-options"  /></div>-->
+        <!--<div class="col-md-6"><p><b><a class="anchor-5" href="#popup1">PayPal</a></b></p><p>Safe payment online. Credit card needed. PayPal account is not necessary</p><span class="red-2"></span></div>-->
+        <!--<div class="col-md-1"><img src="images/assets/platform/paypal.png" /></div>-->
+        <!--<div class="col-md-2"></div>-->
+        <!--</div>-->
+        <!--<br /><br /><br />-->
+        <!--<div class="row hover">-->
+        <!--<div class="col-md-2"></div>-->
+        <!--<div class="col-md-1"><input type="radio" id="radio-2" class="radio-btn" name="payment-options" /></div>-->
+        <!--<div class="col-md-6"><p><b><a class="anchor-5" href="#popup2">Mpower</a></b></p><p>Safe secure payment online with Mpower</p></div>-->
+        <!--<div class="col-md-1"><img src="images/assets/platform/mpower.png" /></div>-->
+        <!--<div class="col-md-2"></div>-->
+        <!--</div>-->
+
+        <!--<div class="row">-->
+        <!--<div class="col-md-3"></div>-->
+        <!--<div class="col-md-4">Mpower Alias Number</div>-->
+        <!--<div class="col-md-2"><img src="images/assets/platform/alias.png" style="margin-left: 30px;" /></div>-->
+        <!--<div class="col-md-3"></div>-->
+        <!--</div>-->
+
+        <!--<div class="row">-->
+        <!--<div class="col-md-3"></div>-->
+        <!--<div class="col-md-6"><input type="text" id="form-text-1" class="form-control mpower-2" /></div>-->
+        <!--<div class="col-md-3"></div>-->
+        <!--</div>-->
+        <!--<br />-->
+        <!--<div class="row">-->
+        <!--<div class="col-md-3"></div>-->
+        <!--<div class="col-md-6">Full Name</div>-->
+        <!--<div class="col-md-3"></div>-->
+        <!--</div>-->
+
+        <!--<div class="row">-->
+        <!--<div class="col-md-3"></div>-->
+        <!--<div class="col-md-6"><input type="text" id="form-text" class="form-control" />-->
+        <!--<div class="col-md-3"></div></div>-->
+        <!--</div>div-->
+
+        <br /><br /><br />
+        <div class="row hover">
+            <div class="col-md-2"></div>
+            <div class="col-md-1"><input type="radio" id="radio-1" class="radio-btn" name="payment-options"  /></div>
+            <div class="col-md-6"><p><b><a class="anchor-5" href="#popup3">Prepaid Card</a></b></p><p>Enter Card Number</p></div>
+            <div class="col-md-1"><img src="images/assets/platform/prepaid.png" /></div>
+            <div class="col-md-2"></div>
+        </div>
+
+        <div th:if="${SubscriptionRenewQPalXWebUserVO.redemptionFailure == true}" class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6"> <label for="redemptionFail" style="color:#FF0000;">Non-Existent/Already-Used Code. Verify subscription purchased duration matches selected subscription</label><input type="text" th:field="*{prepaidValue}" class="form-control" style="border:1px solid #ff0000" id="redemptionFail"/>
+                <div class="col-md-3"></div></div>
+        </div>
+
+        <div th:if="${SubscriptionRenewQPalXWebUserVO.redemptionFailure == false}" class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6"> <input type="text" th:field="*{prepaidValue}" class="form-control"/>
+                <div class="col-md-3"></div></div>
+        </div>
+
+        <div class="clearfix bottom-space"></div>
+        <div class="col-md-12 continue"><button type="submit" class="btn btn-success">Continue</button></div>
+
+    </form>
+</div>
+<div class="clearfix bottom-space"></div>
+
+
+<div id="popup1" class="modalBox">
+    <a href="#" class="modalCloseOuter"></a>
+    <div class="modalBody paypal">
+        <a href="#" style="float:right; margin: 20px 40px 20px 0;">Close</a>
+        <img src="images/assets/platform/payment-page-paypal.jpg" style="margin:0; padding: 0;" />
+    </div>
+</div>
+
+
+<div id="popup2" class="modalBox">
+    <a href="#" class="modalCloseOuter"></a>
+    <div class="modalBody paypal">
+        <a href="#" style="float:right; margin: 20px 40px 20px 0;">Close</a>
+        <img src="images/assets/platform/payment-page-mpower.jpg" style="margin:0; padding: 0;" />
+    </div>
+</div>
+
+
+<div id="popup3" class="modalBox">
+    <a href="#" class="modalCloseOuter"></a>
+    <div class="modalBody paypal">
+        <a href="#" style="float:right; margin: 20px 40px 20px 0;">Close</a>
+        <img src="images/assets/platform/qcard.png" style="margin:0; padding: 0;" />
+    </div>
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/hr.js"></script>
+</body>
+</html>
