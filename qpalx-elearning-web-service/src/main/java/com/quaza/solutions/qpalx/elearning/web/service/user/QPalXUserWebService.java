@@ -6,8 +6,11 @@ import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IStudentCurric
 import com.quaza.solutions.qpalx.elearning.web.security.login.WebQPalXUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -21,9 +24,16 @@ import java.util.Optional;
 public class QPalXUserWebService implements IQPalXUserWebService {
 
 
+
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.StudentCurriculumService")
     private IStudentCurriculumService iStudentCurriculumService;
+
+
 
     public static final String BEAN_NAME = "com.quaza.solutions.qpalx.elearning.web.service.QPalXUserWebService";
 
@@ -44,6 +54,26 @@ public class QPalXUserWebService implements IQPalXUserWebService {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public boolean executeAutoLogin(String userEmail) {
+        Assert.notNull(userEmail, "userEmail cannot be null");
+        LOGGER.info("Attempting to auto-login user: {} to QPalX", userEmail);
+
+        // Executing this call will also validate user subscription details as part of auto loging process
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+
+        if(userDetails != null) {
+            // Below authentication is the same step SpringBoot Security does authentication so User is good to access web site after this step
+            LOGGER.info("Validation process completed succesfully auto-login completed");
+            Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            return true;
+        }
+
+        LOGGER.warn("Auto-login of user: {} was not succesful", userEmail);
+        return false;
     }
 
     @Override

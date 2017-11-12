@@ -21,9 +21,13 @@
 
 <h1>Renew Your QPalX Subscription</h1>
 <div class="container">
-    <div class="col-md-2" onClick="hrFunctionA()" style="cursor: pointer;"><span class="three-circle-blue" id="circle-1"><span class="three-blue" id="number-1"><b>1</b></span></span><span class="three-text-blue" id="text-1"><b> Payment</b> </span><hr class="blue-hr-1" id="hr-1" /></div>
+    <div class="col-md-2" onClick="hrFunctionA()" style="cursor: pointer;">
+        <span class="three-circle-blue" id="circle-1"><span class="three-blue" id="number-1"><b>1</b></span></span><span class="three-text-blue" id="text-1"><b>Payment</b> </span><hr class="blue-hr-1" id="hr-1" />
+    </div>
 
-    <div class="col-md-2"></div>
+    <div class="col-md-2">
+        <span class="three-circle-gray" id="circle-2"><span class="three-gray" id="number-2">2</span></span> <span id="text-2"><b>Subscription Renewal Confirmation</b></span><hr class="black-hr-2" id="hr-2" />
+    </div>
 
     <div class="col-md-2"></div>
     <div class="clearfix"></div>
@@ -162,6 +166,10 @@
         <div class="clearfix bottom-space"></div>
         <div class="col-md-12 continue"><button type="submit" class="btn btn-success">Continue</button></div>
 
+
+        <!-- Hidden field to pass back User Email and Municipality -->
+        <input type="hidden" th:value="${SubscriptionRenewQPalXWebUserVO.email}" name="email"/>
+        <input type="hidden" th:value="${SubscriptionRenewQPalXWebUserVO.municipalityID}" name="municipalityID"/>
     </form>
 </div>
 <div class="clearfix bottom-space"></div>

@@ -12,30 +12,21 @@ import java.util.Optional;
 public interface IQPalXUserWebService {
 
 
-    /**
-     * Finds and returns the currently logged in QPalXUser session.  IF no user logged in returns Optional#absent
-     *
-     * @return
-     */
+    // Finds and returns the currently logged in QPalXUser session.  IF no user logged in returns Optional#absent
     public Optional<QPalXUser> getLoggedInQPalXUser();
 
-    /**
-     * @return The full blown WebQPalXUser instance
-     */
+    // Given a QPalxUser Email address execute auto login, return false if auto login failed.
+    public boolean executeAutoLogin(String userEmail);
+
+
+    // Get and return the WebQPalXUser of currently logged in user
     public WebQPalXUser getWebQPalXUser();
 
-
-    /**
-     * Add basic QPalXUser info details
-     */
+    // Add basic QPalXUser info details
     public void addQPalXUserInfoDetailsToWebModel(final Model model, QPalXUser qPalXUser);
 
 
-    /**
-     * Loads and adds all the ELearning curriculum by CurriculumType based on the UserType of qPalXUser
-     * @param model
-     * @param qPalXUser
-     */
+    // Loads and adds all the ELearning curriculum by CurriculumType based on the UserType of qPalXUser
     public void addQPalXUserAccesibleCurriculum(final Model model, QPalXUser qPalXUser);
 
 }

@@ -37,6 +37,8 @@ import java.util.List;
  * IF user is found, their details including password is returned back to Spring Boot Security to validate their password
  * as well as their granted authority access levels.
  *
+ * <strong>Note that there is only one implementation</strong> of this bean. Autowire with name is not needed
+ *
  * @author manyce400
  */
 @Service
