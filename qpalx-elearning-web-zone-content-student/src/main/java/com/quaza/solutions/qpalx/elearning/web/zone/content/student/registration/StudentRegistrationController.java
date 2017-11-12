@@ -1,10 +1,9 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.student.registration;
 
-import com.google.common.collect.ImmutableMap;
-import com.quaza.solutions.qpalx.elearning.domain.geographical.QPalXMunicipality;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.CurriculumType;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
+import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.StudentSubscriptionProfile;
 import com.quaza.solutions.qpalx.elearning.domain.subjectmatter.proficiency.SimplifiedProficiencyRankE;
 import com.quaza.solutions.qpalx.elearning.domain.subscription.QPalXSubscription;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
@@ -20,6 +19,8 @@ import com.quaza.solutions.qpalx.elearning.service.subscription.IQPalxSubscripti
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.student.StudentSignUpModelAttributeE;
+import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
+import com.quaza.solutions.qpalx.elearning.web.service.user.QPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.DefaultRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXWebUserVO;
@@ -34,9 +35,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponents;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,6 +82,10 @@ public class StudentRegistrationController {
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultQPalxPrepaidIDService")
     private IQPalxPrepaidIDService iQpalxPrepaidIDService;
+
+    @Autowired
+    @Qualifier(QPalXUserWebService.BEAN_NAME)
+    private IQPalXUserWebService iqPalXUserWebService;
 
     @Autowired
     @Qualifier(DefaultRedirectStrategyExecutor.BEAN_NAME)
@@ -134,9 +136,6 @@ public class StudentRegistrationController {
 
         LOGGER.info("Attempting to redeem prepaid code: {} ..", qPalXWebUserVO.getPrepaidValue());
 
-        // Redeem prepaid code using the selected municipality
-        QPalXMunicipality qPalXMunicipality = iqPalXMunicipalityService.findQPalXMunicipalityByID(qPalXWebUserVO.getMunicipalityID());
-
         // Find all Content both Core and Elective for the TutorialGrade that the Student selected
         StudentTutorialGrade studentTutorialGrade = iqPalXTutorialService.findTutorialGradeByID(qPalXWebUserVO.getTutorialGradeID());
         List<ELearningCurriculum> coreELearningCurricula = ieLearningCurriculumService.findAllCurriculumByTutorialGradeAndType(CurriculumType.CORE, studentTutorialGrade);
@@ -154,7 +153,7 @@ public class StudentRegistrationController {
         }
         else {
             // Attempt to redeem code
-            boolean codeRedeemed = iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXWebUserVO.getSubscriptionID(), qPalXMunicipality);
+            boolean codeRedeemed = iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXWebUserVO.getSubscriptionID());
 
             if (codeRedeemed) {
                 qPalXWebUserVO.setRedemptionFailure(false);
@@ -174,36 +173,39 @@ public class StudentRegistrationController {
     }
 
     @RequestMapping(value = "/renew-subscription-with-payment", method = RequestMethod.POST)
-    public void executeSubscriptionRenewalWithPayment(ModelMap modelMap, Model model, @ModelAttribute("SubscriptionRenewQPalXWebUserVO") QPalXWebUserVO qPalXWebUserVO, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    public String executeSubscriptionRenewalWithPayment(Model model, @ModelAttribute("SubscriptionRenewQPalXWebUserVO") QPalXWebUserVO qPalXWebUserVO) {
         LOGGER.info("Processing student subscription renewal for qPalXWebUserVO: {}", qPalXWebUserVO);
 
-        LOGGER.info("Attempting to redeem prepaid code: {} ..", qPalXWebUserVO.getPrepaidValue());
-
-        // Redeem prepaid code using the selected municipality
-        QPalXMunicipality qPalXMunicipality = iqPalXMunicipalityService.findQPalXMunicipalityByID(qPalXWebUserVO.getMunicipalityID());
+        // Find the selected subscription that user has chosen
+        QPalXSubscription qPalXSubscription = iqPalxSubscriptionService.findQPalXSubscriptionByID(qPalXWebUserVO.getSubscriptionID());
 
         // Attempt to redeem code
-        boolean codeRedeemed = iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXWebUserVO.getSubscriptionID(), qPalXMunicipality);
+        boolean codeRedeemed = iQpalxPrepaidIDService.redeemCode(qPalXWebUserVO.getPrepaidValue(), qPalXWebUserVO.getSubscriptionID());
 
         if (codeRedeemed) {
             qPalXWebUserVO.setRedemptionFailure(false);
-            LOGGER.info("Redeemed and completed processing Student subscription renewal, posting to login form...");
-            UriComponents url = ServletUriComponentsBuilder.fromServletMapping(httpServletRequest).path("/login").build();
-            Map<String, String> formDetails = ImmutableMap.of("username", qPalXWebUserVO.getEmail(), "password", qPalXWebUserVO.getPassword());
-            new RestTemplate().postForLocation(url.toString(), formDetails);
-            //iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "");
-        } else {
-            qPalXWebUserVO.setRedemptionFailure(true);
-            int holder = qPalXWebUserVO.getIncorrectValueCounter();
-            holder++;
-            qPalXWebUserVO.setIncorrectValueCounter(holder);
+            LOGGER.info("Redeemed and completed processing Student subscription renewal, creating new User Authentication");
+
+            // renew student users subscription
+            Optional<StudentSubscriptionProfile> studentSubscriptionProfile = iqPalXUserSubscriptionService.renewQPalXUserSubscription(qPalXWebUserVO.getEmail(), qPalXSubscription);
+            if (studentSubscriptionProfile.isPresent()) {
+                boolean autoLoggedIn = iqPalXUserWebService.executeAutoLogin(qPalXWebUserVO.getEmail());
+
+                // Add attributes for displaying information in confirmation page.
+                String expiryDate = iGeographicalDateTimeFormatter.getUserFriendlyDateTime(studentSubscriptionProfile.get().getSubscriptionExpirationDate(), studentSubscriptionProfile.get().getQpalxUser());
+                model.addAttribute("SubscriptionExpiryDate", expiryDate);
+                return ContentRootE.Student_Signup.getContentRootPagePath("subscription_renewal_confirmation");
+            }
         }
+
+        model.addAttribute("SubscriptionRenewalStatus", "Failed");
+        LOGGER.info("Code redemption failed, sending back to subscription renewal page...");
+        return ContentRootE.Student_Signup.getContentRootPagePath("subscription_renewal_payment");
     }
 
     @RequestMapping(value = "/complete-qpalx-signup", method = RequestMethod.POST)
-    public String completeQPalXSignup(final SessionStatus status, @ModelAttribute("QPalXWebUserVO") QPalXWebUserVO qPalXWebUserVO) {
+    public void completeQPalXSignup(final SessionStatus status, @ModelAttribute("QPalXWebUserVO") QPalXWebUserVO qPalXWebUserVO, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         LOGGER.info("Attempting to create new QPalX subscription using qPalXWebUserVO: {} ", qPalXWebUserVO);
-
 
         // save all subscription details
         Optional<QPalXUser> optionalQPalXUser = iqPalXUserSubscriptionService.createNewQPalXUserWithTutorialSubscription(qPalXWebUserVO);
@@ -214,11 +216,11 @@ public class StudentRegistrationController {
         status.isComplete();
 
         if(optionalQPalXUser.isPresent()) {
-            LOGGER.info("QPalXUser subscription has been succesfully processed, returning to QPalX home page to signup...");
-            return ContentRootE.Home.getContentRootPagePath("homepage");
+            LOGGER.info("QPalXUser subscription has been succesfully processed, executing auto login of newly created user...");
+            boolean autoLoggedIn = iqPalXUserWebService.executeAutoLogin(qPalXWebUserVO.getEmail());
         }
 
-        return ContentRootE.Home.getContentRootPagePath("homepage");
+        iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "/");
     }
 
 

@@ -22,17 +22,24 @@
 <h1>Renew Your QPalX Subscription</h1>
 <div class="container">
     <div class="col-md-2" onClick="hrFunctionA()" style="cursor: pointer;">
-        <span class="three-circle-blue" id="circle-1"><span class="three-blue" id="number-1"><b>1</b></span></span><span class="three-text-blue" id="text-1"><b>Payment</b> </span><hr class="blue-hr-1" id="hr-1" />
+        <span class="three-circle-blue" id="circle-1"><span class="three-blue" id="number-1"><b>1</b></span></span><span class="three-text-blue" id="text-1"><b> Payment</b> </span><hr class="blue-hr-1" id="hr-1" />
     </div>
 
     <div class="col-md-2">
-        <span class="three-circle-gray" id="circle-2"><span class="three-gray" id="number-2">2</span></span> <span id="text-2"><b>Subscription Renewal Confirmation</b></span><hr class="black-hr-2" id="hr-2" />
+        <span class="three-circle-gray" id="circle-2"><span class="three-gray" id="number-2">2</span></span> <span id="text-2"><b> Renewal Confirmation</b></span><hr class="black-hr-2" id="hr-2" />
     </div>
 
     <div class="col-md-2"></div>
     <div class="clearfix"></div>
 
     <form th:action="@{/renew-subscription-with-payment}" th:object="${SubscriptionRenewQPalXWebUserVO}" method="post">
+
+        <!-- Display invalid login information panel -->
+        <div class="row" th:if="${SubscriptionRenewalStatus} == 'Failed'">
+            <div class="alert alert-danger fade in">
+                Failed to renew your Subscription with Payment Information.  Please try again.
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-12">

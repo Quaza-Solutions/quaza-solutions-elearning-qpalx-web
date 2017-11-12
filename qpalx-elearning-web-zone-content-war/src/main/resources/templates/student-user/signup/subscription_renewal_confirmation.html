@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS latest compiled version -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+
+    <script src="js/payment-selection-util.js"></script>
+</head>
+<body>
+
+<!-- Include general header for no logged in user session found -->
+<div th:replace="fragments/header-nosession :: header-usersession"></div>
+
+<br />
+
+<h1>Subscription Renewal Success</h1>
+<div class="container">
+    <div class="col-md-2" onClick="hrFunctionA()" style="cursor: pointer;">
+        <span class="three-circle-gray" id="circle-2"><span class="three-gray" id="number-2">2</span></span> <span id="text-2"><b> Payment</b></span><hr class="black-hr-2" id="hr-2" />
+    </div>
+
+    <div class="col-md-2">
+        <span class="three-circle-blue" id="circle-1"><span class="three-blue" id="number-1"><b>1</b></span></span><span class="three-text-blue" id="text-1"><b> Renewal Confirmation</b> </span><hr class="blue-hr-1" id="hr-1" />
+    </div>
+
+    <div class="col-md-2"></div>
+    <div class="clearfix"></div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Your QPalX Subscription has been renewed.</h4>
+            <p th:inline="text">Subscription Expiration Date: [[${SubscriptionExpiryDate}]]</p>
+            <p><a th:href="@{/}"> Go To Main Page</a></p>
+        </div>
+    </div>
+
+</div>
+
+<div class="clearfix bottom-space"></div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/hr.js"></script>
+</body>
+</html>
