@@ -115,7 +115,10 @@ public class AccountInfoController {
         model.addAttribute(DomainDataDisplayAttributeE.SubscriptionInfo.toString(), activeUserSubscriptionProfile.get());
 
         DateTime subscriptionPurchaseDate = activeUserSubscriptionProfile.get().getSubscriptionPurchasedDate();
+        DateTime expirationDate = activeUserSubscriptionProfile.get().getSubscriptionExpirationDate();
+
         model.addAttribute(DomainDataDisplayAttributeE.SubscriptionPurchaseDate.toString(), subscriptionPurchaseDate.toString(dtf));
+        model.addAttribute(DomainDataDisplayAttributeE.SubscriptionExpireDate.toString(), expirationDate.toString(dtf));
 
         // Calculate number of days till expiration
         int daysTillExpiration = iqPalxSubscriptionService.calculateNumberOfDaysTillExpiration(activeUserSubscriptionProfile.get());
@@ -128,9 +131,9 @@ public class AccountInfoController {
         }
 
         // Add all details required to show what current user settings are.
-        model.addAttribute("QPalXWebUserVO", new QPalXWebUserVO());
-        addQPalXUserAccountInfoAttributes(model);
 
+        model.addAttribute("QPalXWebUserVO", new QPalXWebUserVO());
+//        addQPalXUserAccountInfoAttributes(model);
         return ContentRootE.Student_Home.getContentRootPagePath("account-info");
     }
 

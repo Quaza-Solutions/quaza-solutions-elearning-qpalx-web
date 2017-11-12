@@ -13,6 +13,8 @@ public enum DomainDataDisplayAttributeE {
 
     SubscriptionPurchaseDate,
 
+    SubscriptionExpireDate,
+
     DaysTillSubscriptionExpire,
 
     DisplaySubscriptionRenewal
