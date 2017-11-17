@@ -10,7 +10,7 @@ public enum LessonsAdminAttributesE {
 
     QPalXEMicroLessons,
 
-    QPalXMicroLessonActivities,
+    MicroLessonSavedAndUpdated,
 
     QuestionBankItems,
 

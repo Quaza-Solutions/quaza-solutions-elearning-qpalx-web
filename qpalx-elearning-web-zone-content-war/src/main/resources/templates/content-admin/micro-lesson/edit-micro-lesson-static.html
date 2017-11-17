@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/modal-style.css"/>
+    <link rel="stylesheet" href="css/form-control.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/form-control/file-control.js" type="text/javascript"></script>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Content Admin user details overview panel -->
+<div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
+
+<div class="container">
+
+    <div class="row" th:if="${Invalid_FORM_Submission} != null">
+        <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"/>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3 th:text="${QPalXEMicroLessonVO.getMicroLessonName()}"></h3>
+            <br/>
+            <h4>Add MicroLesson Static Media:</h4>
+        </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" th:action="@{save-edit-microlesson-static}" th:object="${QPalXEMicroLessonVO}">
+        <div class="panel panel-success">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label>Choose A Static(swf) File</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                        <input type="submit" name="submit" class="btn btn-primary"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <input type="file" name="static_file" class="file"/>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <input type="text" class="form-control" disabled="true" placeholder="Upload Static MP4 Video" size="250" name="static_file"/>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                </div>
+
+                <br/>
+
+                <div class="row" th:if="${QPalXEMicroLesson.getStaticELearningMediaContent() != null}">
+                    <div class="col-md-6">
+                        <b>Currently Uploaded Static(SWF):</b> <a href="#MicroLessonStatic" th:inline="text">[[${QPalXEMicroLesson.getStaticELearningMediaContent().getActualFileName()}]]</a>
+                    </div>
+                    <div class="col-md-6"></div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <!-- Skip Interactive Exercise upload panel-->
+    <form method="post" th:action="@{skip-edit-microlesson-static}" th:object="${QPalXEMicroLessonVO}">
+        <div class="panel panel-success">
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button class="browse btn btn-primary" type="submit"><i class="glyphicon glyphicon-asterisk"></i> Skip Static File Upload</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div class="clearfix bottom-space"></div>
+
+<div class="modalBox" th:if="${QPalXEMicroLesson != null}">
+
+    <!-- Popup for Micro lesson static file -->
+    <div th:id="MicroLessonStatic" class="modalBox" th:if="${QPalXEMicroLesson.getStaticELearningMediaContent() != null}">
+        <a href="#" class="modalCloseOuter"></a>
+        <div class="mp4">
+            <div class="bar-1"></div>
+            <a href="#" style="float:right; margin: 20px 40px 20px 0;">Close</a>
+            <div class="modalBody">
+                <embed th:src="${SelectedQPalXMicroLesson.getStaticELearningMediaContent().getELearningMediaFile()}" width="800" height="560"/>
+            </div>
+            <div class="bar-3"></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/hr.js"></script>
+<script src="js/hover.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/progress-bar.js" type="text/javascript"></script>
+<script src="js/modernizr.js" type="text/javascript"></script>
+
+</body>
+</html>

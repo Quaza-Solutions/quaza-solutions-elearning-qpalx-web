@@ -7,10 +7,7 @@ import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXEMicroLe
 import com.quaza.solutions.qpalx.elearning.web.service.admin.curriculum.ICurriculumHierarchyService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
-import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
-import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
-import com.quaza.solutions.qpalx.elearning.web.service.enums.ValueObjectDataDisplayAttributeE;
-import com.quaza.solutions.qpalx.elearning.web.service.enums.WebOperationErrorAttributesE;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.*;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.elearningcontent.IELearningStaticContentService;
@@ -32,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @SessionAttributes(
-        value = {QPalXEMicroLesson.CLASS_ATTRIBUTE_IDENTIFIER, QPalXEMicroLessonVO.CLASS_ATTRIBUTE, "SelectedQPalXELesson"}
+        value = {QPalXEMicroLesson.CLASS_ATTRIBUTE_IDENTIFIER, QPalXEMicroLessonVO.CLASS_ATTRIBUTE, "MicroLessonSavedAndUpdated", "SelectedQPalXELesson"}
 )
 public class MicroLessonEditAdminWizardController {
 
@@ -84,6 +81,7 @@ public class MicroLessonEditAdminWizardController {
 
         modelMap.addAttribute(QPalXEMicroLesson.CLASS_ATTRIBUTE_IDENTIFIER, qPalXEMicroLesson);
         modelMap.addAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE, qPalXEMicroLessonVO);
+        modelMap.addAttribute("MicroLessonSavedAndUpdated", Boolean.FALSE);
         modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXELesson.toString(), qPalXELesson);
         model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
 
@@ -115,6 +113,14 @@ public class MicroLessonEditAdminWizardController {
 
         // Add all attributes required for User information panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
+
+        // Save the changes just made in case user doesn't complete edit session
+        qPalXEMicroLessonVO.setELearningMediaContent(qPalXEMicroLesson.geteLearningMediaContent());
+        qPalXEMicroLessonVO.setStaticELearningMediaContent(qPalXEMicroLesson.getStaticELearningMediaContent());
+        qPalXEMicroLessonVO.setInteractiveELearningMediaContent(qPalXEMicroLesson.getInteractiveELearningMediaContent());
+        iqPalXEMicroLessonService.updateAndSaveQPalXEMicroLesson(qPalXEMicroLesson, qPalXEMicroLessonVO);
+        modelMap.addAttribute("MicroLessonSavedAndUpdated", Boolean.TRUE);
+
         return ContentRootE.Content_Admin_Micro_Lessons.getContentRootPagePath("edit-micro-lesson-narration");
     }
 
@@ -126,7 +132,7 @@ public class MicroLessonEditAdminWizardController {
     }
 
     @RequestMapping(value = "/save-edited-microlesson-narration", method = RequestMethod.POST)
-    public String saveMicroLessonNarrationFile(Model model,
+    public String saveMicroLessonNarrationFile(Model model, ModelMap modelMap,
                                                @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
                                                @ModelAttribute(QPalXEMicroLesson.CLASS_ATTRIBUTE_IDENTIFIER) QPalXEMicroLesson qPalXEMicroLesson,
                                                @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO,
@@ -149,22 +155,23 @@ public class MicroLessonEditAdminWizardController {
         if(narrationELearningMediaContent == null || narrationELearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT) {
             LOGGER.warn("Failed to upload MicroLesson narration file...");
             model.addAttribute(WebOperationErrorAttributesE.Invalid_FORM_Submission.toString(), "Error occurred on fileupload, check the file type and content");
-            return ContentRootE.Content_Admin_Micro_Lessons.getContentRootPagePath("add-micro-lesson-narration");
+            return ContentRootE.Content_Admin_Micro_Lessons.getContentRootPagePath("edit-micro-lesson-narration");
         } else {
             // Delete the previously uploaded narration file IF exists
             if (qPalXEMicroLesson.geteLearningMediaContent() != null) {
-                LOGGER.info("Deleting previously save MicroLesson Narration file: {}", qPalXEMicroLesson.geteLearningMediaContent());
+                LOGGER.info("Deleting previously saved MicroLesson Narration file: {}", qPalXEMicroLesson.geteLearningMediaContent());
                 ieLearningStaticContentService.deleteELearningMediaContent(qPalXEMicroLesson.geteLearningMediaContent());
             }
 
             // Update new narration file on micro lesson
             qPalXEMicroLesson.seteLearningMediaContent(narrationELearningMediaContent);
+            qPalXEMicroLessonVO.setELearningMediaContent(narrationELearningMediaContent);
 
             // Save updated QPalXMicroLesson here with new narration file in case user abandons edit
             iqPalXEMicroLessonService.updateAndSaveQPalXEMicroLesson(qPalXEMicroLesson, qPalXEMicroLessonVO);
+            modelMap.addAttribute("MicroLessonSavedAndUpdated", Boolean.TRUE);
 
             LOGGER.info("Upload of narration file was succeful, setting ELearningMediaContent for narration");
-            qPalXEMicroLessonVO.setELearningMediaContent(narrationELearningMediaContent);
             return ContentRootE.Content_Admin_Micro_Lessons.getContentRootPagePath("edit-micro-lesson-static");
         }
     }
@@ -178,8 +185,9 @@ public class MicroLessonEditAdminWizardController {
     }
 
     @RequestMapping(value = "/save-edit-microlesson-static", method = RequestMethod.POST)
-    public String saveMicroLessonStaticFile(Model model,
+    public String saveMicroLessonStaticFile(Model model, ModelMap modelMap,
                                             @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
+                                            @ModelAttribute(QPalXEMicroLesson.CLASS_ATTRIBUTE_IDENTIFIER) QPalXEMicroLesson qPalXEMicroLesson,
                                             @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO,
                                             @RequestParam("static_file") MultipartFile multipartFile) {
         LOGGER.info("Saving QPalX Micro lesson static file with VO attributes: {}", qPalXEMicroLessonVO);
@@ -195,15 +203,28 @@ public class MicroLessonEditAdminWizardController {
         qPalXEMicroLessonVO.setQPalXTutorialContentType(QPalXTutorialContentTypeE.Static.toString());
 
         // Upload file and create the ELearningMediaContent
-        ELearningMediaContent eLearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(multipartFile, qPalXEMicroLessonVO);
+        ELearningMediaContent staticELearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(multipartFile, qPalXEMicroLessonVO);
 
-        if(eLearningMediaContent == null || eLearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT) {
+        if(staticELearningMediaContent == null || staticELearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT) {
             LOGGER.warn("Failed to upload MicroLesson narration file...");
             model.addAttribute(WebOperationErrorAttributesE.Invalid_FORM_Submission.toString(), "Error occurred on fileupload, check the file type and content");
             return ContentRootE.Content_Admin_Micro_Lessons.getContentRootPagePath("add-micro-lesson-static");
         } else {
+            // Delete the previously uploaded narration file IF exists
+            if (qPalXEMicroLesson.getStaticELearningMediaContent() != null) {
+                LOGGER.info("Deleting previously saved MicroLesson static file: {}", qPalXEMicroLesson.getStaticELearningMediaContent());
+                ieLearningStaticContentService.deleteELearningMediaContent(qPalXEMicroLesson.getStaticELearningMediaContent());
+            }
+
+            // Update new narration file on micro lesson
+            qPalXEMicroLesson.setStaticELearningMediaContent(staticELearningMediaContent);
+            qPalXEMicroLessonVO.setStaticELearningMediaContent(staticELearningMediaContent);
+
+            // Save updated QPalXMicroLesson here with new narration file in case user abandons edit
+            iqPalXEMicroLessonService.updateAndSaveQPalXEMicroLesson(qPalXEMicroLesson, qPalXEMicroLessonVO);
+            modelMap.addAttribute("MicroLessonSavedAndUpdated", Boolean.TRUE);
+
             LOGGER.info("Upload of narration file was succeful, setting ELearningMediaContent for narration");
-            qPalXEMicroLessonVO.setStaticELearningMediaContent(eLearningMediaContent);
             return ContentRootE.Content_Admin_Micro_Lessons.getContentRootPagePath("edit-micro-lesson-interactivee");
         }
     }
@@ -212,6 +233,7 @@ public class MicroLessonEditAdminWizardController {
     @RequestMapping(value = "/save-edit-microlesson-interactive", method = RequestMethod.POST)
     public String saveMicroLessonInteractiveFile(Model model, SessionStatus status,
                                                  @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
+                                                 @ModelAttribute(QPalXEMicroLesson.CLASS_ATTRIBUTE_IDENTIFIER) QPalXEMicroLesson qPalXEMicroLesson,
                                                  @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO,
                                                  @RequestParam("interactive_file") MultipartFile multipartFile, HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Saving QPalX Micro lesson narration file with VO attributes: {}", qPalXEMicroLessonVO);
@@ -227,15 +249,27 @@ public class MicroLessonEditAdminWizardController {
         qPalXEMicroLessonVO.setQPalXTutorialContentType(QPalXTutorialContentTypeE.Interactive_Excersise.toString());
 
         // Upload file and create the ELearningMediaContent
-        ELearningMediaContent eLearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(multipartFile, qPalXEMicroLessonVO);
+        ELearningMediaContent interactiveELearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(multipartFile, qPalXEMicroLessonVO);
 
-        if(eLearningMediaContent == null || eLearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT) {
+        if(interactiveELearningMediaContent == null || interactiveELearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT) {
             LOGGER.warn("Failed to upload MicroLesson narration file...");
             model.addAttribute(WebOperationErrorAttributesE.Invalid_FORM_Submission.toString(), "Error occurred on fileupload, check the file type and content");
             return ContentRootE.Content_Admin_Micro_Lessons.getContentRootPagePath("add-micro-lesson-interactive");
         } else {
+            // Delete the previously uploaded narration file IF exists
+            if (qPalXEMicroLesson.getInteractiveELearningMediaContent() != null) {
+                LOGGER.info("Deleting previously saved MicroLesson static file: {}", qPalXEMicroLesson.getInteractiveELearningMediaContent());
+                ieLearningStaticContentService.deleteELearningMediaContent(qPalXEMicroLesson.getInteractiveELearningMediaContent());
+            }
+
+            // Update new narration file on micro lesson
+            qPalXEMicroLesson.setInteractiveELearningMediaContent(interactiveELearningMediaContent);
+            qPalXEMicroLessonVO.setInteractiveELearningMediaContent(interactiveELearningMediaContent);
+
+            // Save updated QPalXMicroLesson here with new narration file in case user abandons edit
+            iqPalXEMicroLessonService.updateAndSaveQPalXEMicroLesson(qPalXEMicroLesson, qPalXEMicroLessonVO);
+
             LOGGER.info("Upload of narration file was succeful, setting ELearningMediaContent for narration, saving final MicroLesson details...");
-            qPalXEMicroLessonVO.setInteractiveELearningMediaContent(eLearningMediaContent);
             iqPalXEMicroLessonService.createAndSaveQPalXEMicroLesson(qPalXEMicroLessonVO);
 
             status.setComplete();
@@ -243,34 +277,36 @@ public class MicroLessonEditAdminWizardController {
             // redirect back to view all micro lessons in this Lesson.
             String targetURL = "/view-admin-qpalx-micro-elessons?qpalxELessonID=" + qPalXEMicroLessonVO.getQPalXELessonID();
             iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
-
-            return ContentRootE.Content_Admin_Micro_Lessons.getContentRootPagePath("add-micro-lesson-static");
+            return "";
         }
     }
 
     @RequestMapping(value = "/complete-microlesson-edit-wizard", method = RequestMethod.POST)
     public void completeMicroLessonCreateWizard(Model model, SessionStatus status,
+                                                @ModelAttribute("MicroLessonSavedAndUpdated") Boolean microLessonUpdated,
                                                 @ModelAttribute(QPalXEMicroLesson.CLASS_ATTRIBUTE_IDENTIFIER) QPalXEMicroLesson qPalXEMicroLesson,
-                                               @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO,
+                                                @ModelAttribute(QPalXEMicroLessonVO.CLASS_ATTRIBUTE) QPalXEMicroLessonVO qPalXEMicroLessonVO,
                                                HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Completing MicroLesson creation wizard....");
 
-        // Save updated QPalXMicroLesson here with new narration file in case user abandons edit
-        iqPalXEMicroLessonService.updateAndSaveQPalXEMicroLesson(qPalXEMicroLesson, qPalXEMicroLessonVO);
+        if (microLessonUpdated == Boolean.FALSE) {
+            // Save updated QPalXMicroLesson here with new narration file in case user abandons edit
+            iqPalXEMicroLessonService.updateAndSaveQPalXEMicroLesson(qPalXEMicroLesson, qPalXEMicroLessonVO);
+        }
 
         status.setComplete();
         String targetURL = "/view-admin-qpalx-micro-elessons?qpalxELessonID=" + qPalXEMicroLessonVO.getQPalXELessonID();
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
 
-//    @RequestMapping(value = "/exit-microlesson-create", method = RequestMethod.GET)
-//    public void exitMicroLessonCreateWizard(Model model, SessionStatus status,
-//                                            @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
-//                                            HttpServletRequest request, HttpServletResponse response) {
-//        LOGGER.info("Canceling creation of MicroLesson wizard for Lesson: {}", qPalXELesson.getId());
-//        String targetURL = "/view-admin-qpalx-micro-elessons?qpalxELessonID=" + qPalXELesson.getId();
-//        status.setComplete();
-//        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
-//    }
+    @RequestMapping(value = "/exit-microlesson-edit", method = RequestMethod.GET)
+    public void exitMicroLessonCreateWizard(Model model, SessionStatus status,
+                                            @ModelAttribute("SelectedQPalXELesson") QPalXELesson qPalXELesson,
+                                            HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Canceling edit of MicroLesson wizard for Lesson: {}", qPalXELesson.getId());
+        String targetURL = "/view-admin-qpalx-micro-elessons?qpalxELessonID=" + qPalXELesson.getId();
+        status.setComplete();
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
+    }
 
 }
