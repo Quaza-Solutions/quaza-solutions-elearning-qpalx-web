@@ -49,11 +49,12 @@
         <div class="col-md-4"></div>
 
         <div class="col-md-2">
-            <div class="default-btn-1"></div>
+            <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/microlesson-edit-start(microLessonID=${QPalXEMicroLesson.id})} + '\''">
+                Edit Micro-Lesson
+            </button>
         </div>
 
         <div class="col-md-2">
-            <div class="default-btn-1"></div>
             <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/delete-qpalx-micro-lesson(microLessonID=${QPalXEMicroLesson.id})} + '\''">
                 Remove Micro-Lesson
             </button>

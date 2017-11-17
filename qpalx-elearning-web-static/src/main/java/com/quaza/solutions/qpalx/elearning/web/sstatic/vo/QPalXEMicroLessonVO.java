@@ -18,7 +18,6 @@ import java.util.Set;
 public class QPalXEMicroLessonVO extends AbstractILMSMediaContentVO implements IQPalXEMicroLessonVO {
 
 
-
     private String microLessonName;
 
     private String microLessonDescription;
@@ -42,6 +41,7 @@ public class QPalXEMicroLessonVO extends AbstractILMSMediaContentVO implements I
     public QPalXEMicroLessonVO(QPalXEMicroLesson qPalXEMicroLesson) {
         this.microLessonName = qPalXEMicroLesson.getMicroLessonName();
         this.microLessonDescription = qPalXEMicroLesson.getMicroLessonDescription();
+        this.qPalXELessonID = qPalXEMicroLesson.getQPalXELesson().getId();
     }
 
     @Override

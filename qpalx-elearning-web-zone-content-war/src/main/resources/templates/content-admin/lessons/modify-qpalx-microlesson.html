@@ -121,37 +121,37 @@
 
 
 <!-- Popup for Micro Lesson MP4 video -->
-<div class="modalBox" th:if="${SelectedQPalXMicroLesson != null}">
+<!--<div class="modalBox" th:if="${SelectedQPalXMicroLesson != null}">-->
 
-    <div id="MicroLessonVideo" class="modalBox">
-        <a href="#" class="modalCloseOuter" onClick="stopVideo();"></a>
-        <div class="mp4">
-            <div class="bar-1"></div>
-            <a href="#" style="float:right; margin: 20px 40px 20px 0;" onClick="stopVideo();">Close</a>
-            <div class="modalBody">
-                <video width="800" id="modal-box" controls="controls">
-                    <source th:src="${SelectedQPalXMicroLesson.geteLearningMediaContent().getELearningMediaFile()}" type="video/mp4"/>
-                    Your browser does not support HTML5 video.
-                </video>
-            </div>
-            <div class="bar-3"></div>
-        </div>
-    </div>
+    <!--<div id="MicroLessonVideo" class="modalBox">-->
+        <!--<a href="#" class="modalCloseOuter" onClick="stopVideo();"></a>-->
+        <!--<div class="mp4">-->
+            <!--<div class="bar-1"></div>-->
+            <!--<a href="#" style="float:right; margin: 20px 40px 20px 0;" onClick="stopVideo();">Close</a>-->
+            <!--<div class="modalBody">-->
+                <!--<video width="800" id="modal-box" controls="controls">-->
+                    <!--<source th:src="${SelectedQPalXMicroLesson.geteLearningMediaContent().getELearningMediaFile()}" type="video/mp4"/>-->
+                    <!--Your browser does not support HTML5 video.-->
+                <!--</video>-->
+            <!--</div>-->
+            <!--<div class="bar-3"></div>-->
+        <!--</div>-->
+    <!--</div>-->
 
-    <!-- Popup for Micro lesson static.  No narration SWF file -->
-    <div th:id="MicroLessonStatic" class="modalBox">
-        <a href="#" class="modalCloseOuter"></a>
-        <div class="mp4">
-            <div class="bar-1"></div>
-            <a href="#" style="float:right; margin: 20px 40px 20px 0;">Close</a>
-            <div class="modalBody">
-                <embed th:src="${SelectedQPalXMicroLesson.getStaticELearningMediaContent().getELearningMediaFile()}" width="800" height="560"  />
-            </div>
-            <div class="bar-3"></div>
-        </div>
-    </div>
+    <!--&lt;!&ndash; Popup for Micro lesson static.  No narration SWF file &ndash;&gt;-->
+    <!--<div th:id="MicroLessonStatic" class="modalBox">-->
+        <!--<a href="#" class="modalCloseOuter"></a>-->
+        <!--<div class="mp4">-->
+            <!--<div class="bar-1"></div>-->
+            <!--<a href="#" style="float:right; margin: 20px 40px 20px 0;">Close</a>-->
+            <!--<div class="modalBody">-->
+                <!--<embed th:src="${SelectedQPalXMicroLesson.getStaticELearningMediaContent().getELearningMediaFile()}" width="800" height="560"  />-->
+            <!--</div>-->
+            <!--<div class="bar-3"></div>-->
+        <!--</div>-->
+    <!--</div>-->
 
-</div>
+<!--</div>-->
 
 
 <!-- Include Footer for when user is logged in -->
