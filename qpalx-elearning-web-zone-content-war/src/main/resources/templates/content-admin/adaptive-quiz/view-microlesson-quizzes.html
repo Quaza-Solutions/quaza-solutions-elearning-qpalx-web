@@ -30,11 +30,6 @@
     <!-- Include Admin Curriculum Control Navigation Panel -->
     <div th:replace="fragments/content-admin/admin-curriculum-nav-panel :: navigation-panel"/>
 
-    <!-- Display the selected curriculum details -->
-    <!--<div class="col-md-2 large-fonts">-->
-    <!--<b th:text="${SelectedELearningCurriculum.curriculumName}"></b><br/>-->
-    <!--</div>-->
-
     <div class="row" th:each="AdminMicroLessonAdaptiveQuiz,rowStat : ${AdminMicroLessonAdaptiveQuizzes}">
 
         <div class="col-md-1 num" th:text="${rowStat.count}"></div>
@@ -46,9 +41,9 @@
         <div class="col-md-4"></div>
 
         <div class="col-md-2">
-            <!--<button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/edit-adaptive-learning-quiz(adaptiveQuizID=${AdminMicroLessonAdaptiveQuiz.id})} + '\''">-->
-                <!--Edit Adaptive-Quiz-->
-            <!--</button>-->
+            <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/edit-adaptive-learning-quiz(adaptiveQuizID=${AdminMicroLessonAdaptiveQuiz.id})} + '\''">
+                Edit Adaptive-Quiz
+            </button>
         </div>
 
         <div class="col-md-2">

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <script src="js/ckeditor.js"></script>
+    <script src="js/sample.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Content Admin user details overview panel -->
+<div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
+
+<!-- Quiz settings panel -->
+<div th:replace="fragments/content-admin/adaptive-quiz/edit-mode/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
+
+<div class="container large-fonts-2" style="margin: 20px auto;">
+    <form method="POST" th:action="@{save-adaptive-quiz}">
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">Customize Adaptive Learning Quiz Using Options From Above.</div>
+            <div class="col-md-1"></div>
+        </div>
+
+    </form>
+</div>
+
+<div class="container" style="margin: 20px auto;">
+
+    <div class="row">
+        <div class="col-md-1"></div>
+
+        <div class="col-md-12">
+            <span class="large-fonts-3">Adaptive Quiz Questions</span><br/>
+            <hr style="color: black; background-color: black; height: 1px;"/>
+        </div>
+
+    </div>
+
+    <div th:each="AdaptiveLearningQuizQuestionVO,rowStat : ${CurrentAdaptiveLearningQuizQuestionVOs}">
+
+        <!-- Display Edit Button -->
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <button type="button" class="btn" th:onclick="'document.location.href=\'' + @{/edit-mode-quiz-question(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">Edit Quiz Question</button>
+            </div>
+            <div class="col-md-8"></div>
+        </div>
+
+        <br/>
+
+        <!-- Display Quiz Question -->
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-11">
+                <p class="small-text" th:text="${AdaptiveLearningQuizQuestionVO.getQuestionTitle()}"></p>
+            </div>
+        </div>
+
+        <!-- Display all Quiz Question Answers -->
+        <div th:each="AdaptiveLearningQuizQuestionAnswerVO : ${AdaptiveLearningQuizQuestionVO.getIAdaptiveLearningQuizQuestionAnswerVOs()}">
+
+            <!-- Display circle with filled color to indicate a correct answer -->
+            <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswerVO.correctAnswer == true}">
+                <div class="col-md-1"></div>
+
+                <div class="col-md-10 small-text-2">
+                    <i class="fa fa-circle spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswerVO.quizQuestionAnswerText}"/>
+                </div>
+            </div>
+
+            <!-- Display empty circle to indicate wrong answer -->
+            <div class="row" th:if="${AdaptiveLearningQuizQuestionAnswerVO.correctAnswer == false}">
+                <div class="col-md-1"></div>
+
+                <div class="col-md-10 small-text-2">
+                    <i class="fa fa-circle-o spacing" style="color: #0abfd2;" aria-hidden="true"></i> <span th:text="${AdaptiveLearningQuizQuestionAnswerVO.quizQuestionAnswerText}"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <form method="POST" th:action="@{persist-adaptive-quiz}">
+        <div class="col-md-12">
+            <div style="margin: auto; text-align: center">
+                <button type="submit" id="submit" class="btn btn-success">Complete And Exit Quiz</button>
+            </div>
+            <br/>
+        </div>
+        </form>
+    </div>
+
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$(".small-boxes").hide();
+        //$(".small-boxes-2").show();
+    $("#hide").click(function(){
+		$(".small-boxes").hide();
+        $(".small-boxes-2").show();
+    });
+    $("#show").click(function(){
+        $(".small-boxes-2").hide();
+        $(".small-boxes").show();
+    });
+});
+	function Quizzes(){
+			if( $("#hide").hasClass("blue-tabs-2") ) {
+		$("#hide").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+		$("#show").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+			} else {
+		$("#hide").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+		$("#show").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+			}
+	}
+	function Settings(){
+			if( $("#show").hasClass("blue-tabs-3") ) {
+		$("#show").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+		$("#hide").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+			} else {
+		$("#show").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+		$("#hide").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+			}
+	}
+</script>
+</body>
+</html>

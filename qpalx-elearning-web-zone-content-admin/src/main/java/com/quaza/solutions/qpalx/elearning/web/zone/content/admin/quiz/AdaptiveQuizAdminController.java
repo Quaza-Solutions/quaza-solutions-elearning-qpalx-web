@@ -329,26 +329,6 @@ public class AdaptiveQuizAdminController {
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
 
-    @RequestMapping(value = "/edit-adaptive-learning-quiz", method = RequestMethod.GET)
-    public String editAdaptiveLearningQuiz(@RequestParam("adaptiveQuizID") String adaptiveQuizID,
-                                           Model model, ModelMap modelMap,
-                                           HttpServletRequest request, HttpServletResponse response) {
-        LOGGER.info("Edit request received for AdaptiveLearning Quiz with ID: {}", adaptiveQuizID);
-        Long id = NumberUtils.toLong(adaptiveQuizID);
-        AdaptiveLearningQuiz adaptiveLearningQuiz = iAdaptiveLearningQuizService.findByID(id);
-        QPalXEMicroLesson qPalXEMicroLesson = adaptiveLearningQuiz.getQPalXEMicroLesson();
-
-        // Create Value Objects for use across web pages
-        AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO = new AdaptiveLearningQuizWebVO(adaptiveLearningQuiz);
-
-        // Enable displaying of User overview panel
-        qPalXUserInfoPanelService.addUserInfoAttributes(model);
-        model.addAttribute(CurriculumDisplayAttributeE.DisplayUserInfo.toString(), Boolean.TRUE.toString());
-
-        modelMap.addAttribute(AdaptiveLearningQuizAttributeE.AdminAdaptiveLearningQuizWebVO.toString(), adaptiveLearningQuizWebVO);
-        modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXMicroLesson.toString(), qPalXEMicroLesson);
-        return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("add-adaptive-quiz-details");
-    }
 
     @RequestMapping(value = "/delete-adaptive-learning-quiz", method = RequestMethod.GET)
     public void deleteAdaptiveLearningQuiz(@RequestParam("adaptiveQuizID") String adaptiveQuizID,

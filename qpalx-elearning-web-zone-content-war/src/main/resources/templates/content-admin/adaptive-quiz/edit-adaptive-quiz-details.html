@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <script src="js/ckeditor.js"></script>
+    <script src="js/sample.js"></script>
+
+    <!-- Angular JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Content Admin user details overview panel -->
+<div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
+
+
+<div class="container" style="margin: 20px auto;" ng-app="">
+
+    <form method="POST" th:action="@{edit-quiz-question-details}" th:object="${AdminAdaptiveLearningQuizWebVO}" name="AdaptiveQuizForm" novalidate="novalidate" ng-submit="login.submit()">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10"><h4><span class="label label-primary">Enter Quiz Title</span></h4></div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <br/>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+
+            <div class="col-md-10">
+                <span class="med-text">
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}" maxlength="100" ng-model="quizTitle" required="required" th:attr="ng-init='quizTitle=\'' + ${AdminAdaptiveLearningQuizWebVO.quizTitle} + '\''"></textarea>
+                </span><br/>
+            </div>
+
+            <div class="col-md-1"></div>
+        </div>
+
+        <br/>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10"><h4><span class="label label-primary">Enter Quiz Description</span></h4></div>
+            <div class="col-md-1"></div>
+        </div>
+
+        <br/>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+
+            <div class="col-md-10">
+                <span class="med-text">
+                    <textarea rows="7" cols="80" class="text-box-2" th:field="*{quizDescription}" maxlength="455" ng-model="quizDescription" required="required" th:attr="ng-init='quizDescription=\'' + ${AdminAdaptiveLearningQuizWebVO.quizDescription} + '\''"></textarea>
+                </span>
+            </div>
+
+            <div class="col-md-1"></div>
+        </div>
+
+        <br/>
+
+        <!-- Hidden field to pass back the value of the current MicroLessonID-->
+        <input type="hidden" th:value="${SelectedQPalXMicroLesson.id}" name="microLessonID"/>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div style="margin: auto; text-align: center">
+                    <button type="submit" id="submit" class="btn btn-success" ng-disabled="AdaptiveQuizForm.$invalid">Save Quiz Details</button>
+                </div>
+                <br/>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </form>
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+
+	$(document).ready(function(){
+		$(".small-boxes").hide();
+        //$(".small-boxes-2").show();
+    $("#hide").click(function(){
+		$(".small-boxes").hide();
+        $(".small-boxes-2").show();
+    });
+    $("#show").click(function(){
+        $(".small-boxes-2").hide();
+        $(".small-boxes").show();
+    });
+});
+	function Quizzes(){
+			if( $("#hide").hasClass("blue-tabs-2") ) {
+		$("#hide").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+		$("#show").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+			} else {
+		$("#hide").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+		$("#show").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+			}
+	}
+	function Settings(){
+			if( $("#show").hasClass("blue-tabs-3") ) {
+		$("#show").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+		$("#hide").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+			} else {
+		$("#show").removeClass("blue-tabs-2").addClass("blue-tabs-3");
+		$("#hide").removeClass("blue-tabs-3").addClass("blue-tabs-2");
+			}
+	}
+</script>
+</body>
+</html>
