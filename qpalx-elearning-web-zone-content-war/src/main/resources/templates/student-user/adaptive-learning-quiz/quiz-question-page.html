@@ -66,7 +66,7 @@
     <div th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia()} != null">
 
         <!-- Display Quiz Question Multi Media Image -->
-        <div th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getELearningMediaType()} == 'png'">
+        <div th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().isImageMediaType() == true}">
             <!-- Display image with this question -->
             <div class="row">
                 <div class="col-md-1"></div>
@@ -85,7 +85,7 @@
         </div>
 
         <!-- Display Quiz Question Multi Media Video -->
-        <div th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getELearningMediaType()} == 'mp4'">
+        <div th:if="${LaunchedAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().isVideoMediaType() == true}">
 
             <!-- Display image with this question -->
             <div class="row">
