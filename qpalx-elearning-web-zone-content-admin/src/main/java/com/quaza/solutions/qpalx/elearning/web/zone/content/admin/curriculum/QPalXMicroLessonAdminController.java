@@ -225,7 +225,9 @@ public class QPalXMicroLessonAdminController {
             iRedirectStrategyExecutor.sendRedirectWithError(targetURL, error, WebOperationErrorAttributesE.Invalid_Delete_Operation, request, response);
         } else {
             iqPalXEMicroLessonService.delete(qPalXEMicroLesson);
-            ieLearningStaticContentService.deleteELearningMediaContent(qPalXEMicroLesson.geteLearningMediaContent());
+            if (qPalXEMicroLesson.geteLearningMediaContent() != null) {
+                ieLearningStaticContentService.deleteELearningMediaContent(qPalXEMicroLesson.geteLearningMediaContent());
+            }
             String targetURL = "/view-admin-qpalx-micro-elessons?qpalxELessonID=" + qPalXELesson.getId();
             iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
         }

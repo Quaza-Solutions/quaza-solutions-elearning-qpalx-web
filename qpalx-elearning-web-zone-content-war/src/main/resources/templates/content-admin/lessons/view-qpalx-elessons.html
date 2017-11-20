@@ -50,7 +50,13 @@
             <!--<div th:inline="text" class="small">[[${ELearningCourseActivity.proficiencyRankingScaleFloor}]] - [[${ELearningCourseActivity.proficiencyRankingScaleCeiling}]]</div>-->
         </div>
 
-        <div class="col-md-4"></div>
+        <div class="col-md-2" th:inline="text">
+            <b>[[${QPalXELesson.getTutorialLevelCalendar().getCalendarItemName()}]]</b>
+            <br/>
+            [[${QPalXELesson.getTutorialLevelCalendar().getCalendarItemStartMonth()}]] - [[${QPalXELesson.getTutorialLevelCalendar().getCalendarItemEndMonth()}]]
+        </div>
+
+        <div class="col-md-2"></div>
 
         <div class="col-md-2">
             <div class="default-btn-1"></div>

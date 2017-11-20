@@ -355,10 +355,16 @@ margin-top: 40px;
 .three-text-blue {
 	color: #06bfd3;
 }
+
 .courses {
 	margin: 20px 0 0 0;
 	display:block;
 }
+
+.course-text {
+	font-size: 16px;
+}
+
 .blue {
 	color: #06bfd3;
 }
@@ -434,6 +440,10 @@ width: 248px;
 
 #parent {
 	margin-top: 40px;
+}
+
+#very-small-text {
+	font-size: 10px;
 }
 
 #small-text {

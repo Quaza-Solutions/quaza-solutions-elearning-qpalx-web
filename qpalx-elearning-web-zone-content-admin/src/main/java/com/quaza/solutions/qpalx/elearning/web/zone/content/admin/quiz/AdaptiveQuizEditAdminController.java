@@ -125,7 +125,7 @@ public class AdaptiveQuizEditAdminController {
     }
 
     @RequestMapping(value = "/edit-quiz-question-type", method = RequestMethod.GET)
-    public String addQuizQuestionType(Model model, ModelMap modelMap,
+    public String editQuestionByType(Model model, ModelMap modelMap,
                                       @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson,
                                       @ModelAttribute("AdaptiveLearningQuiz") AdaptiveLearningQuiz adaptiveLearningQuiz,
                                       @ModelAttribute("AdminAdaptiveLearningQuizWebVO") AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO,
@@ -151,7 +151,7 @@ public class AdaptiveQuizEditAdminController {
         // Add Admin AcademicLevel Panel data
         iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
-        return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("customize-adaptive-quiz-question-type");
+        return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("edit-customize-adaptive-quiz-question-type");
     }
 
 //    @RequestMapping(value = "/quiz-question-edit", method = RequestMethod.GET)

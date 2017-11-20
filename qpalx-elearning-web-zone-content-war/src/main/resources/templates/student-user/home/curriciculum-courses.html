@@ -36,15 +36,19 @@
 
     <!-- All selected curriculum courses -->
     <div class="row" th:each="CurriculumELearningCourse,rowStat : ${CurriculumELearningCourses}">
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <span class="number" th:text="${rowStat.count}"></span>
+
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <span class="number" th:inline="text">
+                 <i class="fa fa-folder" aria-hidden="true"></i>
+            </span>
         </div>
 
-        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 large-fonts topmargin">
+        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
             <a th:href="@{/view-course-lessons(eLearningCourseID=${CurriculumELearningCourse.id}, tutorialLevelID=${SelectedTutorialCalendar.id})}">
-                <span class="blue courses" th:text="${CurriculumELearningCourse.courseName}"></span>
+                <span class="blue courses course-text" th:text="${CurriculumELearningCourse.courseName}"></span>
             </a>
-            <!--<p th:text="${CurriculumELearningCourse.courseDescription}"></p>-->
+
+            <p class="very-small-text" th:text="${CurriculumELearningCourse.courseDescription}"></p>
         </div>
     </div>
 
@@ -79,11 +83,7 @@
                             </div>
                         </td>
                     </tr>
-                    <!--<tr>-->
-                        <!--<td>Average Quizzes Score </td><td style="vertical-align: top">60%</td>-->
-                        <!--<td>On average you are scoring below expected levels across Quizzes in Mathematics</td>-->
-                        <!--<td>3/5 MicroLessons Attempted.  Complete remaining</td>-->
-                    <!--</tr>-->
+
                 </table>
             </div>
         </div>
