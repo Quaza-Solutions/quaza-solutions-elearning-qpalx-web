@@ -36,44 +36,13 @@
         <div class="col-md-1"></div>
 
         <div class="col-md-12">
-            <span class="large-fonts-3">Adaptive Quiz Questions</span><br/>
+            <span class="large-fonts-3">Adaptive Quiz Questions</span>
             <hr style="color: black; background-color: black; height: 1px;"/>
         </div>
 
     </div>
 
     <div th:each="AdaptiveLearningQuizQuestionVO,rowStat : ${CurrentAdaptiveLearningQuizQuestionVOs}">
-
-        <!-- Display Edit Button -->
-        <div class="row">
-
-            <div class="col-md-1"></div>
-
-            <!-- Edit Button for Multiple Choice Question -->
-            <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'Multiple_Choice'}">
-                <button type="button" class="btn btn-info" th:onclick="'document.location.href=\'' + @{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">
-                    <i class="fa fa-list-ul" style="color: #ffffff;" aria-hidden="true"></i> Edit Quiz Question
-                </button>
-            </div>
-
-            <!-- Edit Button for Image Multi Choice Question -->
-            <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'Image'}">
-                <button type="button" class="btn btn-info" th:onclick="'document.location.href=\'' + @{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">
-                    <i class="fa fa-picture-o" style="color: #ffffff;" aria-hidden="true"></i> Edit Quiz Question
-                </button>
-            </div>
-
-            <!-- Edit Button for Video Multi Choice Question -->
-            <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'Video'}">
-                <button type="button" class="btn btn-info" th:onclick="'document.location.href=\'' + @{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">
-                    <i class="fa fa-video-camera" style="color: #ffffff;" aria-hidden="true"></i> Edit Quiz Question
-                </button>
-            </div>
-
-            <div class="col-md-8"></div>
-            <br/>
-        </div>
-
 
         <!-- Display Quiz Question -->
         <div class="row">
@@ -105,6 +74,54 @@
             </div>
         </div>
 
+        <br/>
+
+        <!-- Display edit options -->
+        <div class="row">
+
+            <div class="col-md-1"></div>
+
+            <!-- Edit Button for Multiple Choice Question -->
+            <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'Multiple_Choice'}">
+                <a th:href="@{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})}">
+                    <span><i class="fa fa-list-ul" aria-hidden="true"></i> Edit Multi Choice Question</span>
+                </a>
+            </div>
+
+            <!-- Edit Button for Image Multi Choice Question -->
+            <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'Image'}">
+                <a th:href="@{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})}">
+                    <span><i class="fa fa-list-ul" aria-hidden="true"></i> Edit Multi Choice Question</span>
+                </a>
+
+                &nbsp;
+
+                <a th:href="@{/quiz-question-media-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})}">
+                    <span><i class="fa fa-picture-o" aria-hidden="true"></i> Edit Uploaded Image</span>
+                </a>
+            </div>
+
+            <!-- Edit Button for Video Multi Choice Question -->
+            <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'Video'}">
+                <a th:href="@{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})}">
+                    <span><i class="fa fa-list-ul" aria-hidden="true"></i> Edit Multi Choice Question</span>
+                </a>
+
+                &nbsp;
+
+                <a th:href="@{/quiz-question-media-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})}">
+                    <span><i class="fa fa-video-camera" aria-hidden="true"></i> Edit Uploaded Video</span>
+                </a>
+            </div>
+
+            <div class="col-md-8"></div>
+            <br/>
+        </div>
+        <!-- End Display edit options  -->
+
+
+        <hr/>
+        <br/>
     </div>
 
     <div class="row">

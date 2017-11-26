@@ -120,7 +120,7 @@ public class AdaptiveQuizEditAdminController {
     public String refreshQuizDetailsForCustomizationView(Model model, ModelMap modelMap, @ModelAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuiz adaptiveLearningQuiz) {
         LOGGER.info("Refreshing quiz for customization view");
         AdaptiveLearningQuiz refreshedQuizInstance = iAdaptiveLearningQuizService.findByID(adaptiveLearningQuiz.getId());
-        AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO = new AdaptiveLearningQuizWebVO(adaptiveLearningQuiz);
+        AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO = new AdaptiveLearningQuizWebVO(refreshedQuizInstance);
         Set<IAdaptiveLearningQuizQuestionVO> adaptiveLearningQuizQuestionVOSet = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs();
 
         modelMap.addAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER, refreshedQuizInstance);
@@ -151,8 +151,7 @@ public class AdaptiveQuizEditAdminController {
                                           ModelMap modelMap,
                                           HttpServletRequest request,
                                           @RequestParam("id") Long quizQuestionID,
-                                          @ModelAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuiz adaptiveLearningQuiz,
-                                          @ModelAttribute(AdaptiveLearningQuizWebVO.CLASS_ATTRIBUTE) AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO) {
+                                          @ModelAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuiz adaptiveLearningQuiz) {
         LOGGER.info("Edit view requested for Quiz Question with ID: {}", quizQuestionID);
 
         // Find the Quiz that matches this Question id
@@ -176,6 +175,27 @@ public class AdaptiveQuizEditAdminController {
         return ContentRootE.Content_Admin_Quiz_Edit.getContentRootPagePath("modify-quiz-question-by-type");
     }
 
+    @RequestMapping(value = "/quiz-question-media-update-view", method = RequestMethod.GET)
+    public String executeQuizQuestionMediaView(Model model,
+                                               ModelMap modelMap,
+                                               @RequestParam("id") Long quizQuestionID,
+                                               @ModelAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuiz adaptiveLearningQuiz) {
+        LOGGER.info("Edit view requested for Quiz Question with ID: {}", quizQuestionID);
+
+        // Find the Quiz that matches this Question id
+        AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion = iAdaptiveLearningQuizService.findByQuizQuestionID(quizQuestionID);
+        EditableAdaptiveLearningQuizQuestionVO iAdaptiveLearningQuizQuestionVO = new EditableAdaptiveLearningQuizQuestionVO(adaptiveLearningQuizQuestion);
+
+        LOGGER.info("Found Quiz Question for: {}", iAdaptiveLearningQuizQuestionVO.getQuestionTitle());
+        model.addAttribute(AdaptiveLearningQuizAttributeE.AdaptiveLearningQuizQuestionVO.toString(), iAdaptiveLearningQuizQuestionVO);
+        modelMap.addAttribute(AdaptiveLearningQuizQuestion.CLASS_ATTRIBUTE_IDENTIFIER, adaptiveLearningQuizQuestion);
+        modelMap.addAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER, adaptiveLearningQuizQuestion.getAdaptiveLearningQuiz());
+
+        // Add bread crumbs information
+        iBreadCrumbPanelService.addBreadCrumbDetails(model, adaptiveLearningQuiz);
+        return ContentRootE.Content_Admin_Quiz_Edit.getContentRootPagePath("question-media-edit");
+    }
+
     @RequestMapping(value = "/submit-question-edit-update", method = RequestMethod.POST)
     public void executeQuestionModification(Model model, ModelMap modelMap,
                                             HttpServletRequest httpServletRequest,
@@ -194,9 +214,9 @@ public class AdaptiveQuizEditAdminController {
                                                  HttpServletRequest httpServletRequest,
                                                  HttpServletResponse httpServletResponse,
                                                  @RequestParam("file") MultipartFile multipartFile,
-                                                 @ModelAttribute(AdaptiveLearningQuizQuestion.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion,
-                                                 @ModelAttribute("AdaptiveLearningQuizQuestionVO") EditableAdaptiveLearningQuizQuestionVO editableAdaptiveLearningQuizQuestionVO) {
+                                                 @ModelAttribute(AdaptiveLearningQuizQuestion.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion) {
         LOGGER.info("Quiz Question update has been requested for question with ID: {}", adaptiveLearningQuizQuestion.getId());
+        EditableAdaptiveLearningQuizQuestionVO editableAdaptiveLearningQuizQuestionVO = new EditableAdaptiveLearningQuizQuestionVO(adaptiveLearningQuizQuestion);
         editableAdaptiveLearningQuizQuestionVO.setiHierarchicalLMSContent(adaptiveLearningQuizQuestion.getAdaptiveLearningQuiz());
         editableAdaptiveLearningQuizQuestionVO.setQPalXTutorialContentType(QPalXTutorialContentTypeE.Quiz.toString());
         iClassicQuizEditor.updateQuizQuestionWithEdits(adaptiveLearningQuizQuestion, editableAdaptiveLearningQuizQuestionVO, multipartFile);
