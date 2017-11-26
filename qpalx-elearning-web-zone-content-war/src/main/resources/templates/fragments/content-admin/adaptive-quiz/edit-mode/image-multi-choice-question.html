@@ -25,37 +25,26 @@
 <body>
 <div th:fragment="image-multi-choice-question-panel">
 
+    <!-- Note that for Image multi choice option of editing image file directly here has been disabled in favor of in question-media-edit page -->
     <!-- Question types displayed based on the selected Adaptive Quiz Question Type -->
     <div class="container large-fonts-2" style="margin: 20px auto;">
-        <form method="POST" th:action="@{submit-question-edit-update-image}" th:object="${AdaptiveLearningQuizQuestionVO}" enctype="multipart/form-data" >
-            <br/>
+        <form method="POST" th:action="@{submit-question-edit-update}" th:object="${AdaptiveLearningQuizQuestionVO}" >
 
-            <!-- Choose an image file that can be displayed with the Quiz.  Only JPG, PNG files allowed-->
+            <!-- Display image for question here.  No editing allowed here -->
             <div class="row">
-                <div class="col-md-6">
-                    <b>Only Files of format(JPEG, JPG, PNG) Supported:</b>
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <br />
+                    <div id="shadowed">
+                        <div class="black-bar"></div>
+                        <div id="quiz-image">
+                            <img th:src="${AdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getELearningMediaFile()}"/>
+                        </div>
+                        <div class="black-bar"></div>
+                    </div>
                 </div>
+                <div class="col-md-1"></div>
             </div>
-
-            <div class="row" th:if="${AdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia() != null}">
-                <div class="col-md-6">
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-                        View Currently Uploaded Image File
-                    </button>
-                </div>
-                <div class="col-md-6"></div>
-            </div>
-
-            <br/>
-
-            <div class="row">
-                <div class="col-md-6" style="text-align: center; margin: auto;">
-                    <input type="file" name="file" size="40"/>
-                </div>
-                <div class="col-md-6"></div>
-            </div>
-
-            <br/>
 
             <div class="row">
                 <div class="col-md-1"></div>
@@ -116,7 +105,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div style="margin: auto; text-align: center">
-                        <button type="submit" id="submit" class="btn btn-success">Add Quiz Question Details</button>
+                        <button type="submit" id="submit" class="btn btn-success">Update Quiz Question Details</button>
                     </div>
                     <br/>
                 </div>

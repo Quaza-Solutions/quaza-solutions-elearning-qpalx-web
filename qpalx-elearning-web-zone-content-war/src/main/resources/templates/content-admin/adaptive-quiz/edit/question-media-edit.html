@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <script src="js/ckeditor.js"></script>
+    <script src="js/sample.js"></script>
+
+    <!-- Angular JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<!-- Bread crumb navigation panel -->
+<div th:replace="fragments/content-admin/breadcrumb-nav-panel :: breadcrumb-panel"></div>
+
+<div class="container">
+
+
+    <form method="POST" th:action="@{submit-question-edit-update-image}" th:object="${AdaptiveLearningQuizQuestionVO}" enctype="multipart/form-data">
+
+        <!-- Display the Multi Media File Name -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h5 th:inline="text">File Name - [[${AdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getActualFileName()}]] </h5>
+            </div>
+        </div>
+
+        <!-- Display Image Media Options -->
+        <div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Image'}">
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <br />
+                    <div id="shadowed">
+                        <div class="black-bar"></div>
+                        <div id="quiz-image">
+                            <img th:src="${AdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getELearningMediaFile()}"/>
+                        </div>
+                        <div class="black-bar"></div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-12"><b>Only Files of format(JPEG, JPG, PNG) Supported:</b></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3" style="text-align: center; margin: auto;">
+                    <input type="file" name="file" size="40"/>
+                </div>
+                <div class="col-md-9"></div>
+            </div>
+
+            <!-- Hidden field to set back the value of the Quiz QuestionType-->
+            <input type="hidden" th:value="${AdaptiveLearningQuizQuestionVO.adaptiveLearningQuizQuestionTypeE}" name="adaptiveLearningQuizQuestionTypeE"/>
+        </div>
+        <!-- End Image Media Options -->
+
+        <br/>
+        <!-- Display Video Media Options -->
+        <div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Video'}">
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <br />
+                    <div id="shadowed">
+                        <div class="black-bar"></div>
+                        <div id="quiz-image">
+                            <video oncontextmenu="return false;" width="800" controls="controls">
+                                <source th:src="${AdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getELearningMediaFile()}" type="video/mp4"/>
+                                Your browser does not support HTML5 video.
+                            </video>
+                        </div>
+                        <div class="black-bar"></div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-md-6" style="text-align: center; margin: auto;">
+                    <input type="file" name="file" size="40"/>
+                </div>
+                <div class="col-md-6"><b>Only Files of format(MP4) Supported:</b></div>
+            </div>
+
+            <!-- Hidden field to set back the value of the Quiz QuestionType-->
+            <input type="hidden" th:value="${AdaptiveLearningQuizQuestionVO.adaptiveLearningQuizQuestionTypeE}" name="adaptiveLearningQuizQuestionTypeE"/>
+        </div>
+        <!-- End Video Media Options -->
+
+        <!-- Form Submit Panel -->
+        <div class="row">
+            <div class="col-md-12">
+                <div style="margin: auto; text-align: center">
+                    <button type="submit" id="submit" class="btn btn-success">Update Question Media File</button>
+                </div>
+                <br/>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+    </form>
+
+
+    <!-- Uploaded Quiz Question Multi media displayed in modal popup -->
+    <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:if="${AdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia() != null}">-->
+        <!--<div class="modal-dialog" role="document" style="width: 1200px;">-->
+            <!--<div class="modal-content">-->
+                <!--<div class="modal-header" style="background-color: #777; color: #fff;">-->
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                    <!--<h4 class="modal-title" id="myModalLabel">Uploaded Item</h4>-->
+                <!--</div>-->
+                <!--<div class="modal-body">-->
+
+                    <!--<div class="whiteBody2">-->
+                        <!--<div class="row">-->
+                            <!--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" th:inline="text">-->
+                                <!--File Name - [[${AdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getActualFileName()}]]-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                            <!--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">-->
+                                <!--<img th:src="${AdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().getELearningMediaFile()}"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+                <!--<div class="modal-footer" style="background-color: #777;">-->
+                    <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+</div>
+</body>
+</html>

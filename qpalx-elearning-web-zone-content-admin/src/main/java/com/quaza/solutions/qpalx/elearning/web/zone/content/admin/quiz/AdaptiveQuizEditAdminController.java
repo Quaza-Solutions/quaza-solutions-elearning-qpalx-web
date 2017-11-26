@@ -27,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -316,21 +317,7 @@ public class AdaptiveQuizEditAdminController {
 //        return null;
 //    }
 //
-//    @RequestMapping(value = "/persist-adaptive-quiz", method = RequestMethod.POST)
-//    public void saveEntireAdaptiveLearningQuiz(SessionStatus status, @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson,
-//                                               @ModelAttribute("AdminAdaptiveLearningQuizWebVO") AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO, HttpServletRequest request, HttpServletResponse response) {
-//        LOGGER.info("Saving and persisting entire adaptive learning quiz: {}", adaptiveLearningQuizWebVO);
-//
-//        iAdaptiveLearningQuizService.updateFrom(adaptiveLearningQuizWebVO);
-//        status.setComplete();
-//
-//        // Load the correct micro lesson to return back to
-//        AdaptiveLearningQuiz adaptiveLearningQuiz = iAdaptiveLearningQuizService.findByID(adaptiveLearningQuizWebVO.getID());
-//        QPalXEMicroLesson qPalXEMicroLesson1 = adaptiveLearningQuiz.getQPalXEMicroLesson();
-//
-//        String targetURL = "/view-adaptive-quizzes?microlessonID=" + qPalXEMicroLesson1.getId();
-//        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
-//    }
+
 //
 //    @RequestMapping(value = "/edit-adaptive-learning-quiz", method = RequestMethod.GET)
 //    public String editAdaptiveLearningQuiz(@RequestParam("adaptiveQuizID") String adaptiveQuizID,
@@ -368,5 +355,18 @@ public class AdaptiveQuizEditAdminController {
 //        String targetURL = "/view-adaptive-quizzes?microlessonID=" + qPalXEMicroLesson.getId();
 //        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
 //    }
+
+
+    @RequestMapping(value = "/exit-quiz-edit-mode", method = RequestMethod.POST)
+    public void exitQuizEditMode(SessionStatus status,
+                                 HttpServletRequest request,
+                                 HttpServletResponse response,
+                                 @ModelAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuiz adaptiveLearningQuiz) {
+        LOGGER.info("Exiting Quiz edit mode for quiz with ID: {}", adaptiveLearningQuiz.getId());
+        status.setComplete();
+        QPalXEMicroLesson qPalXEMicroLesson1 = adaptiveLearningQuiz.getQPalXEMicroLesson();
+        String targetURL = "/view-adaptive-quizzes?microlessonID=" + qPalXEMicroLesson1.getId();
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
+    }
 
 }
