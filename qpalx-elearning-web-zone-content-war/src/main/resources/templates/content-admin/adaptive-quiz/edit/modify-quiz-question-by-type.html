@@ -28,7 +28,10 @@
 <div th:replace="fragments/content-admin/user-overview-panel :: overview"></div>
 
 <!-- Quiz settings panel -->
-<div th:replace="fragments/content-admin/adaptive-quiz/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
+<div th:replace="fragments/content-admin/adaptive-quiz/edit-mode/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
+
+<!-- Bread crumb navigation panel -->
+<div th:replace="fragments/content-admin/breadcrumb-nav-panel :: breadcrumb-panel"></div>
 
 <!--  Display any error messages -->
 <div class="container large-fonts-2" style="margin: 20px auto;">
@@ -39,17 +42,17 @@
 
 <!-- Add the Multi-Choice Question types panel -->
 <div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Multiple_Choice'}">
-    <div th:replace="fragments/content-admin/adaptive-quiz/multi-choice-question :: multi-choice-question-panel"></div>
+    <div th:replace="fragments/content-admin/adaptive-quiz/edit-mode/multi-choice-question :: multi-choice-question-panel"></div>
 </div>
 
 <!-- Add the Image Multi-Choice Question types panel -->
 <div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Image'}">
-    <div th:replace="fragments/content-admin/adaptive-quiz/image-multi-choice-question :: image-multi-choice-question-panel"></div>
+    <div th:replace="fragments/content-admin/adaptive-quiz/edit-mode/image-multi-choice-question :: image-multi-choice-question-panel"></div>
 </div>
 
 <!-- Add the Video Multi-Choice Question types panel -->
 <div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'Video'}">
-    <div th:replace="fragments/content-admin/adaptive-quiz/video-multi-choice-question :: video-multi-choice-question-panel"></div>
+    <div th:replace="fragments/content-admin/adaptive-quiz/edit-mode/video-multi-choice-question :: video-multi-choice-question-panel"></div>
 </div>
 
 <!-- Include Footer for when user is logged in -->

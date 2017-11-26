@@ -1,25 +1,26 @@
 package com.quaza.solutions.qpalx.elearning.web.zone.content.admin.quiz;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuiz;
-import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionTypeE;
+import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestion;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IAdaptiveLearningQuizQuestionVO;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXEMicroLessonService;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.quiz.IAdaptiveLearningQuizAdminService;
-import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
-import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
-import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.*;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdaptiveLearningQuizAttributeE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
+import com.quaza.solutions.qpalx.elearning.web.service.quiz.editor.ClassicQuizEditor;
+import com.quaza.solutions.qpalx.elearning.web.service.quiz.editor.IClassicQuizEditor;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.elearningcontent.IELearningStaticContentService;
-import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.AdaptiveLearningQuizQuestionVO;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.AdaptiveLearningQuizWebVO;
+import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.EditableAdaptiveLearningQuizQuestionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,9 @@ import java.util.Set;
  * @author manyce400
  */
 @Controller
-@SessionAttributes(value = {"SelectedQPalXMicroLesson", "AdaptiveLearningQuiz", "AdminAdaptiveLearningQuizWebVO"})
+@SessionAttributes(value = {
+        QPalXEMicroLesson.CLASS_ATTRIBUTE_IDENTIFIER, AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER, AdaptiveLearningQuizWebVO.CLASS_ATTRIBUTE, AdaptiveLearningQuizQuestion.CLASS_ATTRIBUTE_IDENTIFIER
+})
 public class AdaptiveQuizEditAdminController {
 
 
@@ -70,6 +73,14 @@ public class AdaptiveQuizEditAdminController {
     private IAcademicLevelAdminPanelService iAcademicLevelAdminPanelService;
 
     @Autowired
+    @Qualifier(BreadCrumbPanelService.BEAN_NAME)
+    private IBreadCrumbPanelService iBreadCrumbPanelService;
+
+    @Autowired
+    @Qualifier(ClassicQuizEditor.BEAN_NAME)
+    private IClassicQuizEditor iClassicQuizEditor;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
@@ -79,7 +90,7 @@ public class AdaptiveQuizEditAdminController {
 
 
 
-    @RequestMapping(value = "/edit-adaptive-learning-quiz", method = RequestMethod.GET)
+    @RequestMapping(value = "/start-quiz-edit-mode", method = RequestMethod.GET)
     public String addAdaptiveQuiz(Model model, ModelMap modelMap, @RequestParam("adaptiveQuizID") Long adaptiveQuizID) {
         LOGGER.info("Processing request to edit Adaptive Quiz with ID: {}", adaptiveQuizID);
 
@@ -90,8 +101,9 @@ public class AdaptiveQuizEditAdminController {
 
         // Register AdaptiveLearningQuizWebVO on modelMap to enable session tracking for all quiz pages
         AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO = new AdaptiveLearningQuizWebVO(adaptiveLearningQuiz);
-        modelMap.addAttribute("AdaptiveLearningQuiz", adaptiveLearningQuiz);
-        modelMap.addAttribute(AdaptiveLearningQuizAttributeE.AdminAdaptiveLearningQuizWebVO.toString(), adaptiveLearningQuizWebVO);
+        modelMap.addAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER, adaptiveLearningQuiz);
+        modelMap.addAttribute(AdaptiveLearningQuizWebVO.CLASS_ATTRIBUTE, adaptiveLearningQuizWebVO);
+        modelMap.addAttribute(QPalXEMicroLesson.CLASS_ATTRIBUTE_IDENTIFIER, qPalXEMicroLesson);
 
         // Enable displaying of User overview panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
@@ -99,81 +111,110 @@ public class AdaptiveQuizEditAdminController {
 
         // Add Admin AcademicLevel Panel data
         iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
-
-        modelMap.addAttribute(CurriculumDisplayAttributeE.SelectedQPalXMicroLesson.toString(), qPalXEMicroLesson);
-        return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("edit-adaptive-quiz-details");
+        return ContentRootE.Content_Admin_Quiz_Edit.getContentRootPagePath("start-adaptive-quiz-edit");
     }
 
-    @RequestMapping(value = "/edit-quiz-question-details", method = RequestMethod.POST)
-    public String editQuizQestionDetails(Model model, ModelMap modelMap,
-                                         @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson,
-                                         @ModelAttribute("AdaptiveLearningQuiz") AdaptiveLearningQuiz adaptiveLearningQuiz,
-                                         @ModelAttribute("AdminAdaptiveLearningQuizWebVO") AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO) {
-        LOGGER.info("Attempting to save Adaptive Quiz details for adaptiveLearningQuizWebVO: {}", adaptiveLearningQuizWebVO);
 
-        // Get the list of all questions and answers as a map to return for display.
+    @RequestMapping(value = "/refresh-quiz-for-customization", method = RequestMethod.GET)
+    public String refreshQuizDetailsForCustomizationView(Model model, ModelMap modelMap, @ModelAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuiz adaptiveLearningQuiz) {
+        LOGGER.info("Refreshing quiz for customization view");
+        AdaptiveLearningQuiz refreshedQuizInstance = iAdaptiveLearningQuizService.findByID(adaptiveLearningQuiz.getId());
+        AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO = new AdaptiveLearningQuizWebVO(adaptiveLearningQuiz);
         Set<IAdaptiveLearningQuizQuestionVO> adaptiveLearningQuizQuestionVOSet = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs();
+
+        modelMap.addAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER, refreshedQuizInstance);
+        modelMap.addAttribute(AdaptiveLearningQuizWebVO.CLASS_ATTRIBUTE, adaptiveLearningQuizWebVO);
         model.addAttribute(AdaptiveLearningQuizAttributeE.CurrentAdaptiveLearningQuizQuestionVOs.toString(), adaptiveLearningQuizQuestionVOSet);
 
-        ELearningCourse eLearningCourse = qPalXEMicroLesson.getQPalXELesson().geteLearningCourse();
-        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+        // Add bread crumbs information
+        iBreadCrumbPanelService.addBreadCrumbDetails(model, refreshedQuizInstance);
 
-        // Add Admin AcademicLevel Panel data
-        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
-
-        return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("edit-customize-adaptive-quiz");
+        return ContentRootE.Content_Admin_Quiz_Edit.getContentRootPagePath("customize-quiz-question-details");
     }
 
-    @RequestMapping(value = "/edit-quiz-question-type", method = RequestMethod.GET)
-    public String editQuestionByType(Model model, ModelMap modelMap,
-                                      @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson,
-                                      @ModelAttribute("AdaptiveLearningQuiz") AdaptiveLearningQuiz adaptiveLearningQuiz,
-                                      @ModelAttribute("AdminAdaptiveLearningQuizWebVO") AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO,
-                                      @RequestParam("quizQuestionType") String quizQuestionType,
-                                      HttpServletRequest request, HttpServletResponse response) {
-        LOGGER.info("Adding Quiz question type: {}", quizQuestionType);
+
+    @RequestMapping(value = "/update-basic-quiz-info", method = RequestMethod.POST)
+    public void executeQuizQuestionInfoRefresh(Model model,
+                                               HttpServletRequest httpServletRequest,
+                                               HttpServletResponse httpServletResponse,
+                                               @ModelAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuiz adaptiveLearningQuiz,
+                                               @ModelAttribute(AdaptiveLearningQuizWebVO.CLASS_ATTRIBUTE) AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO) {
+        LOGGER.info("Attempting to update Quiz details with edit");
+        iClassicQuizEditor.updateQuizWithEdits(adaptiveLearningQuiz, adaptiveLearningQuizWebVO);
+        iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "/refresh-quiz-for-customization");
+    }
+
+
+    @RequestMapping(value = "/quiz-question-update-view", method = RequestMethod.GET)
+    public String executeQuizQuestionView(Model model,
+                                          ModelMap modelMap,
+                                          HttpServletRequest request,
+                                          @RequestParam("id") Long quizQuestionID,
+                                          @ModelAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuiz adaptiveLearningQuiz,
+                                          @ModelAttribute(AdaptiveLearningQuizWebVO.CLASS_ATTRIBUTE) AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO) {
+        LOGGER.info("Edit view requested for Quiz Question with ID: {}", quizQuestionID);
+
+        // Find the Quiz that matches this Question id
+        AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion = iAdaptiveLearningQuizService.findByQuizQuestionID(quizQuestionID);
+        EditableAdaptiveLearningQuizQuestionVO iAdaptiveLearningQuizQuestionVO = new EditableAdaptiveLearningQuizQuestionVO(adaptiveLearningQuizQuestion);
+
+        LOGGER.info("Found Quiz Question for: {}", iAdaptiveLearningQuizQuestionVO.getQuestionTitle());
+        model.addAttribute(AdaptiveLearningQuizAttributeE.AdaptiveLearningQuizQuestionVO.toString(), iAdaptiveLearningQuizQuestionVO);
+        modelMap.addAttribute(AdaptiveLearningQuizQuestion.CLASS_ATTRIBUTE_IDENTIFIER, adaptiveLearningQuizQuestion);
+        modelMap.addAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER, adaptiveLearningQuizQuestion.getAdaptiveLearningQuiz());
+
+        // IF this is an image or video question then load the multimedia file for viewing.
+        ELearningMediaContent eLearningMediaContent = iAdaptiveLearningQuizQuestionVO.getQuizQuestionMultiMedia();
+        model.addAttribute(AdaptiveLearningQuizAttributeE.QuizQuestionMedia.toString(), eLearningMediaContent);
 
         // IF this is a result of a redirect add any web operations errrors to model
         iRedirectStrategyExecutor.addWebOperationRedirectErrorsToModel(model, request);
 
-        // Look up quiz question type
-        AdaptiveLearningQuizQuestionTypeE adaptiveLearningQuizQuestionTypeE = AdaptiveLearningQuizQuestionTypeE.getByName(quizQuestionType);
-
-        LOGGER.info("Constructed AdaptiveLearningQuizQuestionVO object...");
-        AdaptiveLearningQuizQuestionVO adaptiveLearningQuizQuestionVO = new AdaptiveLearningQuizQuestionVO();
-        adaptiveLearningQuizQuestionVO.setAdaptiveLearningQuizQuestionTypeE(adaptiveLearningQuizQuestionTypeE);
-
-        model.addAttribute(AdaptiveLearningQuizAttributeE.AdaptiveLearningQuizQuestionVO.toString(), adaptiveLearningQuizQuestionVO);
-
-        ELearningCourse eLearningCourse = qPalXEMicroLesson.getQPalXELesson().geteLearningCourse();
+        ELearningCourse eLearningCourse = adaptiveLearningQuiz.getQPalXEMicroLesson().getQPalXELesson().geteLearningCourse();
         ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
 
-        // Add Admin AcademicLevel Panel data
-        iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
+        // Add bread crumbs information
+        iBreadCrumbPanelService.addBreadCrumbDetails(model, adaptiveLearningQuiz);
 
-        return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("edit-customize-adaptive-quiz-question-type");
+        return ContentRootE.Content_Admin_Quiz_Edit.getContentRootPagePath("modify-quiz-question-by-type");
     }
 
-//    @RequestMapping(value = "/quiz-question-edit", method = RequestMethod.GET)
-//    public String editQuizQuestionType(Model model, ModelMap modelMap,
-//                                       @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson,
-//                                       @ModelAttribute("AdminAdaptiveLearningQuizWebVO") AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO,
-//                                       @RequestParam("id") String id,
+    @RequestMapping(value = "/submit-question-edit-update", method = RequestMethod.POST)
+    public void executeQuestionModification(Model model, ModelMap modelMap,
+                                            HttpServletRequest httpServletRequest,
+                                            HttpServletResponse httpServletResponse,
+                                            @ModelAttribute(AdaptiveLearningQuizQuestion.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion,
+                                            @ModelAttribute("AdaptiveLearningQuizQuestionVO") EditableAdaptiveLearningQuizQuestionVO editableAdaptiveLearningQuizQuestionVO) {
+        LOGGER.info("Quiz Question update has been requested for question with ID: {}", adaptiveLearningQuizQuestion.getId());
+        iClassicQuizEditor.updateQuizQuestionWithEdits(adaptiveLearningQuizQuestion, editableAdaptiveLearningQuizQuestionVO);
+        iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "/refresh-quiz-for-customization");
+    }
+
+
+
+
+
+
+    //    @RequestMapping(value = "/edit-quiz-question-type", method = RequestMethod.GET)
+//    public String editQuestionByType(Model model, ModelMap modelMap,
+//                                      @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson,
+//                                      @ModelAttribute("AdaptiveLearningQuiz") AdaptiveLearningQuiz adaptiveLearningQuiz,
+//                                      @ModelAttribute("AdminAdaptiveLearningQuizWebVO") AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO,
+//                                      @RequestParam("quizQuestionType") String quizQuestionType,
 //                                      HttpServletRequest request, HttpServletResponse response) {
-//        LOGGER.info("Edit Quiz Question view requested for Question with ID: {}", id);
-//
-//        // Find the Quiz that matches this Question id
-//        Long quizQuestionID  = NumberUtils.toLong(id);
-//        IAdaptiveLearningQuizQuestionVO iAdaptiveLearningQuizQuestionVO = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOByID(quizQuestionID);
-//        LOGGER.info("Found Quiz Question for: {}", iAdaptiveLearningQuizQuestionVO);
-//        model.addAttribute(AdaptiveLearningQuizAttributeE.AdaptiveLearningQuizQuestionVO.toString(), iAdaptiveLearningQuizQuestionVO);
-//
-//        // IF this is an image or video question then load the multimedia file for viewing.
-//        ELearningMediaContent eLearningMediaContent = iAdaptiveLearningQuizQuestionVO.getQuizQuestionMultiMedia();
-//        model.addAttribute(AdaptiveLearningQuizAttributeE.QuizQuestionMedia.toString(), eLearningMediaContent);
+//        LOGGER.info("Adding Quiz question type: {}", quizQuestionType);
 //
 //        // IF this is a result of a redirect add any web operations errrors to model
 //        iRedirectStrategyExecutor.addWebOperationRedirectErrorsToModel(model, request);
+//
+//        // Look up quiz question type
+//        AdaptiveLearningQuizQuestionTypeE adaptiveLearningQuizQuestionTypeE = AdaptiveLearningQuizQuestionTypeE.getByName(quizQuestionType);
+//
+//        LOGGER.info("Constructed AdaptiveLearningQuizQuestionVO object...");
+//        AdaptiveLearningQuizQuestionVO adaptiveLearningQuizQuestionVO = new AdaptiveLearningQuizQuestionVO();
+//        adaptiveLearningQuizQuestionVO.setAdaptiveLearningQuizQuestionTypeE(adaptiveLearningQuizQuestionTypeE);
+//
+//        model.addAttribute(AdaptiveLearningQuizAttributeE.AdaptiveLearningQuizQuestionVO.toString(), adaptiveLearningQuizQuestionVO);
 //
 //        ELearningCourse eLearningCourse = qPalXEMicroLesson.getQPalXELesson().geteLearningCourse();
 //        ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
@@ -184,46 +225,7 @@ public class AdaptiveQuizEditAdminController {
 //        return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("edit-customize-adaptive-quiz-question-type");
 //    }
 
-//    @RequestMapping(value = "/add-quiz-question-details", method = RequestMethod.POST)
-//    public String addQuizQuestionDetails(Model model, ModelMap modelMap, @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson,
-//                                         @ModelAttribute("AdminAdaptiveLearningQuizWebVO") AdaptiveLearningQuizWebVO adaptiveLearningQuizWebVO,
-//                                         @ModelAttribute("AdaptiveLearningQuizQuestionVO") AdaptiveLearningQuizQuestionVO adaptiveLearningQuizQuestionVO,
-//                                         HttpServletRequest request, HttpServletResponse response) {
-//        LOGGER.info("Adding Quiz question details to model for adaptiveLearningQuizQuestionVO: {}", adaptiveLearningQuizQuestionVO);
-//
-//
-//        // Build and add all question and provided answers to Quiz
-//        adaptiveLearningQuizQuestionVO.buildAndAddQuestionAnswerModel();
-//
-//        // Validate the question details, IF anything is missing redirect back to Quiz Question page
-//        Optional<String> optionalValidationMessage = adaptiveLearningQuizQuestionVO.getValidationMessage();
-//        if(optionalValidationMessage.isPresent()) {
-//            LOGGER.warn("Found Validation Issue: {}, redirecting back to Question entry...", optionalValidationMessage.get());
-//            model.addAttribute(AdaptiveLearningQuizAttributeE.AdaptiveLearningQuizQuestionVO.toString(), adaptiveLearningQuizQuestionVO);
-//            model.addAttribute(WebOperationErrorAttributesE.Invalid_FORM_Submission.toString(), optionalValidationMessage.get());
-//            //iRedirectStrategyExecutor.sendRedirectWithError(targetURL, errorMessage, WebOperationErrorAttributesE.Invalid_FORM_Submission, request, response);
-//            return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("customize-adaptive-quiz-question-type");
-//        }
-//
-//        if (adaptiveLearningQuizQuestionVO.getID() == null) {
-//            LOGGER.info("Saving new QuizQuestion: {}", adaptiveLearningQuizQuestionVO);
-//            int questionOrder = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs().size() + 1;
-//            adaptiveLearningQuizQuestionVO.setIHierarchicalLMSContent(qPalXEMicroLesson);
-//            adaptiveLearningQuizWebVO.addAdaptiveLearningQuizQuestionVO(adaptiveLearningQuizQuestionVO);
-//            iAdaptiveLearningQuizService.saveAdaptiveLearningQuizDetails(qPalXEMicroLesson, adaptiveLearningQuizWebVO, adaptiveLearningQuizQuestionVO, questionOrder);
-//        } else {
-//            LOGGER.info("Updating previously saved QuizQuestion: {}", adaptiveLearningQuizQuestionVO);
-//            iAdaptiveLearningQuizService.saveAdaptiveLearningQuizDetails(qPalXEMicroLesson, adaptiveLearningQuizWebVO, adaptiveLearningQuizQuestionVO, 0);
-//            adaptiveLearningQuizWebVO.replaceAdaptiveLearningQuizQuestionVO(adaptiveLearningQuizQuestionVO);
-//        }
-//
-//        // Get the list of all questions and answers as a map to return for display.
-//        Set<IAdaptiveLearningQuizQuestionVO> adaptiveLearningQuizQuestionVOSet = adaptiveLearningQuizWebVO.getIAdaptiveLearningQuizQuestionVOs();
-//        model.addAttribute(AdaptiveLearningQuizAttributeE.CurrentAdaptiveLearningQuizQuestionVOs.toString(), adaptiveLearningQuizQuestionVOSet);
-//
-//        return ContentRootE.Content_Admin_Quiz.getContentRootPagePath("customize-adaptive-quiz");
-//    }
-//
+
 //    @RequestMapping(value = "/add-quiz-question-image", method = RequestMethod.POST)
 //    public String addQuizQuestionTypeImage(Model model, ModelMap modelMap,
 //                                         @ModelAttribute("SelectedQPalXMicroLesson") QPalXEMicroLesson qPalXEMicroLesson,

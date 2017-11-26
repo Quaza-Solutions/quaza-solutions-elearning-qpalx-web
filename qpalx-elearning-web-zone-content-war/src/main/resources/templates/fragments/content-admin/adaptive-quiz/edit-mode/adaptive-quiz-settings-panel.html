@@ -20,21 +20,14 @@
 <div th:fragment="quiz-settings-panel">
 
     <div class="container" style="margin: 20px auto;">
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
-                <span class="very-large-text-2"
-                      th:text="|${SelectedQPalXMicroLesson.getMicroLessonName()}: Add Quiz Details|"></span>
-            </div>
-            <div class="col-md-1"></div>
-        </div>
 
         <!-- Main Quiz tabs -->
         <div class="col-md-12">
             <nav class="blue-tabs">
                 <ul>
                     <li><a class="blue-tabs-2" style="cursor: pointer;" onClick="Quizzes()" id="hide" href="#">Types of Quizzes</a></li>
-                    <li><a class="blue-tabs-3" style="cursor: pointer;" onClick="Settings()" id="show" href="#">Settings</a></li>
+                    <li><a class="blue-tabs-3" >Settings</a></li>
+                    <!--<li><a class="blue-tabs-3" style="cursor: pointer;" onClick="Settings()" id="show" href="#">Settings</a></li>-->
                 </ul>
             </nav>
             <br/>

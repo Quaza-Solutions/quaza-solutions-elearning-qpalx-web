@@ -30,7 +30,7 @@
 
 <div class="container" style="margin: 20px auto;" ng-app="">
 
-    <form method="POST" th:action="@{edit-quiz-question-details}" th:object="${AdminAdaptiveLearningQuizWebVO}" name="AdaptiveQuizForm" novalidate="novalidate" ng-submit="login.submit()">
+    <form method="POST" th:action="@{update-basic-quiz-info}" th:object="${AdaptiveLearningQuizWebVO}" name="AdaptiveQuizForm" novalidate="novalidate" ng-submit="login.submit()">
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10"><h4><span class="label label-primary">Enter Quiz Title</span></h4></div>
@@ -44,7 +44,7 @@
 
             <div class="col-md-10">
                 <span class="med-text">
-                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}" maxlength="100" ng-model="quizTitle" required="required" th:attr="ng-init='quizTitle=\'' + ${AdminAdaptiveLearningQuizWebVO.quizTitle} + '\''"></textarea>
+                    <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizTitle}" maxlength="100" ng-model="quizTitle" required="required" th:attr="ng-init='quizTitle=\'' + ${AdaptiveLearningQuizWebVO.quizTitle} + '\''"></textarea>
                 </span><br/>
             </div>
 
@@ -66,7 +66,7 @@
 
             <div class="col-md-10">
                 <span class="med-text">
-                    <textarea rows="7" cols="80" class="text-box-2" th:field="*{quizDescription}" maxlength="455" ng-model="quizDescription" required="required" th:attr="ng-init='quizDescription=\'' + ${AdminAdaptiveLearningQuizWebVO.quizDescription} + '\''"></textarea>
+                    <textarea rows="7" cols="80" class="text-box-2" th:field="*{quizDescription}" maxlength="455" ng-model="quizDescription" required="required" th:attr="ng-init='quizDescription=\'' + ${AdaptiveLearningQuizWebVO.quizDescription} + '\''"></textarea>
                 </span>
             </div>
 
@@ -74,9 +74,6 @@
         </div>
 
         <br/>
-
-        <!-- Hidden field to pass back the value of the current MicroLessonID-->
-        <input type="hidden" th:value="${SelectedQPalXMicroLesson.id}" name="microLessonID"/>
 
         <div class="row">
             <div class="col-md-12">

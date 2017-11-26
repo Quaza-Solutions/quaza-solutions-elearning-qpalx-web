@@ -27,17 +27,8 @@
 <!-- Quiz settings panel -->
 <div th:replace="fragments/content-admin/adaptive-quiz/edit-mode/adaptive-quiz-settings-panel :: quiz-settings-panel"></div>
 
-<div class="container large-fonts-2" style="margin: 20px auto;">
-    <form method="POST" th:action="@{save-adaptive-quiz}">
-
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">Customize Adaptive Learning Quiz Using Options From Above.</div>
-            <div class="col-md-1"></div>
-        </div>
-
-    </form>
-</div>
+<!-- Bread crumb navigation panel -->
+<div th:replace="fragments/content-admin/breadcrumb-nav-panel :: breadcrumb-panel"></div>
 
 <div class="container" style="margin: 20px auto;">
 
@@ -55,14 +46,34 @@
 
         <!-- Display Edit Button -->
         <div class="row">
+
             <div class="col-md-1"></div>
-            <div class="col-md-3">
-                <button type="button" class="btn" th:onclick="'document.location.href=\'' + @{/edit-mode-quiz-question(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">Edit Quiz Question</button>
+
+            <!-- Edit Button for Multiple Choice Question -->
+            <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'Multiple_Choice'}">
+                <button type="button" class="btn btn-info" th:onclick="'document.location.href=\'' + @{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">
+                    <i class="fa fa-list-ul" style="color: #ffffff;" aria-hidden="true"></i> Edit Quiz Question
+                </button>
             </div>
+
+            <!-- Edit Button for Image Multi Choice Question -->
+            <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'Image'}">
+                <button type="button" class="btn btn-info" th:onclick="'document.location.href=\'' + @{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">
+                    <i class="fa fa-picture-o" style="color: #ffffff;" aria-hidden="true"></i> Edit Quiz Question
+                </button>
+            </div>
+
+            <!-- Edit Button for Video Multi Choice Question -->
+            <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'Video'}">
+                <button type="button" class="btn btn-info" th:onclick="'document.location.href=\'' + @{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})} + '\''">
+                    <i class="fa fa-video-camera" style="color: #ffffff;" aria-hidden="true"></i> Edit Quiz Question
+                </button>
+            </div>
+
             <div class="col-md-8"></div>
+            <br/>
         </div>
 
-        <br/>
 
         <!-- Display Quiz Question -->
         <div class="row">

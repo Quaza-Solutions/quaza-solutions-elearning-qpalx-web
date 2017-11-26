@@ -34,6 +34,8 @@ public enum ContentRootE {
 
     Content_Admin_Quiz("content-admin/adaptive-quiz/"),
 
+    Content_Admin_Quiz_Edit("content-admin/adaptive-quiz/edit/"),
+
     Content_Admin_Embeded_Quiz("content-admin/embedable-quizzes/"),
 
     Content_Admin_Curriculum_Assessment("content-admin/assessment/curriculum-assessment/"),

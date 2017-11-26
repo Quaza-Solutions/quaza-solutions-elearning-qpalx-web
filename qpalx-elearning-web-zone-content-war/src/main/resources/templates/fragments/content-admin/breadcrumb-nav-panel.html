@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+    <link rel="stylesheet" href="css/adaptive-quiz-style.css"/>
+
+</head>
+<body>
+<div th:fragment="breadcrumb-panel">
+
+    <div class="container medium-text" style="margin: 20px auto;">
+        <!-- Admin Quiz Mode Page Breadcrumb Panel -->
+        <div class="row">
+            <div th:if="${BREAD_CRUMB_MODE == 'Quiz'}">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><span class="glyphicon glyphicon-home"></span>&nbsp;Curriculum:</li>
+
+                    <!-- Display Curriculum name and link to Curriculum Courses in bread crumb -->
+                    <li class="breadcrumb-item" th:inline="text">
+                        [[${ELearningCurriculum.getCurriculumType()}]] - [[${ELearningCurriculum.getCurriculumName()}]]
+                    </li>
+
+                    <!-- Display Course name and link to Course Lessons in bread crumb -->
+                    <li class="breadcrumb-item" th:inline="text">
+                        [[${ELearningCourse.getCourseName()}]]
+                    </li>
+
+                    <!-- Display Lesson name -->
+                    <li class="breadcrumb-item" th:inline="text">
+                        [[${QPalXELesson.getLessonName()}]]
+                    </li>
+
+                    <!-- Display Micro Lesson name -->
+                    <li class="breadcrumb-item" th:inline="text">
+                        [[${QPalXEMicroLesson.getMicroLessonName()}]]
+                    </li>
+
+                    <li class="breadcrumb-item active" th:inline="text">
+                        [[${ACTIVE_ITEM}]]
+                    </li>
+                </ol>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
