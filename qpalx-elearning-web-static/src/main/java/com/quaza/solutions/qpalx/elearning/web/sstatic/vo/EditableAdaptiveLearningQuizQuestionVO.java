@@ -166,6 +166,12 @@ public class EditableAdaptiveLearningQuizQuestionVO extends AbstractILMSMediaCon
         return iHierarchicalLMSContent;
     }
 
+    public void setiHierarchicalLMSContent(IHierarchicalLMSContent iHierarchicalLMSContent) {
+        this.iHierarchicalLMSContent = iHierarchicalLMSContent;
+    }
+
+
+
     @Override
     public boolean isQuizEditValid() {
         return !StringUtils.isEmpty(questionTitle) &&

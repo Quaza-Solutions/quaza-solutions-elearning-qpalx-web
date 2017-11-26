@@ -2,6 +2,7 @@ package com.quaza.solutions.qpalx.elearning.web.service.quiz.editor;
 
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.*;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.repository.IAdaptiveLearningQuizQuestionAnswerRepository;
+import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.AdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.elearningcontent.ELearningStaticContentService;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -68,6 +70,22 @@ public class ClassicQuizEditor implements IClassicQuizEditor {
         updateQuizQuestionAnswersWithEdits(adaptiveLearningQuizQuestion, iEditableAdaptiveLearningQuizQuestionVO);
     }
 
+    @Override
+    @Transactional
+    public void updateQuizQuestionWithEdits(AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion, IEditableAdaptiveLearningQuizQuestionVO iEditableAdaptiveLearningQuizQuestionVO, MultipartFile multipartFile) {
+        Assert.notNull(adaptiveLearningQuizQuestion, "adaptiveLearningQuizQuestion cannot be null");
+        Assert.notNull(iEditableAdaptiveLearningQuizQuestionVO, "iEditableAdaptiveLearningQuizQuestionVO cannot be null");
+        Assert.notNull(multipartFile, "multipartFile cannot be null");
+
+        // Upload new Image file and Delete old Existing image
+        uploadQuestionMultipartIFAvailable(multipartFile, iEditableAdaptiveLearningQuizQuestionVO);
+        ieLearningStaticContentService.deleteELearningMediaContent(adaptiveLearningQuizQuestion.getQuizQuestionMultiMedia());
+        adaptiveLearningQuizQuestion.setQuizQuestionMultiMedia(iEditableAdaptiveLearningQuizQuestionVO.getQuizQuestionMultiMedia());
+
+        // We can now update quiz question and answer details.  Newly uploaded image info will be persisted.
+        updateQuizQuestionWithEdits(adaptiveLearningQuizQuestion, iEditableAdaptiveLearningQuizQuestionVO);
+    }
+
     @Transactional
     protected void updateBasicQuestionInfoWithEdits(AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion, IEditableAdaptiveLearningQuizQuestionVO iEditableAdaptiveLearningQuizQuestionVO) {
         adaptiveLearningQuizQuestion.setQuestionTitle(iEditableAdaptiveLearningQuizQuestionVO.getQuestionTitle());
@@ -98,7 +116,23 @@ public class ClassicQuizEditor implements IClassicQuizEditor {
 
     }
 
+    private void uploadQuestionMultipartIFAvailable(MultipartFile multipartFile, IEditableAdaptiveLearningQuizQuestionVO iEditableAdaptiveLearningQuizQuestionVO) {
+        LOGGER.debug("Quiz question contains multipart file: {} attempting to upload...", multipartFile);
+        ELearningMediaContent eLearningMediaContent = ieLearningStaticContentService.uploadELearningMediaContent(multipartFile, iEditableAdaptiveLearningQuizQuestionVO);
 
+        if (eLearningMediaContent == null) {
+            LOGGER.warn("Failed to upload ELearningMediaContent for question");
+            String errorMessage = "Failed to upload file: Check the contents of the file";
+            //return ClassicQuizMakerError.of(errorMessage);
+        } else if (eLearningMediaContent == ELearningMediaContent.NOT_SUPPORTED_MEDIA_CONTENT) {
+            LOGGER.warn("Failed to upload ELearningMediaContent for question, found unsupported media type");
+            String errorMessage = "Uploaded file is not supported: Only Files of type(JPEG, PNG) supported";
+            //return ClassicQuizMakerError.of(errorMessage);
+        }
+
+        // set on vo object to be persisted
+        iEditableAdaptiveLearningQuizQuestionVO.setQuizQuestionAnswerMultiMedia(eLearningMediaContent);
+    }
 
 
 }

@@ -5,8 +5,8 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.Adap
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IAdaptiveLearningQuizQuestionVO;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
-import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
+import com.quaza.solutions.qpalx.elearning.domain.lms.media.QPalXTutorialContentTypeE;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXEMicroLessonService;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.quiz.IAdaptiveLearningQuizAdminService;
@@ -27,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -163,10 +164,6 @@ public class AdaptiveQuizEditAdminController {
         modelMap.addAttribute(AdaptiveLearningQuizQuestion.CLASS_ATTRIBUTE_IDENTIFIER, adaptiveLearningQuizQuestion);
         modelMap.addAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER, adaptiveLearningQuizQuestion.getAdaptiveLearningQuiz());
 
-        // IF this is an image or video question then load the multimedia file for viewing.
-        ELearningMediaContent eLearningMediaContent = iAdaptiveLearningQuizQuestionVO.getQuizQuestionMultiMedia();
-        model.addAttribute(AdaptiveLearningQuizAttributeE.QuizQuestionMedia.toString(), eLearningMediaContent);
-
         // IF this is a result of a redirect add any web operations errrors to model
         iRedirectStrategyExecutor.addWebOperationRedirectErrorsToModel(model, request);
 
@@ -192,6 +189,19 @@ public class AdaptiveQuizEditAdminController {
 
 
 
+    @RequestMapping(value = "/submit-question-edit-update-image", method = RequestMethod.POST)
+    public void executeQuestionModificationImage(Model model, ModelMap modelMap,
+                                                 HttpServletRequest httpServletRequest,
+                                                 HttpServletResponse httpServletResponse,
+                                                 @RequestParam("file") MultipartFile multipartFile,
+                                                 @ModelAttribute(AdaptiveLearningQuizQuestion.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion,
+                                                 @ModelAttribute("AdaptiveLearningQuizQuestionVO") EditableAdaptiveLearningQuizQuestionVO editableAdaptiveLearningQuizQuestionVO) {
+        LOGGER.info("Quiz Question update has been requested for question with ID: {}", adaptiveLearningQuizQuestion.getId());
+        editableAdaptiveLearningQuizQuestionVO.setiHierarchicalLMSContent(adaptiveLearningQuizQuestion.getAdaptiveLearningQuiz());
+        editableAdaptiveLearningQuizQuestionVO.setQPalXTutorialContentType(QPalXTutorialContentTypeE.Quiz.toString());
+        iClassicQuizEditor.updateQuizQuestionWithEdits(adaptiveLearningQuizQuestion, editableAdaptiveLearningQuizQuestionVO, multipartFile);
+        iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "/refresh-quiz-for-customization");
+    }
 
 
 
