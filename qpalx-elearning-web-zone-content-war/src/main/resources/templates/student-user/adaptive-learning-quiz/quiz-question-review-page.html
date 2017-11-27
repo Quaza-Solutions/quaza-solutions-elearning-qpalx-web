@@ -192,7 +192,7 @@
             <!-- Display image or video associated with Quiz if this quiz has an image or video -->
             <div th:if="${ReviewAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia()} != null">
 
-                <div th:if="${ReviewAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia()isImageMediaType() == true}">
+                <div th:if="${ReviewAdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia().isImageMediaType() == true}">
                     <!-- Display image with this question -->
                     <div class="row">
                         <div class="col-md-1"></div>
