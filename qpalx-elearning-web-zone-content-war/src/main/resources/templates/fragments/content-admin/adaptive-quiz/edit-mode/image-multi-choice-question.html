@@ -31,7 +31,7 @@
         <form method="POST" th:action="@{submit-question-edit-update}" th:object="${AdaptiveLearningQuizQuestionVO}" >
 
             <!-- Display image for question here.  No editing allowed here -->
-            <div class="row">
+            <div class="row" th:if="${AdaptiveLearningQuizQuestion.getQuizQuestionMultiMedia() != null}">
                 <div class="col-md-1"></div>
                 <div class="col-md-10">
                     <br />

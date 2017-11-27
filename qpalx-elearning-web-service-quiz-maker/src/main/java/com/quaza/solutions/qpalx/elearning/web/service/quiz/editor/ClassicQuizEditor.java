@@ -80,7 +80,9 @@ public class ClassicQuizEditor implements IClassicQuizEditor {
 
         // Upload new Image file and Delete old Existing image
         uploadQuestionMultipartIFAvailable(multipartFile, iEditableAdaptiveLearningQuizQuestionVO);
-        ieLearningStaticContentService.deleteELearningMediaContent(adaptiveLearningQuizQuestion.getQuizQuestionMultiMedia());
+        if (adaptiveLearningQuizQuestion.getQuizQuestionMultiMedia() != null) {
+            ieLearningStaticContentService.deleteELearningMediaContent(adaptiveLearningQuizQuestion.getQuizQuestionMultiMedia());
+        }
         adaptiveLearningQuizQuestion.setQuizQuestionMultiMedia(iEditableAdaptiveLearningQuizQuestionVO.getQuizQuestionMultiMedia());
 
         // We can now update quiz question and answer details.  Newly uploaded image info will be persisted.
