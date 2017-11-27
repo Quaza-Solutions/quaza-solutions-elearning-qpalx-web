@@ -38,6 +38,8 @@ public class EditableAdaptiveLearningQuizQuestionVO extends AbstractILMSMediaCon
 
     private Integer correctAnswerIndex;
 
+    private AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion;
+
     private List<AdaptiveLearningQuizQuestionAnswerVO> quizQuestionAnswers = new LinkedList<>();
 
 
@@ -47,13 +49,26 @@ public class EditableAdaptiveLearningQuizQuestionVO extends AbstractILMSMediaCon
 
     public EditableAdaptiveLearningQuizQuestionVO(AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion) {
         Assert.notNull(adaptiveLearningQuizQuestion, "adaptiveLearningQuizQuestion cannot be null");
+        this.adaptiveLearningQuizQuestion = adaptiveLearningQuizQuestion;
         this.id = id;
         this.questionTitle = adaptiveLearningQuizQuestion.getQuestionTitle();
         this.questionFeedBack = adaptiveLearningQuizQuestion.getQuestionFeedBack();
         this.quizQuestionTypeString = adaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionTypeE().toString();
         this.adaptiveLearningQuizQuestionTypeE = adaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionTypeE();
         this.iHierarchicalLMSContent = adaptiveLearningQuizQuestion.getAdaptiveLearningQuiz();
-        addAllCurrentQuestionAnswers(adaptiveLearningQuizQuestion);
+        initializeQuestionAnswers(adaptiveLearningQuizQuestion);
+    }
+
+    private void initializeQuestionAnswers(AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion) {
+        Set<AdaptiveLearningQuizQuestionAnswer> adaptiveLearningQuizQuestionAnswers = adaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionAnswers();
+        if(adaptiveLearningQuizQuestionAnswers.size() == 0) {
+            for(int i=0; i< 4; i++) {
+                AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO = new AdaptiveLearningQuizQuestionAnswerVO();
+                quizQuestionAnswers.add(adaptiveLearningQuizQuestionAnswerVO);
+            }
+        } else {
+            addAllCurrentQuestionAnswers(adaptiveLearningQuizQuestion);
+        }
     }
 
     private void addAllCurrentQuestionAnswers(AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion) {
@@ -170,7 +185,10 @@ public class EditableAdaptiveLearningQuizQuestionVO extends AbstractILMSMediaCon
         this.iHierarchicalLMSContent = iHierarchicalLMSContent;
     }
 
-
+    @Override
+    public AdaptiveLearningQuizQuestion getAdaptiveLearningQuizQuestion() {
+        return adaptiveLearningQuizQuestion;
+    }
 
     @Override
     public boolean isQuizEditValid() {

@@ -3,6 +3,7 @@ package com.quaza.solutions.qpalx.elearning.web.zone.content.admin.quiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuiz;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestion;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IAdaptiveLearningQuizQuestionVO;
+import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IEditableAdaptiveLearningQuizQuestionVO;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
@@ -147,6 +148,27 @@ public class AdaptiveQuizEditAdminController {
     }
 
 
+    @RequestMapping(value = "/quiz-question-addition-view", method = RequestMethod.GET)
+    public String executeQuizQuestionAdditionView(Model model,
+                                                  ModelMap modelMap,
+                                                  HttpServletRequest request,
+                                                  @RequestParam("quizQuestionType") String quizQuestionType,
+                                                  @ModelAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuiz adaptiveLearningQuiz) {
+        LOGGER.info("Executing request for creating new Quiz Question in edit mode with QuestionType: {}", quizQuestionType);
+
+        IEditableAdaptiveLearningQuizQuestionVO editableAdaptiveLearningQuizQuestionVO = iClassicQuizEditor.getEditableNewQuizQuestion(adaptiveLearningQuiz, quizQuestionType);
+        AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion = editableAdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestion();
+        model.addAttribute(AdaptiveLearningQuizAttributeE.AdaptiveLearningQuizQuestionVO.toString(), editableAdaptiveLearningQuizQuestionVO);
+        modelMap.addAttribute(AdaptiveLearningQuizQuestion.CLASS_ATTRIBUTE_IDENTIFIER, adaptiveLearningQuizQuestion);
+        modelMap.addAttribute(AdaptiveLearningQuiz.CLASS_ATTRIBUTE_IDENTIFIER, adaptiveLearningQuizQuestion.getAdaptiveLearningQuiz());
+
+        // Add bread crumbs information
+        iBreadCrumbPanelService.addBreadCrumbDetails(model, adaptiveLearningQuiz);
+
+        return ContentRootE.Content_Admin_Quiz_Edit.getContentRootPagePath("modify-quiz-question-by-type");
+    }
+
+
     @RequestMapping(value = "/quiz-question-update-view", method = RequestMethod.GET)
     public String executeQuizQuestionView(Model model,
                                           ModelMap modelMap,
@@ -204,6 +226,7 @@ public class AdaptiveQuizEditAdminController {
                                             @ModelAttribute(AdaptiveLearningQuizQuestion.CLASS_ATTRIBUTE_IDENTIFIER) AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion,
                                             @ModelAttribute("AdaptiveLearningQuizQuestionVO") EditableAdaptiveLearningQuizQuestionVO editableAdaptiveLearningQuizQuestionVO) {
         LOGGER.info("Quiz Question update has been requested for question with ID: {}", adaptiveLearningQuizQuestion.getId());
+        System.out.println("\n\neditableAdaptiveLearningQuizQuestionVO = " + editableAdaptiveLearningQuizQuestionVO);
         iClassicQuizEditor.updateQuizQuestionWithEdits(adaptiveLearningQuizQuestion, editableAdaptiveLearningQuizQuestionVO);
         iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "/refresh-quiz-for-customization");
     }

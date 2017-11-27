@@ -8,6 +8,7 @@ import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAd
 import com.quaza.solutions.qpalx.elearning.web.sstatic.elearningcontent.ELearningStaticContentService;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.elearningcontent.IELearningStaticContentService;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.AdaptiveLearningQuizWebVO;
+import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.EditableAdaptiveLearningQuizQuestionVO;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -86,6 +87,28 @@ public class ClassicQuizEditor implements IClassicQuizEditor {
         updateQuizQuestionWithEdits(adaptiveLearningQuizQuestion, iEditableAdaptiveLearningQuizQuestionVO);
     }
 
+    @Override
+    public IEditableAdaptiveLearningQuizQuestionVO getEditableNewQuizQuestion(AdaptiveLearningQuiz adaptiveLearningQuiz, String quizQuestionType) {
+        Assert.notNull(adaptiveLearningQuiz, "adaptiveLearningQuizQuestion cannot be null");
+        Assert.notNull(quizQuestionType, "quizQuestionType cannot be null");
+        LOGGER.debug("Building new editable Quiz Question for quiz with id: {} and quizQuestionType: {}", adaptiveLearningQuiz.getId(), quizQuestionType);
+
+        // Get the max question order across all questions in this quiz
+        int maxQuestionOrder = iAdaptiveLearningQuizService.getMaxQuestionOrder(adaptiveLearningQuiz);
+        int newQuestionOrder = maxQuestionOrder + 1;
+
+        AdaptiveLearningQuizQuestionTypeE adaptiveLearningQuizQuestionTypeE = AdaptiveLearningQuizQuestionTypeE.valueOf(quizQuestionType);
+        AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion = AdaptiveLearningQuizQuestion.builder()
+                .adaptiveLearningQuizQuestionTypeE(adaptiveLearningQuizQuestionTypeE)
+                .questionOrder(newQuestionOrder)
+                .entryDate(DateTime.now())
+                .adaptiveLearningQuiz(adaptiveLearningQuiz)
+                .build();
+
+        EditableAdaptiveLearningQuizQuestionVO editableAdaptiveLearningQuizQuestionVO = new EditableAdaptiveLearningQuizQuestionVO(adaptiveLearningQuizQuestion);
+        return editableAdaptiveLearningQuizQuestionVO;
+    }
+
     @Transactional
     protected void updateBasicQuestionInfoWithEdits(AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion, IEditableAdaptiveLearningQuizQuestionVO iEditableAdaptiveLearningQuizQuestionVO) {
         adaptiveLearningQuizQuestion.setQuestionTitle(iEditableAdaptiveLearningQuizQuestionVO.getQuestionTitle());
@@ -98,22 +121,43 @@ public class ClassicQuizEditor implements IClassicQuizEditor {
     protected void updateQuizQuestionAnswersWithEdits(AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion, IEditableAdaptiveLearningQuizQuestionVO iEditableAdaptiveLearningQuizQuestionVO) {
         int correctAnswerIndex = iEditableAdaptiveLearningQuizQuestionVO.getCorrectAnswerIndex();
 
-        // Currently persisted QuizQuestion answers in order
+        // Currently persisted QuizQuestion answers in order.  This will only be present if this is a previously existing quiz, for new quizzes answer will have to be saved
         Set<AdaptiveLearningQuizQuestionAnswer> adaptiveLearningQuizQuestionAnswers = adaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionAnswers();
 
         // Edited quiz question answers in order
         List<IAdaptiveLearningQuizQuestionAnswerVO> questionAnswersWithEdits = iEditableAdaptiveLearningQuizQuestionVO.getQuestionAnswersWithEdits();
 
-        int currentIndex = 0;
-        for(AdaptiveLearningQuizQuestionAnswer existingQuizQuestionAnswer : adaptiveLearningQuizQuestionAnswers) {
-            IAdaptiveLearningQuizQuestionAnswerVO questionAnswerWithEdit = questionAnswersWithEdits.get(currentIndex);
-            existingQuizQuestionAnswer.setQuizQuestionAnswerText(questionAnswerWithEdit.getQuizQuestionAnswerText());
-            existingQuizQuestionAnswer.setModifyDate(DateTime.now());
-            existingQuizQuestionAnswer.setCorrectAnswer(currentIndex == correctAnswerIndex);
-            iAdaptiveLearningQuizQuestionAnswerRepository.save(existingQuizQuestionAnswer);
-            currentIndex++;
-        }
+        if (adaptiveLearningQuizQuestionAnswers.size() > 0) {
+            LOGGER.debug("Updating existing question answer's with edits...");
 
+            int currentIndex = 0;
+            for(AdaptiveLearningQuizQuestionAnswer existingQuizQuestionAnswer : adaptiveLearningQuizQuestionAnswers) {
+                IAdaptiveLearningQuizQuestionAnswerVO questionAnswerWithEdit = questionAnswersWithEdits.get(currentIndex);
+                existingQuizQuestionAnswer.setQuizQuestionAnswerText(questionAnswerWithEdit.getQuizQuestionAnswerText());
+                existingQuizQuestionAnswer.setModifyDate(DateTime.now());
+                existingQuizQuestionAnswer.setCorrectAnswer(currentIndex == correctAnswerIndex);
+                iAdaptiveLearningQuizQuestionAnswerRepository.save(existingQuizQuestionAnswer);
+                currentIndex++;
+            }
+        } else {
+            LOGGER.debug("Building and persisting brand new question answers from edit...");
+
+            int currentIndex = 0;
+            int questionAnswerOrder = 1;
+            for(IAdaptiveLearningQuizQuestionAnswerVO answerWithEdits : questionAnswersWithEdits) {
+                AdaptiveLearningQuizQuestionAnswer adaptiveLearningQuizQuestionAnswer = AdaptiveLearningQuizQuestionAnswer.builder()
+                        .isCorrectAnswer(currentIndex == correctAnswerIndex)
+                        .adaptiveLearningQuizQuestion(adaptiveLearningQuizQuestion)
+                        .quizQuestionAnswerText(answerWithEdits.getQuizQuestionAnswerText())
+                        .quizQuestionAnswerMultiMedia(answerWithEdits.getQuizQuestionAnswerMultiMedia())
+                        .questionAnswerOrder(questionAnswerOrder)
+                        .entryDate(DateTime.now())
+                        .build();
+                currentIndex++;
+                questionAnswerOrder++;
+                iAdaptiveLearningQuizQuestionAnswerRepository.save(adaptiveLearningQuizQuestionAnswer);
+            }
+        }
     }
 
     private void uploadQuestionMultipartIFAvailable(MultipartFile multipartFile, IEditableAdaptiveLearningQuizQuestionVO iEditableAdaptiveLearningQuizQuestionVO) {

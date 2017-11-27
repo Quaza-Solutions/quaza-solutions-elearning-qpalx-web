@@ -17,5 +17,7 @@ public interface IClassicQuizEditor {
 
     public void updateQuizQuestionWithEdits(AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion, IEditableAdaptiveLearningQuizQuestionVO iEditableAdaptiveLearningQuizQuestionVO, MultipartFile multipartFile);
 
+    public IEditableAdaptiveLearningQuizQuestionVO getEditableNewQuizQuestion(AdaptiveLearningQuiz adaptiveLearningQuiz, String quizQuestionType);
+
 
 }

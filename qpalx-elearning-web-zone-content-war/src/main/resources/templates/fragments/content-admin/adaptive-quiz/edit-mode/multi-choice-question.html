@@ -57,7 +57,6 @@
                 <!-- Display textarea with question answers by index -->
                 <div class="col-md-9">
                     <textarea rows="1" cols="67" class="text-box-2" th:field="*{quizQuestionAnswers[__${rowStat.index}__].quizQuestionAnswerText}"  th:inline="text">[[${AdaptiveLearningQuizQuestionAnswerVO.getQuizQuestionAnswerText()}]]</textarea>
-                    <!--<input type="hidden" th:field="*{quizQuestionAnswers[__${rowStat.index}__].quizQuestionAnswerText}" />-->
                 </div>
                 <br/>
             </div>
