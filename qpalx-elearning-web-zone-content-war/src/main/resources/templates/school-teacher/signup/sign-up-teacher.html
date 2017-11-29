@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+
+    <!-- Angular JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!-- JQuery JS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- JS controlling selection of tutorial level options -->
+    <script src="js/platform/student-tutorial-level-control.js"></script>
+
+    <!-- Bootstrap CSS latest compiled version -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+<body ng-app="staticSelect">
+
+<!-- Include general header for no logged in user session found -->
+<div th:replace="fragments/header-nosession :: header-nosession"></div>
+
+<h1>Teacher Sign Up</h1>
+<div class="container">
+    <form th:action="@{/complete-teacher-registration}" th:object="${QPalXWebUserVO}" method="post">
+
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
+        <!--  Header section -->
+        <div class="col-md-2">
+
+            <span class="three-circle-blue">
+                <span class="three-blue"><b>1</b></span>
+            </span>
+
+            <span class="three-text-blue"><b> Fill In Your Information</b></span>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="col-md-2">
+            <hr id="blue-line"/>
+        </div>
+        <div class="col-md-10">
+            <hr id="gray-line"/>
+        </div>
+
+        <div class="clearfix bottom-space"></div>
+
+
+        <!-- Display all validation errors -->
+        <div class="alert row" th:if="${#fields.hasErrors()}">
+
+            <div th:if="${#fields.hasErrors('firstName')}">
+                <div class="alert-danger fade in col-sm-12">* First Name is required.</div>
+            </div>
+
+            <br/>
+
+            <div th:if="${#fields.hasErrors('lastName')}">
+                <div class="alert-danger fade in col-sm-12">* Last Name is required.</div>
+            </div>
+
+            <br/>
+
+            <div th:if="${#fields.hasErrors('email')}">
+                <div class="alert-danger fade in col-sm-12">* Valid email is required.</div>
+            </div>
+
+            <br/>
+
+            <div th:if="${#fields.hasErrors('password')}">
+                <div class="alert-danger fade in col-sm-12">* Password is required.</div>
+            </div>
+
+            <br/>
+
+            <div th:if="${#fields.hasErrors('passwordConfirm')}">
+                <div class="alert-danger fade in col-sm-12">* Password Confirm is required.</div>
+            </div>
+
+            <div th:if="${#fields.hasErrors('mobilePhoneNumber')}">
+                <div class="alert-danger fade in col-sm-12">* Valid Mobile phone number is required.</div>
+            </div>
+
+        </div>
+        <!-- End validations display -->
+
+        <!-- Display domain specific validations -->
+        <div th:if="${StudentSignupDomainError != null}">
+            <div class="alert-danger fade in col-sm-12" th:text="${StudentSignupDomainError}"></div>
+        </div>
+
+
+        <div class="clearfix bottom-space"></div>
+
+        <div class="col-md-3"><b>Account Information</b></div>
+
+        <div class="col-md-9"></div>
+
+        <div class="clearfix bottom-space"></div>
+
+        <div class="col-md-3"><img src="images/assets/sign-up/teacher.png"/></div>
+
+        <div class="col-md-9"></div>
+
+        <div class="clearfix bottom-space"></div>
+
+        <div class="col-md-3"><label>First name:</label></div>
+        <div class="col-md-3"><label>Last name:</label></div>
+        <div class="col-md-6" id="password"><label>Password:</label></div>
+
+        <div class="clearfix"></div>
+
+
+        <div class="col-md-3"><input type="text" size="40" id="first" th:field="*{firstName}"/><span id="first-name"></span></div>
+        <div class="col-md-3"><input type="text" size="40" id="last" th:field="*{lastName}"/><span id="last-name"></span></div>
+        <div class="col-md-6"><input type="password" size="50" class="password" id="password-1" th:field="*{password}"/></div>
+
+        <div class="clearfix bottom-space"></div>
+        <div class="col-md-6"><label>Email:</label></div>
+        <div class="col-md-6"><label>Confirm Password:</label></div>
+
+        <div class="clearfix"></div>
+        <div class="col-md-6"><input type="email" class="email" size="61" th:field="*{email}"/><span id="tooltip-1"></span></div>
+
+        <div class="col-md-6">
+            <input type="password" size="61" class="password" id="password-2" th:field="*{passwordConfirm}"/><span id="password-confirm"></span>
+        </div>
+
+        <div class="clearfix bottom-space"></div>
+
+        <div class="clearfix bottom-space"></div>
+        <div class="col-md-3"><label>Region:</label></div>
+        <div class="col-md-3"><label>Academic Level:</label></div>
+        <div class="col-md-3"><label>Tutorial Grade:</label></div>
+        <div class="col-md-3"><label>QPalX School:</label></div>
+
+        <div class="clearfix"></div>
+
+        <!-- Select Region Dropdown -->
+        <div class="col-md-3">
+            <select class="dropdown" th:field="*{municipalityID}">
+                <option value="0">Choose Your Region</option>
+                <option th:each="QPalXMunicipality : ${QPalXMunicipalities}" th:value="${QPalXMunicipality.id}" th:text="${QPalXMunicipality.name}"></option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <select class="dropdown" th:field="*{studentTutorialLevelID}">
+
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <select class="dropdown" th:field="*{tutorialGradeID}">
+
+            </select>
+        </div>
+
+        <select class="dropdown" th:field="*{educationalInstitutionID}">
+
+        </select>
+
+        <div class="clearfix bottom-space"></div>
+
+
+        <div class="col-md-3"><label>Phone:</label></div>
+        <div class="col-md-3"><label>Gender:</label></div>
+        <div class="col-md-6"></div>
+
+        <div class="clearfix"></div>
+
+        <!--  Student Phone -->
+        <div class="col-md-3">
+            <input type="text" size="40" id="phone" th:field="*{mobilePhoneNumber}"/>
+        </div>
+
+            <!--  Select User Sex, M/F -->
+         <div class="col-md-3">
+            <select class="dropdown" th:field="*{userSex}">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+         </div>
+
+            <div class="col-md-6"></div>
+
+        <div class="clearfix bottom-space"></div>
+
+        <!--  All hidden fields -->
+        <input type="hidden" name="municipalityID" value="1"/>
+        <input type="hidden" name="successID" value=""/>
+
+        <div class="col-md-12 continue">
+            <button type="submit" class="btn btn-success">Continue</button>
+        </div>
+    </form>
+</div>
+
+<div class="clearfix bottom-space"></div>
+
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" language="javascript">
+        function onFocus(el) {
+            if (el.value == el.defaultValue) {
+                el.value = '';
+            }
+        }
+</script>
+</body>
+</html>

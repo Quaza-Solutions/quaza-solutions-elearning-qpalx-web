@@ -87,6 +87,8 @@ public class QPalXWebUserVO implements IQPalXUserVO {
 
     private QPalXUser globalAuditQPalxUser;
 
+    public static final String CLASS_ATTRIBUTE = "QPalXWebUserVO";
+
 
     public QPalXWebUserVO() {
 

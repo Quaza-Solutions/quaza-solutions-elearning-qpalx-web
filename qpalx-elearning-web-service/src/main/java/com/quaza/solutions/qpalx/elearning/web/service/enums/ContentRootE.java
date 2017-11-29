@@ -46,7 +46,10 @@ public enum ContentRootE {
 
     School_Teacher_Home("school-teacher/"),
 
+    School_Teacher_Signup("school-teacher/signup/"),
+
     School_Principal_Home("school-principal-user/"),
+
 
     Executive_User_Home("executive-user/")
     ;

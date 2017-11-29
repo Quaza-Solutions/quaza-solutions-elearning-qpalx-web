@@ -82,7 +82,8 @@ public class RegistrationController {
                 break;
             case Teacher:
                 LOGGER.info("Teacher QPalX signup selected which is currently not supported, returning to home page.");
-                selectedSignupTypePage = ContentRootE.Home.getContentRootPagePath("launch");
+                selectedSignupTypePage = ContentRootE.School_Teacher_Signup.getContentRootPagePath("sign-up-teacher");
+                addRegistrationProcessAttributes(model, modelMap);
                 break;
             default:
                 LOGGER.info("Invalid QPalX signup type selected, returning to home page");
