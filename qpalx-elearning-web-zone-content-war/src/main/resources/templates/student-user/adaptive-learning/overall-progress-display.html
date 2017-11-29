@@ -21,8 +21,7 @@
 <br/><br/><br/>
 
 <!-- Display all CORE Curriculum progress -->
-<div class="container" style="margin: 10px auto 10px auto;"
-     th:each="CoreProgress,rowStat : ${CoreCurriculumOverallProgress}">
+<div class="container" style="margin: 10px auto 10px auto;" th:each="CoreProgress,rowStat : ${CoreCurriculumOverallProgress}">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 large-font" style="margin: 0 0 0 40px; color: #54bf76">
             Core Curriculum
@@ -68,7 +67,7 @@
 <!-- Display all ELECTIVE Curriculum progress -->
 <br/><br/>
 
-<div class="container" th:each="ElectiveProgress,rowStat : ${ElectiveCurriculumOverallProgress}">
+<div class="container" style="margin: 10px auto 10px auto;" th:each="ElectiveProgress,rowStat : ${ElectiveCurriculumOverallProgress}">
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 large-font" style="margin: 0 0 0 40px; color: #54bf76">
@@ -112,6 +111,8 @@
     </div>
 
 </div>
+
+<br/><br/>
 
 <!-- Include Footer for when user is logged in -->
 <div th:replace="fragments/footer-usersession :: footer-usersession"/>
