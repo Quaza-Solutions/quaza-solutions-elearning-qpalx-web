@@ -8,6 +8,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="css/global-style.css"/>
 </head>
 <body>
@@ -41,7 +42,22 @@
 
     <div class="row" th:each="QPalXELesson,rowStat : ${QPalXELessons}">
 
-        <div class="col-md-1 num" th:text="${rowStat.count}"></div>
+        <div class="col-md-1 num" th:inline="text" >
+            [[${rowStat.count}]]
+        </div>
+
+        <div class="col-md-1 num">
+
+            <a th:href="@{/move-lesson-up(qpalxELessonID=${QPalXELesson.id})}">
+                <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+            </a>
+
+            &nbsp;&nbsp;
+
+            <a th:href="@{/move-lesson-down(qpalxELessonID=${QPalXELesson.id})}">
+                <i class="fa fa-cloud-download" aria-hidden="true"></i>
+            </a>
+        </div>
 
         <div class="col-md-3 name" align="left">
             <a th:href="@{/view-admin-qpalx-micro-elessons(qpalxELessonID=${QPalXELesson.id})}"><b th:text="${QPalXELesson.lessonName}"></b></a>
@@ -56,7 +72,7 @@
             [[${QPalXELesson.getTutorialLevelCalendar().getCalendarItemStartMonth()}]] - [[${QPalXELesson.getTutorialLevelCalendar().getCalendarItemEndMonth()}]]
         </div>
 
-        <div class="col-md-2"></div>
+        <div class="col-md-1"></div>
 
         <div class="col-md-2">
             <div class="default-btn-1"></div>

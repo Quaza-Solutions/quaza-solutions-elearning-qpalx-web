@@ -128,6 +128,16 @@ public class QPalXLessonAdminController {
         return ContentRootE.Content_Admin_Lessons.getContentRootPagePath("view-qpalx-elessons");
     }
 
+    @RequestMapping(value = "/move-lesson-down", method = RequestMethod.GET)
+    public void moveQPalXELessonsDown(final Model model, @RequestParam("qpalxELessonID") Long qpalxELessonID, HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Attempting to move lesson down");
+
+        QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qpalxELessonID);
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        iqPalXELessonService.moveQPalXELessonDown(qPalXELesson);
+        iRedirectStrategyExecutor.sendRedirect(request, response, "/view-admin-qpalx-elessons?eLearningCourseID="+eLearningCourse.getId());
+    }
+
     @RequestMapping(value = "/add-qpalx-elesson", method = RequestMethod.GET)
     public String addQPalXELessonsView(final Model model, @RequestParam("eLearningCourseID") String eLearningCourseID, HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Building add QPalxELesson page options for eLearningCourseID: {}", eLearningCourseID);
@@ -199,8 +209,6 @@ public class QPalXLessonAdminController {
                                  @ModelAttribute("QPalXELessonWebVO") QPalXELessonWebVO qPalXELessonWebVO,
                                  HttpServletRequest request, HttpServletResponse response, @RequestParam("narration_file") MultipartFile multipartFile) {
         LOGGER.info("Saving QPalX ELesson with narration_file and VO attributes: {}", qPalXELessonWebVO);
-
-        System.out.println("multipartFile = " + multipartFile);
 
         // Build hierarchy based content structure on the Lesson which will allow for uploading content to the right directory structure
         iCurriculumHierarchyService.buildHierarchyForQPalXELessonWebVO(qPalXELessonWebVO);
