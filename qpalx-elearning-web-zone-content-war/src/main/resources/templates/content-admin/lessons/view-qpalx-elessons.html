@@ -43,24 +43,10 @@
             [[${rowStat.count}]]
         </div>
 
-        <div class="col-md-1 num">
-
-            <a th:href="@{/move-lesson-up(qpalxELessonID=${QPalXELesson.id}, tutorialLevelCalendarID=${SelectedTutorialCalendar.id})}">
-                <span class="glyphicon glyphicon-upload"></span>
-            </a>
-
-            &nbsp;&nbsp;
-
-            <a th:href="@{/move-lesson-down(qpalxELessonID=${QPalXELesson.id}, tutorialLevelCalendarID=${SelectedTutorialCalendar.id})}">
-                <span class="glyphicon glyphicon-download"></span>
-            </a>
-        </div>
-
         <div class="col-md-3 name" align="left">
             <a th:href="@{/view-admin-qpalx-micro-elessons(qpalxELessonID=${QPalXELesson.id})}"><b th:text="${QPalXELesson.lessonName}"></b></a>
             <br/>
-            <div class="small" th:text="${QPalXELesson.proficiencyRankingScaleFloor.getProficiencyScoreRangeE()}"></div>
-            <!--<div th:inline="text" class="small">[[${ELearningCourseActivity.proficiencyRankingScaleFloor}]] - [[${ELearningCourseActivity.proficiencyRankingScaleCeiling}]]</div>-->
+            <div th:inline="text" class="small">[[${QPalXELesson.proficiencyRankingScaleFloor}]] - [[${QPalXELesson.proficiencyRankingScaleCeiling}]]</div>
         </div>
 
         <div class="col-md-2" th:inline="text">
@@ -69,7 +55,19 @@
             [[${QPalXELesson.getTutorialLevelCalendar().getCalendarItemStartMonth()}]] - [[${QPalXELesson.getTutorialLevelCalendar().getCalendarItemEndMonth()}]]
         </div>
 
-        <div class="col-md-1"></div>
+        <!-- Display toggle Lesson UP Button.  Toggle up will not be shown for first Lesson in List -->
+        <div class="col-md-1 num">
+            <a th:href="@{/move-lesson-up(qpalxELessonID=${QPalXELesson.id}, tutorialLevelCalendarID=${SelectedTutorialCalendar.id})}" th:if="${rowStat.count > 1}">
+                <span class="glyphicon glyphicon-upload"></span>
+            </a>
+        </div>
+
+        <!-- Display toggle Lesson Down Button.  Toggle down will not be shown for last Lesson -->
+        <div class="col-md-1 num">
+            <a th:href="@{/move-lesson-down(qpalxELessonID=${QPalXELesson.id}, tutorialLevelCalendarID=${SelectedTutorialCalendar.id})}" th:if="${rowStat.count != QPalXELessons.size()}">
+                <span class="glyphicon glyphicon-download"></span>
+            </a>
+        </div>
 
         <div class="col-md-2">
             <div class="default-btn-1"></div>

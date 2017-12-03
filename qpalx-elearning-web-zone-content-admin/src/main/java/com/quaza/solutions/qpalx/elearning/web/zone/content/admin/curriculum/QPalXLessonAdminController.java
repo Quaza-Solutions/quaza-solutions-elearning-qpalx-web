@@ -153,7 +153,8 @@ public class QPalXLessonAdminController {
         LOGGER.info("Executing move lesson down operation with qpalxELessonID: {}", qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qpalxELessonID);
         ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
-        iqPalXELessonService.moveQPalXELessonDown(qPalXELesson);
+        TutorialLevelCalendar selectedCalendar = iTutorialLevelCalendarService.findByID(tutorialLevelCalendarID);
+        iqPalXELessonService.moveQPalXELessonDown(qPalXELesson, selectedCalendar);
         String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + eLearningCourse.getId() + "&tutorialLevelCalendarID=" + tutorialLevelCalendarID;
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
@@ -166,7 +167,8 @@ public class QPalXLessonAdminController {
         LOGGER.info("Executing move lesson up operation with qpalxELessonID: {}", qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qpalxELessonID);
         ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
-        iqPalXELessonService.moveQPalXELessonUp(qPalXELesson);
+        TutorialLevelCalendar selectedCalendar = iTutorialLevelCalendarService.findByID(tutorialLevelCalendarID);
+        iqPalXELessonService.moveQPalXELessonUp(qPalXELesson, selectedCalendar);
         String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + eLearningCourse.getId() + "&tutorialLevelCalendarID=" + tutorialLevelCalendarID;
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
