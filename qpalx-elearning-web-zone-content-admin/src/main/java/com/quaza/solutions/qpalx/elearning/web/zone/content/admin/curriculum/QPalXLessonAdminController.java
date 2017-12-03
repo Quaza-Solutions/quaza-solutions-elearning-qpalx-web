@@ -6,6 +6,7 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCourse
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurriculum;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningMediaContent;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
+import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.subjectmatter.proficiency.ProficiencyRankingScaleE;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialLevel;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.TutorialLevelCalendar;
@@ -16,11 +17,11 @@ import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCour
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IQPalXELessonService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.ITutorialLevelCalendarService;
 import com.quaza.solutions.qpalx.elearning.web.service.admin.curriculum.ICurriculumHierarchyService;
-import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
-import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
-import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.*;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.*;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
+import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
+import com.quaza.solutions.qpalx.elearning.web.service.user.QPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.elearningcontent.IELearningStaticContentService;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXELessonWebVO;
@@ -38,6 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author manyce400
@@ -46,6 +48,10 @@ import java.util.List;
 public class QPalXLessonAdminController {
 
 
+
+    @Autowired
+    @Qualifier(QPalXUserWebService.BEAN_NAME)
+    private IQPalXUserWebService iqPalXUserWebService;
 
     @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.service.QPalXELessonService")
@@ -88,6 +94,10 @@ public class QPalXLessonAdminController {
     private ITutorialLevelCalendarService iTutorialLevelCalendarService;
 
     @Autowired
+    @Qualifier(TutorialLevelCalendarPanelService.SPRING_BEAN)
+    private ITutorialLevelCalendarPanelService iTutorialLevelCalendarPanelService;
+
+    @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
     private IRedirectStrategyExecutor iRedirectStrategyExecutor;
 
@@ -97,28 +107,35 @@ public class QPalXLessonAdminController {
 
 
     @RequestMapping(value = "/view-admin-qpalx-elessons", method = RequestMethod.GET)
-    public String viewAdminQPalXLessons(final Model model, @RequestParam("eLearningCourseID") String eLearningCourseID, HttpServletRequest request, HttpServletResponse response) {
+    public String viewAdminQPalXLessons(@RequestParam("eLearningCourseID") Long eLearningCourseID,
+                                        @RequestParam("tutorialLevelCalendarID") Long tutorialLevelCalendarID,
+                                        Model model, HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Loading and displaying view for all QPalXELesson for eLearningCourseID: {}", eLearningCourseID);
 
         // Add any redirect attributes to model
         iRedirectStrategyExecutor.addWebOperationRedirectErrorsToModel(model, request);
+
+        Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
 
         // Add information required for Users account info display panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);
         model.addAttribute(CurriculumDisplayAttributeE.DisplayCourse.toString(), Boolean.TRUE.toString());
 
         // Add all attributes required for content admin tutorial panel
-        Long courseID = NumberUtils.toLong(eLearningCourseID);
-        ELearningCourse eLearningCourse = ieLearningCourseService.findByCourseID(courseID);
+        ELearningCourse eLearningCourse = ieLearningCourseService.findByCourseID(eLearningCourseID);
         ELearningCurriculum eLearningCurriculum = eLearningCourse.geteLearningCurriculum();
+        TutorialLevelCalendar selectedCalendar = iTutorialLevelCalendarService.findByID(tutorialLevelCalendarID);
         model.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCourse.toString(), eLearningCourse);
         contentAdminTutorialGradePanelService.addDisplayPanelAttributes(model, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, eLearningCourse);
 
         // Add Admin AcademicLevel Panel data
         iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());
 
+        // Add Tutorial Level details
+        iTutorialLevelCalendarPanelService.addCalendarPanelInfo(model, selectedCalendar);
+
         // Find all the QPalXELesson's currently available
-        List<QPalXELesson> qPalXELessons = iqPalXELessonService.findQPalXELessonByCourse(eLearningCourse);
+        List<QPalXELesson> qPalXELessons = iqPalXELessonService.findQPalXELessonByCalendarAndCourse(selectedCalendar, eLearningCourse);
         model.addAttribute(LessonsAdminAttributesE.QPalXELessons.toString(), qPalXELessons);
 
         // Find any created Assessment for this course
@@ -129,13 +146,29 @@ public class QPalXLessonAdminController {
     }
 
     @RequestMapping(value = "/move-lesson-down", method = RequestMethod.GET)
-    public void moveQPalXELessonsDown(final Model model, @RequestParam("qpalxELessonID") Long qpalxELessonID, HttpServletRequest request, HttpServletResponse response) {
-        LOGGER.info("Attempting to move lesson down");
-
+    public void moveQPalXELessonsDown(@RequestParam("qpalxELessonID") Long qpalxELessonID,
+                                      @RequestParam("tutorialLevelCalendarID") Long tutorialLevelCalendarID,
+                                      Model model,
+                                      HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Executing move lesson down operation with qpalxELessonID: {}", qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qpalxELessonID);
         ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
         iqPalXELessonService.moveQPalXELessonDown(qPalXELesson);
-        iRedirectStrategyExecutor.sendRedirect(request, response, "/view-admin-qpalx-elessons?eLearningCourseID="+eLearningCourse.getId());
+        String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + eLearningCourse.getId() + "&tutorialLevelCalendarID=" + tutorialLevelCalendarID;
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
+    }
+
+    @RequestMapping(value = "/move-lesson-up", method = RequestMethod.GET)
+    public void moveQPalXELessonsUp(@RequestParam("qpalxELessonID") Long qpalxELessonID,
+                                    @RequestParam("tutorialLevelCalendarID") Long tutorialLevelCalendarID,
+                                    Model model,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Executing move lesson up operation with qpalxELessonID: {}", qpalxELessonID);
+        QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qpalxELessonID);
+        ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
+        iqPalXELessonService.moveQPalXELessonUp(qPalXELesson);
+        String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + eLearningCourse.getId() + "&tutorialLevelCalendarID=" + tutorialLevelCalendarID;
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
 
     @RequestMapping(value = "/add-qpalx-elesson", method = RequestMethod.GET)

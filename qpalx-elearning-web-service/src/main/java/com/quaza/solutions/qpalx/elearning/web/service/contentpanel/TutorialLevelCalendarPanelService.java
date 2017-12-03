@@ -2,10 +2,14 @@ package com.quaza.solutions.qpalx.elearning.web.service.contentpanel;
 
 import com.google.common.collect.ImmutableMap;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
+import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalxUserTypeE;
+import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.ContentAdminProfileRecord;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.StudentEnrolmentRecord;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialLevel;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.TutorialLevelCalendar;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultContentAdminProfileRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IContentAdminProfileRecordService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrolmentRecordService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.ITutorialLevelCalendarService;
@@ -24,7 +28,7 @@ import java.util.Optional;
 /**
  * @author manyce400
  */
-@Service("com.quaza.solutions.qpalx.elearning.web.service.TutorialLevelCalendarPanelService")
+@Service(TutorialLevelCalendarPanelService.SPRING_BEAN)
 public class TutorialLevelCalendarPanelService implements ITutorialLevelCalendarPanelService {
 
 
@@ -49,6 +53,12 @@ public class TutorialLevelCalendarPanelService implements ITutorialLevelCalendar
     @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultStudentEnrolmentRecordService")
     private IStudentEnrolmentRecordService iStudentEnrolmentRecordService;
 
+    @Autowired
+    @Qualifier(DefaultContentAdminProfileRecordService.SPRING_BEAN)
+    private IContentAdminProfileRecordService iContentAdminProfileRecordService;
+
+    public static final String SPRING_BEAN = "com.quaza.solutions.qpalx.elearning.web.service.TutorialLevelCalendarPanelService";
+
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(TutorialLevelCalendarPanelService.class);
 
@@ -68,19 +78,38 @@ public class TutorialLevelCalendarPanelService implements ITutorialLevelCalendar
         Assert.notNull(selectedTutorialLevelCalendar, "selectedTutorialLevelCalendar cannot be null");
 
         Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
-        if(optionalUser.isPresent()) {
-            LOGGER.debug("adding calendar panel infor for student: {}", optionalUser.get().getEmail());
-
-            // Get the student enrolment record to determine their tutorial level and grade.
-            StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(optionalUser.get());
-            StudentTutorialGrade studentTutorialGrade = studentEnrolmentRecord.getStudentTutorialGrade();
-            StudentTutorialLevel studentTutorialLevel = studentTutorialGrade.getStudentTutorialLevel();
-            List<TutorialLevelCalendar> tutorialLevelCalendars = iTutorialLevelCalendarService.findAllByStudentTutorialLevel(studentTutorialLevel);
-
-            // Add all attributes to mode
-            ImmutableMap<String, Object> tutorialLevelPanelAttributes = TutorialCalendarPanelE.buildAttributes(tutorialLevelCalendars, selectedTutorialLevelCalendar);
-            iWebAttributesUtil.addWebAttributes(model, tutorialLevelPanelAttributes);
+        if(optionalUser.isPresent()  && optionalUser.get().getUserType() == QPalxUserTypeE.STUDENT) {
+            addCalendarPanelInfoStudent(optionalUser.get(), model, selectedTutorialLevelCalendar);
+        } else if(optionalUser.isPresent()  && optionalUser.get().getUserType() == QPalxUserTypeE.CONTENT_DEVELOPER) {
+            addCalendarPanelInfoContentDeveloper(optionalUser.get(), model, selectedTutorialLevelCalendar);
         }
+    }
+
+    private void addCalendarPanelInfoStudent(QPalXUser qPalXUser, Model model, TutorialLevelCalendar selectedTutorialLevelCalendar) {
+        LOGGER.debug("adding calendar panel infor for Student: {}", qPalXUser.getEmail());
+
+        // Get the student enrolment record to determine their tutorial level and grade.
+        StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(qPalXUser);
+        StudentTutorialGrade studentTutorialGrade = studentEnrolmentRecord.getStudentTutorialGrade();
+        StudentTutorialLevel studentTutorialLevel = studentTutorialGrade.getStudentTutorialLevel();
+        List<TutorialLevelCalendar> tutorialLevelCalendars = iTutorialLevelCalendarService.findAllByStudentTutorialLevel(studentTutorialLevel);
+
+        // Add all attributes to mode
+        ImmutableMap<String, Object> tutorialLevelPanelAttributes = TutorialCalendarPanelE.buildAttributes(tutorialLevelCalendars, selectedTutorialLevelCalendar);
+        iWebAttributesUtil.addWebAttributes(model, tutorialLevelPanelAttributes);
+    }
+
+    private void addCalendarPanelInfoContentDeveloper(QPalXUser qPalXUser, Model model, TutorialLevelCalendar selectedTutorialLevelCalendar) {
+        LOGGER.debug("adding calendar panel infor for Content Developer: {}", qPalXUser.getEmail());
+
+        // Get the student enrolment record to determine their tutorial level and grade.
+        ContentAdminProfileRecord contentAdminProfileRecord = iContentAdminProfileRecordService.findEnabledContentAdminProfileRecord(qPalXUser);
+        StudentTutorialLevel studentTutorialLevel = contentAdminProfileRecord.getStudentTutorialLevel();
+        List<TutorialLevelCalendar> tutorialLevelCalendars = iTutorialLevelCalendarService.findAllByStudentTutorialLevel(studentTutorialLevel);
+
+        // Add all attributes to mode
+        ImmutableMap<String, Object> tutorialLevelPanelAttributes = TutorialCalendarPanelE.buildAttributes(tutorialLevelCalendars, selectedTutorialLevelCalendar);
+        iWebAttributesUtil.addWebAttributes(model, tutorialLevelPanelAttributes);
     }
 
 

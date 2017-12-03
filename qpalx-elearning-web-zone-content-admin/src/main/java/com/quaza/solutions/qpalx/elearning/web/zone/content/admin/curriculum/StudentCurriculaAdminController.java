@@ -7,17 +7,21 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.ELearningCurric
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalxUserTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
+import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.TutorialLevelCalendar;
 import com.quaza.solutions.qpalx.elearning.service.institutions.IQPalXEducationalInstitutionService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseActivityService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
+import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.DefaultTutorialLevelCalendarService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
+import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.ITutorialLevelCalendarService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IAcademicLevelAdminPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.contentpanel.IContentAdminTutorialGradePanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.AdminTutorialGradePanelE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.TutorialCalendarPanelE;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
@@ -84,6 +88,10 @@ public class StudentCurriculaAdminController {
     private IELearningStaticContentService ieLearningStaticContentService;
 
     @Autowired
+    @Qualifier(DefaultTutorialLevelCalendarService.SPRING_BEAN)
+    private ITutorialLevelCalendarService iTutorialLevelCalendarService;
+
+    @Autowired
     @Qualifier("quaza.solutions.qpalx.elearning.web.ContentAdminTutorialGradePanelService")
     private IContentAdminTutorialGradePanelService contentAdminTutorialGradePanelService;
 
@@ -119,10 +127,17 @@ public class StudentCurriculaAdminController {
     @RequestMapping(value = "/view-admin-curriculum-courses", method = RequestMethod.GET)
     public String displayAllCurriculumCourses(final Model model, @RequestParam("curriculumID") String curriculumID) {
         LOGGER.info("Retrieving and displaying all Admin Curriculum courses for curriculumID:> {}", curriculumID);
+
+        Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
+
         Long id = NumberUtils.toLong(curriculumID);
         ELearningCurriculum eLearningCurriculum = ieLearningCurriculumService.findByELearningCurriculumID(id);
         String studentTutorialGradeID = eLearningCurriculum.getStudentTutorialGrade().getId().toString();
         String curriculumType = eLearningCurriculum.getCurriculumType().toString();
+
+        // Find the current Tutorial Level Calendar
+        Optional<TutorialLevelCalendar> currentTutorialCalendar = iTutorialLevelCalendarService.findCurrentCalendarByTutorialLevel(optionalUser.get());
+        model.addAttribute(TutorialCalendarPanelE.SelectedTutorialCalendar.toString(), currentTutorialCalendar.get());
 
         // Add Academic Level panel details
         iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, eLearningCurriculum.getCurriculumType(), eLearningCurriculum.getStudentTutorialGrade());

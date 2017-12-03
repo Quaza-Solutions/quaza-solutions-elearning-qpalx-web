@@ -21,14 +21,11 @@
 <!-- Include Student User general Account information panel -->
 <div th:replace="fragments/content-admin/admin-tutorialgrade-panel :: tutorialgrade-panel"/>
 
-
-<div class="clearfix"></div>
+<!-- Include Admin Curriculum Control Navigation Panel -->
+<div th:replace="fragments/content-admin/admin-curriculum-nav-panel :: navigation-panel"/>
 
 <!-- Entire Curriculum available to Content Developer list -->
 <div class="container" style="margin-top: 10px; margin-bottom: 0px;">
-
-    <!-- Include Admin Curriculum Control Navigation Panel -->
-    <div th:replace="fragments/content-admin/admin-curriculum-nav-panel :: navigation-panel"/>
 
     <div th:each="CurriculumELearningCourses,rowStat : ${CurriculumELearningCourses}">
         <div class="row">
@@ -36,7 +33,7 @@
 
             <div class="col-md-1"></div>
             <div class="col-md-2 name" style="margin-left: -80px; cursor: pointer;" >
-                <a th:href="@{/view-admin-qpalx-elessons(eLearningCourseID=${CurriculumELearningCourses.id})}"><b th:text="${CurriculumELearningCourses.courseName}"></b></a><br/>
+                <a th:href="@{/view-admin-qpalx-elessons(eLearningCourseID=${CurriculumELearningCourses.id}, tutorialLevelCalendarID=${SelectedTutorialCalendar.id})}"><b th:text="${CurriculumELearningCourses.courseName}"></b></a><br/>
                 <div th:text="${CurriculumELearningCourses.courseDescription}"></div>
             </div>
             <div class="col-md-1"></div>
