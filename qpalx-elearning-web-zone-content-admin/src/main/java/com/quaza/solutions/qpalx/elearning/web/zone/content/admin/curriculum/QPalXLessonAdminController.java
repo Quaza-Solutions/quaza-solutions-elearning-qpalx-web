@@ -313,11 +313,12 @@ public class QPalXLessonAdminController {
 
             // Delete the current existing Lesson Intro video
             QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qPalXELessonWebVO.getQPalxELessonID());
+            TutorialLevelCalendar tutorialLevelCalendar = qPalXELesson.getTutorialLevelCalendar();
             LOGGER.debug("Deleting current existing intro video media contet: {}", qPalXELesson.geteLearningMediaContent());
             ieLearningStaticContentService.deleteELearningMediaContent(qPalXELesson.geteLearningMediaContent());
 
             iqPalXELessonService.updateAndSaveQPalXELesson(qPalXELesson, qPalXELessonWebVO);
-            String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + qPalXELessonWebVO.getELearningCourseID();
+            String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + qPalXELessonWebVO.getELearningCourseID()  + "&tutorialLevelCalendarID="+tutorialLevelCalendar.getId();
             iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
         }
     }
@@ -333,13 +334,14 @@ public class QPalXLessonAdminController {
 
         // Delete the current existing Lesson Intro video
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qPalXELessonWebVO.getQPalxELessonID());
+        TutorialLevelCalendar tutorialLevelCalendar = qPalXELesson.getTutorialLevelCalendar();
         if (qPalXELesson.geteLearningMediaContent() != null) {
             LOGGER.debug("Deleting current existing intro video media contet: {}", qPalXELesson.geteLearningMediaContent());
             ieLearningStaticContentService.deleteELearningMediaContent(qPalXELesson.geteLearningMediaContent());
         }
 
         iqPalXELessonService.updateAndSaveQPalXELesson(qPalXELesson, qPalXELessonWebVO);
-        String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + qPalXELessonWebVO.getELearningCourseID();
+        String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + qPalXELessonWebVO.getELearningCourseID() + "&tutorialLevelCalendarID="+tutorialLevelCalendar.getId();
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
 
@@ -351,12 +353,13 @@ public class QPalXLessonAdminController {
         // Load up the lesson and then delete
         Long lessonID = NumberUtils.toLong(qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(lessonID);
+        TutorialLevelCalendar tutorialLevelCalendar = qPalXELesson.getTutorialLevelCalendar();
         ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
 
         // check to see if this lesson can be deleted first
         boolean isDeletable = iqPalXELessonService.isELessonDeletable(qPalXELesson);
+        String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + eLearningCourse.getId() + "&tutorialLevelCalendarID="+tutorialLevelCalendar.getId();
         if (!isDeletable) {
-            String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + eLearningCourse.getId();
             String error = new StringBuilder("Lesson:  ")
                     .append(qPalXELesson.getLessonName()).append("  => ")
                     .append(" Cannot be deleted.  Remove all MicroLessons, QuestionBanks and Quizzes first")
@@ -367,7 +370,6 @@ public class QPalXLessonAdminController {
             if (qPalXELesson.geteLearningMediaContent() != null) {
                 ieLearningStaticContentService.deleteELearningMediaContent(qPalXELesson.geteLearningMediaContent());
             }
-            String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + eLearningCourse.getId();
             iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
         }
     }

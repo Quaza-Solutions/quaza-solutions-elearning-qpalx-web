@@ -163,8 +163,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <input type="radio" value="TRUE" th:field="*{activeFlag}"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" value="FALSE" th:field="*{activeFlag}"/> Inactive
+                    <input type="radio" value="TRUE" th:field="*{activeFlag}" th:checked="${QPalXELessonWebVO.isActive()}"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" value="FALSE" th:field="*{activeFlag}" /> Inactive
                 </div>
             </div>
 
@@ -310,8 +310,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <input type="radio" value="TRUE" th:field="*{activeFlag}"/> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" value="FALSE" th:field="*{activeFlag}"/> Inactive
+                    <input type="radio" value="TRUE" th:field="*{activeFlag}" /> Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" value="FALSE" th:field="*{activeFlag}" /> Inactive
                 </div>
             </div>
 

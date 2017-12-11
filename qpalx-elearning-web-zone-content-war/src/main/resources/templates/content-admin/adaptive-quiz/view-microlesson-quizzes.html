@@ -35,7 +35,21 @@
             <b th:text="${AdminMicroLessonAdaptiveQuiz.getQuizTitle()}"></b>
         </div>
 
-        <div class="col-md-4"></div>
+        <!-- Display toggle Lesson UP Button.  Toggle up will not be shown for first Lesson in List -->
+        <div class="col-md-1 num">
+            <a th:href="@{/move-adaptive-learning-quiz-up(adaptiveQuizID=${AdminMicroLessonAdaptiveQuiz.id})}" th:if="${rowStat.count > 1}">
+                <span class="glyphicon glyphicon-upload"></span>
+            </a>
+        </div>
+
+        <!-- Display toggle Lesson Down Button.  Toggle down will not be shown for last Lesson -->
+        <div class="col-md-1 num">
+            <a th:href="@{/move-adaptive-learning-quiz-down(adaptiveQuizID=${AdminMicroLessonAdaptiveQuiz.id})}" th:if="${rowStat.count != AdminMicroLessonAdaptiveQuizzes.size()}">
+                <span class="glyphicon glyphicon-download"></span>
+            </a>
+        </div>
+
+        <div class="col-md-2"></div>
 
         <div class="col-md-2">
             <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/start-quiz-edit-mode(adaptiveQuizID=${AdminMicroLessonAdaptiveQuiz.id})} + '\''">

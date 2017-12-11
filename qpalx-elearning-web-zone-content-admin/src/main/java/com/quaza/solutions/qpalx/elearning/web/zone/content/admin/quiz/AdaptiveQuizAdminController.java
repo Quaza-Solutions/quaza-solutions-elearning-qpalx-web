@@ -82,6 +82,29 @@ public class AdaptiveQuizAdminController {
 
 
 
+    @RequestMapping(value = "/move-adaptive-learning-quiz-down", method = RequestMethod.GET)
+    public void moveAdaptiveLearningQuizDown(@RequestParam("adaptiveQuizID") Long adaptiveQuizID,
+                                           HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Moving Adaptive Quiz with ID: {} down", adaptiveQuizID);
+        AdaptiveLearningQuiz adaptiveLearningQuiz = iAdaptiveLearningQuizService.findByID(adaptiveQuizID);
+        QPalXEMicroLesson microLesson = adaptiveLearningQuiz.getQPalXEMicroLesson();
+        iAdaptiveLearningQuizService.moveAdaptiveLearningQuizDown(adaptiveLearningQuiz);
+        String url = "/view-adaptive-quizzes?microlessonID=" + microLesson.getId();
+        iRedirectStrategyExecutor.sendRedirect(request, response, url);
+    }
+
+    @RequestMapping(value = "/move-adaptive-learning-quiz-up", method = RequestMethod.GET)
+    public void moveAdaptiveLearningQuizUp(@RequestParam("adaptiveQuizID") Long adaptiveQuizID,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Moving Adaptive Quiz with ID: {} down", adaptiveQuizID);
+        AdaptiveLearningQuiz adaptiveLearningQuiz = iAdaptiveLearningQuizService.findByID(adaptiveQuizID);
+        QPalXEMicroLesson microLesson = adaptiveLearningQuiz.getQPalXEMicroLesson();
+        iAdaptiveLearningQuizService.moveAdaptiveLearningQuizUp(adaptiveLearningQuiz);
+        String url = "/view-adaptive-quizzes?microlessonID=" + microLesson.getId();
+        iRedirectStrategyExecutor.sendRedirect(request, response, url);
+    }
+
+
     @RequestMapping(value = "/view-adaptive-quizzes", method = RequestMethod.GET)
     public String viewAdminAdaptiveQuizzes(final Model model, @RequestParam("microlessonID") String microlessonID) {
         LOGGER.info("Finding all Adaptive Quizzes for microlessonID: {}", microlessonID);
