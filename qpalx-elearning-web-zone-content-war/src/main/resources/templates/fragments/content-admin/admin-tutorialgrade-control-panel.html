@@ -19,15 +19,14 @@
 
         <!-- Display Tutorial Level calendar under Lessons display page -->
         <div class="row">
-            <div th:each="CurrentStudentTutorialGrade,rowStat : ${StudentTutorialGrades}" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div th:each="CurrentStudentTutorialGrade,rowStat : ${StudentTutorialGrades}" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 
                 <div th:if="${CurrentStudentTutorialGrade.tutorialGrade} == ${StudentTutorialGrade.tutorialGrade}">
-                    <!--<span class="three-text-blue" th:text="${CurrentStudentTutorialGrade.tutorialGrade}"></span>-->
                     <b class="green" th:inline="text">[[${CurrentStudentTutorialGrade.tutorialGrade}]]</b>
                     <hr class="green-hr-I" />
                 </div>
 
-                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/curriculum-by-tutorialgrade(tutorialGradeID=${CurrentStudentTutorialGrade.id}, curriculumType=${CurriculumType})} + '\''" th:if="${CurrentStudentTutorialGrade.tutorialGrade} != ${StudentTutorialGrade.tutorialGrade}">
+                <div style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/curriculum-by-tutorialgrade(tutorialGradeID=${CurrentStudentTutorialGrade.id}, curriculumType=${CurriculumType})} + '\''" th:if="${CurrentStudentTutorialGrade.tutorialGrade} != ${StudentTutorialGrade.tutorialGrade}">
                     <span th:text="${CurrentStudentTutorialGrade.tutorialGrade}"></span>
                 </div>
 

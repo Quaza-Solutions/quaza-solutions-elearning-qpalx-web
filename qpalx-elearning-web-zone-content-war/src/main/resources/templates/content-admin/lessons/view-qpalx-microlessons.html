@@ -43,7 +43,22 @@
         <div class="col-md-3 name" align="left">
             <a th:href="@{/view-adaptive-quizzes(microlessonID=${QPalXEMicroLesson.id})}"><b th:text="${QPalXEMicroLesson.microLessonName}"></b></a>
         </div>
-        <div class="col-md-4"></div>
+
+        <!-- Display toggle Lesson UP Button.  Toggle up will not be shown for first Lesson in List -->
+        <div class="col-md-1 num">
+            <a th:href="@{/move-micro-lesson-up(microlessonID=${QPalXEMicroLesson.id})}" th:if="${rowStat.count > 1}">
+                <span class="glyphicon glyphicon-upload"></span>
+            </a>
+        </div>
+
+        <!-- Display toggle Lesson Down Button.  Toggle down will not be shown for last Lesson -->
+        <div class="col-md-1 num">
+            <a th:href="@{/move-micro-lesson-down(microlessonID=${QPalXEMicroLesson.id})}" th:if="${rowStat.count != QPalXEMicroLessons.size()}">
+                <span class="glyphicon glyphicon-download"></span>
+            </a>
+        </div>
+
+        <div class="col-md-2"></div>
 
         <div class="col-md-2">
             <button type="submit" value="0" class="btn btn-default btn-default-1 btn-sm" th:onclick="'document.location.href=\'' + @{/microlesson-edit-start(microLessonID=${QPalXEMicroLesson.id})} + '\''">

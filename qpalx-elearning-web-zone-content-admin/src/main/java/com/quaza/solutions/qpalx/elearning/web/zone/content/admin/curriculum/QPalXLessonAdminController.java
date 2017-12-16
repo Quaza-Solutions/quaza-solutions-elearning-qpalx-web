@@ -153,8 +153,7 @@ public class QPalXLessonAdminController {
         LOGGER.info("Executing move lesson down operation with qpalxELessonID: {}", qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qpalxELessonID);
         ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
-        TutorialLevelCalendar selectedCalendar = iTutorialLevelCalendarService.findByID(tutorialLevelCalendarID);
-        iqPalXELessonService.moveQPalXELessonDown(qPalXELesson, selectedCalendar);
+        iqPalXELessonService.moveQPalXELessonDown(qPalXELesson);
         String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + eLearningCourse.getId() + "&tutorialLevelCalendarID=" + tutorialLevelCalendarID;
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
@@ -167,8 +166,7 @@ public class QPalXLessonAdminController {
         LOGGER.info("Executing move lesson up operation with qpalxELessonID: {}", qpalxELessonID);
         QPalXELesson qPalXELesson = iqPalXELessonService.findQPalXELessonByID(qpalxELessonID);
         ELearningCourse eLearningCourse = qPalXELesson.geteLearningCourse();
-        TutorialLevelCalendar selectedCalendar = iTutorialLevelCalendarService.findByID(tutorialLevelCalendarID);
-        iqPalXELessonService.moveQPalXELessonUp(qPalXELesson, selectedCalendar);
+        iqPalXELessonService.moveQPalXELessonUp(qPalXELesson);
         String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + eLearningCourse.getId() + "&tutorialLevelCalendarID=" + tutorialLevelCalendarID;
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
@@ -282,7 +280,7 @@ public class QPalXLessonAdminController {
 
         LOGGER.info("QPalX Lesson media content was succesfully uploaded, saving lesson details...");
         iqPalXELessonService.createAndSaveQPalXELesson(qPalXELessonWebVO);
-        String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + qPalXELessonWebVO.getELearningCourseID();
+        String targetURL = "/view-admin-qpalx-elessons?eLearningCourseID=" + qPalXELessonWebVO.getELearningCourseID() + "&tutorialLevelCalendarID=" + qPalXELessonWebVO.getTutorialLevelCalendarID();
         iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
     }
 

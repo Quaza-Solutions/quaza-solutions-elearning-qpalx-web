@@ -81,6 +81,31 @@ public class QPalXMicroLessonAdminController {
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(QPalXLessonAdminController.class);
 
+
+
+    @RequestMapping(value = "/move-micro-lesson-down", method = RequestMethod.GET)
+    public void moveAdaptiveLearningQuizDown(@RequestParam("microlessonID") Long microlessonID,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Moving MicroLesson with ID: {} down", microlessonID);
+        QPalXEMicroLesson microLesson = iqPalXEMicroLessonService.findByID(microlessonID);
+        QPalXELesson qPalXELesson = microLesson.getQPalXELesson();
+        iqPalXEMicroLessonService.moveDown(microLesson);
+        String url = "/view-admin-qpalx-micro-elessons?qpalxELessonID=" + qPalXELesson.getId();
+        iRedirectStrategyExecutor.sendRedirect(request, response, url);
+    }
+
+    @RequestMapping(value = "/move-micro-lesson-up", method = RequestMethod.GET)
+    public void moveAdaptiveLearningQuizUp(@RequestParam("microlessonID") Long microlessonID,
+                                           HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("Moving MicroLesson with ID: {} up", microlessonID);
+        QPalXEMicroLesson microLesson = iqPalXEMicroLessonService.findByID(microlessonID);
+        QPalXELesson qPalXELesson = microLesson.getQPalXELesson();
+        iqPalXEMicroLessonService.moveUp(microLesson);
+        String url = "/view-admin-qpalx-micro-elessons?qpalxELessonID=" + qPalXELesson.getId();
+        iRedirectStrategyExecutor.sendRedirect(request, response, url);
+    }
+
+
     @RequestMapping(value = "/view-admin-qpalx-micro-elessons", method = RequestMethod.GET)
     public String viewAdminQPalXLessons(final Model model, @RequestParam("qpalxELessonID") String qpalxELessonID, HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("Loading and displaying view for all QPalXMicroLessons for qpalxELessonID: {}", qpalxELessonID);
