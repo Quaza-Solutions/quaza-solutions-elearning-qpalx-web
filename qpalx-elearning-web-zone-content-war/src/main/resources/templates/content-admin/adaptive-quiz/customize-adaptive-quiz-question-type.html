@@ -52,6 +52,11 @@
     <div th:replace="fragments/content-admin/adaptive-quiz/video-multi-choice-question :: video-multi-choice-question-panel"></div>
 </div>
 
+<!-- Add the Check_Box Question types panel -->
+<div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'True_False'}">
+    <div th:replace="fragments/content-admin/adaptive-quiz/true-false-choice-question :: true-false-choice-panel"></div>
+</div>
+
 <!-- Include Footer for when user is logged in -->
 <div th:replace="fragments/footer-usersession :: footer-usersession"/>
 
