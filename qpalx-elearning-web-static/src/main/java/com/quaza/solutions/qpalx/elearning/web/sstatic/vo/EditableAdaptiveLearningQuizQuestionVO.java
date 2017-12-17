@@ -62,12 +62,26 @@ public class EditableAdaptiveLearningQuizQuestionVO extends AbstractILMSMediaCon
     private void initializeQuestionAnswers(AdaptiveLearningQuizQuestion adaptiveLearningQuizQuestion) {
         Set<AdaptiveLearningQuizQuestionAnswer> adaptiveLearningQuizQuestionAnswers = adaptiveLearningQuizQuestion.getAdaptiveLearningQuizQuestionAnswers();
         if(adaptiveLearningQuizQuestionAnswers.size() == 0) {
+            buildQuestionAnswersByType();
+        } else {
+            addAllCurrentQuestionAnswers(adaptiveLearningQuizQuestion);
+        }
+    }
+
+    private void buildQuestionAnswersByType() {
+        if(adaptiveLearningQuizQuestionTypeE == AdaptiveLearningQuizQuestionTypeE.True_False) {
+            AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO1 = new AdaptiveLearningQuizQuestionAnswerVO();
+            adaptiveLearningQuizQuestionAnswerVO1.setQuizQuestionAnswerText("True");
+
+            AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO2 = new AdaptiveLearningQuizQuestionAnswerVO();
+            adaptiveLearningQuizQuestionAnswerVO2.setQuizQuestionAnswerText("False");
+            quizQuestionAnswers.add(adaptiveLearningQuizQuestionAnswerVO1);
+            quizQuestionAnswers.add(adaptiveLearningQuizQuestionAnswerVO2);
+        } else {
             for(int i=0; i< 4; i++) {
                 AdaptiveLearningQuizQuestionAnswerVO adaptiveLearningQuizQuestionAnswerVO = new AdaptiveLearningQuizQuestionAnswerVO();
                 quizQuestionAnswers.add(adaptiveLearningQuizQuestionAnswerVO);
             }
-        } else {
-            addAllCurrentQuestionAnswers(adaptiveLearningQuizQuestion);
         }
     }
 

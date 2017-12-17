@@ -72,24 +72,13 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <div class="small-boxes-2" id="checkbox">
-                    <img src="images/assets/adaptive-learning/checkbox.png" style="margin-top: -4px;"/> &nbsp;&nbsp;Check Box
+                <div class="small-boxes-2" id="checkbox" style="cursor: pointer;" th:onclick="'document.location.href=\'' + @{/quiz-question-addition-view(quizQuestionType=True_False)} + '\''">
+                    <i class="fa fa-check-square-o" style="color: #000;" aria-hidden="true"></i>&nbsp; &nbsp;True/False
                 </div>
             </div>
 
             <div class="col-md-4"></div>
         </div>
-
-        <br/>
-
-        <!--<div class="row">-->
-            <!--<div class="col-md-2">-->
-                <!--<div class="small-boxes-2" style="cursor: pointer;">-->
-                    <!--<i class="fa fa-bullseye " style="color: #000;" aria-hidden="true"></i>&nbsp;&nbsp;True/False-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-md-10"></div>-->
-        <!--</div>-->
 
     </div>
 

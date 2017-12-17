@@ -101,6 +101,13 @@
                 </a>
             </div>
 
+            <!-- Edit Button for True/False Choice Question -->
+            <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'True_False'}">
+                <a th:href="@{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})}">
+                    <span><i class="fa fa-check-square-o" aria-hidden="true"></i> Edit True/False Question</span>
+                </a>
+            </div>
+
             <!-- Edit Button for Video Multi Choice Question -->
             <div class="col-md-3" th:if="${AdaptiveLearningQuizQuestionVO.getQuizQuestionTypeString() == 'Video'}">
                 <a th:href="@{/quiz-question-update-view(id=${AdaptiveLearningQuizQuestionVO.getID()})}">

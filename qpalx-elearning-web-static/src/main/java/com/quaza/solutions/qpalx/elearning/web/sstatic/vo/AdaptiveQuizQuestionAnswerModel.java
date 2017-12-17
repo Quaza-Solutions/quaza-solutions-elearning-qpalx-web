@@ -1,5 +1,6 @@
 package com.quaza.solutions.qpalx.elearning.web.sstatic.vo;
 
+import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.AdaptiveLearningQuizQuestionTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.lms.adaptivelearning.quiz.IAdaptiveLearningQuizQuestionAnswerVO;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.AbstractILMSMediaContentVO;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -71,7 +72,8 @@ public abstract class AdaptiveQuizQuestionAnswerModel extends AbstractILMSMediaC
 
     public void buildQuestionAnswerModel(Set<IAdaptiveLearningQuizQuestionAnswerVO> iAdaptiveLearningQuizQuestionAnswerVOS) {
         Assert.notNull(iAdaptiveLearningQuizQuestionAnswerVOS, "iAdaptiveLearningQuizQuestionAnswerVOS cannot be null");
-        Assert.isTrue(iAdaptiveLearningQuizQuestionAnswerVOS.size() == 4);
+        // This is because True/False question has only 2 possible answer types.
+        Assert.isTrue(iAdaptiveLearningQuizQuestionAnswerVOS.size() >= 2, "Question answers size should at least be 2");
         IAdaptiveLearningQuizQuestionAnswerVO[] quizQuestionAnswersArray = iAdaptiveLearningQuizQuestionAnswerVOS.toArray(new IAdaptiveLearningQuizQuestionAnswerVO[iAdaptiveLearningQuizQuestionAnswerVOS.size()]);
 
         IAdaptiveLearningQuizQuestionAnswerVO option1AnswerModel = quizQuestionAnswersArray[0];
@@ -86,33 +88,33 @@ public abstract class AdaptiveQuizQuestionAnswerModel extends AbstractILMSMediaC
             correctAnswer1 = option2AnswerModel.getQuizQuestionAnswerText();
         }
 
-        IAdaptiveLearningQuizQuestionAnswerVO option3AnswerModel = quizQuestionAnswersArray[2];
-        option3 = option3AnswerModel.getQuizQuestionAnswerText();
-        if(option3AnswerModel.isCorrectAnswer()) {
-            correctAnswer1 = option3AnswerModel.getQuizQuestionAnswerText();
-        }
+        // True/False question answers will only have 2 while everything else will have 4 answers
+        if (quizQuestionAnswersArray.length > 2) {
+            IAdaptiveLearningQuizQuestionAnswerVO option3AnswerModel = quizQuestionAnswersArray[2];
+            option3 = option3AnswerModel.getQuizQuestionAnswerText();
+            if(option3AnswerModel.isCorrectAnswer()) {
+                correctAnswer1 = option3AnswerModel.getQuizQuestionAnswerText();
+            }
 
-        IAdaptiveLearningQuizQuestionAnswerVO option4AnswerModel = quizQuestionAnswersArray[3];
-        option4 = option4AnswerModel.getQuizQuestionAnswerText();
-        if(option4AnswerModel.isCorrectAnswer()) {
-            correctAnswer1 = option4AnswerModel.getQuizQuestionAnswerText();
+            IAdaptiveLearningQuizQuestionAnswerVO option4AnswerModel = quizQuestionAnswersArray[3];
+            option4 = option4AnswerModel.getQuizQuestionAnswerText();
+            if(option4AnswerModel.isCorrectAnswer()) {
+                correctAnswer1 = option4AnswerModel.getQuizQuestionAnswerText();
+            }
         }
     }
 
-    public Set<IAdaptiveLearningQuizQuestionAnswerVO> getQuizQuestionAnswers() {
+    public Set<IAdaptiveLearningQuizQuestionAnswerVO> getQuizQuestionAnswers(AdaptiveLearningQuizQuestionTypeE adaptiveLearningQuizQuestionTypeE) {
         Set<IAdaptiveLearningQuizQuestionAnswerVO> iAdaptiveLearningQuizQuestionAnswerVOS = new LinkedHashSet<>();
 
-        // Build and add option1 answer
         addOption1Answer(iAdaptiveLearningQuizQuestionAnswerVOS);
-
-        // Build and add option2 answer
         addOption2Answer(iAdaptiveLearningQuizQuestionAnswerVOS);
 
-        // Build and add option3 answer
-        addOption3Answer(iAdaptiveLearningQuizQuestionAnswerVOS);
-
-        // Build and add option4 answer
-       addOption4Answer(iAdaptiveLearningQuizQuestionAnswerVOS);
+        if (adaptiveLearningQuizQuestionTypeE != AdaptiveLearningQuizQuestionTypeE.True_False) {
+            // Options 3 and 4 should be added for all Question Types except the True/False option
+            addOption3Answer(iAdaptiveLearningQuizQuestionAnswerVOS);
+            addOption4Answer(iAdaptiveLearningQuizQuestionAnswerVOS);
+        }
 
         return iAdaptiveLearningQuizQuestionAnswerVOS;
     }

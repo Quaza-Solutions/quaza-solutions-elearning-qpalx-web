@@ -55,6 +55,11 @@
     <div th:replace="fragments/content-admin/adaptive-quiz/edit-mode/video-multi-choice-question :: video-multi-choice-question-panel"></div>
 </div>
 
+<!-- Add the True/False Question types panel -->
+<div th:if="${AdaptiveLearningQuizQuestionVO.getAdaptiveLearningQuizQuestionTypeE().toString() == 'True_False'}">
+    <div th:replace="fragments/content-admin/adaptive-quiz/edit-mode/true-false-question :: true-false-question-panel"></div>
+</div>
+
 <!-- Include Footer for when user is logged in -->
 <div th:replace="fragments/footer-usersession :: footer-usersession"/>
 

@@ -130,7 +130,7 @@ public class AdaptiveLearningQuizQuestionVO extends AdaptiveQuizQuestionAnswerMo
     }
 
     public void buildAndAddQuestionAnswerModel() {
-        Set<IAdaptiveLearningQuizQuestionAnswerVO> quizQuestionAnswers = getQuizQuestionAnswers();
+        Set<IAdaptiveLearningQuizQuestionAnswerVO> quizQuestionAnswers = getQuizQuestionAnswers(adaptiveLearningQuizQuestionTypeE);
         iAdaptiveLearningQuizQuestionAnswerVOS.addAll(quizQuestionAnswers);
     }
 
