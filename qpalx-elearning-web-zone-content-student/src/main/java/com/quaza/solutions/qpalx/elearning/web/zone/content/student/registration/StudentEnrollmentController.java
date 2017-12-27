@@ -60,5 +60,6 @@ public class StudentEnrollmentController {
         StudentTutorialGrade studentTutorialGrade = iqPalXTutorialService.findTutorialGradeByID(qPalXWebUserVO.getTutorialGradeID());
         EnrollmentDecision enrollmentDecision = iStudentEnrolmentRecordService.enrollStudentTutorialGrade(optionalUser.get(), studentTutorialGrade);
         System.out.println("enrollmentDecision = " + enrollmentDecision);
+        iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "/");
     }
 }
