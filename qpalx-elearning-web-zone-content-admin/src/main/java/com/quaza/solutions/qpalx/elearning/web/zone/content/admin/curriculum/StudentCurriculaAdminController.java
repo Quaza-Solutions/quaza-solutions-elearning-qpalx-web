@@ -9,6 +9,7 @@ import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalxUserTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.TutorialLevelCalendar;
 import com.quaza.solutions.qpalx.elearning.service.institutions.IQPalXEducationalInstitutionService;
+import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.CacheEnabledELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseActivityService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCourseService;
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
@@ -32,10 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +45,7 @@ import java.util.Optional;
  * @author manyce400
  */
 @Controller
+@SessionAttributes(value = {StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER})
 public class StudentCurriculaAdminController {
 
 
@@ -56,7 +56,7 @@ public class StudentCurriculaAdminController {
     private IQPalXUserWebService iqPalXUserWebService;
 
     @Autowired
-    @Qualifier("quaza.solutions.qpalx.elearning.service.CacheEnabledELearningCurriculumService")
+    @Qualifier(CacheEnabledELearningCurriculumService.BEAN_NAME)
     private IELearningCurriculumService ieLearningCurriculumService;
 
     @Autowired
@@ -105,14 +105,38 @@ public class StudentCurriculaAdminController {
 
 
 
+    @RequestMapping(value = "/move-curriculum-up", method = RequestMethod.GET)
+    public void moveELearningCurriculumUp(@RequestParam("curriculumID") Long curriculumID,
+                                             @ModelAttribute(StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER) StudentTutorialGrade studentTutorialGrade,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        ELearningCurriculum eLearningCurriculum = ieLearningCurriculumService.findByELearningCurriculumID(curriculumID);
+        ieLearningCurriculumService.moveCurriculumUp(eLearningCurriculum);
+        String targetURL = "/curriculum-by-tutorialgrade?tutorialGradeID=" + studentTutorialGrade.getId() + "&curriculumType=" + eLearningCurriculum.getCurriculumType();
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
+    }
+
+    @RequestMapping(value = "/move-curriculum-down", method = RequestMethod.GET)
+    public void moveELearningCurriculumDown(@RequestParam("curriculumID") Long curriculumID,
+                                             @ModelAttribute(StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER) StudentTutorialGrade studentTutorialGrade,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        ELearningCurriculum eLearningCurriculum = ieLearningCurriculumService.findByELearningCurriculumID(curriculumID);
+        ieLearningCurriculumService.moveCurriculumDown(eLearningCurriculum);
+        String targetURL = "/curriculum-by-tutorialgrade?tutorialGradeID=" + studentTutorialGrade.getId() + "&curriculumType=" + eLearningCurriculum.getCurriculumType();
+        iRedirectStrategyExecutor.sendRedirect(request, response, targetURL);
+    }
+
+
+
     @RequestMapping(value = "/curriculum-by-tutorialgrade", method = RequestMethod.GET)
-    public String viewCurriculumByTutorialLevel(final Model model, @RequestParam("tutorialGradeID") String tutorialGradeID, @RequestParam("curriculumType") String curriculumType) {
+    public String viewCurriculumByTutorialLevel(Model model, ModelMap modelMap,
+                                                @RequestParam("tutorialGradeID") String tutorialGradeID, @RequestParam("curriculumType") String curriculumType) {
         LOGGER.info("Curriculum for tutorialGradeID:> {} and curriculumType:> {} requested", tutorialGradeID, curriculumType);
 
         // Find all Core and Elective curriculum for tutorial grade
         CurriculumType curriculumTypeE = CurriculumType.valueOf(curriculumType);
         StudentTutorialGrade studentTutorialGrade = iqPalXTutorialService.findTutorialGradeByID(NumberUtils.toLong(tutorialGradeID));
         iAcademicLevelAdminPanelService.addAdministratorAcademicGradeLevels(model, curriculumTypeE, studentTutorialGrade);
+        modelMap.addAttribute(StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER, studentTutorialGrade);
 
         // Add all attributes required for User information panel
         qPalXUserInfoPanelService.addUserInfoAttributes(model);

@@ -37,6 +37,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +53,7 @@ import java.util.Optional;
  * @author manyce400
  */
 @Controller
+@SessionAttributes(value = {StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER})
 public class ApplicationHomeController {
 
 
@@ -111,7 +113,8 @@ public class ApplicationHomeController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String execQPalxMainHomePage(final Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+    public String execQPalxMainHomePage(Model model, ModelMap modelMap,
+                                        HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         LOGGER.info("Received request to access main QPalx home page...");
         Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
 
@@ -126,8 +129,16 @@ public class ApplicationHomeController {
                 iAdaptiveLearningScoreChartDisplayPanel.addEmptyLearningScoreChartDisplayPanel(model);
                 return ContentRootE.Student_Home.getContentRootPagePath("homepage");
             } else if(QPalxUserTypeE.CONTENT_DEVELOPER == optionalUser.get().getUserType()) {
-                StudentTutorialGrade studentTutorialGrade = iAcademicLevelAdminPanelService.findBaseAdminAssignedStudentTutorialGrade();
-                LOGGER.info("Found Content_Developer Base studentTutorialGrade : {}", studentTutorialGrade.getTutorialGrade());
+                // Check to see if there is already a selected StudentTutorialGrade in session
+                boolean studentTutorialGradeInSession = modelMap.containsAttribute(StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER);
+                StudentTutorialGrade studentTutorialGrade = null;
+
+                if (!studentTutorialGradeInSession) {
+                    studentTutorialGrade = iAcademicLevelAdminPanelService.findBaseAdminAssignedStudentTutorialGrade();
+                } else {
+                    studentTutorialGrade = (StudentTutorialGrade) modelMap.get(StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER);
+                }
+
                 String redirectUrl = "/curriculum-by-tutorialgrade?tutorialGradeID=" + studentTutorialGrade.getId() +"&curriculumType=CORE";
                 LOGGER.info("Logged in user is a Content Developer, redirecting to:> {}", redirectUrl);
                 redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, redirectUrl);

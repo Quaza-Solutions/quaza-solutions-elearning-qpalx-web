@@ -14,212 +14,244 @@
 </head>
 <body>
 
-<!-- Include general header for when a valid logged in user session is found -->
-<div th:replace="fragments/header-usersession :: header-usersession"></div>
+    <!-- Include general header for when a valid logged in user session is found -->
+    <div th:replace="fragments/header-usersession :: header-usersession"></div>
 
-<!-- Main Student details overview panel -->
-<div th:replace="fragments/student/user-overview-panel :: overview"></div>
+    <!-- Main Student details overview panel -->
+    <div th:replace="fragments/student/user-overview-panel :: overview"></div>
 
 
-<div class="container" style="margin: 20px auto 20px auto; background-color: #e6e7e9; padding: 0;">
+    <div class="container" style="margin: 20px auto 20px auto; background-color: #e6e7e9; padding: 0;">
 
-    <div class="blue-box" id="box-1">
-        <img src="images/assets/platform/circled-checkmark.png" class="box-icon"/>
-        <br />View Overall <br />Student Proficiency
-    </div>
-
-    <div class="blue-box" id="box-2">
-        <a th:href="@{/overall-student-progress}">
-            <img src="images/assets/platform/lightning-arrow.png" class="box-icon"/>
-        </a>
-        <br />View Overall <br /> Student Progress
-    </div>
-
-    <div class="blue-box" id="box-3">
-        <img src="images/assets/platform/arrow-clock.png" class="box-icon"/>
-        <br />Your Subscription<br /> Expires in <span th:text="${DaysTillSubscriptionExpire}"></span><br />
-
-        <div th:if="${DisplaySubscriptionRenewal} == 'TRUE'">
-            Click <a href="#" style="color: #fff;">Here</a> to Renew
+        <div class="blue-box" id="box-1">
+            <img src="images/assets/platform/circled-checkmark.png" class="box-icon"/>
+            <br />View Overall <br />Student Proficiency
         </div>
-    </div>
 
-</div>
-
-<!-- Subscription overview panel -->
-<div class="container" style="margin: 20px auto 20px auto;">
-
-    <div class="row" th:if="${Invalid_FORM_Submission} != null">
-        <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="padding-left: 50px; font-size: 29px;">
-            Subscription Details
+        <div class="blue-box" id="box-2">
+            <a th:href="@{/overall-student-progress}">
+                <img src="images/assets/platform/lightning-arrow.png" class="box-icon"/>
+            </a>
+            <br />View Overall <br /> Student Progress
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding-left: 50px; font-size: 24px;">
-            <b>Subscription Type</b>
+        <div class="blue-box" id="box-3">
+            <img src="images/assets/platform/arrow-clock.png" class="box-icon"/>
+            <br />Your Subscription<br /> Expires in <span th:text="${DaysTillSubscriptionExpire}"></span><br />
+
+            <div th:if="${DisplaySubscriptionRenewal} == 'TRUE'">
+                Click <a href="#" style="color: #fff;">Here</a> to Renew
+            </div>
         </div>
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="font-size: 24px;">
-            <b>Subscription Purchase Date</b>
+
+    </div>
+
+    <!-- Subscription overview panel -->
+    <div class="container" style="margin: 20px auto 20px auto;">
+
+        <div class="row" th:if="${Invalid_FORM_Submission} != null">
+            <div class="alert alert-danger fade in" th:text="${Invalid_FORM_Submission}"></div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding-left: 50px; font-size: 24px;" th:text="${SubscriptionInfo.getqPalXSubscription().getSubscriptionType()}"></div>
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="font-size: 24px;" th:text="${SubscriptionPurchaseDate}"></div>
-    </div>
-
-    <br/>
-
-    <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding-left: 50px; font-size: 24px;">
-            <b>Expiration Date</b>
-        </div>
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="font-size: 24px;">
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding-left: 50px; font-size: 24px;" th:text="${SubscriptionExpireDate}"></div>
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="font-size: 24px;"></div>
-    </div>
-
-</div>
-
-<!-- Account details overview panel -->
-<div class="container" style="margin: 20px auto 20px auto;">
-    <form th:action="@{/update-account-info}" th:object="${QPalXWebUserVO}" method="post">
         <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-left: 50px; font-size: 29px;">
-                Account Details
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 large-font" style="margin: 0 0 0 40px; color: #54bf76">
+                <span class="glyphicon glyphicon-piggy-bank"></span> Subscription Details
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding-left: 50px; font-size: 24px;">
+                <b>Subscription Type</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="font-size: 24px;">
+                <b>Subscription Purchase Date</b>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px;">
-                <b>First Name</b>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <b>Last Name</b>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <b>Email</b>
-            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding-left: 50px; font-size: 24px;" th:text="${SubscriptionInfo.getqPalXSubscription().getSubscriptionType()}"></div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="font-size: 24px;" th:text="${SubscriptionPurchaseDate}"></div>
         </div>
 
-        <br />
+        <br/>
 
         <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px" th:text="${LoggedInQPalXUser.getFirstName()}"></div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding-left: 50px; font-size: 24px;">
+                <b>Expiration Date</b>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="font-size: 24px;">
 
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:text="${LoggedInQPalXUser.getLastName()}"></div>
-
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <input type="text" id="email" name="email" size="35" th:attr="value=${LoggedInQPalXUser.getEmail()}"  />
             </div>
         </div>
-
-        <br />
 
         <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px;">
-                <b>Password</b>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <b>Confirm Password</b>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <b>Phone</b>
-            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding-left: 50px; font-size: 24px;" th:text="${SubscriptionExpireDate}"></div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="font-size: 24px;"></div>
         </div>
 
-        <br />
+    </div>
 
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <input style="margin-left: 32px;" type="password" id="password" name="password" size="32" th:attr="value=${LoggedInQPalXUser.getPassword()}" />
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <input type="password" id="passwordConfirm" name="passwordConfirm" size="35" th:attr="value=${LoggedInQPalXUser.getPassword()}" />
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <input type="text" id="mobilePhoneNumber" name="mobilePhoneNumber" size="35" th:attr="value=${LoggedInQPalXUser.getMobilePhoneNumber()}" />
-            </div>
-        </div>
-
-        <br />
-
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px;">
-                <b>Education Level</b>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <b>Grade Level</b>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <b>Current School</b>
-            </div>
-        </div>
-
-        <br />
-
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <select name="degree" class="dropdown-3" style="margin-left: 32px;" th:field="*{studentTutorialLevelID}">
-                    <option value="4">Senior High School</option>
-                </select>
+    <!-- Account details overview panel -->
+    <div class="container" style="margin: 20px auto 20px auto;">
+        <form th:action="@{/update-account-info}" th:object="${QPalXWebUserVO}" method="post">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 large-font" style="margin: 0 0 0 40px; color: #54bf76">
+                    <span class="glyphicon glyphicon-user"></span> Account Profile Details
+                </div>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <select id="grade" name="grade" class="dropdown-2" th:field="*{tutorialGradeID}">
-                    <option th:each="StudentTutorialGrade : ${StudentTutorialGrades}" th:value="${StudentTutorialGrade.id}"
-                            th:text="${StudentTutorialGrade.tutorialGrade}"></option>
-                </select>
+            <br/>
+
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px;">
+                    <b>First Name</b>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <b>Last Name</b>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <b>Email</b>
+                </div>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text">
-                [[${QPalXEducationalInstitution.getName()}]]
-            </div>
-        </div>
+            <br />
 
-        <br />
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px" th:text="${LoggedInQPalXUser.getFirstName()}"></div>
 
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px;">
-                <b>Country</b>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <b>Region</b>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text"></div>
-        </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:text="${LoggedInQPalXUser.getLastName()}"></div>
 
-        <br />
-
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text" style="padding-left: 50px;">
-                [[${LoggedInQPalXUser.getQPalXMunicipality().getQPalXCountry().getCountryName()}]]
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <input type="text" id="email" name="email" size="35" th:attr="value=${LoggedInQPalXUser.getEmail()}"  />
+                </div>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text">
-                [[${LoggedInQPalXUser.getQPalXMunicipality().getName()}]]
+            <br />
+
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px;">
+                    <b>Password</b>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <b>Confirm Password</b>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <b>Phone</b>
+                </div>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                <input type="submit" value="Update Account" />
-            </div>
-        </div>
-        <br /><br /><br />
-    </form>
-</div>
+            <br />
 
-<!-- Include Footer for when user is logged in -->
-<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <input style="margin-left: 32px;" type="password" id="password" name="password" size="32" th:attr="value=${LoggedInQPalXUser.getPassword()}" />
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <input type="password" id="passwordConfirm" name="passwordConfirm" size="35" th:attr="value=${LoggedInQPalXUser.getPassword()}" />
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <input type="text" id="mobilePhoneNumber" name="mobilePhoneNumber" size="35" th:attr="value=${LoggedInQPalXUser.getMobilePhoneNumber()}" />
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px;">
+                    <b>Country</b>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <b>Region</b>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text"></div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text" style="padding-left: 50px;">
+                    [[${LoggedInQPalXUser.getQPalXMunicipality().getQPalXCountry().getCountryName()}]]
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text">
+                    [[${LoggedInQPalXUser.getQPalXMunicipality().getName()}]]
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <button type="submit" id="submit" class="btn btn-success">Update Your Profile</button>
+                </div>
+            </div>
+            <br /><br /><br />
+        </form>
+    </div>
+
+    <!-- Student Tutorial Level Control Panel -->
+    <div class="container" style="margin: 20px auto 20px auto;">
+        <form th:action="@{/enroll-for-tutorial-grade}" th:object="${QPalXWebUserVO}" method="post">
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 large-font" style="margin: 0 0 0 40px; color: #54bf76">
+                    <span class="glyphicon glyphicon-education"></span> Student Tutorial Level Details
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px;">
+                    <b>Education Level</b>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <b>Grade Level</b>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <b>Current School</b>
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [[${StudentTutorialGrade.getStudentTutorialLevel().getTutorialLevel()}]]
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <select id="grade" name="grade" class="dropdown-2" th:field="*{tutorialGradeID}">
+                        <option th:each="StudentTutorialGrade : ${StudentTutorialGrades}" th:value="${StudentTutorialGrade.id}" th:text="${StudentTutorialGrade.tutorialGrade}" ></option>
+                    </select>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text">
+                    [[${QPalXEducationalInstitution.getName()}]]
+                </div>
+
+            </div>
+
+            <br/>
+
+            <div class="row">
+
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"></div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <button type="submit" class="btn btn-success">Switch Your Grade Level</button>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Include Footer for when user is logged in -->
+    <div th:replace="fragments/footer-usersession :: footer-usersession"/>
 
 <!-- jQuery first, then Bootstrap JS. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

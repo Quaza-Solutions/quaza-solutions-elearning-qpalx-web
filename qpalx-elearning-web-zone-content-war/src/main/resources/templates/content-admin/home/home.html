@@ -32,16 +32,33 @@
 
         <div class="row">
             <div class="col-md-1 num" th:text="${rowStat.count}"/>
+
             <div class="col-md-2">
                 <img th:src="${ELearningCurriculum.curriculumIcon}" class="subjects" />
             </div>
+
             <div class="col-md-4 curr">
                 <a th:href="@{/view-admin-curriculum-courses(curriculumID=${ELearningCurriculum.id})}"><b th:text="${ELearningCurriculum.curriculumName}"></b></a>
                 <br />
                 <div th:text="${ELearningCurriculum.curriculumDescription}"/>
             </div>
+
+            <!-- Display toggle Lesson UP Button.  Toggle up will not be shown for first Lesson in List -->
+            <div class="col-md-1 num">
+                <a th:href="@{/move-curriculum-up(curriculumID=${ELearningCurriculum.id})}" th:if="${rowStat.count > 1}">
+                    <span class="glyphicon glyphicon-upload"></span>
+                </a>
+            </div>
+
+            <!-- Display toggle Lesson Down Button.  Toggle down will not be shown for last Lesson -->
+            <div class="col-md-1 num">
+                <a th:href="@{/move-curriculum-down(curriculumID=${ELearningCurriculum.id})}" th:if="${rowStat.count != ELearningCurricula.size()}">
+                    <span class="glyphicon glyphicon-download"></span>
+                </a>
+            </div>
+
             <div class="col-md-1 curr"><b th:inline="text">Active -> [[${ELearningCurriculum.isActive()}]]</b></div>
-            <div class="col-md-4"></div>
+            <div class="col-md-2"></div>
         </div>
 
         <div class="row">
