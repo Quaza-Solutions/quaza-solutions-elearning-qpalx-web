@@ -7,6 +7,8 @@ import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalxUserTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.ContentAdminProfileHolder;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialLevel;
+import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.CacheEnabledELearningCurriculumService;
+import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.web.security.login.WebQPalXUser;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
@@ -34,6 +36,10 @@ public class AcademicLevelAdminPanelService implements IAcademicLevelAdminPanelS
     @Qualifier("quaza.solutions.qpalx.elearning.service.CacheEnabledQPalXTutorialService")
     private IQPalXTutorialService iqPalXTutorialService;
 
+    @Autowired
+    @Qualifier(CacheEnabledELearningCurriculumService.BEAN_NAME)
+    private IELearningCurriculumService ieLearningCurriculumService;
+
     public static final String BEAN_NAME = "com.quaza.solutions.qpalx.elearning.web.service.contentpanel.AcademicLevelAdminPanelService";
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(AcademicLevelAdminPanelService.class);
@@ -60,7 +66,7 @@ public class AcademicLevelAdminPanelService implements IAcademicLevelAdminPanelS
             model.addAttribute(StudentTutorialGrade.CLASS_ATTRIBUTE_IDENTIFIER, studentTutorialGrade);
 
             // Get all the Curricula for passed in curriculumType
-            List<ELearningCurriculum> eLearningCurricula = contentAdminProfileHolder.getELearningCurriculaByTutorialGrade(studentTutorialGrade, curriculumType);
+            List<ELearningCurriculum> eLearningCurricula = ieLearningCurriculumService.findAllCurriculumByTutorialGradeAndType(curriculumType, studentTutorialGrade);
             model.addAttribute(ELearningCurriculum.CLASS_INSTANCES_IDENTIFIER, eLearningCurricula);
         }
     }
