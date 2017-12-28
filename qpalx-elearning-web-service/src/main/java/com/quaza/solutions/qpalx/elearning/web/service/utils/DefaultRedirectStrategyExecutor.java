@@ -61,4 +61,15 @@ public class DefaultRedirectStrategyExecutor implements IRedirectStrategyExecuto
             LOGGER.error("Exception occurred while redirecting to targetURL: {}", targetURL, e);
         }
     }
+
+    @Override
+    public void sendRedirectWithObject(String targetURL, Object sessionObject, WebOperationErrorAttributesE webOperationErrorAttributesE, HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.debug("Sending redirect to targetURL: {} and webOperationErrorAttributesE: {}", targetURL, webOperationErrorAttributesE);
+        try {
+            request.getSession().setAttribute(webOperationErrorAttributesE.toString(), sessionObject);
+            redirectStrategy.sendRedirect(request, response, targetURL);
+        } catch (IOException e) {
+            LOGGER.error("Exception occurred while redirecting to targetURL: {}", targetURL, e);
+        }
+    }
 }

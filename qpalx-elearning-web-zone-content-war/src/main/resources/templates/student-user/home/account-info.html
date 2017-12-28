@@ -197,6 +197,14 @@
                 </div>
             </div>
 
+            <div class="row" th:if="${Invalid_Upgrade_Operation} != null">
+                <div class="alert alert-danger fade in" th:inline="text">
+                    <i class="glyphicon glyphicon-warning-sign"></i> &nbsp;
+                    Enrollment To Tutorial Grade: [[${Invalid_Upgrade_Operation.getRequestedStudentTutorialGrade().getTutorialGrade()}]] Was Denied.  &nbsp;
+                    <a href="#" data-toggle="modal" data-target="#myModal">Click Here</a> to review Why.
+                </div>
+            </div>
+
             <br/>
 
             <div class="row">
@@ -242,7 +250,7 @@
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"></div>
 
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                    <button type="submit" class="btn btn-success">Switch Your Grade Level</button>
+                    <button type="submit" class="btn btn-success">Enroll To New Tutorial Grade:</button>
                 </div>
 
             </div>
@@ -252,6 +260,49 @@
 
     <!-- Include Footer for when user is logged in -->
     <div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+    <!-- Popup to display reasons why Student Request to Enroll to new StudentTutorialGrade was rejected -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:if="${Invalid_Upgrade_Operation} != null">
+        <div class="modal-dialog" role="document" style="width: 1200px;">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #777; color: #fff;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Why Your Request Was Denied:</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="whiteBody2">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h5>Your Are Currently Performing Below Average:</h5>
+                                <h6>Improve your average performance in all below Curriculum Areas before enrolling to a higher level.</h6>
+
+                                <table width="100%" border="0" class="table-striped">
+                                    <tr>
+                                        <td><b>ELearning Curriculum</b></td>
+                                        <td><b>Current Average(You are Averaging Between Range)</b></td>
+                                    </tr>
+
+                                    <tr th:each="AdaptiveProficiencyRanking,rowStat : ${Invalid_Upgrade_Operation.getAdaptiveProficiencyRankingAnalysis()}">
+                                        <td th:inline="text">[[${AdaptiveProficiencyRanking.geteLearningCurriculum().getCurriculumName()}]]</td>
+                                        <td th:inline="text">[[${AdaptiveProficiencyRanking.getProficiencyRankingScaleE().getProficiencyScoreRangeE().getScoreRange().getMinimum()}]]% - [[${AdaptiveProficiencyRanking.getProficiencyRankingScaleE().getProficiencyScoreRangeE().getScoreRange().getMaximum()}]]%</td>
+                                    </tr>
+                                </table>
+                                <!--<ul>-->
+                                    <!--<li th:each="AdaptiveProficiencyRanking,rowStat : ${Invalid_Upgrade_Operation.getAdaptiveProficiencyRankingAnalysis()}" th:inline="text">-->
+                                        <!--[[${AdaptiveProficiencyRanking.geteLearningCurriculum().getCurriculumName()}]] - [[${AdaptiveProficiencyRanking.getProficiencyRankingScaleE().getProficiencyScoreRangeE().getScoreRange()}]]-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background-color: #777;">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!-- jQuery first, then Bootstrap JS. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
