@@ -7,6 +7,7 @@ import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStud
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrollmentRecordService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.CacheEnabledQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.WebOperationErrorAttributesE;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.DefaultRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
@@ -59,7 +60,6 @@ public class StudentEnrollmentController {
 
         StudentTutorialGrade studentTutorialGrade = iqPalXTutorialService.findTutorialGradeByID(qPalXWebUserVO.getTutorialGradeID());
         EnrollmentDecision enrollmentDecision = iStudentEnrollmentRecordService.enrollStudentTutorialGrade(optionalUser.get(), studentTutorialGrade);
-        System.out.println("enrollmentDecision = " + enrollmentDecision);
-        iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "/");
+        iRedirectStrategyExecutor.sendRedirectWithObject("/account-info", enrollmentDecision, WebOperationErrorAttributesE.Invalid_Upgrade_Operation, httpServletRequest, httpServletResponse);
     }
 }

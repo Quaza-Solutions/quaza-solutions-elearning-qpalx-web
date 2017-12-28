@@ -13,6 +13,8 @@ public enum WebOperationErrorAttributesE {
 
     Invalid_FORM_Submission,
 
+    Invalid_Upgrade_Operation,
+
     Invalid_Delete_Operation
 
     ;

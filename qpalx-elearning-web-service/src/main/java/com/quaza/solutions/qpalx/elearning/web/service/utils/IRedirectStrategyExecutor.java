@@ -17,4 +17,6 @@ public interface IRedirectStrategyExecutor {
 
     public void sendRedirectWithError(String targetURL, String errorMessage, WebOperationErrorAttributesE webOperationErrorAttributesE, HttpServletRequest request, HttpServletResponse response);
 
+    public void sendRedirectWithObject(String targetURL, Object sessionObject, WebOperationErrorAttributesE webOperationErrorAttributesE, HttpServletRequest request, HttpServletResponse response);
+
 }
