@@ -10,7 +10,7 @@ import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialL
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.TutorialLevelCalendar;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultContentAdminProfileRecordService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IContentAdminProfileRecordService;
-import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrolmentRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrollmentRecordService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.ITutorialLevelCalendarService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.TutorialCalendarPanelE;
@@ -50,8 +50,8 @@ public class TutorialLevelCalendarPanelService implements ITutorialLevelCalendar
     private ITutorialLevelCalendarService iTutorialLevelCalendarService;
 
     @Autowired
-    @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultStudentEnrolmentRecordService")
-    private IStudentEnrolmentRecordService iStudentEnrolmentRecordService;
+    @Qualifier("quaza.solutions.qpalx.elearning.service.DefaultStudentEnrollmentRecordService")
+    private IStudentEnrollmentRecordService iStudentEnrollmentRecordService;
 
     @Autowired
     @Qualifier(DefaultContentAdminProfileRecordService.SPRING_BEAN)
@@ -89,7 +89,7 @@ public class TutorialLevelCalendarPanelService implements ITutorialLevelCalendar
         LOGGER.debug("adding calendar panel infor for Student: {}", qPalXUser.getEmail());
 
         // Get the student enrolment record to determine their tutorial level and grade.
-        StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(qPalXUser);
+        StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrollmentRecordService.findCurrentStudentEnrolmentRecord(qPalXUser);
         StudentTutorialGrade studentTutorialGrade = studentEnrolmentRecord.getStudentTutorialGrade();
         StudentTutorialLevel studentTutorialLevel = studentTutorialGrade.getStudentTutorialLevel();
         List<TutorialLevelCalendar> tutorialLevelCalendars = iTutorialLevelCalendarService.findAllByStudentTutorialLevel(studentTutorialLevel);

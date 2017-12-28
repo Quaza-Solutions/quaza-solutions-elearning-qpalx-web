@@ -3,8 +3,8 @@ package com.quaza.solutions.qpalx.elearning.web.zone.content.student.registratio
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.EnrollmentDecision;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
-import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStudentEnrolmentRecordService;
-import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrolmentRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStudentEnrollmentRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrollmentRecordService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.CacheEnabledQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
@@ -41,8 +41,8 @@ public class StudentEnrollmentController {
     private IQPalXTutorialService iqPalXTutorialService;
 
     @Autowired
-    @Qualifier(DefaultStudentEnrolmentRecordService.SPRING_BEAN)
-    private IStudentEnrolmentRecordService iStudentEnrolmentRecordService;
+    @Qualifier(DefaultStudentEnrollmentRecordService.SPRING_BEAN)
+    private IStudentEnrollmentRecordService iStudentEnrollmentRecordService;
 
     @Autowired
     @Qualifier(DefaultRedirectStrategyExecutor.BEAN_NAME)
@@ -58,7 +58,7 @@ public class StudentEnrollmentController {
         LOGGER.info("Attempting to enroll Student in a new TutorialGrade with params: {}", qPalXWebUserVO);
 
         StudentTutorialGrade studentTutorialGrade = iqPalXTutorialService.findTutorialGradeByID(qPalXWebUserVO.getTutorialGradeID());
-        EnrollmentDecision enrollmentDecision = iStudentEnrolmentRecordService.enrollStudentTutorialGrade(optionalUser.get(), studentTutorialGrade);
+        EnrollmentDecision enrollmentDecision = iStudentEnrollmentRecordService.enrollStudentTutorialGrade(optionalUser.get(), studentTutorialGrade);
         System.out.println("enrollmentDecision = " + enrollmentDecision);
         iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "/");
     }

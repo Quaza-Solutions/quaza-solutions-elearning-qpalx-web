@@ -8,8 +8,8 @@ import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.StudentEnrol
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialGrade;
 import com.quaza.solutions.qpalx.elearning.domain.tutoriallevel.StudentTutorialLevel;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.IAdaptiveProficiencyRankingService;
-import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStudentEnrolmentRecordService;
-import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrolmentRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStudentEnrollmentRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrollmentRecordService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.CacheEnabledQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.UserInfoPanelAttributesE;
@@ -43,8 +43,8 @@ public class QPalXUserInfoPanelService implements IQPalXUserInfoPanelService {
     private IQPalXTutorialService iqPalXTutorialService;
 
     @Autowired
-    @Qualifier(DefaultStudentEnrolmentRecordService.SPRING_BEAN)
-    private IStudentEnrolmentRecordService iStudentEnrolmentRecordService;
+    @Qualifier(DefaultStudentEnrollmentRecordService.SPRING_BEAN)
+    private IStudentEnrollmentRecordService iStudentEnrollmentRecordService;
 
 
     public static final String BEAN_NAME = "com.quaza.solutions.qpalx.elearning.web.service.QPalXUserInfoPanelService";
@@ -78,7 +78,7 @@ public class QPalXUserInfoPanelService implements IQPalXUserInfoPanelService {
 
     private void buildAndAddAllStudentInfoAttributes(Model model, QPalXUser qPalXUser) {
         LOGGER.debug("Building and adding all Student level user information for Student: {}", qPalXUser.getEmail());
-        StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(qPalXUser);
+        StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrollmentRecordService.findCurrentStudentEnrolmentRecord(qPalXUser);
         StudentTutorialGrade studentTutorialGrade = studentEnrolmentRecord.getStudentTutorialGrade();
         StudentTutorialLevel studentTutorialLevel = studentTutorialGrade.getStudentTutorialLevel();
         QPalXEducationalInstitution qPalXEducationalInstitution = studentEnrolmentRecord.getEducationalInstitution();

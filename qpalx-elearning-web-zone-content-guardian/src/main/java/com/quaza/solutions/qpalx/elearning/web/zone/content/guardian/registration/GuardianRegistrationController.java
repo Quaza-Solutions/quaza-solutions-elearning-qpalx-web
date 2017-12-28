@@ -4,8 +4,8 @@ import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.profile.StudentEnrolmentRecord;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.DefaultQPalxUserService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IQPalxUserService;
-import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStudentEnrolmentRecordService;
-import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrolmentRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStudentEnrollmentRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrollmentRecordService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.vo.QPalXWebUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,8 @@ public class GuardianRegistrationController {
     private IQPalxUserService iqPalxUserService;
 
     @Autowired
-    @Qualifier(DefaultStudentEnrolmentRecordService.SPRING_BEAN)
-    private IStudentEnrolmentRecordService iStudentEnrolmentRecordService;
+    @Qualifier(DefaultStudentEnrollmentRecordService.SPRING_BEAN)
+    private IStudentEnrollmentRecordService iStudentEnrollmentRecordService;
 
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(GuardianRegistrationController.class);
@@ -60,7 +60,7 @@ public class GuardianRegistrationController {
             qPalXWebUserVO.setGlobalAuditQPalxUser(dependentStudent);
 
             // Find the enrollment record for this student
-            StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(dependentStudent);
+            StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrollmentRecordService.findCurrentStudentEnrolmentRecord(dependentStudent);
 
             LOGGER.info("Dependent student has been identified redirecting to Guardian confirmation page");
             model.addAttribute("QPalXUser", dependentStudent);

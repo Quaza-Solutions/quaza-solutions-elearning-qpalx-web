@@ -10,8 +10,8 @@ import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.CacheEnabledEL
 import com.quaza.solutions.qpalx.elearning.service.lms.curriculum.IELearningCurriculumService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.GlobalStudentPerformanceAuditService;
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.IGlobalStudentPerformanceAuditService;
-import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStudentEnrolmentRecordService;
-import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrolmentRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStudentEnrollmentRecordService;
+import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrollmentRecordService;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.CurriculumDisplayAttributeE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,8 +41,8 @@ public class GuardianUserControlPanelService implements IGuardianUserControlPane
     private IELearningCurriculumService ieLearningCurriculumService;
 
     @Autowired
-    @Qualifier(DefaultStudentEnrolmentRecordService.SPRING_BEAN)
-    private IStudentEnrolmentRecordService iStudentEnrolmentRecordService;
+    @Qualifier(DefaultStudentEnrollmentRecordService.SPRING_BEAN)
+    private IStudentEnrollmentRecordService iStudentEnrollmentRecordService;
 
     @Autowired
     @Qualifier(GlobalStudentPerformanceAuditService.BEAN_NAME)
@@ -75,7 +75,7 @@ public class GuardianUserControlPanelService implements IGuardianUserControlPane
     }
 
     private void populateStudentUserCurriculumInfo(Model model, QPalXUser studentQPalxUser) {
-        StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrolmentRecordService.findCurrentStudentEnrolmentRecord(studentQPalxUser);
+        StudentEnrolmentRecord studentEnrolmentRecord = iStudentEnrollmentRecordService.findCurrentStudentEnrolmentRecord(studentQPalxUser);
         List<ELearningCurriculum> coreELearningCurricula = ieLearningCurriculumService.findAllCurriculumByTutorialGradeAndType(CurriculumType.CORE, studentEnrolmentRecord.getStudentTutorialGrade());
         List<ELearningCurriculum> electiveELearningCurricula = ieLearningCurriculumService.findAllCurriculumByTutorialGradeAndType(CurriculumType.ELECTIVE, studentEnrolmentRecord.getStudentTutorialGrade());
         Map<Integer, List<ELearningCurriculum>> coreCurriculaMap = getCurriculumDisplayMap(coreELearningCurricula);
