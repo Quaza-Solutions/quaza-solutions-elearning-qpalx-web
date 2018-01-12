@@ -32,7 +32,7 @@ public class DefaultRedirectStrategyExecutor implements IRedirectStrategyExecuto
         for(WebOperationErrorAttributesE webOperationErrorAttributesE : WebOperationErrorAttributesE.values()) {
             Object operationError = request.getSession().getAttribute(webOperationErrorAttributesE.toString());
             if (operationError != null) {
-                LOGGER.info("Adding webOperationErrorAttributesE: {} with value: {} to model", webOperationErrorAttributesE, operationError);
+                LOGGER.info("Adding webOperationErrorAttributesE: {} to model", webOperationErrorAttributesE);
                 model.addAttribute(webOperationErrorAttributesE.toString(), operationError);
                 request.getSession().removeAttribute(webOperationErrorAttributesE.toString());
             }
