@@ -268,32 +268,27 @@
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #777; color: #fff;">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Why Your Request Was Denied?</h4>
+                    <h4 class="modal-title" id="myModalLabel">Why Your Enrollment Request Was Denied</h4>
                 </div>
                 <div class="modal-body">
 
                     <div class="whiteBody2">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <h5>Your Are Currently Performing Below Average:</h5>
-                                <h6>Improve your average performance in all below Curriculum Areas before enrolling to a higher level.</h6>
+                                <h5 th:inline="text">Your [[${Invalid_Upgrade_Operation.getRequestedStudentTutorialGrade().getTutorialGrade()}]] Average Performance Is Currently Below Average!!!</h5>
+                                <h6 class="alert alert-danger">Improve your average performance in all below Curriculum Areas before enrolling to a higher level.</h6>
 
                                 <table width="100%" border="0" class="table-striped">
                                     <tr>
                                         <td><b>ELearning Curriculum</b></td>
-                                        <td><b>Current Average(You are Averaging Between Range)</b></td>
+                                        <td><b>Current Average(You Computed Average In Curriculum)</b></td>
                                     </tr>
 
                                     <tr th:each="AdaptiveProficiencyRanking,rowStat : ${Invalid_Upgrade_Operation.getAdaptiveProficiencyRankingAnalysis()}">
                                         <td th:inline="text">[[${AdaptiveProficiencyRanking.geteLearningCurriculum().getCurriculumName()}]]</td>
-                                        <td th:inline="text">[[${AdaptiveProficiencyRanking.getProficiencyRankingScaleE().getProficiencyScoreRangeE().getScoreRange().getMinimum()}]]% - [[${AdaptiveProficiencyRanking.getProficiencyRankingScaleE().getProficiencyScoreRangeE().getScoreRange().getMaximum()}]]%</td>
+                                        <td th:inline="text">[[${AdaptiveProficiencyRanking.getProficiencyRankingScaleE().getProficiencyScoreRangeE().getScoreRange().getMinimum()}]]% </td>
                                     </tr>
                                 </table>
-                                <!--<ul>-->
-                                    <!--<li th:each="AdaptiveProficiencyRanking,rowStat : ${Invalid_Upgrade_Operation.getAdaptiveProficiencyRankingAnalysis()}" th:inline="text">-->
-                                        <!--[[${AdaptiveProficiencyRanking.geteLearningCurriculum().getCurriculumName()}]] - [[${AdaptiveProficiencyRanking.getProficiencyRankingScaleE().getProficiencyScoreRangeE().getScoreRange()}]]-->
-                                    <!--</li>-->
-                                <!--</ul>-->
                             </div>
                         </div>
                     </div>
@@ -311,7 +306,7 @@
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #777; color: #fff;">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Why Your Request Was Denied?</h4>
+                    <h4 class="modal-title" id="myModalLabel">Why Your Enrollment Request Was Denied</h4>
                 </div>
                 <div class="modal-body">
 

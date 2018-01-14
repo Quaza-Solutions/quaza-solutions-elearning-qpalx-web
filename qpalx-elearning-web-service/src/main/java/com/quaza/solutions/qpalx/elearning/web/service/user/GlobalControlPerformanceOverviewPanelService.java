@@ -11,6 +11,7 @@ import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.microles
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.microlesson.MicroLessonPerformanceMonitorService;
 import com.quaza.solutions.qpalx.elearning.web.sstatic.domain.GlobalPerformance;
 import org.apache.commons.lang3.Range;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,12 @@ public class GlobalControlPerformanceOverviewPanelService implements IGlobalCont
 
         // Find Adaptive ProficiencyRanking for this user
         AdaptiveProficiencyRanking adaptiveProficiencyRanking = iAdaptiveProficiencyRankingService.findCurrentStudentAdaptiveProficiencyRankingForCurriculum(studentQPalxUser, eLearningCurriculum);
+
+        // IF AdaptiveProficiencyRanking was calculated today reflect
+        boolean proficiencyUpdatedToday = adaptiveProficiencyRanking.getProficiencyRankingEffectiveDateTime().toLocalDate().equals(LocalDate.now());
+        System.out.println("proficiencyUpdatedToday = " + proficiencyUpdatedToday);
+        model.addAttribute("ProficiencyUpdatedToday", Boolean.valueOf(proficiencyUpdatedToday).toString());
+
         GlobalPerformance globalPerformance = GlobalPerformance.newInstance("Beginner", adaptiveProficiencyRanking.getProficiencyRankingScaleE());
         model.addAttribute(GlobalPerformance.CLASS_ATTRIBUTE, globalPerformance);
     }
