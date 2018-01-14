@@ -9,6 +9,8 @@ import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXELesson;
 import com.quaza.solutions.qpalx.elearning.domain.lms.curriculum.QPalXEMicroLesson;
 import com.quaza.solutions.qpalx.elearning.domain.lms.media.QPalXTutorialContentTypeE;
 import com.quaza.solutions.qpalx.elearning.domain.qpalxuser.QPalXUser;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.global.GlobalAdaptiveLearningService;
+import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.global.IGlobalAdaptiveLearningService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.microlesson.IMicroLessonPerformanceMonitorService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.microlesson.MicroLessonPerformanceMonitorService;
 import com.quaza.solutions.qpalx.elearning.service.lms.adaptivelearning.quiz.IAdaptiveLearningQuizService;
@@ -90,6 +92,10 @@ public class StudentAdaptiveLearningQuizController {
     @Autowired
     @Qualifier(MicroLessonPerformanceMonitorService.BEAN_NAME)
     private IMicroLessonPerformanceMonitorService iMicroLessonPerformanceMonitorService;
+
+    @Autowired
+    @Qualifier(GlobalAdaptiveLearningService.BEAN_NAME)
+    private IGlobalAdaptiveLearningService iGlobalAdaptiveLearningService;
 
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.DefaultRedirectStrategyExecutor")
@@ -245,6 +251,9 @@ public class StudentAdaptiveLearningQuizController {
         }
 
         model.addAttribute(CurriculumDisplayAttributeE.SelectedELearningCurriculum.toString(), selectedELearningCurriculum);
+
+        // Invoke to update curriculum ranking
+        iGlobalAdaptiveLearningService.computeAndTrackGlobalCurriculumProficiency(optionalUser.get(), selectedELearningCurriculum);
 
         return ContentRootE.Student_Adaptive_Learning_Quiz.getContentRootPagePath("quiz-results-page");
     }

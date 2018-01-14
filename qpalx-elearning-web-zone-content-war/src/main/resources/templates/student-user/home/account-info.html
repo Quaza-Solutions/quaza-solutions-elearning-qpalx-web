@@ -93,6 +93,78 @@
 
     </div>
 
+
+    <!-- Student Tutorial Level Control Panel -->
+    <div class="container" style="margin: 20px auto 20px auto;">
+        <form th:action="@{/enroll-for-tutorial-grade}" th:object="${QPalXWebUserVO}" method="post">
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 large-font" style="margin: 0 0 0 40px; color: #54bf76">
+                    <span class="glyphicon glyphicon-education"></span> Student Tutorial Level Details
+                </div>
+            </div>
+
+            <div class="row" th:if="${Invalid_Upgrade_Operation} != null">
+                <div class="alert alert-danger fade in" th:inline="text">
+                    <i class="glyphicon glyphicon-warning-sign"></i> &nbsp;
+                    Enrollment To Tutorial Grade => <b>[[${Invalid_Upgrade_Operation.getRequestedStudentTutorialGrade().getTutorialGrade()}]]</b> Was Denied.  &nbsp;
+                    <a href="#" data-toggle="modal" data-target="#myModal">Click Here To Review Why.</a>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px;">
+                    <b>Education Level</b>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <b>Grade Level</b>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <b>Current School</b>
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [[${StudentTutorialGrade.getStudentTutorialLevel().getTutorialLevel()}]]
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <select id="grade" name="grade" class="dropdown-2" th:field="*{tutorialGradeID}">
+                        <option th:each="StudentTutorialGrade : ${StudentTutorialGrades}" th:value="${StudentTutorialGrade.id}" th:text="${StudentTutorialGrade.tutorialGrade}" ></option>
+                    </select>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text">
+                    [[${QPalXEducationalInstitution.getName()}]]
+                </div>
+
+            </div>
+
+            <br/>
+
+            <div class="row">
+
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"></div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
+                    <button type="submit" class="btn btn-success">Enroll To New Tutorial Grade:</button>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+
     <!-- Account details overview panel -->
     <div class="container" style="margin: 20px auto 20px auto;">
         <form th:action="@{/update-account-info}" th:object="${QPalXWebUserVO}" method="post">
@@ -187,87 +259,16 @@
         </form>
     </div>
 
-    <!-- Student Tutorial Level Control Panel -->
-    <div class="container" style="margin: 20px auto 20px auto;">
-        <form th:action="@{/enroll-for-tutorial-grade}" th:object="${QPalXWebUserVO}" method="post">
-
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 large-font" style="margin: 0 0 0 40px; color: #54bf76">
-                    <span class="glyphicon glyphicon-education"></span> Student Tutorial Level Details
-                </div>
-            </div>
-
-            <div class="row" th:if="${Invalid_Upgrade_Operation} != null">
-                <div class="alert alert-danger fade in" th:inline="text">
-                    <i class="glyphicon glyphicon-warning-sign"></i> &nbsp;
-                    Enrollment To Tutorial Grade: [[${Invalid_Upgrade_Operation.getRequestedStudentTutorialGrade().getTutorialGrade()}]] Was Denied.  &nbsp;
-                    <a href="#" data-toggle="modal" data-target="#myModal">Click Here</a> to review Why.
-                </div>
-            </div>
-
-            <br/>
-
-            <div class="row">
-
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" style="padding-left: 50px;">
-                    <b>Education Level</b>
-                </div>
-
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                    <b>Grade Level</b>
-                </div>
-
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                    <b>Current School</b>
-                </div>
-
-            </div>
-
-            <br />
-
-            <div class="row">
-
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [[${StudentTutorialGrade.getStudentTutorialLevel().getTutorialLevel()}]]
-                </div>
-
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                    <select id="grade" name="grade" class="dropdown-2" th:field="*{tutorialGradeID}">
-                        <option th:each="StudentTutorialGrade : ${StudentTutorialGrades}" th:value="${StudentTutorialGrade.id}" th:text="${StudentTutorialGrade.tutorialGrade}" ></option>
-                    </select>
-                </div>
-
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text" th:inline="text">
-                    [[${QPalXEducationalInstitution.getName()}]]
-                </div>
-
-            </div>
-
-            <br/>
-
-            <div class="row">
-
-                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"></div>
-
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-text">
-                    <button type="submit" class="btn btn-success">Enroll To New Tutorial Grade:</button>
-                </div>
-
-            </div>
-
-        </form>
-    </div>
-
     <!-- Include Footer for when user is logged in -->
     <div th:replace="fragments/footer-usersession :: footer-usersession"/>
 
     <!-- Popup to display reasons why Student Request to Enroll to new StudentTutorialGrade was rejected -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:if="${Invalid_Upgrade_Operation} != null">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:if="${Invalid_Upgrade_Operation != null and Invalid_Upgrade_Operation.hasAdaptiveProficiencyRankingAnalysis()}">
         <div class="modal-dialog" role="document" style="width: 1200px;">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #777; color: #fff;">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Why Your Request Was Denied:</h4>
+                    <h4 class="modal-title" id="myModalLabel">Why Your Request Was Denied?</h4>
                 </div>
                 <div class="modal-body">
 
@@ -304,7 +305,35 @@
         </div>
     </div>
 
-<!-- jQuery first, then Bootstrap JS. -->
+    <!-- Popup to display reasons why Student Request to Enroll to new StudentTutorialGrade was rejected -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:if="${Invalid_Upgrade_Operation != null and Invalid_Upgrade_Operation.hasEnrolmentDecisionMessage()}">
+        <div class="modal-dialog" role="document" style="width: 1200px;">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #777; color: #fff;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Why Your Request Was Denied?</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="whiteBody2">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h3>Your Enrollment Request Was Denied:</h3>
+                                <br/>
+                                <h5 class="alert alert-danger" th:inline="text">[[${Invalid_Upgrade_Operation.getEnrolmentDecisionMessage().get()}]]</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background-color: #777;">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- jQuery first, then Bootstrap JS. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
