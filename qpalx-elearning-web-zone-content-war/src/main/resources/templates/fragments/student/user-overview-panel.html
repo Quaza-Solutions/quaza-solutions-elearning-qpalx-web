@@ -72,6 +72,34 @@
                     <strong></strong>
                 </div>
 
+                <br/>
+
+                <!--<div th:inline="text">Updated Today:  [[${ProficiencyUpdatedToday}]] - Below Avg: [[${ProficiencyRankingScaleE.getProficiencyScoreRangeE().isBelowAverageScoreRange()}]]</div>-->
+
+                <div th:if="${ProficiencyUpdatedToday == 'true' and ProficiencyRankingScaleE.getProficiencyScoreRangeE().isBelowAverageScoreRange()}">
+                    Your Proficiency Ranking has been updated, you are still performing below average
+                </div>
+
+                <!-- Student is now performing above average -->
+                <div th:if="${ProficiencyUpdatedToday == 'true' and ProficiencyRankingScaleE.getProficiencyRanking() == 7}">
+                    Congratulations!!! You are performing above average.
+                </div>
+
+                <!-- Student is now a strong performer -->
+                <div th:if="${ProficiencyUpdatedToday == 'true' and ProficiencyRankingScaleE.getProficiencyRanking() == 8}">
+                    Congratulations: Your Performance Is Very Strong
+                </div>
+
+                <!-- Student is now a HighFlyer performer -->
+                <div th:if="${ProficiencyUpdatedToday == 'true' and ProficiencyRankingScaleE.getProficiencyRanking() == 9}">
+                    Congratulations: Your Are An Exemplary Student
+                </div>
+
+                <!-- Student is now a strong performer -->
+                <div th:if="${ProficiencyUpdatedToday == 'true' and ProficiencyRankingScaleE.getProficiencyRanking() == 10}">
+                    Congratulations: Your Curriculum Performance Is Outstanding
+                </div>
+
                 <br/><br/>
 
             </div>
