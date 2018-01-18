@@ -7,7 +7,9 @@ import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.DefaultStud
 import com.quaza.solutions.qpalx.elearning.service.qpalxuser.profile.IStudentEnrollmentRecordService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.CacheEnabledQPalXTutorialService;
 import com.quaza.solutions.qpalx.elearning.service.tutoriallevel.IQPalXTutorialService;
+import com.quaza.solutions.qpalx.elearning.web.service.enums.ContentRootE;
 import com.quaza.solutions.qpalx.elearning.web.service.enums.WebOperationErrorAttributesE;
+import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserInfoPanelService;
 import com.quaza.solutions.qpalx.elearning.web.service.user.IQPalXUserWebService;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.DefaultRedirectStrategyExecutor;
 import com.quaza.solutions.qpalx.elearning.web.service.utils.IRedirectStrategyExecutor;
@@ -33,6 +35,7 @@ public class StudentEnrollmentController {
 
 
 
+
     @Autowired
     @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserWebService")
     private IQPalXUserWebService iqPalXUserWebService;
@@ -44,6 +47,10 @@ public class StudentEnrollmentController {
     @Autowired
     @Qualifier(DefaultStudentEnrollmentRecordService.SPRING_BEAN)
     private IStudentEnrollmentRecordService iStudentEnrollmentRecordService;
+
+    @Autowired
+    @Qualifier("com.quaza.solutions.qpalx.elearning.web.service.QPalXUserInfoPanelService")
+    private IQPalXUserInfoPanelService qPalXUserInfoPanelService;
 
     @Autowired
     @Qualifier(DefaultRedirectStrategyExecutor.BEAN_NAME)
@@ -60,6 +67,22 @@ public class StudentEnrollmentController {
 
         StudentTutorialGrade studentTutorialGrade = iqPalXTutorialService.findTutorialGradeByID(qPalXWebUserVO.getTutorialGradeID());
         EnrollmentDecision enrollmentDecision = iStudentEnrollmentRecordService.enrollStudentTutorialGrade(optionalUser.get(), studentTutorialGrade);
-        iRedirectStrategyExecutor.sendRedirectWithObject("/account-info", enrollmentDecision, WebOperationErrorAttributesE.Invalid_Upgrade_Operation, httpServletRequest, httpServletResponse);
+        if (enrollmentDecision.isEnrollmentDenied()) {
+            LOGGER.info("Student enrollment request has been denied, routing to account info...");
+            iRedirectStrategyExecutor.sendRedirectWithObject("/account-info", enrollmentDecision, WebOperationErrorAttributesE.Invalid_Upgrade_Operation, httpServletRequest, httpServletResponse);
+        } else {
+            LOGGER.info("Student enrollment request has approved, routing to welcome page...");
+            iRedirectStrategyExecutor.sendRedirect(httpServletRequest, httpServletResponse, "/enrollment-completion-notice");
+        }
+    }
+
+    @RequestMapping(value = "/enrollment-completion-notice", method = RequestMethod.GET)
+    public String enrollStudentForTutorialGrade(Model model) {
+        LOGGER.info("Routing to new enrollment page");
+
+        Optional<QPalXUser> optionalUser = iqPalXUserWebService.getLoggedInQPalXUser();
+
+        qPalXUserInfoPanelService.addUserInfoAttributes(model);
+        return ContentRootE.Student_Home.getContentRootPagePath("enrollment-success");
     }
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/global-style.css"/>
+</head>
+<body>
+
+<!-- Include general header for when a valid logged in user session is found -->
+<div th:replace="fragments/header-usersession :: header-usersession"></div>
+
+<!-- Main Student details overview panel -->
+<div th:replace="fragments/student/user-overview-panel :: overview"></div>
+
+
+<div class="container" style="margin: 20px auto 20px auto;">
+
+    <!-- Display welcome information -->
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3 th:inline="text">You have been successfully enrolled to: [[${StudentTutorialGrade.getTutorialGrade()}]]</h3>
+        </div>
+    </div>
+
+
+    <div class="row" th:each="StudentUserCurriculum,rowStat : ${StudentUserCurricula}">
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <span class="number" th:text="${rowStat.count}"></span>
+        </div>
+
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <img th:src="${StudentUserCurriculum.curriculumIcon}" class="courses-image"/>
+        </div>
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 large-fonts topmargin">
+            <a th:href="@{/curriculum-courses(curriculumID=${StudentUserCurriculum.id})}">
+                <span class="blue courses" th:text="${StudentUserCurriculum.curriculumName}"></span>
+            </a>
+            <span class="small" th:text="${StudentUserCurriculum.curriculumDescription}"></span>
+            <!--<p th:text="${StudentUserCurriculum.curriculumDescription}"></p>-->
+        </div>
+    </div>
+
+
+</div>
+
+<!-- Include Footer for when user is logged in -->
+<div th:replace="fragments/footer-usersession :: footer-usersession"/>
+
+<!-- jQuery first, then Bootstrap JS. -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/hr.js"></script>
+<script src="js/hover.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/progress-bar.js" type="text/javascript"></script>
+<script src="js/modernizr.js" type="text/javascript"></script>
+</body>
+</html>
