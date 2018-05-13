@@ -43,7 +43,7 @@ public class GuardianGlobalPerformanceController {
     private IGuardianUserControlPanelService iGuardianUserControlPanelService;
 
     @Autowired
-    @Qualifier(GlobalStudentPerformanceAuditService.BEAN_NAME)
+    @Qualifier(GlobalStudentPerformanceAuditService.SPRING_BEAN)
     private IGlobalStudentPerformanceAuditService iGlobalStudentPerformanceAuditService;
 
     @Autowired

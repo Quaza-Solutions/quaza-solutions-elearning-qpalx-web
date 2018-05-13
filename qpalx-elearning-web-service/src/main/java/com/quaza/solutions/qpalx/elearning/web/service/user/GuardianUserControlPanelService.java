@@ -45,7 +45,7 @@ public class GuardianUserControlPanelService implements IGuardianUserControlPane
     private IStudentEnrollmentRecordService iStudentEnrollmentRecordService;
 
     @Autowired
-    @Qualifier(GlobalStudentPerformanceAuditService.BEAN_NAME)
+    @Qualifier(GlobalStudentPerformanceAuditService.SPRING_BEAN)
     private IGlobalStudentPerformanceAuditService iGlobalStudentPerformanceAuditService;
 
 
